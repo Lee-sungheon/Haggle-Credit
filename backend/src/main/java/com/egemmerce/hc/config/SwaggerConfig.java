@@ -1,4 +1,4 @@
-package com.e_gemerce.haggle_credit.config;
+package com.egemmerce.hc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

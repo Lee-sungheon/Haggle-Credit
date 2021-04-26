@@ -1,10 +1,10 @@
-package com.e_gemerce.haggle_credit.product.service;
+package com.egemmerce.hc.product.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.e_gemerce.haggle_credit.repository.dto.Product;
-import com.e_gemerce.haggle_credit.repository.mapper.ProductMapper;
+import com.egemmerce.hc.repository.dto.Product;
+import com.egemmerce.hc.repository.mapper.ProductMapper;
 
 @Service
 public class ProductServiceImpl implements ProductService {
