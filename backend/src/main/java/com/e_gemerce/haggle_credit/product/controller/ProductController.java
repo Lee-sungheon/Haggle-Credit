@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.e_gemerce.haggle_credit.product.service.ProductService;
+import com.e_gemerce.haggle_credit.repository.dto.Product;
 
 @RestController
 @RequestMapping("/product")
@@ -15,8 +16,7 @@ public class ProductController {
 	ProductService productService;
 	
 	@GetMapping("/insertProduct")
-	public boolean insertProduct(String q) {
-		System.out.println(q);
-		return true;
+	public void insertProduct(Product product) {
+		productService.insertProduct(product);
 	}
 }
