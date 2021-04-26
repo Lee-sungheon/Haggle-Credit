@@ -5,7 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "styled-components";
 import store from "./common/store";
 import Header from "./components/navigation/Header";
-import Home from "./page/home/Home";
+import IndexPage from "./page/home/IndexPage";
 import { theme } from "./styles/theme";
 
 const persistor = persistStore(store);
@@ -18,7 +18,7 @@ const App = () => {
           <PersistGate loading={null} persistor={persistor}>
             <Header />
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={IndexPage} />
             </Switch>
           </PersistGate>
         </Provider>

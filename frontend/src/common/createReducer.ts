@@ -3,6 +3,7 @@ export type Handlers<T> = {
 };
 
 export function createReducer<S>(initialState:S, handlerMap: Handlers<S>) {
+  // tslint:disable-next-line: only-arrow-functions
   return function (state: S = initialState, action: any ) {
     const handler = handlerMap[action.type];
     if (handler) return handler(state, action);

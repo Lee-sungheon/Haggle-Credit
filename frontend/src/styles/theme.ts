@@ -5,6 +5,7 @@ const theme: DefaultTheme = {
     main: "#1c1f25",
     text: "#000",
     background: "#fff",
+    grey_text: "#3c4758",
   },
 };
 
