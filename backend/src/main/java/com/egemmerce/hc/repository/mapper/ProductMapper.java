@@ -1,8 +1,8 @@
-package com.e_gemerce.haggle_credit.repository.mapper;
+package com.egemmerce.hc.repository.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.e_gemerce.haggle_credit.repository.dto.Product;
+import com.egemmerce.hc.repository.dto.Product;
 
 @Mapper
 public interface ProductMapper {

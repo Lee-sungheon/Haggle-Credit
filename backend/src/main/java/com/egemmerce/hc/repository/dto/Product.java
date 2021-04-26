@@ -1,4 +1,4 @@
-package com.e_gemerce.haggle_credit.repository.dto;
+package com.egemmerce.hc.repository.dto;
 
 import lombok.Getter;
 import lombok.Setter;

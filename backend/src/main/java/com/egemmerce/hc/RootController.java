@@ -1,4 +1,4 @@
-package com.e_gemerce.haggle_credit;
+package com.egemmerce.hc;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
