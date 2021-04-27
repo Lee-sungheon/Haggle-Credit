@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -6,12 +7,12 @@ const Container = styled.div`
   height: 64px;
   position: fixed;
   top: 0;
-  background-color: ${({ theme }) => theme.color.background};
+  /* background-color: ${({ theme }) => theme.color.background}; */
   z-index: 7;
   font-family: Spoqa Han Sans,Sans-serif;
   color: #3c4758;
   display: block;
-  border-bottom: 1px solid rgb(238, 238, 238);
+  opacity: 1;
 `;
 
 const HeaderContainer = styled.div`
@@ -27,7 +28,7 @@ const HeaderContainer = styled.div`
 
 const LogoBox = styled.div`
   visibility: visible;
-  height: 40px;
+  height: 52px;
   cursor: pointer;
   z-index: 2;
 `;
@@ -50,20 +51,42 @@ const Menu = styled.div`
 const StyledLink = styled(Link).attrs(()=>({}))`
   color: ${({ theme }) => theme.color.text};
   text-decoration: none;
+  font-size: 14px;
   :hover {
     font-weight: 900;
   }
 `;
 
 const Header = () => {
+  const navRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function myFunction() {
+      if (null !== navRef.current) {
+        if (window.pageYOffset > 0) {
+          navRef.current.style.backgroundColor = "white";
+          navRef.current.style.boxShadow = "0 4px 8px 0 rgb(0 0 0 / 4%)";
+        } else {
+          navRef.current.style.backgroundColor = "inherit";
+          navRef.current.style.boxShadow = "none";
+        };
+      };
+    };
+    window.addEventListener('scroll', function() {
+      myFunction();
+    });
+    return window.removeEventListener('scroll', function() {
+      myFunction();
+    });
+  }, [navRef])
+
   return (
-    <Container>
+    <Container ref={navRef}>
       <HeaderContainer>
         <LogoBox >
           <Link to={"/home"}>
             <img
               src={"../images/logo.png"}
-              style={{ height: "52px", marginRight: "10px" }}
+              style={{ height: "58px", marginRight: "10px" }}
               alt="logo"
             />
           </Link>
