@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import styled from 'styled-components';
+import '../../styles/font/font.css';
 
 interface LoginProps {
   open: boolean;
