@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.repository.dto.User;
@@ -45,10 +46,18 @@ public class UserController {
 	/* C :: 회원 가입 */
 	@ApiOperation(value="회원가입을 위한 Restful API", response=User.class)
 	@PostMapping("/join")
-	public ResponseEntity<String> createUser(@RequestBody User user) throws Exception {
-		if(userService.insertUser(user) > 0)
+	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
+		if(userService.insertUser(user) > 0) {
+			userService.mailSendWithUserKey(user.getuEmail(), user.getuPassword(), request);
 			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
+		}
 		return new ResponseEntity<String>("계정 가입 실패", HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/key_alter")
+	public String key_alterConfirm(@RequestParam("uEmail") String uEmail, @RequestParam("uAuthKey") String uAuthKey) throws Exception {
+		userService.alter_userKey_service(uEmail, uAuthKey);
+		return "user/userRegSuccessPage";
 	}
 	
 	/* R :: 가입 중 아이디 중복 확인 */

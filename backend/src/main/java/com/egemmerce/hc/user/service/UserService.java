@@ -1,5 +1,7 @@
 package com.egemmerce.hc.user.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.egemmerce.hc.repository.dto.User;
 
 public interface UserService {
@@ -13,6 +15,11 @@ public interface UserService {
 	/* 일반 회원 가입 */
 	int insertUser(User user) throws Exception;
 
+	public String init() throws Exception;
+	public String getKey(boolean lowerCheck, int size) throws Exception;
+	public void mailSendWithUserKey(String uEmail, String uPassword, HttpServletRequest request) throws Exception;
+	public int alter_userKey_service(String uEmail, String uAuthKey) throws Exception;
+	
 	/* 카카오로 회원 가입 */
 	int insertKakaoUser(User user) throws Exception;
 

@@ -15,6 +15,8 @@ public interface UserMapper {
 	
 	/*일반 회원 가입*/
 	public int insertUser(User user) throws Exception;
+	public void GetKey(String uEmail, String uPassword) throws Exception;
+	public int alter_userKey(String uEmail, String uAuthKey) throws Exception; 
 	
 	/*카카오 회원 가입*/
 	public int insertKakaoUser(User user) throws Exception;

@@ -2,9 +2,11 @@ package com.egemmerce.hc.user.service;
 
 import java.util.Random;
 
+import javax.mail.MessagingException;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	JavaMailSender emailSender;
+	
+	
 	
 	/* 일반 로그인 */
 	@Override
@@ -84,6 +88,62 @@ public class UserServiceImpl implements UserService {
 
 		// 3. 남은 유저 정보들 삽입 처리
 		return userMapper.insertUser(user);
+	}
+	
+	// 난수 생성(uAuthKey)
+	@Override
+	public String init() throws Exception {
+		Random rd = new Random();
+		StringBuffer sb = new StringBuffer();
+		int num = 0;
+		do {
+			num = rd.nextInt(75) + 48;
+			if((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
+				sb.append((char)num);
+			} else {
+				continue;
+			}
+		} while (sb.length() < size);
+		if(lowerCheck) {
+			return sb.toString().toLowerCase();
+		}
+		return sb.toString();
+	}
+	private boolean lowerCheck;
+	private int size;
+	
+	// 난수 이용한 키생성(uAuthKey)
+	@Override
+	public String getKey(boolean lowerCheck, int size) throws Exception {
+		this.lowerCheck = lowerCheck;
+		this.size = size;
+		return init();
+	}
+	
+	/* 가입시, 메일로 인증링크 보내기 */
+	@Override
+	public void mailSendWithUserKey(String uEmail, String uPassword, HttpServletRequest request) throws Exception {
+		String key = getKey(false, 20);
+		userMapper.GetKey(uPassword, key);
+		MimeMessage mail = emailSender.createMimeMessage();
+		String mailContent =
+				"<h3>안녕하세요. Haggle-Credit 개발팀입니다.</h3><br></br>" +
+				"<h3>가입해주셔서 감사합니다. 마지막 절차인 본인 인증만 해주시면 완료 됩니다.</h3><br></br>" +
+				"<h2>아래의 인증하기 버튼을 눌러 인증완료 및 로그인 하시길 바랍니다</h2><br></br>" +
+				"<a href='https://localhost:8080" + request.getContextPath() + "/user/key_alter?uPassword=" + uPassword + "&uAuthKey=" + key + "'>인증하기</a></p>" +
+				"<h6>만약, 잘못 전달된 메일이라면, 해당 이메일을 무시하시면 됩니다.</h6>";
+		
+		mail.setSubject("안녕하세요 Haggle-Credit입니다. 본인인증을 완료해주세요", "utf-8");
+		mail.setText(mailContent, "utf-8", "html");
+		mail.addRecipient(RecipientType.TO, new InternetAddress(uEmail));
+		emailSender.send(mail);
+	}
+	/*인증확인 유무*/
+	@Override
+	public int alter_userKey_service(String uEmail, String uAuthKey) throws Exception {
+		int resultCnt = 0;
+		resultCnt = userMapper.alter_userKey(uEmail, uAuthKey);
+		return resultCnt;
 	}
 	
 	/* 카카오로 회원 가입 */
