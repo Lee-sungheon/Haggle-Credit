@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import styled from 'styled-components';
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
       textAlign: 'center',
+      fontFamily: 'Bazzi',
     },
     logo_div: {
       marginBottom: '15px',
@@ -72,7 +75,11 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <div className={classes.logo_div}>
-        <img src={'../images/logo.png'} style={{ height: '58px' }} alt="logo" />
+        <img
+          src={'../images/logo2.png'}
+          style={{ height: '200px' }}
+          alt="logo"
+        />
       </div>
       <div className={classes.form_div}>
         <input
@@ -91,11 +98,19 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
       </div>
       <div className={classes.sub_div}>
         <p>비밀번호를 잊어버리셨나요?</p>
-        <p className={classes.sub_div_p}>비밀번호 찾기</p>
+        <p className={classes.sub_div_p}>
+          <Link to="" onClick={handleClose} style={{ color: 'black' }}>
+            비밀번호 찾기
+          </Link>
+        </p>
       </div>
       <div className={classes.sub_div}>
         <p>아직 회원이 아니신가요?</p>
-        <p className={classes.sub_div_p}>회원가입하기</p>
+        <p className={classes.sub_div_p}>
+          <Link to="/signup" onClick={handleClose} style={{ color: 'black' }}>
+            회원가입하기
+          </Link>
+        </p>
       </div>
     </div>
   );
