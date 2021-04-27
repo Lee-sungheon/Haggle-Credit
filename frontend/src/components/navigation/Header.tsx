@@ -103,7 +103,7 @@ const Header = () => {
         </LogoBox>
         <MenuList>
           <Menu>
-            <StyledLink to={'/home'}>회원가입</StyledLink>
+            <StyledLink to={'/signup'}>회원가입</StyledLink>
           </Menu>
           <Menu onClick={handleOpen}>
             <p>로그인</p>
