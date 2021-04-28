@@ -4,6 +4,7 @@ import { persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 import createSagaMiddleware from "redux-saga";
 import HomeReducer from "../state/home";
+import CommonReducer from "../state/common";
 
 declare global {
   interface Window {
@@ -14,11 +15,12 @@ declare global {
 const persistConfig = {
   key: "root",
   storage: storageSession,
-  whitelist: [],
+  whitelist: ['common'],
 };
 
 const reducer = combineReducers({
   home: HomeReducer,
+  common: CommonReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
