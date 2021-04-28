@@ -63,7 +63,7 @@ const SubCategoryArea = styled.div`
   width: 200px;
   left: 200px;
   top: 79px;
-  color: black;=
+  color: black;
 `;
 
 const CategoryTitle = styled.div`

@@ -4,8 +4,12 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from 'react-redux';
+import { commonActions } from "../../state/common";
+
 
 interface ITEM {
+  id: number,
   title: string,
   url: string,
   price: number,
@@ -62,8 +66,12 @@ const ItemTime = styled.p`
 
 const ProductList = ({ item }: ProductItemProps) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const goDetail = () => {
+    dispatch(commonActions.addRecently(item));
+  };
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>
         <ImgBox>
           <CardMedia
