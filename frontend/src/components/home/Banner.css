@@ -1,0 +1,14 @@
+.swiper-pagination-bullet {
+  background: #3c4758 !important; 
+}
+.swiper-pagination-bullet-active { 
+  background: #ffceae !important; 
+}
+
+.swiper-button-next {
+  color: #3c4758 !important; 
+}
+
+.swiper-button-prev {
+  color: #3c4758 !important; 
+}
