@@ -7,6 +7,7 @@ import store from './common/store';
 import Header from './components/navigation/Header';
 import IndexPage from './page/home/IndexPage';
 import Signup from './page/signup/Signup';
+import Profile from './page/profile/Profile';
 import { theme } from './styles/theme';
 
 const persistor = persistStore(store);
@@ -23,6 +24,9 @@ const App = () => {
             </Switch>
             <Switch>
               <Route path="/signup" component={Signup} />
+            </Switch>
+            <Switch>
+              <Route path="/profile" component={Profile} />
             </Switch>
           </PersistGate>
         </Provider>
