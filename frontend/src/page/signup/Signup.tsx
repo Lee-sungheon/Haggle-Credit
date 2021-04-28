@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const SignupContainer = styled.div`
   width: 500px;
   margin: auto;
-  margin-top: 196px;
+  padding-top: 196px;
   font-size: 18px;
   font-family: Bazzi;
   text-align: center;
@@ -82,7 +82,7 @@ const Signup = () => {
   };
 
   return (
-    <Container>
+    <SignupContainer>
       <Logo>
         <img
           src={'../images/logo2.png'}
@@ -140,7 +140,7 @@ const Signup = () => {
         </Section>
         <Button>회원가입</Button>
       </Form>
-    </Container>
+    </SignupContainer>
   );
 };
 

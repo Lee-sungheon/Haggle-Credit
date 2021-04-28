@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Login from '../login/Login';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
 
 const Container = styled.div`
   width: 100%;
   height: 64px;
   position: fixed;
   top: 0;
-  /* background-color: ${({ theme }) => theme.color.background}; */
   z-index: 7;
   font-family: Spoqa Han Sans, Sans-serif;
   color: #3c4758;
@@ -19,7 +20,7 @@ const Container = styled.div`
 const HeaderContainer = styled.div`
   margin: 0 auto;
   height: 100%;
-  padding: 0 40px;
+  padding: 0 200px;
   position: relative;
   display: flex;
   align-items: center;
@@ -59,16 +60,16 @@ const StyledLink = styled(Link).attrs(() => ({}))`
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-
+  const isIndex = useSelector((state: RootState) => state.common.isIndex);
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const navRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function myFunction() {
       if (null !== navRef.current) {
@@ -84,18 +85,30 @@ const Header = () => {
     window.addEventListener('scroll', function () {
       myFunction();
     });
-    return window.removeEventListener('scroll', function () {
+    return () => {
+      window.removeEventListener('scroll', function () {
       myFunction();
-    });
+      });
+    };
   }, [navRef]);
-          
+
+  useEffect(() => {
+    if (null !== headerRef.current) {
+      if (isIndex) {
+        headerRef.current.style.padding = '0 40px';
+      } else {
+        headerRef.current.style.padding = '0 200px';
+      }
+    }
+  }, [isIndex])
+
   return (
     <Container ref={navRef}>
-      <HeaderContainer>
+      <HeaderContainer ref={headerRef}>
         <LogoBox>
           <Link to={'/home'}>
             <img
-              src={'../images/logo.png'}
+              src={'../images/logo3.png'}
               style={{ height: '58px', marginRight: '10px' }}
               alt="logo"
             />

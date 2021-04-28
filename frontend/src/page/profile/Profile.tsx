@@ -1,4 +1,4 @@
-import ProfileTab from '../../components/profile/ProfileTab';
+import ProfileTab2 from '../../components/profile/ProfileTab2';
 
 const Profile = () => {
   return (
@@ -12,17 +12,15 @@ const Profile = () => {
           width: '1000px',
           height: '600px',
           margin: 'auto',
-          marginTop: '196px',
+          paddingTop: '196px',
           fontSize: '18px',
           fontFamily: 'Bazzi',
-          border: '1px solid black',
         }}
       >
         <div
           style={{
             width: '1000px',
             height: '300px',
-            border: '1px solid black',
             display: 'flex',
           }}
         >
@@ -30,7 +28,7 @@ const Profile = () => {
             style={{
               width: '300px',
               height: '300px',
-              border: '1px solid black',
+              backgroundColor: '#f5f5f5',
             }}
           >
             <div style={{ position: 'relative', top: '50%' }}>
@@ -53,14 +51,12 @@ const Profile = () => {
             style={{
               width: '700px',
               height: '300px',
-              border: '1px solid black',
             }}
           >
             <div
               style={{
                 width: '700px',
                 height: '70px',
-                border: '1px solid black',
                 display: 'flex',
               }}
             >
@@ -68,7 +64,6 @@ const Profile = () => {
                 style={{
                   width: '200px',
                   height: 'auto',
-                  border: '1px solid black',
                   textAlign: 'left',
                 }}
               >
@@ -88,7 +83,6 @@ const Profile = () => {
                 style={{
                   width: '200px',
                   height: 'auto',
-                  border: '1px solid black',
                   textAlign: 'left',
                 }}
               >
@@ -137,7 +131,6 @@ const Profile = () => {
                 style={{
                   width: '300px',
                   height: 'auto',
-                  border: '1px solid black',
                   textAlign: 'right',
                 }}
               >
@@ -165,7 +158,6 @@ const Profile = () => {
             </div>
             <div
               style={{
-                border: '1px solid red',
                 height: '230px',
                 marginLeft: '20px',
               }}
@@ -194,7 +186,6 @@ const Profile = () => {
                     marginRight: '25px',
                     marginBottom: '10px',
                     backgroundColor: 'white',
-                    border: '1px solid gray',
                     color: 'rgb(136, 136, 136)',
                     fontWeight: 'bold',
                     borderRadius: '4px',
@@ -247,7 +238,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <ProfileTab></ProfileTab>
+        <ProfileTab2></ProfileTab2>
       </div>
     </div>
   );

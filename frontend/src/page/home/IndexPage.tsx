@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import SwiperSlider from '../../components/common/SwiperSlider';
+import { useDispatch } from 'react-redux';
+import { commonActions } from "../../state/common";
 
 const Container = styled.div`
   width: 100%;
@@ -207,7 +209,6 @@ const PcContainer = styled.div`
 `;
 
 const PcScreen = styled.div`
-  /* background: #f9f9f9; */
   position: absolute;
   color: black;
   padding: 50px 40px 50px 40px;
@@ -300,8 +301,10 @@ const IndexPage = () => {
   const DownRef = useRef<HTMLDivElement>(null);
   const ActionRef = useRef<HTMLDivElement>(null);
   const PopularRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(commonActions.setIsIndex(true));
     window.onbeforeunload = () => {
       window.scrollTo(0, 0);
     };
@@ -312,8 +315,11 @@ const IndexPage = () => {
       setPreTabNo(tabNo);
       setTabNo((tabNo+1)%3);
     }, 4000);
-    return () => clearInterval(countdown);
-  }, [tabNo]);
+    return () => {
+      dispatch(commonActions.setIsIndex(false));
+      clearInterval(countdown);
+    };
+  }, [dispatch, tabNo]);
 
   function myFunction() {
     if (null !== aboutRef.current) {
