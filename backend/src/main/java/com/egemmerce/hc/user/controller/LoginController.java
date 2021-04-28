@@ -51,19 +51,22 @@ public class LoginController {
 			String token = jwtService.create(check);
 			
 			resultMap.put("auth-token", token);
+			resultMap.put("uAuthority", check.getuAuthority());
 			resultMap.put("uNo", check.getuNo());
 			resultMap.put("uEmail", check.getuEmail());
 			resultMap.put("uPassword", check.getuPassword());
-			resultMap.put("uName", check.getuName());
-			resultMap.put("uPhone", check.getuPhone());
-			resultMap.put("uBirth", check.getuBirth());
-			resultMap.put("uProvider", check.getuProvider());
-			resultMap.put("uAuthority", check.getuAuthority());
-			resultMap.put("uJoindate", check.getuJoindate());
-			resultMap.put("uCredit", check.getuCredit());
-			resultMap.put("uMoney", check.getuMoney());
 			resultMap.put("uSalt", check.getuSalt());
-			resultMap.put("uJwt", check.getuJwt());
+			resultMap.put("uName", check.getuName());
+			resultMap.put("uBirth", check.getuBirth());
+			resultMap.put("uPhone", check.getuPhone());
+			resultMap.put("uProvider", check.getuProvider());
+			resultMap.put("uJoindate", check.getuJoinDate());
+			resultMap.put("uSellerAuth", check.getuSellerAuth());
+			resultMap.put("uUniqueKey", check.getuUniqueKey());
+			resultMap.put("uAuthKey", check.getuAuthKey());
+			resultMap.put("uCredit", check.getuCredit());
+			resultMap.put("uPoint", check.getuPoint());
+			resultMap.put("uPenalty", check.getuPenalty());
 			
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}
@@ -102,20 +105,21 @@ public class LoginController {
 			String token = jwtService.create(check);
 			
 			resultMap.put("auth-token", token);
+			resultMap.put("uAuthority", check.getuAuthority());
 			resultMap.put("uNo", check.getuNo());
 			resultMap.put("uEmail", check.getuEmail());
 			resultMap.put("uPassword", check.getuPassword());
 			resultMap.put("uName", check.getuName());
-			resultMap.put("uPhone", check.getuPhone());
 			resultMap.put("uBirth", check.getuBirth());
+			resultMap.put("uPhone", check.getuPhone());
 			resultMap.put("uProvider", check.getuProvider());
-			resultMap.put("uAuthority", check.getuAuthority());
-			resultMap.put("uJoindate", check.getuJoindate());
-			resultMap.put("uCredit", check.getuCredit());
-			resultMap.put("uMoney", check.getuMoney());
-			resultMap.put("uSalt", check.getuSalt());
-			resultMap.put("uJwt", check.getuJwt());
+			resultMap.put("uJoindate", check.getuJoinDate());
+			resultMap.put("uSellerAuth", check.getuSellerAuth());
+			resultMap.put("uUniqueKey", check.getuUniqueKey());
 			resultMap.put("uAuthKey", check.getuAuthKey());
+			resultMap.put("uCredit", check.getuCredit());
+			resultMap.put("uPoint", check.getuPoint());
+			resultMap.put("uPenalty", check.getuPenalty());
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}
 		

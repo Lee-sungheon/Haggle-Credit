@@ -38,7 +38,7 @@ public interface UserService {
 	/* 아이디 찾기 */
 	int selectFindUEmail(String uName, int uPhone) throws Exception;
 
-	String selectUEmailByNameAndPhone(String uName, int uPhone) throws Exception;
+	String selectUEmailByNameAndPhone(String uName, String string) throws Exception;
 	/* 3. 발급된 임시 비밀번호 적용시키기 */
 	boolean findUPassword(User user) throws Exception;
 

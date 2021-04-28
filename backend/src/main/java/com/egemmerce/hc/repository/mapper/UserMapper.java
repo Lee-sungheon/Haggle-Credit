@@ -33,7 +33,7 @@ public interface UserMapper {
 	/*아이디 찾기*/
 	public int selectFindUEmail(String uName, int uPhone) throws Exception;
 	
-	public String selectUEmailByNameAndPhone(String uName, int uPhone) throws Exception;
+	public String selectUEmailByNameAndPhone(String uName, String uPhone) throws Exception;
 	/*비밀번호 찾기(재발급)*/
 	public boolean updateTempPw(User user) throws Exception;
 }

@@ -183,7 +183,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public String selectUEmailByNameAndPhone(String uName, int uPhone) throws Exception {
+	public String selectUEmailByNameAndPhone(String uName, String uPhone) throws Exception {
 		return userMapper.selectUEmailByNameAndPhone(uName, uPhone);
 	}
 	
