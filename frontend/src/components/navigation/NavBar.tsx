@@ -35,7 +35,7 @@ const Container = styled.div`
   color: #3c4758;
   opacity: 1;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 10px 205px;
+  padding: 20px 205px;
   align-items: center;
 `;
 
@@ -44,7 +44,7 @@ const CategoryBox = styled.div`
   :hover {
     color: ${({ theme }) => theme.color.main};
   }
-  padding: 10px 0;
+  padding: 20px 0;
 `;
 
 const CategoryArea = styled.div`
@@ -52,7 +52,7 @@ const CategoryArea = styled.div`
   display: none;
   height: 70vh;
   width: 200px;
-  top: 59px;
+  top: 79px;
   color: black;
 `;
 
@@ -62,8 +62,8 @@ const SubCategoryArea = styled.div`
   height: 70vh;
   width: 200px;
   left: 200px;
-  top: 59px;
-  color: black;
+  top: 79px;
+  color: black;=
 `;
 
 const CategoryTitle = styled.div`
@@ -75,6 +75,7 @@ const CategoryTitle = styled.div`
   height: 35px;
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: white;
 `;
 
 const CategoryList = styled.ul`
@@ -85,6 +86,7 @@ const CategoryList = styled.ul`
   list-style: none;
   overflow: auto;
   height: 60vh;
+  background-color: white;
 `;
 
 const CategoryItem = styled.li`
@@ -95,6 +97,7 @@ const CategoryItem = styled.li`
   padding-left: 15px;
   height: 30px;
   font-weight: 600;
+  background-color: white;
   :hover {
     color: white;
     background-color: ${({ theme }) => theme.color.main};
@@ -109,6 +112,7 @@ const SubCategoryItem = styled.li`
   padding-left: 15px;
   height: 30px;
   font-weight: 600;
+  background-color: white;
   :hover {
     color: ${({ theme }) => theme.color.main};
     text-decoration: underline;
