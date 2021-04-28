@@ -1,19 +1,27 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../common/store';
+import styled from 'styled-components';
+import Banner from '../../components/home/Banner';
+import ProductList from '../../components/home/PruductList'
+
+const Container = styled.div`
+  padding: 145px 200px 0 200px;
+`;
+const ProductArea = styled.div`
+  padding: 30px 0;
+
+`;
 
 const Home = () => {
-  const similarMovie = useSelector((state: RootState) => state.home.movieLists);
   useEffect(()=>{
-    console.log(similarMovie);
   });
   return (
-    <>
-      <h1>YES</h1>
-      {similarMovie.map((item, idx) => (
-        <div key={idx}>{Object.keys(item)}</div>
-      ))}
-    </>
+    <Container>
+      <Banner/>
+      <ProductArea>
+        <h2>오늘의 상품 추천</h2>
+        <ProductList />
+      </ProductArea>
+    </Container>
   );
 };
 
