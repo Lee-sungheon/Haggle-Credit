@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.egemmerce.hc.item.service.ItemSellService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.ItemSell;
-import com.egemmerce.hc.user.service.UserService;
 @RestController
 @RequestMapping("/itemSell")
 public class ItemSellController {
@@ -23,8 +21,8 @@ public class ItemSellController {
 	@Autowired
 	ItemService itemService;
 	
-	@Autowired
-	UserService userService;
+//	@Autowired
+//	UserService userService;
 	
 	@GetMapping("/insertItemSell")
 	public void insertProductSell(ItemSell itemSell) {
@@ -70,11 +68,11 @@ public class ItemSellController {
 		return 	itemSellList;
 	}
 	
-	@DeleteMapping("deleteItem")
-	public void deleteItem(ItemSell itemSell) {
-		itemService.deleteItem(itemSell.getIsINo());
-		userService.updateDownCredit(itemSell.getIsINo());
-		userService.updateUpPenalty(itemSell.getIsINo());
-		
-	}
+//	@DeleteMapping("deleteItem")
+//	public void deleteItem(ItemSell itemSell) {
+//		itemService.deleteItem(itemSell.getIsINo());
+//		userService.updateDownCredit(itemSell.getIsINo());
+//		userService.updateUpPenalty(itemSell.getIsINo());
+//		
+//	}
 }

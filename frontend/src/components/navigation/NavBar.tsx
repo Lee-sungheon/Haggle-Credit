@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { CATEGORYS } from '../../common/data';
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     input: {
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: '15px',
       color: '#ffceae',
     },
-  }),
+  })
 );
 
 const Container = styled.div`
@@ -80,7 +79,7 @@ const CategoryTitle = styled.div`
 `;
 
 const CategoryList = styled.ul`
-  box-sizing: border-box; 
+  box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 0;
   padding: 20px 0;
@@ -120,8 +119,8 @@ const SubCategoryItem = styled.li`
   }
 `;
 
-const StyledMenuIcon = styled(MenuIcon).attrs(()=>({
-  fontSize: "large"
+const StyledMenuIcon = styled(MenuIcon).attrs(() => ({
+  fontSize: 'large',
 }))`
   font-size: 33px;
   cursor: pointer;
@@ -171,37 +170,43 @@ const NavBar = () => {
   const [mainCategory, setMainCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
 
-  useEffect(()=>{
+  useEffect(() => {
     if (mainCategory !== '') {
       if (null !== subCategoryRef.current) {
-        if (subCategoryRef.current.style.display === '' || subCategoryRef.current.style.display === 'none'){
+        if (
+          subCategoryRef.current.style.display === '' ||
+          subCategoryRef.current.style.display === 'none'
+        ) {
           subCategoryRef.current.style.display = 'block';
         }
       }
     } else {
       if (null !== subCategoryRef.current) {
-        if (subCategoryRef.current.style.display === 'block'){
+        if (subCategoryRef.current.style.display === 'block') {
           subCategoryRef.current.style.display = 'none';
         }
       }
     }
-  }, [mainCategory])
+  }, [mainCategory]);
 
   const enterEvent = (e: any) => {
     if (null !== categoryRef.current) {
-      if (categoryRef.current.style.display === '' || categoryRef.current.style.display === 'none'){
+      if (
+        categoryRef.current.style.display === '' ||
+        categoryRef.current.style.display === 'none'
+      ) {
         categoryRef.current.style.display = 'block';
       }
     }
   };
   const leaveEvent = (e: any) => {
     if (null !== categoryRef.current) {
-      if (categoryRef.current.style.display === 'block'){
+      if (categoryRef.current.style.display === 'block') {
         categoryRef.current.style.display = 'none';
       }
     }
     setMainCategory('');
-  }
+  };
 
   return (
     <Container>
@@ -211,62 +216,82 @@ const NavBar = () => {
           <CategoryTitle>전체 카테고리</CategoryTitle>
           <CategoryList>
             {CATEGORYLIST.map((category, idx) => (
-              <CategoryItem 
-                key={idx} 
-                onMouseEnter={()=>setMainCategory(category)}
+              <CategoryItem
+                key={idx}
+                onMouseEnter={() => setMainCategory(category)}
               >
                 {category}
               </CategoryItem>
             ))}
           </CategoryList>
         </CategoryArea>
-        {mainCategory !== '' && <SubCategoryArea ref={subCategoryRef}>
-          <CategoryTitle>{mainCategory}</CategoryTitle>
-          <CategoryList>
-            {CATEGORYS[mainCategory].map((category, idx) => (
-              <SubCategoryItem 
-                key={idx}
-                onClick={()=>{setSubCategory(category); console.log(subCategory)}}
-              >
-                {category}
-              </SubCategoryItem>
-            ))}
-          </CategoryList>
-        </SubCategoryArea>}
+        {mainCategory !== '' && (
+          <SubCategoryArea ref={subCategoryRef}>
+            <CategoryTitle>{mainCategory}</CategoryTitle>
+            <CategoryList>
+              {CATEGORYS[mainCategory].map((category, idx) => (
+                <SubCategoryItem
+                  key={idx}
+                  onClick={() => {
+                    setSubCategory(category);
+                    console.log(subCategory);
+                  }}
+                >
+                  {category}
+                </SubCategoryItem>
+              ))}
+            </CategoryList>
+          </SubCategoryArea>
+        )}
       </CategoryBox>
 
       <InputContainer>
         <InputBox>
           <InputBase
             className={classes.input}
-            style={{padding: 0}} 
+            style={{ padding: 0 }}
             placeholder="상품명, 키워드 입력"
             inputProps={{ 'aria-label': '상품명 입력' }}
           />
-          <IconButton type="submit" className={classes.iconButton} aria-label="search">
+          <IconButton
+            type="submit"
+            className={classes.iconButton}
+            aria-label="search"
+          >
             <SearchIcon />
           </IconButton>
         </InputBox>
       </InputContainer>
-      <MenuBox style={{marginRight: "400px", marginLeft: '2vw'}}>
+      <MenuBox style={{ marginRight: '400px', marginLeft: '2vw' }}>
         <StyledMenuItem>
-          <img src="../images/navbar/sell.png" alt="" style={{width: 26, height: 26, marginRight: '5px'}}/>
-          <p style={{margin: 0}}>팝니다</p>
+          <img
+            src="../images/navbar/sell.png"
+            alt=""
+            style={{ width: 26, height: 26, marginRight: '5px' }}
+          />
+          <p style={{ margin: 0 }}>팝니다</p>
         </StyledMenuItem>
         <StyledMenuItem>
-          <img src="../images/navbar/buy.png" alt="" style={{width: 26, height: 26, marginRight: '5px'}}/>
-          <p style={{margin: 0}}>삽니다</p>
+          <img
+            src="../images/navbar/buy.png"
+            alt=""
+            style={{ width: 26, height: 26, marginRight: '5px' }}
+          />
+          <p style={{ margin: 0 }}>삽니다</p>
         </StyledMenuItem>
         <StyledMenuItem>
-          <img src="../images/navbar/event.png" alt="" style={{width: 26, height: 26, marginRight: '5px'}}/>
-          <p style={{margin: 0}}>이벤트 경매</p>
+          <img
+            src="../images/navbar/event.png"
+            alt=""
+            style={{ width: 26, height: 26, marginRight: '5px' }}
+          />
+          <p style={{ margin: 0 }}>이벤트 경매</p>
         </StyledMenuItem>
       </MenuBox>
     </Container>
   );
-}
+};
 
 export default NavBar;
-
 
 const CATEGORYLIST: string[] = Object.keys(CATEGORYS);

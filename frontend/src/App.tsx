@@ -5,10 +5,10 @@ import NavBar from './components/navigation/NavBar';
 import Home from './page/home/Home';
 import IndexPage from './page/home/IndexPage';
 import Signup from './page/signup/Signup';
+import Profile from './page/profile/Profile';
 import { theme } from './styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from './common/store';
-
 
 const App = () => {
   const isIndex = useSelector((state: RootState) => state.common.isIndex);
@@ -26,6 +26,9 @@ const App = () => {
         </Switch>
         <Switch>
           <Route path="/signup" component={Signup} />
+        </Switch>
+        <Switch>
+          <Route path="/profile" component={Profile} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>
