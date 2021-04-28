@@ -6,6 +6,49 @@ import Modal from '@material-ui/core/Modal';
 import styled from 'styled-components';
 import '../../styles/font/font.css';
 
+const Logo = styled.div`
+  margin-bottom: 15px;
+`;
+
+const Form = styled.div`
+  margin: 0;
+  width: 100%;
+`;
+
+const InputTag = styled.input`
+  width: 100%;
+  height: 35px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid gray;
+`;
+
+const LoginButton = styled.button`
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 1px 2px;
+  background-color: #ffb74d;
+  border: none;
+  color: white;
+  :hover {
+    cursor: pointer;
+    background-color: #ffa726;
+  }
+`;
+
+const SubSection = styled.div`
+  font-size: 15px;
+  margin-bottom: 10px;
+`;
+
+const SubSectionLink = styled.p`
+  fontsize: 13px;
+  :hover {
+    font-weight: 600;
+  }
+`;
+
 interface LoginProps {
   open: boolean;
   handleClose: any;
@@ -34,36 +77,6 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       fontFamily: 'Bazzi',
     },
-    logo_div: {
-      marginBottom: '15px',
-    },
-    form_div: {
-      margin: 0,
-      width: '100%',
-    },
-    inputTag: {
-      width: '100%',
-      height: 35,
-      marginBottom: 20,
-      border: 'none',
-      borderBottom: '1px solid gray',
-    },
-    loginButton: {
-      width: '100%',
-      height: 40,
-      marginBottom: 20,
-      padding: '1px 2px',
-      backgroundColor: '#ffb74d',
-      border: 'none',
-      color: 'white',
-    },
-    sub_div: {
-      fontSize: '15px',
-      marginBottom: '10px',
-    },
-    sub_div_p: {
-      fontSize: '13px',
-    },
   })
 );
 
@@ -74,44 +87,38 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <div className={classes.logo_div}>
+      <Logo>
         <img
           src={'../images/logo2.png'}
           style={{ height: '200px' }}
           alt="logo"
         />
-      </div>
-      <div className={classes.form_div}>
-        <input
-          id="email"
-          type="email"
-          className={classes.inputTag}
-          placeholder="이메일"
-        ></input>
-        <input
+      </Logo>
+      <Form>
+        <InputTag id="email" type="email" placeholder="이메일"></InputTag>
+        <InputTag
           id="password"
           type="password"
-          className={classes.inputTag}
           placeholder="비밀번호"
-        ></input>
-        <button className={classes.loginButton}>로그인</button>
-      </div>
-      <div className={classes.sub_div}>
+        ></InputTag>
+        <LoginButton>로그인</LoginButton>
+      </Form>
+      <SubSection>
         <p>비밀번호를 잊어버리셨나요?</p>
-        <p className={classes.sub_div_p}>
+        <SubSectionLink>
           <Link to="" onClick={handleClose} style={{ color: 'black' }}>
             비밀번호 찾기
           </Link>
-        </p>
-      </div>
-      <div className={classes.sub_div}>
+        </SubSectionLink>
+      </SubSection>
+      <SubSection>
         <p>아직 회원이 아니신가요?</p>
-        <p className={classes.sub_div_p}>
+        <SubSectionLink>
           <Link to="/signup" onClick={handleClose} style={{ color: 'black' }}>
             회원가입하기
           </Link>
-        </p>
-      </div>
+        </SubSectionLink>
+      </SubSection>
     </div>
   );
 
