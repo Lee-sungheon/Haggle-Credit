@@ -46,15 +46,15 @@ const Menu = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-size: 12px;
+  :hover {
+    font-weight: 900;
+  }
 `;
 
 const StyledLink = styled(Link).attrs(() => ({}))`
   color: ${({ theme }) => theme.color.text};
   text-decoration: none;
-  font-size: 14px;
-  :hover {
-    font-weight: 900;
-  }
 `;
 
 const Header = () => {
@@ -88,7 +88,7 @@ const Header = () => {
       myFunction();
     });
   }, [navRef]);
-
+          
   return (
     <Container ref={navRef}>
       <HeaderContainer>

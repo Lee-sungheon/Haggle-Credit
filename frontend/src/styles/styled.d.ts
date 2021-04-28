@@ -7,6 +7,7 @@ declare module "styled-components" {
       text: string;
       background: string;
       grey_text: string;
+      input_text: string;
     };
   }
 }
