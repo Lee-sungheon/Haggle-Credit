@@ -1,3 +1,5 @@
+import ProfileTab from '../../components/profile/ProfileTab';
+
 const Profile = () => {
   return (
     <div
@@ -31,7 +33,21 @@ const Profile = () => {
               border: '1px solid black',
             }}
           >
-            <p style={{ position: 'relative', top: '40%' }}>사진</p>
+            <div style={{ position: 'relative', top: '50%' }}>
+              <label
+                htmlFor="input-file"
+                style={{
+                  padding: '6px 25px',
+                  backgroundColor: '#FF6600',
+                  borderRadius: '4px',
+                  color: 'white',
+                  cursor: 'pointer',
+                }}
+              >
+                사진등록
+              </label>
+              <input type="file" id="input-file" style={{ display: 'none' }} />
+            </div>
           </div>
           <div
             style={{
@@ -167,10 +183,13 @@ const Profile = () => {
                   margin: '0',
                   textAlign: 'right',
                   marginTop: '-20px',
+                  position: 'relative',
+                  zIndex: 2,
                 }}
               >
                 <button
                   style={{
+                    fontSize: '10px',
                     margin: '0',
                     marginRight: '25px',
                     marginBottom: '10px',
@@ -180,7 +199,8 @@ const Profile = () => {
                     fontWeight: 'bold',
                     borderRadius: '4px',
                     width: '50px',
-                    height: '30px',
+                    height: '20px',
+                    // hover: ,
                   }}
                 >
                   수정
@@ -227,6 +247,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
+        <ProfileTab></ProfileTab>
       </div>
     </div>
   );

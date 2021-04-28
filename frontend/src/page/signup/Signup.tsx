@@ -1,4 +1,60 @@
 import { useState } from 'react';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  width: 500px;
+  margin: auto;
+  margin-top: 196px;
+  font-size: 18px;
+  font-family: Bazzi;
+  text-align: center;
+`;
+
+const Logo = styled.div`
+  margin-bottom: 15px;
+`;
+
+const Head = styled.h1`
+  text-align: center;
+`;
+
+const Form = styled.form`
+  width: 500px;
+  text-align: center;
+`;
+
+const Section = styled.div`
+  margin-bottom: 10px;
+`;
+
+const SectionSpan = styled.span`
+  display: inline-block;
+  width: 130px;
+  text-align: left;
+  margin-top: 15px;
+`;
+
+const SectionInput = styled.input`
+  height: 25px;
+  width: 200px;
+`;
+
+const Button = styled.button`
+  width: 350px;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 1px 2px;
+  background-color: #ffb74d;
+  border: none;
+  color: white;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  :hover {
+    cursor: pointer;
+    background-color: #ffa726;
+  }
+`;
 
 const Signup = () => {
   const [userData, setUserData] = useState({
@@ -26,157 +82,65 @@ const Signup = () => {
   };
 
   return (
-    <div
-      style={{
-        textAlign: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '500px',
-          margin: 'auto',
-          marginTop: '196px',
-          fontSize: '18px',
-          fontFamily: 'Bazzi',
-        }}
-      >
-        <h1>회원가입</h1>
-        <form>
-          <div
-            style={{
-              width: '500px',
-              margin: 'auto',
-            }}
-          >
-            <span
-              style={{
-                display: 'inline-block',
-                width: '130px',
-                textAlign: 'left',
-                marginTop: '15px',
-              }}
-            >
-              이메일
-            </span>
-            <input
-              id="email"
-              type="email"
-              value={userData.userEmail}
-              required
-              style={{
-                height: '25px',
-                width: '200px',
-              }}
-              onChange={userEmailHandler}
-            ></input>
-          </div>
-          <div>
-            <span
-              style={{
-                display: 'inline-block',
-                width: '130px',
-                textAlign: 'left',
-                marginTop: '15px',
-              }}
-            >
-              비밀번호
-            </span>
-            <input
-              id="password"
-              type="password"
-              required
-              style={{
-                height: '25px',
-                width: '200px',
-              }}
-              onChange={userPasswordHandler}
-            ></input>
-          </div>
-          <div>
-            <span
-              style={{
-                display: 'inline-block',
-                width: '130px',
-                textAlign: 'left',
-                marginTop: '15px',
-              }}
-            >
-              비밀번호확인
-            </span>
-            <input
-              id="confirmpassword"
-              type="password"
-              required
-              style={{
-                height: '25px',
-                width: '200px',
-              }}
-              onChange={userConfirmPasswordHandler}
-            ></input>
-          </div>
-          <div>
-            <span
-              style={{
-                display: 'inline-block',
-                width: '130px',
-                textAlign: 'left',
-                marginTop: '15px',
-              }}
-            >
-              이름
-            </span>
-            <input
-              id="name"
-              type="text"
-              required
-              style={{
-                height: '25px',
-                width: '200px',
-              }}
-              onChange={userUserNameHandler}
-            ></input>
-          </div>
-          <div>
-            <span
-              style={{
-                display: 'inline-block',
-                width: '130px',
-                textAlign: 'left',
-                marginTop: '15px',
-              }}
-            >
-              전화번호
-            </span>
-            <input
-              id="phone"
-              type="tel"
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-              style={{
-                height: '25px',
-                width: '200px',
-              }}
-              onChange={userPhoneHandler}
-            ></input>
-          </div>
-          <button
-            style={{
-              width: '350px',
-              height: 40,
-              marginBottom: 20,
-              padding: '1px 2px',
-              backgroundColor: '#ffb74d',
-              border: 'none',
-              color: 'white',
-              marginTop: '15px',
-              fontSize: '1.1rem',
-              borderRadius: '5px',
-            }}
-          >
-            회원가입
-          </button>
-        </form>
-      </div>
-    </div>
+    <Container>
+      <Logo>
+        <img
+          src={'../images/logo2.png'}
+          style={{ height: '200px' }}
+          alt="logo"
+        />
+      </Logo>
+      {/* <Head>회원가입</Head> */}
+      <Form>
+        <Section>
+          <SectionSpan>이메일</SectionSpan>
+          <SectionInput
+            id="email"
+            type="email"
+            value={userData.userEmail}
+            required
+            onChange={userEmailHandler}
+          ></SectionInput>
+        </Section>
+        <Section>
+          <SectionSpan>비밀번호</SectionSpan>
+          <SectionInput
+            id="password"
+            type="password"
+            required
+            onChange={userPasswordHandler}
+          ></SectionInput>
+        </Section>
+        <Section>
+          <SectionSpan>비밀번호확인</SectionSpan>
+          <SectionInput
+            id="confirmpassword"
+            type="password"
+            required
+            onChange={userConfirmPasswordHandler}
+          ></SectionInput>
+        </Section>
+        <Section>
+          <SectionSpan>이름</SectionSpan>
+          <SectionInput
+            id="name"
+            type="text"
+            required
+            onChange={userUserNameHandler}
+          ></SectionInput>
+        </Section>
+        <Section>
+          <SectionSpan>전화번호</SectionSpan>
+          <SectionInput
+            id="phone"
+            type="tel"
+            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            onChange={userPhoneHandler}
+          ></SectionInput>
+        </Section>
+        <Button>회원가입</Button>
+      </Form>
+    </Container>
   );
 };
 
