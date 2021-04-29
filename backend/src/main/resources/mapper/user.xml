@@ -1,1 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.UserMapper">
+<!-- salt값 반환 -->
+<select id="getSaltByUEmail" parameterType="string">
+	select u_salt
+	  from user
+	 where u_email=#{uEmail}
+</select>
+
+<!-- 로그인(일반+카카오) -->
+<select id="selectUserLogin">
+	select *
+	  from user
+	 where u_email=#{uEmail} AND u_password=#{uPassword}
+</select>
+
+<!-- 일반 회원가입 -->
+<insert id="insertUser">
+	insert into user
+	(u_no, u_email, u_password, u_salt, u_name, u_birth, u_phone, u_join_date)
+	values
+	(#{uNo}, #{uEmail}, #{uPassword}, #{uSalt}, #{uName}, #{uBirth}, #{uPhone}, now())
+</insert>
+
+<!-- 카카오 회원가입 -->
+<insert id="insertKakaoUser">
+	insert
+	  into user(u_no, u_email, u_password, u_name, u_birth, u_phone, u_provider, u_join_date)
+	values
+	(#{uNo}, #{uEmail}, #{uPassword}, #{uName}, #{uBirth}, #{uPhone}, #{uProvider}, now())
+</insert>
+
+<!-- 회원 탈퇴 -->
+<delete id="deleteUser" parameterType="string">
+	delete
+	  from user
+	 where u_email=#{uEmail}
+</delete>
+
+<!-- 아이디 중복 체크 -->
+<select id="checkUEmail" parameterType="string">
+	select count(*)
+	  from user
+	 where u_email = #{uEmail}
+</select>
+
+<!-- 회원정보수정 -->
+<update id="updateUser">
+	update user
+	   set u_phone = #{uPhone}
+	 where u_email = #{uEmail}
+</update>
+
+<!-- 아이디 찾기 -->
+<select id="selectFindUEmail" parameterType="string">
+	select u_email
+	  from user
+	 where u_name=#{uName} and u_phone=#{uPhone}
+</select>
+<select id="selectUEmailByNameAndPhone" parameterType="string">
+	select u_email
+	  from user
+	 where u_name=#{uName} and u_phone=#{uPhone}
+</select>
+
+<!-- 비밀번호찾기 -->
+<update id="updateTempPw">
+	update user
+	   set u_password=#{uPassword}, u_salt=#{uSalt}
+	 where u_email=#{uEmail}
+</update>
+
+<insert id="insertEmailconfirm">
+
+
+</insert>
+
+<select id="selectEmailconfirm" resultType="emailconfirm">
+
+</select>
+
+
+</mapper>

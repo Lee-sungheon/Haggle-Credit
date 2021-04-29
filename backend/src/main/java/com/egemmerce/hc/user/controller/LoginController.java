@@ -67,7 +67,7 @@ public class LoginController {
 			resultMap.put("uCredit", check.getuCredit());
 			resultMap.put("uPoint", check.getuPoint());
 			resultMap.put("uPenalty", check.getuPenalty());
-			
+			resultMap.put("uJwt", check.getuJwt());
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}
 		resultMap.put("errorMessage", "로그인에 실패하였습니다.");
@@ -120,6 +120,7 @@ public class LoginController {
 			resultMap.put("uCredit", check.getuCredit());
 			resultMap.put("uPoint", check.getuPoint());
 			resultMap.put("uPenalty", check.getuPenalty());
+			resultMap.put("uJwt", check.getuJwt());
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}
 		

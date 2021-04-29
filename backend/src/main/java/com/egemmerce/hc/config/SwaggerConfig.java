@@ -26,7 +26,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket postsApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
-				.groupName("Haggle-Credit Backend 테스팅 [Swagger]")
+				.groupName("Haggle-Credit Backend Swagger")
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.any())
