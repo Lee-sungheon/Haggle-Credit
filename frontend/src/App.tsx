@@ -7,6 +7,7 @@ import Home from './page/home/Home';
 import IndexPage from './page/home/IndexPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
+import ProductRegistration from './page/productRegistration/ProductRegistration'
 import { theme } from './styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from './common/store';
@@ -31,6 +32,9 @@ const App = () => {
         </Switch>
         <Switch>
           <Route path="/profile" component={Profile} />
+        </Switch>
+        <Switch>
+          <Route path="/productregistraion" component={ProductRegistration} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>
