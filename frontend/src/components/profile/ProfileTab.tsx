@@ -1,13 +1,28 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const Tab = styled.div`
+const ActTab = styled.div`
   height: 50px;
   width: 160px;
   border: 1px solid black;
   border-bottom: none;
   :hover {
     cursor: pointer;
+  }
+`;
+
+const Tab = styled.div`
+  height: 50px;
+  width: 160px;
+  border: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+  color: #bdbdbd;
+  border-bottom: 1px solid black;
+  :hover {
+    cursor: pointer;
+    border: 2px solid #e0e0e0;
+    border-bottom: 1px solid black;
+    font-weight: bolder;
   }
 `;
 const ProfileTab2 = () => {
@@ -32,118 +47,58 @@ const ProfileTab2 = () => {
         }}
       >
         {tabId === 0 ? (
-          <Tab onClick={() => clickHandler(0)}>
+          <ActTab onClick={() => clickHandler(0)}>
+            <p>상품</p>
+          </ActTab>
+        ) : (
+          <Tab style={{}} onClick={() => clickHandler(0)}>
             <p>상품</p>
           </Tab>
-        ) : (
-          <div
-            style={{
-              height: '50px',
-              width: '160px',
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#f5f5f5',
-              color: '#bdbdbd',
-              borderBottom: '1px solid black',
-            }}
-            onClick={() => clickHandler(0)}
-          >
-            <p>상품</p>
-          </div>
         )}
         {tabId === 1 ? (
+          <ActTab onClick={() => clickHandler(1)}>
+            <p>상품문의</p>
+          </ActTab>
+        ) : (
           <Tab onClick={() => clickHandler(1)}>
             <p>상품문의</p>
           </Tab>
-        ) : (
-          <div
-            style={{
-              height: '50px',
-              width: '160px',
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#f5f5f5',
-              color: '#bdbdbd',
-              borderBottom: '1px solid black',
-            }}
-            onClick={() => clickHandler(1)}
-          >
-            <p>상품문의</p>
-          </div>
         )}
         {tabId === 2 ? (
+          <ActTab onClick={() => clickHandler(2)}>
+            <p>찜</p>
+          </ActTab>
+        ) : (
           <Tab onClick={() => clickHandler(2)}>
             <p>찜</p>
           </Tab>
-        ) : (
-          <div
-            style={{
-              height: '50px',
-              width: '160px',
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#f5f5f5',
-              color: '#bdbdbd',
-              borderBottom: '1px solid black',
-            }}
-            onClick={() => clickHandler(2)}
-          >
-            <p>찜</p>
-          </div>
         )}
         {tabId === 3 ? (
+          <ActTab onClick={() => clickHandler(3)}>
+            <p>입찰내역</p>
+          </ActTab>
+        ) : (
           <Tab onClick={() => clickHandler(3)}>
             <p>입찰내역</p>
           </Tab>
-        ) : (
-          <div
-            style={{
-              height: '50px',
-              width: '160px',
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#f5f5f5',
-              color: '#bdbdbd',
-              borderBottom: '1px solid black',
-            }}
-            onClick={() => clickHandler(3)}
-          >
-            <p>입찰내역</p>
-          </div>
         )}
         {tabId === 4 ? (
+          <ActTab onClick={() => clickHandler(4)}>
+            <p>팔로잉</p>
+          </ActTab>
+        ) : (
           <Tab onClick={() => clickHandler(4)}>
             <p>팔로잉</p>
           </Tab>
-        ) : (
-          <div
-            style={{
-              height: '50px',
-              width: '160px',
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#f5f5f5',
-              color: '#bdbdbd',
-              borderBottom: '1px solid black',
-            }}
-            onClick={() => clickHandler(4)}
-          >
-            <p>팔로잉</p>
-          </div>
         )}
         {tabId === 5 ? (
+          <ActTab onClick={() => clickHandler(5)}>
+            <p>팔로워</p>
+          </ActTab>
+        ) : (
           <Tab onClick={() => clickHandler(5)}>
             <p>팔로워</p>
           </Tab>
-        ) : (
-          <div
-            style={{
-              height: '50px',
-              width: '160px',
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#f5f5f5',
-              color: '#bdbdbd',
-              borderBottom: '1px solid black',
-            }}
-            onClick={() => clickHandler(5)}
-          >
-            <p>팔로워</p>
-          </div>
         )}
       </div>
       <div key="1" hidden={tabId !== 0}>
