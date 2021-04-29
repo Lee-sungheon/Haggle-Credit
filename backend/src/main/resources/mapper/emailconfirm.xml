@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.EmailConfirmMapper">
+
+<insert id="insertEmailconfirm">
+
+INSERT INTO `emailconfirm`
+(`e_email`,
+`e_confirm`)
+VALUES
+(#{eEmail},
+#{eConfirm});
+
+</insert>
+
+<select id="selectEmailconfirm" resultType="emailconfirm">
+select *
+from emailconfirm
+where e_email = #{eEmail}
+order by e_no desc
+limit 1;
+</select>
+</mapper>

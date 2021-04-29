@@ -24,13 +24,14 @@ public class User {
 	private int uCredit;
 	private int uPoint;
 	private int uPenalty;
+	private String uJwt;
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public User(int uNo, String uAuthority, String uEmail, String uPassword, String uSalt, String uName, String uBirth,
 			String uPhone, String uProvider, String uJoinDate, String uSellerAuth, String uUniqueKey, String uAuthKey,
-			int uCredit, int uPoint, int uPenalty) {
+			int uCredit, int uPoint, int uPenalty, String uJwt) {
 		super();
 		this.uNo = uNo;
 		this.uAuthority = uAuthority;
@@ -48,6 +49,7 @@ public class User {
 		this.uCredit = uCredit;
 		this.uPoint = uPoint;
 		this.uPenalty = uPenalty;
+		this.uJwt = uJwt;
 	}
 	public int getuNo() {
 		return uNo;
@@ -145,7 +147,10 @@ public class User {
 	public void setuPenalty(int uPenalty) {
 		this.uPenalty = uPenalty;
 	}
-
-	
-	
+	public String getuJwt() {
+		return uJwt;
+	}
+	public void setuJwt(String uJwt) {
+		this.uJwt = uJwt;
+	}
 }
