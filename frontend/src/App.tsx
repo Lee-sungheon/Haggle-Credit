@@ -4,6 +4,7 @@ import Header from './components/navigation/Header';
 import NavBar from './components/navigation/NavBar';
 import LikeBox from './components/navigation/LikeBox';
 import Home from './page/home/Home';
+import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
@@ -24,8 +25,10 @@ const App = () => {
           <Route exact path="/" component={IndexPage} />
         </Switch>
         <Switch>
-          <Route path="/home" component={Home}>
-          </Route>
+          <Route path="/home" component={Home} />
+        </Switch>
+        <Switch>
+          <Route path="/category/:name" component={CategoryPage} />
         </Switch>
         <Switch>
           <Route path="/signup" component={Signup} />

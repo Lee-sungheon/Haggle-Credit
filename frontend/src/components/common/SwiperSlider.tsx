@@ -22,6 +22,7 @@ const SwiperSlider: React.FC = () => {
   const [itemNum, setItemNum] = useState(6);
   
   useEffect(()=>{
+    ConfirmWidth();
     window.addEventListener('resize', ConfirmWidth);
     return () => {
       window.removeEventListener('resize', ConfirmWidth);
