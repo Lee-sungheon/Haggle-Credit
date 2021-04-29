@@ -11,6 +11,9 @@ const Container = styled.div`
   z-index: 10;
   right: 90px;
   top: 130px;
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const Title = styled.div`

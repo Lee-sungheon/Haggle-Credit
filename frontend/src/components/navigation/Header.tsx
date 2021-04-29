@@ -19,6 +19,7 @@ const Container = styled.div`
 
 const HeaderContainer = styled.div`
   margin: 0 auto;
+  width: 100%;
   height: 100%;
   padding: 0 200px;
   position: relative;
@@ -26,6 +27,12 @@ const HeaderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  @media (max-width: 1024px) {
+    padding: 0px 40px !important;
+  }
+  @media (max-width: 414px) {
+    justify-content: center;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -35,7 +42,11 @@ const LogoBox = styled.div`
   z-index: 2;
 `;
 
-const MenuList = styled.div``;
+const MenuList = styled.div`
+  @media (max-width: 414px) {
+    display: none;
+  }
+`;
 
 const Menu = styled.div`
   width: 80px;
@@ -50,6 +61,9 @@ const Menu = styled.div`
   font-size: 12px;
   :hover {
     font-weight: 900;
+  }
+  @media (max-width: 1024px) {
+    margin-left: 6px;
   }
 `;
 
@@ -69,41 +83,40 @@ const Header = () => {
   };
   const navRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function myFunction() {
-      if (null !== navRef.current) {
-        if (window.pageYOffset > 0) {
-          navRef.current.style.backgroundColor = 'white';
-          navRef.current.style.boxShadow = '0 4px 8px 0 rgb(0 0 0 / 4%)';
-        } else {
-          navRef.current.style.backgroundColor = 'inherit';
-          navRef.current.style.boxShadow = 'none';
-        }
-      }
-    }
-    window.addEventListener('scroll', function () {
-      myFunction();
-    });
-    return () => {
-      window.removeEventListener('scroll', function () {
-      myFunction();
-      });
-    };
-  }, [navRef]);
-
-  useEffect(() => {
-    if (null !== headerRef.current) {
-      if (isIndex) {
-        headerRef.current.style.padding = '0 40px';
+  
+  function myFunction() {
+    if (null !== navRef.current) {
+      if (window.pageYOffset > 0) {
+        navRef.current.style.backgroundColor = 'white';
+        navRef.current.style.boxShadow = '0 4px 8px 0 rgb(0 0 0 / 4%)';
       } else {
-        headerRef.current.style.padding = '0 200px';
+        navRef.current.style.backgroundColor = 'inherit';
+        navRef.current.style.boxShadow = 'none';
       }
     }
-  }, [isIndex])
+  }
+  if (null !== headerRef.current) {
+    if (isIndex) {
+      headerRef.current.style.padding = '0 40px';
+    } else {
+      headerRef.current.style.padding = '0 200px';
+    }
+  }
+  
+  useEffect(() => {
+    if (isIndex) {
+      window.addEventListener('scroll', myFunction);
+    } else {
+      window.removeEventListener('scroll', myFunction);
+    }
+    
+    return () => {
+      window.removeEventListener('scroll', myFunction);
+    };
+  }, [navRef, isIndex]);
 
   return (
-    <Container ref={navRef}>
+    <Container ref={navRef} style={!isIndex ? {backgroundColor: 'white'}:{}}>
       <HeaderContainer ref={headerRef}>
         <LogoBox>
           <Link to={'/home'}>
@@ -119,7 +132,7 @@ const Header = () => {
             <StyledLink to={'/signup'}>회원가입</StyledLink>
           </Menu>
           <Menu onClick={handleOpen}>
-            <p>로그인</p>
+            <p style={{textDecoration: 'none', color: 'black'}}>로그인</p>
           </Menu>
           <Menu>
             <StyledLink to={'/home'}>내상점</StyledLink>

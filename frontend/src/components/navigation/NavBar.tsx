@@ -6,6 +6,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { CATEGORYS } from '../../common/data';
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,8 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Container = styled.div`
-  width: 100%;
   height: 40px;
+  width: 100%;
   position: fixed;
   display: flex;
   justify-content: space-between;
@@ -35,8 +36,11 @@ const Container = styled.div`
   color: #3c4758;
   opacity: 1;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 20px 205px;
+  padding: 20px 200px;
   align-items: center;
+  @media (max-width: 1024px) {
+    padding: 20px 45px;
+  }
 `;
 
 const CategoryBox = styled.div`
@@ -70,7 +74,7 @@ const CategoryTitle = styled.div`
   display: flex;
   padding-left: 15px;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 900;
   height: 35px;
   box-sizing: border-box;
@@ -147,6 +151,10 @@ const MenuBox = styled.div`
   display: flex;
   align-items: center;
   padding: 0;
+  margin-right: 400px;
+  @media (max-width: 1024px) {
+    margin-right: 80px;
+  }
 `;
 
 const StyledMenuItem = styled.div`
@@ -160,6 +168,7 @@ const StyledMenuItem = styled.div`
   @media (max-width: 1220px) {
     display: block;
     text-align: center;
+    font-size: 13px;
   }
 `;
 
@@ -168,7 +177,7 @@ const NavBar = () => {
   const categoryRef = useRef<HTMLDivElement>(null);
   const subCategoryRef = useRef<HTMLDivElement>(null);
   const [mainCategory, setMainCategory] = useState('');
-  const [subCategory, setSubCategory] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     if (mainCategory !== '') {
@@ -189,7 +198,7 @@ const NavBar = () => {
     }
   }, [mainCategory]);
 
-  const enterEvent = (e: any) => {
+  const enterEvent = () => {
     if (null !== categoryRef.current) {
       if (
         categoryRef.current.style.display === '' ||
@@ -199,7 +208,7 @@ const NavBar = () => {
       }
     }
   };
-  const leaveEvent = (e: any) => {
+  const leaveEvent = () => {
     if (null !== categoryRef.current) {
       if (categoryRef.current.style.display === 'block') {
         categoryRef.current.style.display = 'none';
@@ -219,25 +228,33 @@ const NavBar = () => {
               <CategoryItem
                 key={idx}
                 onMouseEnter={() => setMainCategory(category)}
+                onClick={() => {
+                  history.push({
+                    pathname: `/category/${category}`,
+                  });
+                  leaveEvent();
+                }}
               >
-                {category}
+                {category.split('-')[0]}
               </CategoryItem>
             ))}
           </CategoryList>
         </CategoryArea>
         {mainCategory !== '' && (
           <SubCategoryArea ref={subCategoryRef}>
-            <CategoryTitle>{mainCategory}</CategoryTitle>
+            <CategoryTitle>{mainCategory.split('-')[0]}</CategoryTitle>
             <CategoryList>
               {CATEGORYS[mainCategory].map((category, idx) => (
                 <SubCategoryItem
                   key={idx}
                   onClick={() => {
-                    setSubCategory(category);
-                    console.log(subCategory);
+                    history.push({
+                      pathname: `/category/${category}`,
+                    });
+                    leaveEvent();
                   }}
                 >
-                  {category}
+                  {category.split('-')[0]}
                 </SubCategoryItem>
               ))}
             </CategoryList>
@@ -262,7 +279,7 @@ const NavBar = () => {
           </IconButton>
         </InputBox>
       </InputContainer>
-      <MenuBox style={{ marginRight: '400px', marginLeft: '2vw' }}>
+      <MenuBox style={{ marginLeft: '2vw' }}>
         <StyledMenuItem>
           <img
             src="../images/navbar/sell.png"

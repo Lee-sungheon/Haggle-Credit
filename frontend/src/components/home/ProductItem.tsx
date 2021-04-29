@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 
-
 interface ITEM {
   id: number,
   title: string,
@@ -61,7 +60,13 @@ const ItemTime = styled.p`
   margin: 0;
   padding: 5px;
   font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+`;
+
+const ItemCategory = styled.span`
+  font-size: 11px;
   color: rgba(0, 0, 0, 0.5);
+  margin-right: 4px;
 `;
 
 const ProductList = ({ item }: ProductItemProps) => {
@@ -82,8 +87,20 @@ const ProductList = ({ item }: ProductItemProps) => {
         </ImgBox>
         <CardContent style={{ padding : 0 }}>
           <ItemTitle>{item.title}</ItemTitle>
-          <ItemPrice>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</ItemPrice>
-          <ItemTime>{'2021.05.21 23:59:59 마감'}</ItemTime>
+          <ItemPrice>
+            <ItemCategory>현재가</ItemCategory> 
+            {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            <ItemCategory>원</ItemCategory>
+          </ItemPrice>
+          <ItemPrice>
+            <ItemCategory>즉구가</ItemCategory> 
+            {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            <ItemCategory>원</ItemCategory>
+          </ItemPrice>
+          <ItemTime>
+            <ItemCategory>입찰자</ItemCategory> 0 
+            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{'05.21 23:59'}
+          </ItemTime>
         </CardContent>
       </CardActionArea>
     </Card>

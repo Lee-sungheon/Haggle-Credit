@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -11,6 +11,9 @@ const Container = styled.div`
   z-index: 10;
   right: 90px;
   top: 190px;
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const RecentlyContainer = styled.div`
@@ -85,6 +88,13 @@ const TopBox = styled.div`
 const RecentlyBox = () => {
   const [pageNum, setPageNum] = useState(0);
   const recentlyItems = useSelector((state: RootState) => state.common.recentlyItems);
+  useEffect(()=>{
+    const tmpNum: number = parseInt(String((recentlyItems.length-1)/3))
+    if (pageNum > tmpNum){
+      setPageNum(tmpNum);
+    }
+  },[pageNum, recentlyItems.length])
+
   const goPrev = useCallback(() => {
     if (pageNum !== 0) {
       setPageNum(pageNum-1);
@@ -95,12 +105,13 @@ const RecentlyBox = () => {
       setPageNum(pageNum+1);
     }
   }, [pageNum, recentlyItems.length])
+
   return (
     <Container>
       <RecentlyContainer>
         <Title>최근본상품</Title>
-        <Count>13</Count>
-        <ItemBox>
+        <Count>{recentlyItems.length}</Count>
+        {recentlyItems.length > 0 && <><ItemBox>
           {recentlyItems.slice(pageNum*3,pageNum*3+3).map((item, idx) => (
             <RecentlyBoxItem item={item} key={idx}/>
           ))}
@@ -109,7 +120,7 @@ const RecentlyBox = () => {
           <StyledButton onClick={goPrev}><ChevronLeftIcon style={{ color: 'grey'}}/></StyledButton>
             <PageNumber>{pageNum+1}/{parseInt(String((recentlyItems.length-1)/3+1))}</PageNumber>
           <StyledButton onClick={goNext}><ChevronRightIcon style={{ color: 'grey'}}/></StyledButton>
-        </ButtonBox>
+        </ButtonBox></>}
       </RecentlyContainer>
       <TopBox onClick={() => window.scrollTo(0, 0)}>
         TOP
