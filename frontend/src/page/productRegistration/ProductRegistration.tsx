@@ -430,6 +430,7 @@ const ProductRegistration = () => {
           style={{
             display: 'flex',
             padding: '25px 0',
+            marginBottom: '100px',
           }}
         >
           <div
