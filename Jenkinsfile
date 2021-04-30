@@ -20,14 +20,14 @@ pipeline {
             }
             options { skipDefaultCheckout(false) }
             steps {
-                sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/haggle_credit/backend clean package'
+                sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/s04p31d107_develop/backend clean package'
             }
         }
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t latest_frontend:latest /var/jenkins_home/workspace/haggle_credit/frontend'
-                sh 'docker build -t latest_backend:latest /var/jenkins_home/workspace/haggle_credit/backend'
+                sh 'docker build -t latest_frontend:latest /var/jenkins_home/workspace/s04p31d107_develop/frontend'
+                sh 'docker build -t latest_backend:latest /var/jenkins_home/workspace/s04p31d107_develop/backend'
             }
         }
         stage('Docker run') {
@@ -55,15 +55,12 @@ docker rmi $(docker images -f "dangling=true" -q)'
                 sh 'docker run -d --name latest_frontend \
                     -p 80:80 \
                     -p 443:443 \
-                    -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/haggle_credit/sslkey/ \
-                    --network haggle_creditnet \
+                    -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/s04p31d107_develop/sslkey/ \
+                    --network s04p31d107_developnet \
                     latest_frontend:latest'
                 sh 'docker run -d --name latest_backend \
-                    --network haggle_creditnet \
+                    --network s04p31d107_developnet \
                     latest_backend:latest'
-                sh 'docker run -d --name latest_djangoend \
-                    --network haggle_creditnet \
-                    latest_djangoend:latest'
             }
         }
     }
