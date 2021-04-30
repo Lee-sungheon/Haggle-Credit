@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProductList from '../../components/home/PruductList';
 import { RouteComponentProps } from 'react-router-dom';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import { CATEGORYS, IDXTOCATEGORY } from '../../common/data';
-import MainCategory from '../../components/category/MainCategory';
 import CategoryList from '../../components/category/CategoryList';
+import Category from '../../components/category/Category';
 
 interface MatchParams {
   name: string;
@@ -17,19 +16,6 @@ const Container = styled.div`
   @media (max-width: 1024px) {
     padding: 145px 40px 0 40px;
   }
-`;
-
-const CategoryContainer = styled.div`
-  display: flex;
-  color: rgb(33, 33, 33);
-  align-items: center;
-`;
-
-const HomeArea = styled.div`
-  display: flex;
-  align-items: center;
-  height: 28px;
-  font-size: 12px;
 `;
 
 const ProductArea = styled.div`
@@ -50,7 +36,6 @@ const TitleText = styled.div`
   font-size: 16px;
   align-items: center;
 `;
-
 
 const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   const [ category, setCategory ] = useState(match.params.name);
@@ -73,14 +58,7 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   return (
     <Container>
       <ProductArea>
-        <CategoryContainer>
-          <HomeArea>
-            <HomeOutlinedIcon style={{fontSize: '18px'}}/>
-            홈
-          </HomeArea>
-          <MainCategory category={category} categoryList={CATEGORYLIST} />
-          {subCategory !== '' && <MainCategory category={subCategory} categoryList={CATEGORYS[category]}/>}
-        </CategoryContainer>
+        <Category category={category} subCategory={subCategory} />
         {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} />}
         <TitleArea>
           <TitleText>
@@ -94,5 +72,3 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
 }
 
 export default CategoryPage;
-
-const CATEGORYLIST: string[] = Object.keys(CATEGORYS);
