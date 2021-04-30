@@ -6,6 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
+import { useHistory } from "react-router";
 
 interface ITEM {
   id: number,
@@ -72,9 +73,15 @@ const ItemCategory = styled.span`
 const ProductList = ({ item }: ProductItemProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const goDetail = () => {
     dispatch(commonActions.addRecently(item));
+    history.push({
+      pathname: `/detail/${item.id}`,
+      state: {item}
+    });
   };
+
   return (
     <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>

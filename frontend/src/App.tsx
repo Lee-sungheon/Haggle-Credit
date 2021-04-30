@@ -6,6 +6,7 @@ import LikeBox from './components/navigation/LikeBox';
 import Home from './page/home/Home';
 import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
+import DetailPage from './page/detail/DetailPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
 import ProductRegistration from './page/productRegistration/ProductRegistration'
@@ -38,6 +39,9 @@ const App = () => {
         </Switch>
         <Switch>
           <Route path="/productregistraion" component={ProductRegistration} />
+        </Switch>
+        <Switch>
+          <Route path="/detail/:id" component={DetailPage} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>
