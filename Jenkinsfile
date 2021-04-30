@@ -20,15 +20,14 @@ pipeline {
             }
             options { skipDefaultCheckout(false) }
             steps {
-                sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/SAYE/backend clean package'
+                sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/haggle_credit/backend clean package'
             }
         }
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t latest_frontend:latest /var/jenkins_home/workspace/SAYE/frontend'
-                sh 'docker build -t latest_backend:latest /var/jenkins_home/workspace/SAYE/backend'
-                sh 'docker build -t latest_djangoend:latest /var/jenkins_home/workspace/SAYE/djangoend'
+                sh 'docker build -t latest_frontend:latest /var/jenkins_home/workspace/haggle_credit/frontend'
+                sh 'docker build -t latest_backend:latest /var/jenkins_home/workspace/haggle_credit/backend'
             }
         }
         stage('Docker run') {
@@ -42,18 +41,11 @@ pipeline {
                 // 컨테이너를 stop 한다
                 sh 'docker ps -f name=latest_backend -q \
 | xargs --no-run-if-empty docker container stop'
-                // 현재 동작중인 컨테이너 중 <django-image-name>의 이름을 가진
-                // 컨테이너를 stop 한다
-                sh 'docker ps -f name=latest_djangoend -q \
-| xargs --no-run-if-empty docker container stop'
                 // <front-image-name>의 이름을 가진 컨테이너를 삭제한다.
                 sh 'docker container ls -a -f name=latest_frontend -q \
 | xargs -r docker container rm'
                 // <back-image-name>의 이름을 가진 컨테이너를 삭제한다.
                 sh 'docker container ls -a -f name=latest_backend -q \
-| xargs -r docker container rm'
-                // <django-image-name>의 이름을 가진 컨테이너를 삭제한다.
-                sh 'docker container ls -a -f name=latest_djangoend -q \
 | xargs -r docker container rm'
                 // docker image build 시 기존에 존재하던 이미지는
                 // dangling 상태가 되기 때문에 이미지를 일괄 삭제
@@ -63,14 +55,14 @@ docker rmi $(docker images -f "dangling=true" -q)'
                 sh 'docker run -d --name latest_frontend \
                     -p 80:80 \
                     -p 443:443 \
-                    -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/SAYE/sslkey/ \
-                    --network sayenet \
+                    -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/haggle_credit/sslkey/ \
+                    --network haggle_creditnet \
                     latest_frontend:latest'
                 sh 'docker run -d --name latest_backend \
-                    --network sayenet \
+                    --network haggle_creditnet \
                     latest_backend:latest'
                 sh 'docker run -d --name latest_djangoend \
-                    --network sayenet \
+                    --network haggle_creditnet \
                     latest_djangoend:latest'
             }
         }
