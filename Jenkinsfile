@@ -61,9 +61,6 @@ docker rmi $(docker images -f "dangling=true" -q)'
                 sh 'docker run -d --name latest_backend \
                     --network haggle_creditnet \
                     latest_backend:latest'
-                sh 'docker run -d --name latest_djangoend \
-                    --network haggle_creditnet \
-                    latest_djangoend:latest'
             }
         }
     }
