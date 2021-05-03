@@ -512,7 +512,7 @@ const IndexPage = () => {
           <PcContainer>
             <PcScreen 
               style={
-                {background: `url(../images/main/active${preTabNo}.jpg) no-repeat center/cover`, 
+                {background: `url(${process.env.PUBLIC_URL}/images/main/active${preTabNo}.jpg) no-repeat center/cover`, 
               }}
             />
             {(tabNo===0) && <PcScreen 
