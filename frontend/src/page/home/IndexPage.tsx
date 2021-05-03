@@ -517,17 +517,17 @@ const IndexPage = () => {
             />
             {(tabNo===0) && <PcScreen 
               style={
-                {background: `url(../images/main/active0.jpg) no-repeat center/cover`, 
+                {background: `url(${process.env.PUBLIC_URL}/images/main/active0.jpg) no-repeat center/cover`, 
               }}
             />}
             {(tabNo===1) &&<PcScreen 
               style={
-                {background: `url(../images/main/active1.jpg) no-repeat center/cover`, 
+                {background: `url(${process.env.PUBLIC_URL}/images/main/active1.jpg) no-repeat center/cover`, 
               }}
             />}
             {(tabNo===2) &&<PcScreen 
               style={
-                {background: `url(../images/main/active2.jpg) no-repeat center/cover`, 
+                {background: `url(${process.env.PUBLIC_URL}/images/main/active2.jpg) no-repeat center/cover`, 
               }}
             />}
           </PcContainer>
