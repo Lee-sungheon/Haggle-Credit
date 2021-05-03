@@ -20,9 +20,9 @@
 <!-- 일반 회원가입 -->
 <insert id="insertUser">
 	insert into user
-	(u_no, u_email, u_password, u_salt, u_name, u_birth, u_phone, u_join_date)
+	(u_no, u_email, u_password, u_salt, u_name, u_birth, u_phone, u_join_date, u_unique_key)
 	values
-	(#{uNo}, #{uEmail}, #{uPassword}, #{uSalt}, #{uName}, #{uBirth}, #{uPhone}, now())
+	(#{uNo}, #{uEmail}, #{uPassword}, #{uSalt}, #{uName}, #{uBirth}, #{uPhone}, now(), #{uUniqueKey})
 </insert>
 
 <!-- 카카오 회원가입 -->
@@ -41,7 +41,7 @@
 </delete>
 
 <!-- 아이디 중복 체크 -->
-<select id="checkUEmail" parameterType="string">
+<select id="checkUEmail" parameterType="string" resultType="int">
 	select count(*)
 	  from user
 	 where u_email = #{uEmail}
