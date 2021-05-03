@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import Category from '../../components/category/Category';
+import DetailTab from '../../components/detail/DetailTab';
 import ProductInfo from '../../components/detail/ProductInfo';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -35,12 +37,16 @@ const CategoryBox = styled.div`
 
 const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
   const item = location.state.item;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
   return (
     <Container>
       <CategoryBox>
         <Category category={'여성의류-100'} subCategory={''} />
       </CategoryBox>
       <ProductInfo item={item}/>
+      <DetailTab />
     </Container>
   )
 }

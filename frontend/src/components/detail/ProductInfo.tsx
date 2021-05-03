@@ -182,7 +182,7 @@ const ProductInfo = ({item}: ProductInfoProps) => {
         </DetailBox>
         <ButtonBox>
           <StyledButton>
-            찜
+            ♥ 찜 0
           </StyledButton>
           <StyledButton style={{ backgroundColor: '#ffceae' }}>
             입찰하기
