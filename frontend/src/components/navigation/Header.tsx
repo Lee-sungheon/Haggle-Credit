@@ -83,7 +83,7 @@ const Header = () => {
   };
   const navRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  
+
   function myFunction() {
     if (null !== navRef.current) {
       if (window.pageYOffset > 0) {
@@ -102,21 +102,24 @@ const Header = () => {
       headerRef.current.style.padding = '0 200px';
     }
   }
-  
+
   useEffect(() => {
     if (isIndex) {
       window.addEventListener('scroll', myFunction);
     } else {
       window.removeEventListener('scroll', myFunction);
     }
-    
+
     return () => {
       window.removeEventListener('scroll', myFunction);
     };
   }, [navRef, isIndex]);
 
   return (
-    <Container ref={navRef} style={!isIndex ? {backgroundColor: 'white'}:{}}>
+    <Container
+      ref={navRef}
+      style={!isIndex ? { backgroundColor: 'white' } : {}}
+    >
       <HeaderContainer ref={headerRef}>
         <LogoBox>
           <Link to={'/home'}>
@@ -132,10 +135,10 @@ const Header = () => {
             <StyledLink to={'/signup'}>회원가입</StyledLink>
           </Menu>
           <Menu onClick={handleOpen}>
-            <p style={{textDecoration: 'none', color: 'black'}}>로그인</p>
+            <p style={{ textDecoration: 'none', color: 'black' }}>로그인</p>
           </Menu>
           <Menu>
-            <StyledLink to={'/home'}>내상점</StyledLink>
+            <StyledLink to={'/profile'}>내상점</StyledLink>
           </Menu>
         </MenuList>
       </HeaderContainer>

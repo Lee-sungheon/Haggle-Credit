@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -50,34 +51,57 @@ const EditCompleteButton = styled.button`
 `;
 
 const IntroduceTextArea = styled.textarea`
-  border: 1px solid black;
+  border: 2px solid black;
   width: 90%;
   height: 60%;
   text-align: left;
   padding: 8px;
+  resize: none;
 `;
 
 const Introduce = () => {
+  const [toggle, setToggle] = useState(true);
+  const [introduce, setIntroduce] = useState('안녕하세요');
+
+  const onToggleHandler = () => {
+    setToggle(!toggle);
+  };
+
+  const onChangeIntroduce = (e: any) => {
+    setIntroduce(e.target.value);
+  };
   return (
     <Container>
       <Title>내 소개</Title>
       <EditSection>
-        <EditButton>수정</EditButton>
-        {/* <EditCompleteButton>수정완료</EditCompleteButton> */}
+        {toggle ? (
+          <EditButton onClick={onToggleHandler}>수정</EditButton>
+        ) : (
+          <EditCompleteButton onClick={onToggleHandler}>
+            수정완료
+          </EditCompleteButton>
+        )}
       </EditSection>
-      {/* <div
-        style={{
-          border: '1px solid black',
-          width: '90%',
-          height: '60%',
-          textAlign: 'left',
-          padding: '8px',
-        }}
-      >
-        가나다라마바사아자차카타파하 가나다라마바사아자차카타파하
-        가나다라마바사아자차카타파하 가나다라마바사아자차카타파하
-      </div> */}
-      <IntroduceTextArea></IntroduceTextArea>
+      {toggle ? (
+        <textarea
+          style={{
+            border: '1px solid gray',
+            width: '90%',
+            height: '60%',
+            textAlign: 'left',
+            padding: '8px',
+            // marginLeft: '25px',
+            // marginTop: '3px',
+          }}
+          spellCheck="false"
+          value={introduce}
+        ></textarea>
+      ) : (
+        <IntroduceTextArea
+          value={introduce}
+          onChange={onChangeIntroduce}
+        ></IntroduceTextArea>
+      )}
     </Container>
   );
 };
