@@ -47,8 +47,8 @@ public class UserController {
 	@ApiOperation(value="회원가입을 위한 Restful API", response=User.class)
 	@PostMapping("/join")
 	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
+		userService.mailSendWithUserKey(user);
 		if(userService.insertUser(user) > 0) {
-			userService.mailSendWithUserKey(user.getuEmail(), user.getuPassword(), request);
 			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("계정 가입 실패", HttpStatus.NO_CONTENT);

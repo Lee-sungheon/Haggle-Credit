@@ -2,20 +2,15 @@ package com.egemmerce.hc.user.service;
 
 import java.util.Random;
 
-import javax.mail.MessagingException;
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.mapper.UserMapper;
 import com.egemmerce.hc.user.controller.SaltSHA256;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * 
@@ -30,14 +25,14 @@ import com.egemmerce.hc.user.controller.SaltSHA256;
  *
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	
 	/* User Mapper 객체 불러오기 */
 	@Autowired
 	private UserMapper userMapper;
 	
-	@Autowired
-	JavaMailSender emailSender;
+	private final UserEmailService emailService;
 	
 	
 	
@@ -122,28 +117,30 @@ public class UserServiceImpl implements UserService {
 	
 	/* 가입시, 메일로 인증링크 보내기 */
 	@Override
-	public void mailSendWithUserKey(String uEmail, String uPassword, HttpServletRequest request) throws Exception {
-		String key = getKey(false, 20);
-		userMapper.GetKey(uPassword, key);
-		MimeMessage mail = emailSender.createMimeMessage();
+	public void mailSendWithUserKey(User user) throws Exception {
 		String mailContent =
 				"<h3>안녕하세요. Haggle-Credit 개발팀입니다.</h3><br></br>" +
 				"<h3>가입해주셔서 감사합니다. 마지막 절차인 본인 인증만 해주시면 완료 됩니다.</h3><br></br>" +
 				"<h2>아래의 인증하기 버튼을 눌러 인증완료 및 로그인 하시길 바랍니다</h2><br></br>" +
-				"<a href='https://localhost:8080" + request.getContextPath() + "/user/key_alter?uPassword=" + uPassword + "&uAuthKey=" + key + "'>인증하기</a></p>" +
+				"<a href='http://localhost:8080/haggle-credit/user/key_alter?token=" + user.getuAuthKey() + "&email=" + user.getuEmail() + "'>인증하기</a></p>" +
 				"<h6>만약, 잘못 전달된 메일이라면, 해당 이메일을 무시하시면 됩니다.</h6>";
 		
-		mail.setSubject("안녕하세요 Haggle-Credit입니다. 본인인증을 완료해주세요", "utf-8");
-		mail.setText(mailContent, "utf-8", "html");
-		mail.addRecipient(RecipientType.TO, new InternetAddress(uEmail));
-		emailSender.send(mail);
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(user.getuEmail())
+                .subject("안녕하세요 Haggle-Credit입니다. 본인인증을 완료해주세요")
+                .message(mailContent)
+                .build();
+		emailService.sendEmail(emailMessage);
 	}
 	/*인증확인 유무*/
 	@Override
-	public int alter_userKey_service(String uEmail, String uAuthKey) throws Exception {
-		int resultCnt = 0;
-		resultCnt = userMapper.alter_userKey(uEmail, uAuthKey);
-		return resultCnt;
+	public boolean alter_userKey_service(String uEmail, String uAuthKey) throws Exception {
+		User user=userMapper.getUserByEmail(uEmail);
+		if(user.getuAuthKey().equals(uAuthKey)) {
+			return true;			
+		}else {
+			return false;
+		}
 	}
 	
 	/* 카카오로 회원 가입 */
@@ -211,16 +208,19 @@ public class UserServiceImpl implements UserService {
 		return key.toString();
 	}
 
-	/* 2. 메일 양식에 맞추서 작성하는 메소드 (임시비밀번호 담기) */
-	private MimeMessage createMessage(String to) throws Exception {
-		MimeMessage message = emailSender.createMimeMessage();
-		
-		// 메일 - 받는이
-		message.addRecipients(RecipientType.TO, to);
-		
-		// 메일 - 제목
-		message.setSubject("Haggle-Credit에서 임시 비밀번호를 발급해드렸습니다.");
-		
+	
+	
+	/* 3. 발급된 임시 비밀번호 적용시키기 */
+	@Override
+	public boolean findUPassword(User user) throws Exception {
+		user.setuPassword(ePw);
+		return userMapper.updateTempPw(user);
+	}
+
+	/* 4. 해당 이메일로 메세지 보내기 */
+	@Override
+	public void sendSimpleMessage(String to) throws Exception {
+
 		String msgg="";
 		msgg+= "<div style='margin:100px;'>";
 		msgg+= "<h1> 안녕하세요 Haggle-Credit 개발팀입니다. </h1>";
@@ -236,32 +236,12 @@ public class UserServiceImpl implements UserService {
 		msgg+= ePw+"</strong><div><br/> ";
 		msgg+= "</div>";
 		
-		//메일 - 보낼 내용
-		message.setText(msgg, "utf-8", "html");
-		
-		// 메일 - 보낸이
-		message.setFrom(new InternetAddress("khyun7621@naver.com","Haggle-Credit"));
-		return message;
-	}
-	
-	
-	/* 3. 발급된 임시 비밀번호 적용시키기 */
-	@Override
-	public boolean findUPassword(User user) throws Exception {
-		user.setuPassword(ePw);
-		return userMapper.updateTempPw(user);
-	}
-
-	/* 4. 해당 이메일로 메세지 보내기 */
-	@Override
-	public void sendSimpleMessage(String to) throws Exception {
-		MimeMessage message = createMessage(to);
-		try {
-			emailSender.send(message);
-		} catch(MailException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException();
-		}
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(to)
+                .subject("Haggle-Credit에서 임시 비밀번호를 발급해드렸습니다.")
+                .message(msgg)
+                .build();
+		emailService.sendEmail(emailMessage);
 	}
 	
 	

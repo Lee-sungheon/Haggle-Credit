@@ -36,4 +36,6 @@ public interface UserMapper {
 	public String selectUEmailByNameAndPhone(String uName, String uPhone) throws Exception;
 	/*비밀번호 찾기(재발급)*/
 	public boolean updateTempPw(User user) throws Exception;
+
+	public User getUserByEmail(String uEmail);
 }
