@@ -47,7 +47,7 @@ public class UserController {
 	@ApiOperation(value="회원가입을 위한 Restful API", response=User.class)
 	@PostMapping("/join")
 	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
-		if(userService.insertUser(user) > 0) {
+		if(userService.insertUser(user)!=null) {
 			userService.mailSendWithUserKey(user);
 			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
 		}
@@ -66,9 +66,14 @@ public class UserController {
 	@ApiOperation(value="단순 아이디 중복확인을 위한 Restful API", response=User.class)
 	@GetMapping("/check/id")
 	public ResponseEntity<String> reviewCheckUEmail(String uEmail) throws Exception {
-		if(userService.checkUEmail(uEmail) == 0)
+		User user=userService.checkUEmail(uEmail);
+		if(user== null) {
 			return new ResponseEntity<String>("사용 가능한 아이디 입니다.", HttpStatus.OK);
-		return new ResponseEntity<String>("중복된 아이디가 존재합니다.", HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<String>("중복된 아이디가 존재합니다.", HttpStatus.OK);
+			
+		}
 	}
 	
 	/* R :: 개인 정보 전체 조회 [토큰으로 확인] */
@@ -101,7 +106,7 @@ public class UserController {
 	@ApiOperation(value="ID를 찾기위한 Restful API", response=User.class)
 	@GetMapping("find/id")
 	public ResponseEntity<String> findUEmail(String uName, int uPhone) throws Exception {
-		if(userService.selectFindUEmail(uName, uPhone) > 0) {
+		if(userService.selectFindUEmail(uName, uPhone) != null) {
 			return new ResponseEntity<String>("이메일 찾기 성공", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("이메일 찾기 실패", HttpStatus.NO_CONTENT);
@@ -112,10 +117,10 @@ public class UserController {
 	@PutMapping("find/pw")
 	public ResponseEntity<String> findUpassword(@RequestBody User user) throws Exception {
 		// 1. 우선 해당 이메일의 이름,폰번호 일치한지 확인
-		if(user.getuEmail() == userService.selectUEmailByNameAndPhone(user.getuName(), user.getuPhone())) {
+		if(userService.selectUserByEmail(user.getuEmail())) {
 			// 2. 일치하다면, 해당 이메일의 비밀번호 재발급 + 업데이트 
 			// 3. 재발급한 번호 이메일로 보내기
-			if(userService.findUPassword(user)) {
+			if(userService.findUPassword(user)!=null) {
 				userService.sendSimpleMessage(user.getuEmail());
 				return new ResponseEntity<String>("비밀번호 찾기(재발급) 성공", HttpStatus.OK);
 			}
@@ -131,9 +136,18 @@ public class UserController {
 	@ApiOperation(value="탈퇴를 위한 Restful API", response=User.class)
 	@DeleteMapping("delete")
 	public ResponseEntity<String> deleteUser(String uEmail) throws Exception {
-		if(userService.deleteUser(uEmail))
+		if(userService.deleteUser(uEmail)==null)
 			return new ResponseEntity<String>("탈퇴처리 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("탈퇴처리 실패", HttpStatus.NO_CONTENT);
+	}
+	
+	/* U :: 개인 정보 수정 */
+	@ApiOperation(value="비밀번호 수정을 위한 Restful API", response=User.class)
+	@PutMapping("/updatePass")
+	public ResponseEntity<String> temp(@RequestBody User user) throws Exception {
+		if(userService.updatePass(user))
+			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
+		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
 	}
 }
 
