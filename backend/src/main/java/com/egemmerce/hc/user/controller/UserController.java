@@ -47,15 +47,18 @@ public class UserController {
 	@ApiOperation(value="회원가입을 위한 Restful API", response=User.class)
 	@PostMapping("/join")
 	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
+		user.generateEuAuthKey();
 		userService.mailSendWithUserKey(user);
-		if(userService.insertUser(user) > 0) {
-			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
-		}
+//		if(userService.insertUser(user) > 0) {
+//			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
+//		}
 		return new ResponseEntity<String>("계정 가입 실패", HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/key_alter")
-	public String key_alterConfirm(@RequestParam("uEmail") String uEmail, @RequestParam("uAuthKey") String uAuthKey) throws Exception {
+	public String key_alterConfirm(@RequestParam("email") String uEmail, @RequestParam("token") String uAuthKey) throws Exception {
+		System.out.println("email : " +uEmail);
+		System.out.println("token : "+ uAuthKey);
 		userService.alter_userKey_service(uEmail, uAuthKey);
 		return "user/userRegSuccessPage";
 	}

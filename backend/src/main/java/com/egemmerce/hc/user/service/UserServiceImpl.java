@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 				"<h3>안녕하세요. Haggle-Credit 개발팀입니다.</h3><br></br>" +
 				"<h3>가입해주셔서 감사합니다. 마지막 절차인 본인 인증만 해주시면 완료 됩니다.</h3><br></br>" +
 				"<h2>아래의 인증하기 버튼을 눌러 인증완료 및 로그인 하시길 바랍니다</h2><br></br>" +
-				"<a href='http://localhost:8080/haggle-credit/user/key_alter?token=" + user.getuAuthKey() + "&email=" + user.getuEmail() + "'>인증하기</a></p>" +
+				"<a href='http://localhost:8000/haggle-credit/user/key_alter?token=" + user.getuAuthKey() + "&email=" + user.getuEmail() + "'>인증하기</a></p>" +
 				"<h6>만약, 잘못 전달된 메일이라면, 해당 이메일을 무시하시면 됩니다.</h6>";
 		
         EmailMessage emailMessage = EmailMessage.builder()
