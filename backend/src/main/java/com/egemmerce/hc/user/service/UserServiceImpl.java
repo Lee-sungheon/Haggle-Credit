@@ -80,39 +80,9 @@ public class UserServiceImpl implements UserService {
 		String password = user.getuPassword();
 		password = SaltSHA256.getEncrypt(password, salt);
 		user.setuPassword(password);
-
+		user.generateEuAuthKey();
 		// 3. 남은 유저 정보들 삽입 처리
 		return userMapper.insertUser(user);
-	}
-	
-	// 난수 생성(uAuthKey)
-	@Override
-	public String init() throws Exception {
-		Random rd = new Random();
-		StringBuffer sb = new StringBuffer();
-		int num = 0;
-		do {
-			num = rd.nextInt(75) + 48;
-			if((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
-				sb.append((char)num);
-			} else {
-				continue;
-			}
-		} while (sb.length() < size);
-		if(lowerCheck) {
-			return sb.toString().toLowerCase();
-		}
-		return sb.toString();
-	}
-	private boolean lowerCheck;
-	private int size;
-	
-	// 난수 이용한 키생성(uAuthKey)
-	@Override
-	public String getKey(boolean lowerCheck, int size) throws Exception {
-		this.lowerCheck = lowerCheck;
-		this.size = size;
-		return init();
 	}
 	
 	/* 가입시, 메일로 인증링크 보내기 */
