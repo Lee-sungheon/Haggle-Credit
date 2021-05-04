@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
+import { useHistory } from "react-router";
 
 interface ITEM {
   id: number,
@@ -67,6 +68,7 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
   const ItemRef = useRef<HTMLDivElement>(null);
   const [isHover, setIsHover] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const ItemEnter = () => {
     if (!isHover) {
@@ -91,7 +93,11 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
   return (
     <Item 
       onMouseEnter={ItemEnter} 
-      onMouseLeave={ItemLeave} 
+      onMouseLeave={ItemLeave}
+      onClick={() => history.push({
+        pathname: `/detail/${item.id}`,
+        state: {item}
+      })}
       style={isHover?{border: '1px solid black', borderLeft: 'none'}:{}}
     >
       <ItemDesBox ref={ItemRef}>

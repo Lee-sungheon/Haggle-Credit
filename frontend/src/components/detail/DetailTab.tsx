@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import ProductDetail from './ProductDetail';
+import ProductQuestion from './ProductQuestion';
+import StoreInfo from './StoreInfo';
 
 const Container = styled.div`
   text-align: center;
@@ -47,81 +49,55 @@ const Tab = styled.div`
   font-weight: 600;
 `;
 
-const StoreContainer = styled.div`
-  width: 330px;
-`;
-
-const StoreTab = styled.div`
-  height: 50px;
-  border-bottom: 1px solid rgb(33, 33, 33);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  box-sizing: border-box;
-`;
-
-const StoreArea = styled.div`
-  height: calc(100% - 50px);
-  border-right: 1px solid rgb(238, 238, 238);
-  padding: 0px 32px 118px;
-  position: relative;
-`;
-
-const StoreTitle = styled.div`
-  font-size: 18px;
-  padding: 48px 0px 16px;
-  border-bottom: 1px solid rgb(238, 238, 238);
-  text-align: left;
-`;
-
 const DetailTab = () => {
   const [tabId, setTabId] = useState(0);
-  const clickHandler = (id: number) => {
+  const detailRef = useRef<HTMLDivElement>(null);
+  const questionRef = useRef<HTMLDivElement>(null);
+  const clickDetailHandler = (id: number) => {
     setTabId(id);
+    if(null !== detailRef.current){
+      console.log(detailRef);
+      window.scrollTo(0, detailRef.current.offsetTop - 140);
+    }
+  };
+  const clickQuestionHandler = (id: number) => {
+    setTabId(id);
+    if(null !== questionRef.current){
+      console.log(questionRef);
+      window.scrollTo(0, questionRef.current.offsetTop - 140);
+    }
   };
   return (
     <Container>
       <TabContianer>
         <TabArea>
           {tabId === 0 ? (
-            <ActTab onClick={() => clickHandler(0)}>
+            <ActTab onClick={() => clickDetailHandler(0)}>
               <p>상품정보</p>
             </ActTab>
           ) : (
-            <Tab onClick={() => clickHandler(0)}>
+            <Tab onClick={() => clickDetailHandler(0)}>
               <p>상품정보</p>
             </Tab>
           )}
           {tabId === 1 ? (
-            <ActTab onClick={() => clickHandler(1)}>
+            <ActTab onClick={() => clickQuestionHandler(1)}>
               <p>상품문의</p>
             </ActTab>
           ) : (
-            <Tab onClick={() => clickHandler(1)}>
+            <Tab onClick={() => clickQuestionHandler(1)}>
               <p>상품문의</p>
             </Tab>
           )}
         </TabArea>
-        <div>
+        <div ref={detailRef}>
           <ProductDetail />
         </div>
-        <div>
-          <div>
-            상품문의
-          </div>
-          <div>
-            등록된 문의가 없습니다.
-          </div>
+        <div ref={questionRef}>
+          <ProductQuestion/>
         </div>
       </TabContianer>
-      <StoreContainer>
-        <StoreTab />
-        <StoreArea>
-          <StoreTitle>
-            상점정보
-          </StoreTitle>
-        </StoreArea>
-      </StoreContainer>
+      <StoreInfo />
     </Container>
   );
 };

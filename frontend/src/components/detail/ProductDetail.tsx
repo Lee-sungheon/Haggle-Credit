@@ -4,7 +4,6 @@ const Container = styled.div`
   text-align: left;
   padding-right: 30px;
   border-right: 1px solid rgb(238, 238, 238);
-  height: calc(100% - 50px);
 `;
 
 const ProductTitle = styled.div`
@@ -15,7 +14,7 @@ const ProductTitle = styled.div`
 
 const ProductContent = styled.div`
   white-space: pre-wrap;
-  margin: 40px 0px;
+  padding: 40px 0px;
   line-height: 1.5;
 `;
 
