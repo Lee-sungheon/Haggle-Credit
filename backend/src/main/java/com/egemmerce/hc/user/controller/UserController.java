@@ -49,9 +49,9 @@ public class UserController {
 	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
 		user.generateEuAuthKey();
 		userService.mailSendWithUserKey(user);
-//		if(userService.insertUser(user) > 0) {
-//			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
-//		}
+		if(userService.insertUser(user) > 0) {
+			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
+		}
 		return new ResponseEntity<String>("계정 가입 실패", HttpStatus.NO_CONTENT);
 	}
 	
