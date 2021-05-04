@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import UserName from './UserName';
 import Credit from './Credit';
 import Account from './Account';
-import Introduce from './Introduce'
+import Introduce from './Introduce';
 
 const Container = styled.div`
   width: 700px;
@@ -23,7 +23,7 @@ const ProfileSub = () => {
         <Credit />
         <Account />
       </Section>
-      <Introduce/>
+      <Introduce />
     </Container>
   );
 };

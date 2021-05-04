@@ -1,5 +1,21 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import ProductTab from './Tab/ProductTab';
+import TransactionReviewTab from './Tab/TransactionReviewTab';
+import BasketTab from './Tab/BasketTab';
+import TenderListTab from './Tab/TenderListTab';
+const Container = styled.div`
+  text-align: center;
+  margin-top: 10px;
+`;
+
+const Body = styled.div`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  text-align: center;
+`;
 
 const ActTab = styled.div`
   height: 50px;
@@ -25,27 +41,15 @@ const Tab = styled.div`
     font-weight: bolder;
   }
 `;
+
 const ProfileTab2 = () => {
   const [tabId, setTabId] = useState(0);
   const clickHandler = (id: number) => {
     setTabId(id);
   };
   return (
-    <div
-      style={{
-        textAlign: 'center',
-        marginTop: '10px',
-      }}
-    >
-      <div
-        style={{
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
-          display: 'inline-flex',
-          textAlign: 'center',
-        }}
-      >
+    <Container>
+      <Body>
         {tabId === 0 ? (
           <ActTab onClick={() => clickHandler(0)}>
             <p>상품</p>
@@ -57,11 +61,11 @@ const ProfileTab2 = () => {
         )}
         {tabId === 1 ? (
           <ActTab onClick={() => clickHandler(1)}>
-            <p>상품문의</p>
+            <p>거래리뷰</p>
           </ActTab>
         ) : (
           <Tab onClick={() => clickHandler(1)}>
-            <p>상품문의</p>
+            <p>거래 리뷰</p>
           </Tab>
         )}
         {tabId === 2 ? (
@@ -100,87 +104,20 @@ const ProfileTab2 = () => {
             <p>팔로워</p>
           </Tab>
         )}
-      </div>
+      </Body>
       <div key="1" hidden={tabId !== 0}>
-        <div
-          style={{
-            marginTop: '30px',
-            marginLeft: '30px',
-            textAlign: 'left',
-            height: '50px',
-            borderBottom: '1px solid #bdbdbd',
-          }}
-        >
-          상품
-        </div>
-        <div
-          style={{
-            paddingTop: '30px',
-          }}
-        >
-          등록된 상품이 없습니다.
-        </div>
+        <ProductTab />
       </div>
       <div key="2" hidden={tabId !== 1}>
-        <div
-          style={{
-            marginTop: '30px',
-            marginLeft: '30px',
-            textAlign: 'left',
-            height: '50px',
-            borderBottom: '1px solid #bdbdbd',
-          }}
-        >
-          상품문의
-        </div>
-        <div
-          style={{
-            paddingTop: '30px',
-          }}
-        >
-          등록된 문의가 없습니다.
-        </div>
+        <TransactionReviewTab />
       </div>
       <div key="3" hidden={tabId !== 2}>
-        <div
-          style={{
-            marginTop: '30px',
-            marginLeft: '30px',
-            textAlign: 'left',
-            height: '50px',
-            borderBottom: '1px solid #bdbdbd',
-          }}
-        >
-          찜
-        </div>
-        <div
-          style={{
-            paddingTop: '30px',
-          }}
-        >
-          등록된 찜목록이 없습니다.
-        </div>
+        <BasketTab />
       </div>
       <div key="4" hidden={tabId !== 3}>
-        <div
-          style={{
-            marginTop: '30px',
-            marginLeft: '30px',
-            textAlign: 'left',
-            height: '50px',
-            borderBottom: '1px solid #bdbdbd',
-          }}
-        >
-          입찰내역
-        </div>
-        <div
-          style={{
-            paddingTop: '30px',
-          }}
-        >
-          입찰내역이 없습니다.
-        </div>
+        <TenderListTab />
       </div>
+
       <div key="5" hidden={tabId !== 4}>
         <div
           style={{
@@ -221,7 +158,7 @@ const ProfileTab2 = () => {
           팔로워가 없습니다.
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

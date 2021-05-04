@@ -78,6 +78,7 @@
   "devDependencies": {
     "@types/react-swipeable-views": "^0.13.0",
     "@types/styled-components": "^5.1.9",
+    "iamport-typings": "^1.2.0",
     "tslint-config-airbnb": "^5.11.2"
   }
 }

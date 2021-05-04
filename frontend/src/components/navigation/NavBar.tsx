@@ -6,7 +6,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { CATEGORYS } from '../../common/data';
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -157,7 +158,9 @@ const MenuBox = styled.div`
   }
 `;
 
-const StyledMenuItem = styled.div`
+const StyledMenuItemLink = styled(Link).attrs(() => ({}))`
+  text-decoration: none;
+  color: black;
   margin-right: 20px;
   font-size: 14px;
   font-weight: 700;
@@ -280,30 +283,30 @@ const NavBar = () => {
         </InputBox>
       </InputContainer>
       <MenuBox style={{ marginLeft: '2vw' }}>
-        <StyledMenuItem>
+        <StyledMenuItemLink to={'/home'}>
           <img
             src="../images/navbar/sell.png"
             alt=""
             style={{ width: 26, height: 26, marginRight: '5px' }}
           />
           <p style={{ margin: 0 }}>팝니다</p>
-        </StyledMenuItem>
-        <StyledMenuItem>
+        </StyledMenuItemLink>
+        <StyledMenuItemLink to={'/home'}>
           <img
             src="../images/navbar/buy.png"
             alt=""
             style={{ width: 26, height: 26, marginRight: '5px' }}
           />
           <p style={{ margin: 0 }}>삽니다</p>
-        </StyledMenuItem>
-        <StyledMenuItem>
+        </StyledMenuItemLink>
+        <StyledMenuItemLink to={'/home'}>
           <img
             src="../images/navbar/event.png"
             alt=""
             style={{ width: 26, height: 26, marginRight: '5px' }}
           />
           <p style={{ margin: 0 }}>이벤트 경매</p>
-        </StyledMenuItem>
+        </StyledMenuItemLink>
       </MenuBox>
     </Container>
   );
