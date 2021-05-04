@@ -39,7 +39,7 @@ const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
   const item = location.state.item;
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+  }, [location])
   return (
     <Container>
       <CategoryBox>

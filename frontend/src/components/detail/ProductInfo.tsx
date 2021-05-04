@@ -117,7 +117,7 @@ const StyledButton = styled.div`
 
 const ProductInfo = ({item}: ProductInfoProps) => {
   const [ time, setTime ] = useState('');
-  const endDate = '2021-05-03 23:00';
+  const endDate = '2021-05-10 23:00';
   const CalTime = useCallback(()=> {
     let t1 = moment(endDate);
     let t2 = moment();
