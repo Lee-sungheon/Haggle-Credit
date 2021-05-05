@@ -1,5 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class User {
 	private String uPassword;
 	private String uSalt;
 	private String uName;
-	private String uBirth;
+	private Date uBirth;
 	private String uPhone;
 	private String uProvider;
 	private LocalDateTime uJoinDate;
@@ -35,9 +36,9 @@ public class User {
 	private int uPoint;
 	private int uPenalty;
 	private String uJwt;
-	private boolean uAuthKeyConfirm;
+	private String uJoinConfirm;
 	private LocalDateTime uAuthKeyGeneratedAt;
-
+	
 	public void generateEuAuthKey() {
 		this.uAuthKey = UUID.randomUUID().toString();
 		this.uAuthKeyGeneratedAt = LocalDateTime.now();
@@ -90,14 +91,6 @@ public class User {
 
 	public void setuName(String uName) {
 		this.uName = uName;
-	}
-
-	public String getuBirth() {
-		return uBirth;
-	}
-
-	public void setuBirth(String uBirth) {
-		this.uBirth = uBirth;
 	}
 
 	public String getuPhone() {
@@ -189,12 +182,22 @@ public class User {
 		this.uJoinDate = uJoinDate;
 	}
 
-	public boolean isuAuthKeyConfirm() {
-		return uAuthKeyConfirm;
+	public String getuJoinConfirm() {
+		return uJoinConfirm;
 	}
 
-	public void setuAuthKeyConfirm(boolean uAuthKeyConfirm) {
-		this.uAuthKeyConfirm = uAuthKeyConfirm;
+	public void setuJoinConfirm(String uJoinConfirm) {
+		this.uJoinConfirm = uJoinConfirm;
 	}
+
+	public Date getuBirth() {
+		return uBirth;
+	}
+
+	public void setuBirth(Date uBirth) {
+		this.uBirth = uBirth;
+	}
+
+
 	
 }

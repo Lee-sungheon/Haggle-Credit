@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	public boolean alter_userKey_service(String uEmail, String uAuthKey) throws Exception {
 		User user=userRepository.findByuEmail(uEmail);
 		if(user.getuAuthKey().equals(uAuthKey)) {
-			user.setuAuthKeyConfirm(true);
+			user.setuJoinConfirm("true");
 			userRepository.save(user);
 			return true;			
 		}else {
