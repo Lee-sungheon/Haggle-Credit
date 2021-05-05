@@ -3,13 +3,22 @@ package com.egemmerce.hc.repository.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-@ToString
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Entity @EqualsAndHashCode(of = "uNo")
+@Builder @AllArgsConstructor @NoArgsConstructor
 public class User {
+	
+    @Id @GeneratedValue
 	private int uNo;
+    
 	private String uAuthority;
 	private String uEmail;
 	private String uPassword;
@@ -18,7 +27,7 @@ public class User {
 	private String uBirth;
 	private String uPhone;
 	private String uProvider;
-	private String uJoinDate;
+	private LocalDateTime uJoinDate;
 	private String uSellerAuth;
 	private String uUniqueKey;
 	private String uAuthKey;
@@ -26,12 +35,13 @@ public class User {
 	private int uPoint;
 	private int uPenalty;
 	private String uJwt;
-
+	private boolean uAuthKeyConfirm;
 	private LocalDateTime uAuthKeyGeneratedAt;
 
 	public void generateEuAuthKey() {
 		this.uAuthKey = UUID.randomUUID().toString();
 		this.uAuthKeyGeneratedAt = LocalDateTime.now();
+		this.uJoinDate=LocalDateTime.now();
 	}
 
 	public int getuNo() {
@@ -106,13 +116,6 @@ public class User {
 		this.uProvider = uProvider;
 	}
 
-	public String getuJoinDate() {
-		return uJoinDate;
-	}
-
-	public void setuJoinDate(String uJoinDate) {
-		this.uJoinDate = uJoinDate;
-	}
 
 	public String getuSellerAuth() {
 		return uSellerAuth;
@@ -176,6 +179,22 @@ public class User {
 
 	public void setuAuthKeyGeneratedAt(LocalDateTime uAuthKeyGeneratedAt) {
 		this.uAuthKeyGeneratedAt = uAuthKeyGeneratedAt;
+	}
+
+	public LocalDateTime getuJoinDate() {
+		return uJoinDate;
+	}
+
+	public void setuJoinDate(LocalDateTime uJoinDate) {
+		this.uJoinDate = uJoinDate;
+	}
+
+	public boolean isuAuthKeyConfirm() {
+		return uAuthKeyConfirm;
+	}
+
+	public void setuAuthKeyConfirm(boolean uAuthKeyConfirm) {
+		this.uAuthKeyConfirm = uAuthKeyConfirm;
 	}
 	
 }

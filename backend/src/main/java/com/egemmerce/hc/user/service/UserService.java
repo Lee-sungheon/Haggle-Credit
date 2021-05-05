@@ -11,20 +11,20 @@ public interface UserService {
 	User loginKakao(User user) throws Exception;
 
 	/* 일반 회원 가입 */
-	int insertUser(User user) throws Exception;
+	User insertUser(User user) throws Exception;
 
 
 	public void mailSendWithUserKey(User user) throws Exception;
 	public boolean alter_userKey_service(String uEmail, String uAuthKey) throws Exception;
 	
 	/* 카카오로 회원 가입 */
-	int insertKakaoUser(User user) throws Exception;
+	User insertKakaoUser(User user) throws Exception;
 
 	/* 회원 탈퇴 */
-	boolean deleteUser(String uEmail) throws Exception;
+	User deleteUser(String uEmail) throws Exception;
 
 	/* 아이디 중복 체크 */
-	int checkUEmail(String uEmail) throws Exception;
+	User checkUEmail(String uEmail) throws Exception;
 
 	/*회원 조회*/
 	User selectUserLogin(User user) throws Exception;
@@ -33,13 +33,17 @@ public interface UserService {
 	boolean updateUser(User user) throws Exception;
 
 	/* 아이디 찾기 */
-	int selectFindUEmail(String uName, int uPhone) throws Exception;
+	User selectFindUEmail(String uName, int uPhone) throws Exception;
 
-	String selectUEmailByNameAndPhone(String uName, String string) throws Exception;
+	User selectUEmailByNameAndPhone(String uName, String string) throws Exception;
 	/* 3. 발급된 임시 비밀번호 적용시키기 */
-	boolean findUPassword(User user) throws Exception;
+	User findUPassword(User user) throws Exception;
 
 	/* 4. 해당 이메일로 메세지 보내기 */
 	void sendSimpleMessage(String to) throws Exception;
+
+	boolean selectUserByEmail(String getuEmail);
+
+	boolean updatePass(User user);
 
 }

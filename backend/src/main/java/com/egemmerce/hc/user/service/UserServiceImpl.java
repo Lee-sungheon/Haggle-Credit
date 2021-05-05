@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
+import com.egemmerce.hc.repository.dto.UserRepository;
 import com.egemmerce.hc.repository.mapper.UserMapper;
 import com.egemmerce.hc.user.controller.SaltSHA256;
 
@@ -33,17 +34,17 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	
 	private final UserEmailService emailService;
-	
+	private final UserRepository userRepository;
 	
 	
 	/* 일반 로그인 */
 	@Override
 	public User login(User user) throws Exception {
 		// 일단 check라는 객체에 이메일을 통한 회원 정보 저장해두기
-		User check = userMapper.selectUserLogin(user);
+		User check = userRepository.findByuEmail(user.getuEmail());
 
 		// 이메일을 통한 해당 회원의 salt 값 받아오기
-		String salt = userMapper.getSaltByUEmail(user.getuEmail());
+		String salt = check.getuSalt();
 
 		// 내가입력한 비밀번호를 위의 salt값과 조합하여 암호화시킨 값으로 다시금 password
 		String password = user.getuPassword();
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	/* 카카오로 로그인 */
 	@Override
 	public User loginKakao(User user) throws Exception {
-		User check = userMapper.selectUserLogin(user);
+		User check = userRepository.findByuEmail(user.getuEmail());
 		if(user.getuPassword().equals(check.getuPassword()))
 			return check;
 		else
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
 	/* 일반 회원 가입 */
 	@Override
-	public int insertUser(User user) throws Exception {
+	public User insertUser(User user) throws Exception {
 		
 		// 1. 가입할 회원의 고유 salt값 생성 및 저장
 		String salt = SaltSHA256.generateSalt();
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		user.setuPassword(password);
 		user.generateEuAuthKey();
 		// 3. 남은 유저 정보들 삽입 처리
-		return userMapper.insertUser(user);
+		return userRepository.save(user);
 	}
 	
 	/* 가입시, 메일로 인증링크 보내기 */
@@ -105,8 +106,10 @@ public class UserServiceImpl implements UserService {
 	/*인증확인 유무*/
 	@Override
 	public boolean alter_userKey_service(String uEmail, String uAuthKey) throws Exception {
-		User user=userMapper.getUserByEmail(uEmail);
+		User user=userRepository.findByuEmail(uEmail);
 		if(user.getuAuthKey().equals(uAuthKey)) {
+			user.setuAuthKeyConfirm(true);
+			userRepository.save(user);
 			return true;			
 		}else {
 			return false;
@@ -115,43 +118,50 @@ public class UserServiceImpl implements UserService {
 	
 	/* 카카오로 회원 가입 */
 	@Override
-	public int insertKakaoUser(User user) throws Exception {
-		return userMapper.insertKakaoUser(user);
+	public User insertKakaoUser(User user) throws Exception {
+		user.generateEuAuthKey();
+		return userRepository.save(user);
 	}
 	
 	/* 회원 탈퇴 */
 	@Override
-	public boolean deleteUser(String uEmail) throws Exception {
-		return userMapper.deleteUser(uEmail);
+	public User deleteUser(String uEmail) throws Exception {
+		userRepository.deleteByuEmail(uEmail);
+		
+		return userRepository.findByuEmail(uEmail);
 	}
 	
 	/* 아이디 중복 체크 */
 	@Override
-	public int checkUEmail(String uEmail) throws Exception {
-		return userMapper.checkUEmail(uEmail);
+	public User checkUEmail(String uEmail) throws Exception {
+		return userRepository.findByuEmail(uEmail);
 	}
 	
 	/* 회원 정보 조회(로그인) */ //이거 필요없지않나? 컨트롤러에서 애당초 토큰 분석해서 쓰는거같음..
 	@Override
 	public User selectUserLogin(User user) throws Exception {
-		return userMapper.selectUserLogin(user);
+		return userRepository.findByuEmail(user.getuEmail());
 	}
 	
 	/* 회원 정보 수정*/
 	@Override
 	public boolean updateUser(User user) throws Exception {
-		return userMapper.updateUser(user);
+		return userRepository.save(user)!=null;
 	}
 	
 	/* 아이디 찾기 */
 	@Override
-	public int selectFindUEmail(String uName, int uPhone) throws Exception {
-		return userMapper.selectFindUEmail(uName, uPhone);
+	public User selectFindUEmail(String uName, int uPhone) throws Exception {
+		User user=userRepository.findByuName(uName);
+		if(user==null) {
+			user=userRepository.findByuPhone(uPhone);
+		}
+		return user;
 	}
 	
 	@Override
-	public String selectUEmailByNameAndPhone(String uName, String uPhone) throws Exception {
-		return userMapper.selectUEmailByNameAndPhone(uName, uPhone);
+	public User selectUEmailByNameAndPhone(String uName, String uPhone) throws Exception {
+		return userRepository.findByuName(uName);
 	}
 	
 	/*1-1. 비밀번호 재발급 생성 */
@@ -182,9 +192,12 @@ public class UserServiceImpl implements UserService {
 	
 	/* 3. 발급된 임시 비밀번호 적용시키기 */
 	@Override
-	public boolean findUPassword(User user) throws Exception {
-		user.setuPassword(ePw);
-		return userMapper.updateTempPw(user);
+	public User findUPassword(User user) throws Exception {
+		User check=userRepository.findByuEmail(user.getuEmail());
+		createKey();
+		check.setuPassword(ePw);
+		System.out.println(ePw);
+		return userRepository.save(check);
 	}
 
 	/* 4. 해당 이메일로 메세지 보내기 */
@@ -212,6 +225,24 @@ public class UserServiceImpl implements UserService {
                 .message(msgg)
                 .build();
 		emailService.sendEmail(emailMessage);
+	}
+
+	@Override
+	public boolean selectUserByEmail(String uEmail) {
+		if(userRepository.findByuEmail(uEmail)!=null) {
+			return true;
+		}else {	
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updatePass(User user) {
+		User check=userRepository.findByuEmail(user.getuEmail());
+		String salt = SaltSHA256.generateSalt();
+		check.setuSalt(salt);
+		check.setuPassword(SaltSHA256.getEncrypt(user.getuPassword(), salt));
+		return userRepository.save(check) != null;
 	}
 	
 	
