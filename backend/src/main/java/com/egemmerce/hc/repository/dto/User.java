@@ -19,24 +19,23 @@ public class User {
 	
     @Id @GeneratedValue
 	private int uNo;
-    
-	private String uAuthority;
-	private String uEmail;
-	private String uPassword;
+    private String uEmail;
+    private String uPassword;
+    private String uName;
+    private String uPhone;
+    private Date uBirth;
+    private LocalDateTime uJoinDate;
+    private String uAuthority;
+    private int uCredit;
+    private int uPoint;
+    private String uPenalty;
+    private String uSellerAuth;
+    private String uJoinConfirm;
+    private String uBankName;
+    private String uBankNo;
 	private String uSalt;
-	private String uName;
-	private Date uBirth;
-	private String uPhone;
 	private String uProvider;
-	private LocalDateTime uJoinDate;
-	private String uSellerAuth;
-	private String uUniqueKey;
 	private String uAuthKey;
-	private int uCredit;
-	private int uPoint;
-	private int uPenalty;
-	private String uJwt;
-	private String uJoinConfirm;
 	private LocalDateTime uAuthKeyGeneratedAt;
 	
 	public void generateEuAuthKey() {
@@ -118,14 +117,6 @@ public class User {
 		this.uSellerAuth = uSellerAuth;
 	}
 
-	public String getuUniqueKey() {
-		return uUniqueKey;
-	}
-
-	public void setuUniqueKey(String uUniqueKey) {
-		this.uUniqueKey = uUniqueKey;
-	}
-
 	public String getuAuthKey() {
 		return uAuthKey;
 	}
@@ -150,21 +141,14 @@ public class User {
 		this.uPoint = uPoint;
 	}
 
-	public int getuPenalty() {
+	public String getuPenalty() {
 		return uPenalty;
 	}
 
-	public void setuPenalty(int uPenalty) {
+	public void setuPenalty(String uPenalty) {
 		this.uPenalty = uPenalty;
 	}
 
-	public String getuJwt() {
-		return uJwt;
-	}
-
-	public void setuJwt(String uJwt) {
-		this.uJwt = uJwt;
-	}
 
 	public LocalDateTime getuAuthKeyGeneratedAt() {
 		return uAuthKeyGeneratedAt;
@@ -198,6 +182,20 @@ public class User {
 		this.uBirth = uBirth;
 	}
 
+	public String getuBankName() {
+		return uBankName;
+	}
 
+	public void setuBankName(String uBankName) {
+		this.uBankName = uBankName;
+	}
+
+	public String getuBankNo() {
+		return uBankNo;
+	}
+
+	public void setuBankNo(String uBankNo) {
+		this.uBankNo = uBankNo;
+	}
 	
 }

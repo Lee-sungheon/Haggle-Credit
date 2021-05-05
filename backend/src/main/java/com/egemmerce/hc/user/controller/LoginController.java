@@ -62,12 +62,12 @@ public class LoginController {
 			resultMap.put("uProvider", check.getuProvider());
 			resultMap.put("uJoindate", check.getuJoinDate());
 			resultMap.put("uSellerAuth", check.getuSellerAuth());
-			resultMap.put("uUniqueKey", check.getuUniqueKey());
 			resultMap.put("uAuthKey", check.getuAuthKey());
 			resultMap.put("uCredit", check.getuCredit());
 			resultMap.put("uPoint", check.getuPoint());
 			resultMap.put("uPenalty", check.getuPenalty());
-			resultMap.put("uJwt", check.getuJwt());
+			resultMap.put("uBankName", check.getuBankName());
+			resultMap.put("uBankNo", check.getuBankNo());
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}
 		resultMap.put("errorMessage", "로그인에 실패하였습니다.");
@@ -115,12 +115,12 @@ public class LoginController {
 			resultMap.put("uProvider", check.getuProvider());
 			resultMap.put("uJoindate", check.getuJoinDate());
 			resultMap.put("uSellerAuth", check.getuSellerAuth());
-			resultMap.put("uUniqueKey", check.getuUniqueKey());
 			resultMap.put("uAuthKey", check.getuAuthKey());
 			resultMap.put("uCredit", check.getuCredit());
 			resultMap.put("uPoint", check.getuPoint());
 			resultMap.put("uPenalty", check.getuPenalty());
-			resultMap.put("uJwt", check.getuJwt());
+			resultMap.put("uBankName", check.getuBankName());
+			resultMap.put("uBankNo", check.getuBankNo());
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 		}
 		
