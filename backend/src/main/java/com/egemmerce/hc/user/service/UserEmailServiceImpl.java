@@ -4,14 +4,12 @@ package com.egemmerce.hc.user.service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.EmailMessage;
-import com.egemmerce.hc.repository.mapper.EmailConfirmMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserEmailServiceImpl implements UserEmailService {
 	
 
-	@Autowired
-	EmailConfirmMapper emailConfirmMapper;
-	
     private final JavaMailSender javaMailSender;
 
 	@Override
