@@ -53,4 +53,9 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return false;
 	}
+
+	@Override
+	public List<Item> selectItemByiName(String iName) {
+		return itemRepository.findByiNameContaining(iName);
+	}
 }
