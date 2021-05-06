@@ -17,18 +17,18 @@ const Container = styled.div`
   opacity: 1;
 `;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.div<{isIndex: boolean}>`
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  padding: 0 200px;
+  padding: ${({isIndex}) => isIndex ? '0 40px' : '0 200px' };
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
   @media (max-width: 1024px) {
-    padding: 0px 40px !important;
+    padding: 0 40px !important;
   }
   @media (max-width: 414px) {
     justify-content: center;
@@ -82,7 +82,6 @@ const Header = () => {
     setOpen(false);
   };
   const navRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
 
   function myFunction() {
     if (null !== navRef.current) {
@@ -93,13 +92,6 @@ const Header = () => {
         navRef.current.style.backgroundColor = 'inherit';
         navRef.current.style.boxShadow = 'none';
       }
-    }
-  }
-  if (null !== headerRef.current) {
-    if (isIndex) {
-      headerRef.current.style.padding = '0 40px';
-    } else {
-      headerRef.current.style.padding = '0 200px';
     }
   }
 
@@ -120,7 +112,7 @@ const Header = () => {
       ref={navRef}
       style={!isIndex ? { backgroundColor: 'white' } : {}}
     >
-      <HeaderContainer ref={headerRef}>
+      <HeaderContainer isIndex={isIndex}>
         <LogoBox>
           <Link to={'/home'}>
             <img
