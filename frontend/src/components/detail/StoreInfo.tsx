@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
+import Rating from '@material-ui/lab/Rating';
 
 const StoreContainer = styled.div`
 width: 330px;
@@ -200,6 +201,59 @@ const StoreInfo = () => {
                 <div>싸피4기취업못함</div>
                 <div style={{fontSize: "11px"}}>10달 전</div>
               </ReviewItemTitle>
+              <ReviewItemContent>
+                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly size="small" />
+              </ReviewItemContent>
+              <ReviewItemContent>
+                가격이 새상품보다 8만원 더 비싼 중고!!! 심지어 거짓말까지 .. 이런...
+              </ReviewItemContent>
+            </ReviewBox>
+          </ReviewItem>
+        </ReviewArea>
+        <ReviewArea>
+          <ReviewItem>
+            <Avatar>
+              <img 
+                src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
+                alt="" 
+                width="32" 
+                height="32"
+                style={{borderRadius: "50%"}}
+              />
+            </Avatar>
+            <ReviewBox>
+              <ReviewItemTitle>
+                <div>싸피4기취업못함</div>
+                <div style={{fontSize: "11px"}}>10달 전</div>
+              </ReviewItemTitle>
+              <ReviewItemContent>
+                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly size="small" />
+              </ReviewItemContent>
+              <ReviewItemContent>
+                가격이 새상품보다 8만원 더 비싼 중고!!! 심지어 거짓말까지 .. 이런...
+              </ReviewItemContent>
+            </ReviewBox>
+          </ReviewItem>
+        </ReviewArea>
+        <ReviewArea>
+          <ReviewItem>
+            <Avatar>
+              <img 
+                src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
+                alt="" 
+                width="32" 
+                height="32"
+                style={{borderRadius: "50%"}}
+              />
+            </Avatar>
+            <ReviewBox>
+              <ReviewItemTitle>
+                <div>싸피4기취업못함</div>
+                <div style={{fontSize: "11px"}}>10달 전</div>
+              </ReviewItemTitle>
+              <ReviewItemContent>
+                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly size="small" />
+              </ReviewItemContent>
               <ReviewItemContent>
                 가격이 새상품보다 8만원 더 비싼 중고!!! 심지어 거짓말까지 .. 이런...
               </ReviewItemContent>

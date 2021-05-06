@@ -7,6 +7,7 @@ import Home from './page/home/Home';
 import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
 import DetailPage from './page/detail/DetailPage';
+import PurchasePage from './page/purchase/PurchasePage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
 import ProductRegistration from './page/productRegistration/ProductRegistration'
@@ -42,6 +43,9 @@ const App = () => {
         </Switch>
         <Switch>
           <Route path="/detail/:id" component={DetailPage} />
+        </Switch>
+        <Switch>
+          <Route path="/purchase/:id" component={PurchasePage} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>
