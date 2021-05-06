@@ -283,7 +283,7 @@ const NavBar = () => {
         </InputBox>
       </InputContainer>
       <MenuBox style={{ marginLeft: '2vw' }}>
-        <StyledMenuItemLink to={'/home'}>
+        <StyledMenuItemLink to={'/productregistraion'}>
           <img
             src="../images/navbar/sell.png"
             alt=""

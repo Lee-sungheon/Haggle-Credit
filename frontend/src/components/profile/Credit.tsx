@@ -23,13 +23,13 @@ const TagP = styled.p`
   padding-left: 20px;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 20px;
+  display: flex;
 `;
 
 const TogglePaymentButton = styled.button`
   font-size: 10px;
-  margin: 0;
-  margin-left: 25px;
-  margin-bottom: 10px;
+  margin-left: 15px;
   background-color: white;
   color: rgb(136, 136, 136);
   font-weight: bold;
@@ -40,23 +40,46 @@ const TogglePaymentButton = styled.button`
   }
 `;
 
-interface Iamport {
-  init: (accountID: string) => void;
-  request_pay: (
-    params: RequestPayParams,
-    callback?: RequestPayResponseCallback
-  ) => void;
-}
+const CreditName = styled.div`
+  height: 30px;
+  line-height: 30px;
+`;
 
-interface Window {
-  IMP?: Iamport;
-}
+const CreditDiv = styled.div`
+  height: 30px;
+  line-height: 30px;
+  margin-left: 20px;
+  display: flex;
+`;
+
+const CreditPaymentDiv = styled.div`
+  height: 30px;
+  line-height: 30px;
+`;
+
+// interface Iamport {
+//   init: (accountID: string) => void;
+//   request_pay: (
+//     params: RequestPayParams,
+//     callback?: RequestPayResponseCallback
+//   ) => void;
+// }
+
+// interface Window {
+//   IMP?: Iamport;
+// }
 
 const Credit = () => {
   const [payment, setPayment] = useState(false);
+  const [inputCredit, setInputCredit] = useState(0);
+  const [credit, setCredit] = useState<any>(0);
 
   const togglePayment = () => {
     setPayment(!payment);
+  };
+
+  const onInputCredit = (e: any) => {
+    setInputCredit(e.target.value);
   };
   const creditPayment = () => {
     console.log('creditPayment');
@@ -68,7 +91,7 @@ const Credit = () => {
       pay_method: 'card',
       merchant_uid: 'merchant_' + new Date().getTime(),
       name: 'haggle credit 충전',
-      amount: 1,
+      amount: inputCredit,
       buyer_email: 'gildong@gmail.com',
       buyer_name: '홍길동',
       buyer_tel: '010-4242-4242',
@@ -81,25 +104,35 @@ const Credit = () => {
   const onPaymentAccepted = (response: RequestPayResponse) => {
     const { imp_uid, merchant_uid } = response;
     console.log(imp_uid, merchant_uid);
+    console.log(response);
+    if (response.success === true) {
+      setCredit(credit + response?.paid_amount);
+      togglePayment();
+    }
   };
   return (
     <Container>
       <TagP>
-        보유 credit : 0 C
+        <CreditName> credit</CreditName>
+        <CreditDiv>{credit} C</CreditDiv>
         {payment ? (
-          <>
+          <CreditPaymentDiv>
             <input
               type="number"
               style={{ width: '100px', marginLeft: '10px' }}
+              value={inputCredit}
+              onChange={onInputCredit}
             ></input>
             <TogglePaymentButton onClick={creditPayment}>
               충전
             </TogglePaymentButton>
-          </>
+          </CreditPaymentDiv>
         ) : (
-          <TogglePaymentButton onClick={togglePayment}>
-            충전하기
-          </TogglePaymentButton>
+          <div>
+            <TogglePaymentButton onClick={togglePayment}>
+              충전하기
+            </TogglePaymentButton>
+          </div>
         )}
       </TagP>
     </Container>
