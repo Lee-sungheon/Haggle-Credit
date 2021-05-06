@@ -38,6 +38,7 @@ public class LoginController {
 	private JwtService jwtService;
 	
 	/* User 서비스 객체 불러오기 */
+	@Autowired
 	private UserService userService;
 	
 	/* 일반 로그인 */

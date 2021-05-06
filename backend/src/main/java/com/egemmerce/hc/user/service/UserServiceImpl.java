@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
 	public User login(User user) throws Exception {
 		// 일단 check라는 객체에 이메일을 통한 회원 정보 저장해두기
 		User check = userRepository.findByuEmail(user.getuEmail());
-
 		// 이메일을 통한 해당 회원의 salt 값 받아오기
 		String salt = check.getuSalt();
 
