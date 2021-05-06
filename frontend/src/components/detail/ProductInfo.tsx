@@ -116,6 +116,7 @@ const StyledButton = styled.div`
 `;
 
 const ProductInfo = ({item}: ProductInfoProps) => {
+  const [ isLike, setIsLike ] = useState(false);
   const [ time, setTime ] = useState('');
   const endDate = '2021-05-10 23:00';
   const CalTime = useCallback(()=> {
@@ -181,10 +182,15 @@ const ProductInfo = ({item}: ProductInfoProps) => {
           </DetailItem>
         </DetailBox>
         <ButtonBox>
-          <StyledButton>
-            ♥ 찜 0
+          <StyledButton onClick={() => setIsLike(!isLike)}>
+            <span style={
+              isLike? 
+              {color: "red", marginRight: "4px", paddingBottom: "2px"} : 
+              {color: "white", marginRight: "4px", paddingBottom: "2px"}}
+            >♥</span> 
+            찜 {isLike ? 0+1 : 0}
           </StyledButton>
-          <StyledButton style={{ backgroundColor: '#ffceae' }}>
+          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../purchase/${1}`, '_blank')}>
             입찰하기
           </StyledButton>
           <StyledButton style={{ backgroundColor: 'red' }}>

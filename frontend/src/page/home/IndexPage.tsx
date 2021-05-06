@@ -1,16 +1,16 @@
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import SwiperSlider from '../../components/common/SwiperSlider';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   object-fit: cover;
-  background: url(../images/banner.jpg);
+  background: url(../images/banner2.jpg);
   background-size: cover;
   background-position: 50%;
 `;
@@ -19,7 +19,7 @@ const ChevronIcon = styled(KeyboardArrowDownIcon).attrs(() => ({}))`
   position: absolute;
   bottom: 23px;
   left: 50%;
-  color: ${({ theme }) => theme.color.background};
+  color: ${({ theme }) => theme.color.text};
   width: 32px;
   height: 32px;
   transform: translate3d(-50%, 0, 0);
@@ -293,7 +293,6 @@ const StyledButton = styled.div`
 let isActive: boolean = true;
 const IndexPage = () => {
   const [tabNo, setTabNo] = useState(0);
-  const [preTabNo, setPreTabNo] = useState(0);
   const aboutRef = useRef<HTMLDivElement>(null);
   const PeopleRef = useRef<HTMLDivElement>(null);
   const DealRef = useRef<HTMLDivElement>(null);
@@ -312,7 +311,6 @@ const IndexPage = () => {
       myFunction();
     };
     const countdown = setInterval(() => {
-      setPreTabNo(tabNo);
       setTabNo((tabNo+1)%3);
     }, 4000);
     return () => {
@@ -473,7 +471,7 @@ const IndexPage = () => {
                   ? { borderBottom: '3px solid #ff8787' }
                   : { borderBottom: 'none' }
               }
-              onClick={() => {setPreTabNo(tabNo); setTabNo(0);}}
+              onClick={() => {setTabNo(0);}}
             >
               중고 경매
             </ListItem>
@@ -483,7 +481,7 @@ const IndexPage = () => {
                   ? { borderBottom: '3px solid #ff8787' }
                   : { borderBottom: 'none' }
               }
-              onClick={() => {setPreTabNo(tabNo); setTabNo(1);}}
+              onClick={() => {setTabNo(1);}}
             >
               역경매
             </ListItem>
@@ -493,7 +491,7 @@ const IndexPage = () => {
                   ? { borderBottom: '3px solid #ff8787' }
                   : { borderBottom: 'none' }
               }
-              onClick={() => {setPreTabNo(tabNo); setTabNo(2);}}
+              onClick={() => {setTabNo(2);}}
             >
               이벤트 경매
             </ListItem>
@@ -510,11 +508,6 @@ const IndexPage = () => {
             })}
           </SubText>
           <PcContainer>
-            <PcScreen 
-              style={
-                {background: `url(${process.env.PUBLIC_URL}/images/main/active${preTabNo}.jpg) no-repeat center/cover`, 
-              }}
-            />
             {(tabNo===0) && <PcScreen 
               style={
                 {background: `url(${process.env.PUBLIC_URL}/images/main/active0.jpg) no-repeat center/cover`, 
