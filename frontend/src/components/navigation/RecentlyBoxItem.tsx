@@ -94,10 +94,6 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
     <Item 
       onMouseEnter={ItemEnter} 
       onMouseLeave={ItemLeave}
-      onClick={() => history.push({
-        pathname: `/detail/${item.id}`,
-        state: {item}
-      })}
       style={isHover?{border: '1px solid black', borderLeft: 'none'}:{}}
     >
       <ItemDesBox ref={ItemRef}>
@@ -105,7 +101,11 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
         <DesTitle style={{fontWeight: 900}}>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</DesTitle>
         <DeleteButton onClick={deleteItem}>X</DeleteButton>
       </ItemDesBox>
-      <ItemImg src={item.url} alt={item.title} />
+      <ItemImg src={item.url} alt={item.title} 
+        onClick={() => history.push({
+        pathname: `/detail/${item.id}`,
+        state: {item}
+      })}/>
     </Item>
   )
 };

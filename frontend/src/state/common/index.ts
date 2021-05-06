@@ -9,27 +9,32 @@ interface ITEM {
 
 export const types = {
   SET_ISINDEX: "common/SET_ISINDEX",
+  SET_ISPURCHASE: "common/SET_ISPURCHASE",
   ADD_RECENTLY: "common/ADD_RECENTLY",
   DELETE_RECENTLY: "common/DELETE_RECENTLY",
 };
 
 export const commonActions = {
   setIsIndex: (data: boolean) => ({ type: types.SET_ISINDEX, data }),
+  setIsPurchase: (data: boolean) => ({ type: types.SET_ISPURCHASE, data }),
   addRecently: (data: ITEM) => ({ type: types.ADD_RECENTLY, data }),
   deleteRecently: (data: ITEM) => ({ type: types.DELETE_RECENTLY, data }),
 };
 
 type SetIsIndex = ReturnType<typeof commonActions.setIsIndex>;
+type SetIsPurchase = ReturnType<typeof commonActions.setIsPurchase>;
 type AddRecently = ReturnType<typeof commonActions.addRecently>;
 type DeleteRecently = ReturnType<typeof commonActions.deleteRecently>;
 
 export interface CommonState {
   isIndex: boolean;
+  isPurchase: boolean;
   recentlyItems: ITEM[];
 }
 
 const INITIAL_STATE: CommonState = {
   isIndex: false,
+  isPurchase: false,
   recentlyItems: [],
 };
 
@@ -38,6 +43,12 @@ const reducer = createReducer<CommonState>(INITIAL_STATE, {
     return {
       ...state,
       isIndex: action.data,
+    };
+  },
+  [types.SET_ISPURCHASE]: (state, action: SetIsPurchase) => {
+    return {
+      ...state,
+      isPurchase: action.data,
     };
   },
   [types.ADD_RECENTLY]: (state, action: AddRecently) => {
