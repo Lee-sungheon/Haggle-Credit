@@ -90,6 +90,7 @@ const Introduce = () => {
             height: '60%',
             textAlign: 'left',
             padding: '8px',
+            resize: 'none',
             // marginLeft: '25px',
             // marginTop: '3px',
           }}

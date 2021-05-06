@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  width: 300px;
+  width: 400px;
   height: auto;
   text-align: right;
 `;
@@ -22,18 +23,75 @@ const TagP2 = styled.p`
     cursor: pointer;
   }
 `;
+const EditButton = styled.button`
+  font-size: 10px;
+  margin: 0;
+  margin-bottom: 10px;
+  background-color: white;
+  color: rgb(136, 136, 136);
+  font-weight: bold;
+  border-radius: 4px;
+  width: 50px;
+  height: 20px;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const Account = () => {
+  const [isAccount, setIsAccount] = useState(true);
+  const [isChangeAccount, setIsChangeAccount] = useState(true);
+  const [changeAccountToggle, setChangeAccountToggle] = useState(true);
+
+  const onChangeAccount = () => {};
+  const onchangeAccountToggle = () => {
+    setIsChangeAccount(!isChangeAccount);
+  };
   return (
     <>
-      {/* <Container>
-        <TagP1>계좌연결 완료</TagP1>
-        <TagP2>연결계좌변경</TagP2>
-      </Container> */}
-      <Container>
-        <TagP1>연결된계좌 없음</TagP1>
-        <TagP2>계좌 연결</TagP2>
-      </Container>
+      {isAccount ? (
+        <Container>
+          <TagP1>연결계좌: 대구은행 508-10-1231231</TagP1>
+          <TagP2>
+            {!isChangeAccount ? (
+              <div
+                style={{
+                  marginTop: '-20px',
+                }}
+              >
+                <input></input>
+                <div>
+                  <EditButton>변경</EditButton>
+                  <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
+                </div>
+              </div>
+            ) : (
+              <div onClick={onchangeAccountToggle}>연결계좌변경</div>
+            )}
+          </TagP2>
+        </Container>
+      ) : (
+        <Container>
+          <TagP1>연결된계좌 없음</TagP1>
+          <TagP2>
+            {!isChangeAccount ? (
+              <div
+                style={{
+                  marginTop: '-20px',
+                }}
+              >
+                <input></input>
+                <div>
+                  <EditButton>연결</EditButton>
+                  <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
+                </div>
+              </div>
+            ) : (
+              <div onClick={onchangeAccountToggle}>계좌 연결</div>
+            )}
+          </TagP2>
+        </Container>
+      )}
     </>
   );
 };
