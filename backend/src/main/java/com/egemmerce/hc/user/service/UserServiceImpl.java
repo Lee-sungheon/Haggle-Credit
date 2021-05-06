@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
-import com.egemmerce.hc.repository.dto.UserRepository;
 import com.egemmerce.hc.repository.mapper.UserMapper;
+import com.egemmerce.hc.repository.mapper.UserRepository;
 import com.egemmerce.hc.user.controller.SaltSHA256;
 
 import lombok.RequiredArgsConstructor;
