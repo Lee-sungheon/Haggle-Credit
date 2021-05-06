@@ -5,7 +5,7 @@ import Login from '../login/Login';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 
-const Container = styled.div`
+const Container = styled.div<{isPurchase: boolean}>`
   width: 100%;
   height: 64px;
   position: fixed;
@@ -15,6 +15,7 @@ const Container = styled.div`
   color: #3c4758;
   display: block;
   opacity: 1;
+  display: ${({isPurchase}) => isPurchase ? 'none' : 'block' };
 `;
 
 const HeaderContainer = styled.div<{isIndex: boolean}>`
@@ -75,6 +76,7 @@ const StyledLink = styled(Link).attrs(() => ({}))`
 const Header = () => {
   const [open, setOpen] = useState(false);
   const isIndex = useSelector((state: RootState) => state.common.isIndex);
+  const isPurchase = useSelector((state: RootState) => state.common.isPurchase);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -111,6 +113,7 @@ const Header = () => {
     <Container
       ref={navRef}
       style={!isIndex ? { backgroundColor: 'white' } : {}}
+      isPurchase={isPurchase}
     >
       <HeaderContainer isIndex={isIndex}>
         <LogoBox>

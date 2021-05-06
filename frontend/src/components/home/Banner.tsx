@@ -31,12 +31,8 @@ const SwiperSlider: React.FC = () => {
 export default SwiperSlider;
 
 const ITEMS: string[] = [
-  'https://media.bunjang.co.kr/images/nocrop/625215620.jpg',
-  'https://media.bunjang.co.kr/images/nocrop/616724920.jpg',
   'https://media.bunjang.co.kr/images/nocrop/617974702.jpg',
   'https://media.bunjang.co.kr/images/nocrop/627847283.jpg',
   'https://media.bunjang.co.kr/images/nocrop/628112349.jpg',
-  'https://media.bunjang.co.kr/images/nocrop/614290770.jpg',
-  'https://media.bunjang.co.kr/images/nocrop/624662947.jpg',
   'https://media.bunjang.co.kr/images/nocrop/626144379.jpg',
 ]
