@@ -21,4 +21,6 @@ public interface ItemService {
 	/* D :: 상품 삭제 */
 	boolean deleteItem(int iNo) throws Exception;
 
+	List<Item> selectItemByiName(String iName);
+
 }

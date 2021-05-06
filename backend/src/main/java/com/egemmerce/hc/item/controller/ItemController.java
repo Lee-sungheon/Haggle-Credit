@@ -43,6 +43,15 @@ public class ItemController {
 		return new ResponseEntity<List<Item>>(itemService.selectItemByType(iType), HttpStatus.OK);
 	}
 	
+	
+	/* R :: 상품명 조회 */
+	@GetMapping("/name")
+	public ResponseEntity<List<Item>> selectItemByiName(String iName) throws Exception {
+		return new ResponseEntity<List<Item>>(itemService.selectItemByiName(iName), HttpStatus.OK);
+	}
+	
+	
+	
 	/* U :: 상품 업데이트(거래완료) */
 	@PutMapping("/updateDealCompleted")
 	public ResponseEntity<String> updateItem(@RequestBody Item item) throws Exception {

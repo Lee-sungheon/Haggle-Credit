@@ -12,4 +12,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 
 	Item findByiNo(int getiNo);
 
+	List<Item> findByiNameContaining(String iName);
+
 }
