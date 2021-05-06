@@ -50,7 +50,7 @@ const ProductTitle = styled.div`
   display: flex;
   background: rgb(255, 255, 255);
   border-bottom: 1px solid rgb(220, 219, 228);
-  padding: 15px 0;
+  padding: 25px 0;
 `;
 
 const ProductSummaryArea = styled.div`
@@ -85,6 +85,7 @@ const ItemContent = styled.div`
 `;  
 
 const AuctionArea = styled.div`
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid rgb(220, 219, 228);
@@ -92,7 +93,6 @@ const AuctionArea = styled.div`
 
 const AuctionTitle = styled.div`
   font-size: 1rem;
-  padding-top: 10px;
   padding-bottom: 10px;
   font-weight: bold;
 `;
@@ -252,7 +252,7 @@ const PurchasePage = () => {
           <AuctionItem style={{flexDirection: 'column'}}>
             <ItemTitle>입찰금액</ItemTitle>
             <div style={{paddingLeft: "100px"}}>
-              <InputDescription style={{margin: 0, color: 'black', fontSize: '14px'}}>
+              <InputDescription style={{margin: 0, color: 'black', fontSize: '14px', paddingTop: '20px'}}>
                 현재 <span style={{color: theme.color.main, fontWeight: 'bold'}}>
                   {'120000'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
                 </span>부터 입찰하실 수 있습니다.
