@@ -26,27 +26,27 @@ public class ItemController {
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")
 	public ResponseEntity<String> createItem(@RequestBody Item item) throws Exception {
-		if(itemService.insertItem(item) > 0)
+		if(itemService.insertItem(item) != null)
 			return new ResponseEntity<String>("상품 등록 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
 	
 	/* R :: 상품 전체조회 */
-	@GetMapping("/review/all")
+	@GetMapping("/all")
 	public ResponseEntity<List<Item>> reviewItemAll() throws Exception {
 		return new ResponseEntity<List<Item>>(itemService.selectItemAll(), HttpStatus.OK);
 	}
 	
 	/* R :: 상품 조회(판매/구매) */
-	@GetMapping("/review/division")
+	@GetMapping("/type")
 	public ResponseEntity<List<Item>> reviewItemByType(String iType) throws Exception {
 		return new ResponseEntity<List<Item>>(itemService.selectItemByType(iType), HttpStatus.OK);
 	}
 	
 	/* U :: 상품 업데이트(거래완료) */
-	@PutMapping("/update/dealCompleted")
+	@PutMapping("/updateDealCompleted")
 	public ResponseEntity<String> updateItem(@RequestBody Item item) throws Exception {
-		if(itemService.updateItemDealCompleted(item))
+		if(itemService.updateItemDealCompleted(item) != null)
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
 	}
