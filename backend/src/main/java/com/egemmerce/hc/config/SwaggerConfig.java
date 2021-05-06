@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * 
  * @Date 2021. 4. 27.
  * @Title Haggle-Credit Backend
- * @Description : 백엔드 API 체킹을 위한 Swagger
+ * @Description : 백엔드 API 체킹을 위한 Swagger 주소 :: https://k4d107.p.ssafy.io/haggle-credit/swagger-ui.html
  *
  */
 
