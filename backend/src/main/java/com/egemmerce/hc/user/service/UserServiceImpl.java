@@ -1,15 +1,24 @@
 package com.egemmerce.hc.user.service;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
+import com.egemmerce.hc.repository.dto.UserAccount;
 import com.egemmerce.hc.repository.mapper.UserMapper;
 import com.egemmerce.hc.repository.mapper.UserRepository;
-import com.egemmerce.hc.user.controller.SaltSHA256;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +36,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	/* User Mapper 객체 불러오기 */
 	@Autowired
@@ -35,51 +44,30 @@ public class UserServiceImpl implements UserService {
 	
 	private final UserEmailService emailService;
 	private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 	
 	
 	/* 일반 로그인 */
 	@Override
 	public User login(User user) throws Exception {
-		// 일단 check라는 객체에 이메일을 통한 회원 정보 저장해두기
-		User check = userRepository.findByuEmail(user.getuEmail());
-		// 이메일을 통한 해당 회원의 salt 값 받아오기
-		String salt = check.getuSalt();
-
-		// 내가입력한 비밀번호를 위의 salt값과 조합하여 암호화시킨 값으로 다시금 password
-		String password = user.getuPassword();
-		password = SaltSHA256.getEncrypt(password, salt);
-		user.setuPassword(password);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                new UserAccount(user),
+                user.getuPassword(),
+                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        SecurityContextHolder.getContext().setAuthentication(token);
+        User check=userRepository.findByuEmail(user.getuEmail());
+        if(passwordEncoder.matches(user.getuPassword(), check.getuPassword())) {
+        	return check;
+        }
+		return null;
 		
-		// 비밀번호 일치한지 확인
-		if(user.getuPassword().equals(check.getuPassword()))	
-			return check;
-		else
-			return null;
-		
-	}
-	
-	/* 카카오로 로그인 */
-	@Override
-	public User loginKakao(User user) throws Exception {
-		User check = userRepository.findByuEmail(user.getuEmail());
-		if(user.getuPassword().equals(check.getuPassword()))
-			return check;
-		else
-			return null;
 	}
 
 	/* 일반 회원 가입 */
 	@Override
 	public User insertUser(User user) throws Exception {
 		
-		// 1. 가입할 회원의 고유 salt값 생성 및 저장
-		String salt = SaltSHA256.generateSalt();
-		user.setuSalt(salt);
-		
-		// 2. 입력된 비밀번호에 생성된 salt값 활용해서 암호화된 passowrd 생성 및 저장(삽입)
-		String password = user.getuPassword();
-		password = SaltSHA256.getEncrypt(password, salt);
-		user.setuPassword(password);
+		user.setuPassword(passwordEncoder.encode(user.getuPassword()));
 		user.generateEuAuthKey();
 		// 3. 남은 유저 정보들 삽입 처리
 		return userRepository.save(user);
@@ -87,6 +75,7 @@ public class UserServiceImpl implements UserService {
 	
 	/* 가입시, 메일로 인증링크 보내기 */
 	@Override
+	@Transactional
 	public void mailSendWithUserKey(User user) throws Exception {
 		String mailContent =
 				"<h3>안녕하세요. Haggle-Credit 개발팀입니다.</h3><br></br>" +
@@ -227,22 +216,29 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean selectUserByEmail(String uEmail) {
-		if(userRepository.findByuEmail(uEmail)!=null) {
-			return true;
-		}else {	
-			return false;
-		}
+	public User selectUserByEmail(String uEmail) {
+		User user=userRepository.findByuEmail(uEmail);
+		return user;
+
 	}
 
 	@Override
 	public boolean updatePass(User user) {
 		User check=userRepository.findByuEmail(user.getuEmail());
-		String salt = SaltSHA256.generateSalt();
-		check.setuSalt(salt);
-		check.setuPassword(SaltSHA256.getEncrypt(user.getuPassword(), salt));
+		check.setuPassword(passwordEncoder.encode(user.getuPassword()));
 		return userRepository.save(check) != null;
 	}
+
+    @Override
+    public UserDetails loadUserByUsername(String uEmail) throws UsernameNotFoundException {
+        User user = userRepository.findByuEmail(uEmail);
+        
+        if (user == null) {
+            throw new UsernameNotFoundException(uEmail);
+        }
+
+        return new UserAccount(user);
+    }
 	
 	
 
