@@ -19,7 +19,7 @@ box-sizing: border-box;
 const StoreArea = styled.div`
 height: calc(100% - 50px);
 border-right: 1px solid rgb(238, 238, 238);
-padding: 0px 32px 118px;
+padding: 0 32px 10px;
 position: relative;
 `;
 
@@ -128,6 +128,28 @@ const ReviewItemContent = styled.div`
   color: rgb(136, 136, 136);
   line-height: 1.4;
   text-align: left;
+`;
+
+const ButtonArea = styled.div`
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const StyledButton = styled.div`
+  color: rgb(255, 255, 255);
+  flex: 1;
+  display: flex;
+  margin-left: 15px;
+  justify-content: center;
+  height: 56px;
+  font-size: 18px;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
 `;
 
 const StoreInfo = () => {
@@ -266,6 +288,13 @@ const StoreInfo = () => {
             <ChevronRightOutlinedIcon style={{ fontSize: "18px", paddingTop: "3px" }}/>
           </MoreText>
         </MoreArea>
+        <ButtonArea>
+          <StyledButton style={{ background: 'rgb(255, 164, 37)'}}>연락하기</StyledButton>
+          <StyledButton 
+            style={{ background: theme.color.main, marginRight: '15px' }}
+            onClick={() => window.open(`../auction/${1}`, '_blank')}
+          >입찰하기</StyledButton>
+        </ButtonArea>
       </StoreArea>
     </StoreContainer>
   );
