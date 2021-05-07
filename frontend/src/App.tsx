@@ -7,7 +7,9 @@ import Home from './page/home/Home';
 import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
 import DetailPage from './page/detail/DetailPage';
+import AuctionPage from './page/purchase/AuctionPage';
 import PurchasePage from './page/purchase/PurchasePage';
+import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
 import ProductRegistration from './page/productRegistration/ProductRegistration'
@@ -45,7 +47,13 @@ const App = () => {
           <Route path="/detail/:id" component={DetailPage} />
         </Switch>
         <Switch>
+          <Route path="/auction/:id" component={AuctionPage} />
+        </Switch>
+        <Switch>
           <Route path="/purchase/:id" component={PurchasePage} />
+        </Switch>
+        <Switch>
+          <Route path="/add_destination" component={AddDestinationPage} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>

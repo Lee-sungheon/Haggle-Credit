@@ -8,6 +8,7 @@ const Container = styled.div`
   text-align: center;
   margin-top: 10px;
   display: flex;
+  padding-bottom: 50px;
 `;
 
 const TabContianer = styled.div`
