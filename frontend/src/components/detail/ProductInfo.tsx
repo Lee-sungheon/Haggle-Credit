@@ -190,10 +190,10 @@ const ProductInfo = ({item}: ProductInfoProps) => {
             >♥</span> 
             찜 {isLike ? 0+1 : 0}
           </StyledButton>
-          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../purchase/${1}`, '_blank')}>
+          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../auction/${1}`, '_blank')}>
             입찰하기
           </StyledButton>
-          <StyledButton style={{ backgroundColor: 'red' }}>
+          <StyledButton style={{ backgroundColor: 'red' }} onClick={() => window.open(`../purchase/${1}`, '_blank')}>
             바로구매
           </StyledButton>
         </ButtonBox>
