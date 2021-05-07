@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         SecurityContextHolder.getContext().setAuthentication(token);
         User check=userRepository.findByuEmail(user.getuEmail());
         if(passwordEncoder.matches(user.getuPassword(), check.getuPassword())) {
+        	System.out.println(token);
         	return check;
         }
 		return null;

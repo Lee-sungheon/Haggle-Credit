@@ -51,7 +51,7 @@ public class UserController {
 	
 	/* 일반 로그인 */
 	@ApiOperation(value="로그인 처리하는 Restful API", response=User.class)
-	@PostMapping("/hc")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) throws Exception {
 		User check = userService.login(user);
 		
