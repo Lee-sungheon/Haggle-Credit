@@ -36,6 +36,7 @@ public class User {
 	private String uSalt;
 	private String uProvider;
 	private String uAuthKey;
+	private String uImage;
 	private LocalDateTime uAuthKeyGeneratedAt;
 	
 	public void generateEuAuthKey() {
@@ -196,6 +197,14 @@ public class User {
 
 	public void setuBankNo(String uBankNo) {
 		this.uBankNo = uBankNo;
+	}
+
+	public String getuImage() {
+		return uImage;
+	}
+
+	public void setuImage(String uImage) {
+		this.uImage = uImage;
 	}
 	
 }
