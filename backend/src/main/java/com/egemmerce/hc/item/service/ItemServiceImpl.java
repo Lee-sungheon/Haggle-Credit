@@ -3,6 +3,7 @@ package com.egemmerce.hc.item.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.Item;
@@ -55,7 +56,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<Item> selectItemByiName(String iName) {
-		return itemRepository.findByiNameContaining(iName);
+	public List<Item> selectItemByiName(String iName,Pageable pageable) {
+		return itemRepository.findByiNameContaining(iName, pageable);
 	}
 }

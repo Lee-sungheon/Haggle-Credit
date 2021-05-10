@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
 				.antMatchers("/user/**")
+				.antMatchers("/item/**")
 				.antMatchers("/login/**")
 				.antMatchers("/v2/**")
 				.antMatchers("/webjars/**")
