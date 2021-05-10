@@ -19,10 +19,10 @@ import com.egemmerce.hc.repository.dto.User;
 
 public interface ImageUploadService {
 
-   public int InsertItemPhoto(ItemPhoto itemphoto) throws Exception;
+   public ItemPhoto InsertItemPhoto(ItemPhoto itemphoto) throws Exception;
 
    public List<ItemPhoto> selectItemPhotoList();
 
-   public int UpdateProfile(User user) throws Exception;
+   public User UpdateProfile(User user) throws Exception;
 
 }

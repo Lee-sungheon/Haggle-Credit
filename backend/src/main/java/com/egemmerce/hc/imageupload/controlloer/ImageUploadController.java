@@ -57,7 +57,7 @@ public class ImageUploadController {
 		itemphoto.setIpINo(ipINo);
 		itemphoto.setIpValue(ipValue);
 
-		return imageUploadService.InsertItemPhoto(itemphoto) > 0 ? "OK" : "FAIL";
+		return imageUploadService.InsertItemPhoto(itemphoto) != null ? "OK" : "FAIL";
 	}
 
 	@GetMapping("/getItemPhotoList")
@@ -79,7 +79,7 @@ public class ImageUploadController {
 		user.setuImage(uImage);
 		user.setuEmail(userEmail);
 
-		if (imageUploadService.UpdateProfile(user) > 0)
+		if (imageUploadService.UpdateProfile(user) != null)
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 
 		return new ResponseEntity<User>(user, HttpStatus.NO_CONTENT);
