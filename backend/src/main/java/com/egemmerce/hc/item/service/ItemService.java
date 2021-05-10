@@ -2,6 +2,8 @@ package com.egemmerce.hc.item.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.egemmerce.hc.repository.dto.Item;
 
 public interface ItemService {
@@ -21,6 +23,6 @@ public interface ItemService {
 	/* D :: 상품 삭제 */
 	boolean deleteItem(int iNo) throws Exception;
 
-	List<Item> selectItemByiName(String iName);
+	List<Item> selectItemByiName(String iName,Pageable pageable);
 
 }
