@@ -1,5 +1,6 @@
 package com.egemmerce.hc.user.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -53,7 +54,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 new UserAccount(user),
                 user.getuPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+//                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContextHolder.getContext().setAuthentication(token);
         User check=userRepository.findByuEmail(user.getuEmail());
         if(passwordEncoder.matches(user.getuPassword(), check.getuPassword())) {
