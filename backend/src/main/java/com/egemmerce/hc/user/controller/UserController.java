@@ -1,9 +1,7 @@
 package com.egemmerce.hc.user.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.repository.dto.User;
-import com.egemmerce.hc.user.jwt.JwtService;
 import com.egemmerce.hc.user.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -37,9 +34,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	@Autowired
-	private JwtService jwtService;
-	
+
 	@Autowired
 	private UserService userService;
 	
@@ -52,6 +47,18 @@ public class UserController {
 			return new ResponseEntity<String>(user.getuEmail() + "계정 가입 성공", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("계정 가입 실패", HttpStatus.NO_CONTENT);
+	}
+	
+	/* 일반 로그인 */
+	@ApiOperation(value="로그인 처리하는 Restful API", response=User.class)
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) throws Exception {
+		User check = userService.login(user);
+		
+		if(check != null) {
+			return new ResponseEntity<User>(check, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("로그인 실패", HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/key_alter")
@@ -79,18 +86,13 @@ public class UserController {
 	/* R :: 개인 정보 전체 조회 [토큰으로 확인] */
 	@ApiOperation(value="개인정보 조회를 위한 Restful API", response=User.class)
 	@GetMapping("/mypage")
-	public ResponseEntity<Map<String, Object>> reviewUser(HttpServletRequest request) {
-		HttpStatus status = null;
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		try {
-			resultMap.putAll(jwtService.get(request.getHeader("auth-token")));
-			status = HttpStatus.ACCEPTED;
-		} catch (RuntimeException e) {
-			resultMap.put("errorMessage", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+	public ResponseEntity<?> reviewUser(User user) {
+		System.out.println(user.getuEmail());
+		User check=userService.selectUserByEmail(user.getuEmail());
+		if(check!=null) {
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<String>("개인정보가 없음", HttpStatus.NO_CONTENT);
 	}
 	
 	/* U :: 개인 정보 수정 */
@@ -117,7 +119,7 @@ public class UserController {
 	@PutMapping("find/pw")
 	public ResponseEntity<String> findUpassword(@RequestBody User user) throws Exception {
 		// 1. 우선 해당 이메일의 이름,폰번호 일치한지 확인
-		if(userService.selectUserByEmail(user.getuEmail())) {
+		if(userService.selectUserByEmail(user.getuEmail())!=null) {
 			// 2. 일치하다면, 해당 이메일의 비밀번호 재발급 + 업데이트 
 			// 3. 재발급한 번호 이메일로 보내기
 			if(userService.findUPassword(user)!=null) {

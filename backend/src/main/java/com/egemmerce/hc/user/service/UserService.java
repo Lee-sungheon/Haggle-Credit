@@ -2,13 +2,10 @@ package com.egemmerce.hc.user.service;
 
 import com.egemmerce.hc.repository.dto.User;
 
-public interface UserService {
+public interface UserService{
 
 	/* 일반 로그인 */
 	User login(User user) throws Exception;
-
-	/* 카카오로 로그인 */
-	User loginKakao(User user) throws Exception;
 
 	/* 일반 회원 가입 */
 	User insertUser(User user) throws Exception;
@@ -42,7 +39,7 @@ public interface UserService {
 	/* 4. 해당 이메일로 메세지 보내기 */
 	void sendSimpleMessage(String to) throws Exception;
 
-	boolean selectUserByEmail(String getuEmail);
+	User selectUserByEmail(String getuEmail);
 
 	boolean updatePass(User user);
 
