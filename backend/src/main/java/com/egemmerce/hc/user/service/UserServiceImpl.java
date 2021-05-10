@@ -1,7 +1,6 @@
 package com.egemmerce.hc.user.service;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
