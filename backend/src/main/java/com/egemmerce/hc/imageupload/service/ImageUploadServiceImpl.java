@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.mapper.ImageMapper;
+import com.egemmerce.hc.repository.mapper.ItemPhotoRepository;
+import com.egemmerce.hc.repository.mapper.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * 
@@ -22,23 +26,29 @@ import com.egemmerce.hc.repository.mapper.ImageMapper;
  */
 
 @Service
+@RequiredArgsConstructor
 public class ImageUploadServiceImpl implements ImageUploadService {
    @Autowired
    private ImageMapper mapper;
 
+   private ItemPhotoRepository itemPhotoRepository;
+   private UserRepository userRepository;
+   
    @Override
-   public int InsertItemPhoto(ItemPhoto itemphoto) throws Exception {
-      return mapper.insertItemPhoto(itemphoto);
+   public ItemPhoto InsertItemPhoto(ItemPhoto itemPhoto) throws Exception {
+      return itemPhotoRepository.save(itemPhoto);
    }
 
    @Override
    public List<ItemPhoto> selectItemPhotoList() {
-      return mapper.selectItemPhotoList();
+      return itemPhotoRepository.findAll();
    }
 
    @Override
-   public int UpdateProfile(User user) throws Exception {
-      return mapper.updateProfile(user);
+   public User UpdateProfile(User user) throws Exception {
+	   User check=userRepository.findByuEmail(user.getuEmail());
+	   check.setuImage(user.getuImage());
+      return userRepository.save(check);
    }
 
 }
