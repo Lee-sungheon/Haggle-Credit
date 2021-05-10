@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -25,10 +27,15 @@ public class User {
     private String uPhone;
     private Date uBirth;
     private LocalDateTime uJoinDate;
+    @ColumnDefault("client")
     private String uAuthority;
+    @ColumnDefault("0")
     private int uCredit;
+    @ColumnDefault("0")
     private int uPoint;
+    @ColumnDefault("false")
     private String uPenalty;
+    @ColumnDefault("false")
     private String uSellerAuth;
     private String uJoinConfirm;
     private String uBankName;
