@@ -22,6 +22,11 @@ public interface ItemSellService {
 	/*상품 업데이트*/
 	ItemSell updateItemSell(ItemSell itemSell);
 
+	/*itemsell 조회*/
+	ItemSell selectItemSellbyisItemNo(int isItemNo);
+
+	ItemSell updateAuctionPrice(ItemSell itemSell);
+
 
 
 

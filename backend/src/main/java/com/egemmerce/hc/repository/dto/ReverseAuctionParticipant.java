@@ -73,9 +73,4 @@ public class ReverseAuctionParticipant {
 	public void setRapAddress(String rapAddress) {
 		this.rapAddress = rapAddress;
 	}
-
-	
-	
-	
-	
 }

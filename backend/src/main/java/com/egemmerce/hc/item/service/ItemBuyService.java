@@ -22,6 +22,11 @@ public interface ItemBuyService {
 	/*상품 업데이트*/
 	ItemBuy updateItemBuy(ItemBuy itemBuy);
 
+	/* R :: 상품 조회 */
+	ItemBuy selectItemBuybyibItemNo(int ibItemNo);
+
+	ItemBuy updateReverseAuctionPrice(ItemBuy itemBuy);
+
 
 
 

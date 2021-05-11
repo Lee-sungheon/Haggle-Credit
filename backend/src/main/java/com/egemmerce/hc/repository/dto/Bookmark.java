@@ -1,7 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Bookmark {
 	
-    @Id @GeneratedValue
+    @Id
 	private int bINo;
 	private int bUNo;
 	

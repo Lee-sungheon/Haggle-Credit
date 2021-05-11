@@ -1,8 +1,5 @@
 package com.egemmerce.hc.repository.dto;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
