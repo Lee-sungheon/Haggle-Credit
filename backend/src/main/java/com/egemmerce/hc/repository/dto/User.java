@@ -15,41 +15,46 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "uNo")
-@Builder @AllArgsConstructor @NoArgsConstructor
+@Entity
+@EqualsAndHashCode(of = "uNo")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
-	
-    @Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private int uNo;
-    private String uEmail;
-    private String uPassword;
-    private String uName;
-    private String uPhone;
-    private Date uBirth;
-    private LocalDateTime uJoinDate;
-    @ColumnDefault("client")
-    private String uAuthority;
-    @ColumnDefault("0")
-    private int uCredit;
-    @ColumnDefault("0")
-    private int uPoint;
-    @ColumnDefault("false")
-    private String uPenalty;
-    @ColumnDefault("false")
-    private String uSellerAuth;
-    private String uJoinConfirm;
-    private String uBankName;
-    private String uBankNo;
-	private String uSalt;
-	private String uProvider;
+	private String uEmail;
+	private String uPassword;
+	private String uName;
+	private String uPhone;
+	private Date uBirth;
+	private LocalDateTime uJoinDate;
+
+	@ColumnDefault("client")
+	private String uAuthority;
+
+	@ColumnDefault("0")
+	private int uCredit;
+
+	@ColumnDefault("false")
+	private String uPenalty;
+
+	@ColumnDefault("false")
+	private String uSellerAuth;
+
+	private String uJoinConfirm;
+	private String uBankName;
+	private String uBankNo;
 	private String uAuthKey;
 	private String uImage;
 	private LocalDateTime uAuthKeyGeneratedAt;
-	
+
 	public void generateEuAuthKey() {
 		this.uAuthKey = UUID.randomUUID().toString();
 		this.uAuthKeyGeneratedAt = LocalDateTime.now();
-		this.uJoinDate=LocalDateTime.now();
+		this.uJoinDate = LocalDateTime.now();
 	}
 
 	public int getuNo() {
@@ -84,14 +89,6 @@ public class User {
 		this.uPassword = uPassword;
 	}
 
-	public String getuSalt() {
-		return uSalt;
-	}
-
-	public void setuSalt(String uSalt) {
-		this.uSalt = uSalt;
-	}
-
 	public String getuName() {
 		return uName;
 	}
@@ -107,15 +104,6 @@ public class User {
 	public void setuPhone(String uPhone) {
 		this.uPhone = uPhone;
 	}
-
-	public String getuProvider() {
-		return uProvider;
-	}
-
-	public void setuProvider(String uProvider) {
-		this.uProvider = uProvider;
-	}
-
 
 	public String getuSellerAuth() {
 		return uSellerAuth;
@@ -141,14 +129,6 @@ public class User {
 		this.uCredit = uCredit;
 	}
 
-	public int getuPoint() {
-		return uPoint;
-	}
-
-	public void setuPoint(int uPoint) {
-		this.uPoint = uPoint;
-	}
-
 	public String getuPenalty() {
 		return uPenalty;
 	}
@@ -156,7 +136,6 @@ public class User {
 	public void setuPenalty(String uPenalty) {
 		this.uPenalty = uPenalty;
 	}
-
 
 	public LocalDateTime getuAuthKeyGeneratedAt() {
 		return uAuthKeyGeneratedAt;
@@ -213,5 +192,5 @@ public class User {
 	public void setuImage(String uImage) {
 		this.uImage = uImage;
 	}
-	
+
 }
