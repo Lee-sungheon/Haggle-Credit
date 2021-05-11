@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Entity @EqualsAndHashCode(of = "apNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class AuctionPaticipant {
+public class AuctionParticipant {
 	
     @Id @GeneratedValue
 	private int apNo;
