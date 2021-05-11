@@ -46,4 +46,8 @@ public interface UserService{
 	/*유저 번호로 조회*/
 	User selectUserByuNo(int isUserNo);
 
+	boolean chargeCredit(int uNo, int credit);
+
+	boolean withdrawCredit(int uNo, int credit);
+
 }

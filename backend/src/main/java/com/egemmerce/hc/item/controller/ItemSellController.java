@@ -22,6 +22,7 @@ import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
 import com.egemmerce.hc.user.address.service.UserAddressService;
+import com.egemmerce.hc.user.service.UserCreditService;
 import com.egemmerce.hc.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class ItemSellController {
 	private final AuctionParticipantService auctionParticipantService;
 	private final UserService userService;
 	private final UserAddressService userAddressService;
+	private final UserCreditService	userCreditService;
 
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")
