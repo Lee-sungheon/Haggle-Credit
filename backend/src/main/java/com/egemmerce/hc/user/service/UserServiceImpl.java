@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAccount;
+import com.egemmerce.hc.repository.dto.UserCredit;
+import com.egemmerce.hc.repository.mapper.UserCreditRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private final UserEmailService emailService;
 	private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-	
+	private final UserCreditRepository userCreditRepository;
 	
 	/* 일반 로그인 */
 	@Override
@@ -242,6 +244,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userRepository.findByuNo(uNo);
 	}
 	
-	
+	/* 크레딧 충전 */
+	@Override
+	public boolean chargeCredit(int uNo, int credit) {
+		User check = userRepository.findByuNo(uNo);
+		check.setuCredit(check.getuCredit() + credit);
+		UserCredit uCredit=UserCredit.builder().ucClass("plus").ucUserNo(check.getuNo()).ucCredit(check.getuCredit()).build();
+		uCredit.generateucTime();
+		userCreditRepository.save(uCredit);
+		return userRepository.save(check) != null;
+	}
+	/* 크레딧 출금 */
+	@Override
+	public boolean withdrawCredit(int uNo, int credit) {
+		User check = userRepository.findByuNo(uNo);
+		check.setuCredit(check.getuCredit() - credit);
+		UserCredit uCredit=UserCredit.builder().ucClass("minus").ucUserNo(uNo).ucCredit(check.getuCredit()).build();
+		uCredit.generateucTime();
+		userCreditRepository.save(uCredit);
+		return userRepository.save(check) != null;
+	}
 
 }
