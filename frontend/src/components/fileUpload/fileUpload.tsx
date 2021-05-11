@@ -13,12 +13,11 @@ export function App() {
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
+    // console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 
   const saveIP = (imageList: ImageListType) => {
-    console.log(imageList);
     axios.post(`${spring_URL}/image/itemPhotoUpload`, imageList)
     .then(res => {
         console.log(res);
@@ -26,7 +25,6 @@ export function App() {
   };
 
   const updateProfile = (imageList: ImageListType) => {
-    console.log(imageList);
     axios.post(`${spring_URL}/image/profileUpload`, imageList)
     .then(res => {
         console.log(res);
