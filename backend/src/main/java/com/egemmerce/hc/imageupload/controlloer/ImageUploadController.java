@@ -54,7 +54,7 @@ public class ImageUploadController {
 		ipValue = "https://i4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
 
 		ItemPhoto itemphoto = new ItemPhoto();
-		itemphoto.setIpINo(ipINo);
+		itemphoto.setIpItemNo(ipINo);
 		itemphoto.setIpValue(ipValue);
 
 		return imageUploadService.InsertItemPhoto(itemphoto) != null ? "OK" : "FAIL";

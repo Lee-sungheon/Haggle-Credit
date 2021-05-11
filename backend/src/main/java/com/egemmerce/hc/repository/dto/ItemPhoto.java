@@ -14,7 +14,7 @@ public class ItemPhoto {
 	
     @Id
 	private int ipNo;
-	private int ipINo;
+	private int ipItemNo;
 	private String ipValue;
 	public int getIpNo() {
 		return ipNo;
@@ -22,17 +22,18 @@ public class ItemPhoto {
 	public void setIpNo(int ipNo) {
 		this.ipNo = ipNo;
 	}
-	public int getIpINo() {
-		return ipINo;
-	}
-	public void setIpINo(int ipINo) {
-		this.ipINo = ipINo;
-	}
+	
 	public String getIpValue() {
 		return ipValue;
 	}
 	public void setIpValue(String ipValue) {
 		this.ipValue = ipValue;
+	}
+	public int getIpItemNo() {
+		return ipItemNo;
+	}
+	public void setIpItemNo(int ipItemNo) {
+		this.ipItemNo = ipItemNo;
 	}
 	
 	
