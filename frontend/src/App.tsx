@@ -8,7 +8,9 @@ import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
 import DetailPage from './page/detail/DetailPage';
 import AuctionPage from './page/purchase/AuctionPage';
+import SellAuctionPage from './page/purchase/SellAuctionPage';
 import PurchasePage from './page/purchase/PurchasePage';
+import SearchPage from './page/search/SearchPage';
 import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
@@ -27,32 +29,16 @@ const App = () => {
         {!isIndex && <><NavBar /><LikeBox /><RecentlyBox /></>}
         <Switch>
           <Route exact path="/" component={IndexPage} />
-        </Switch>
-        <Switch>
           <Route path="/home" component={Home} />
-        </Switch>
-        <Switch>
           <Route path="/category/:name" component={CategoryPage} />
-        </Switch>
-        <Switch>
           <Route path="/signup" component={Signup} />
-        </Switch>
-        <Switch>
           <Route path="/profile" component={Profile} />
-        </Switch>
-        <Switch>
           <Route path="/productregistraion" component={ProductRegistration} />
-        </Switch>
-        <Switch>
+          <Route path="/search" component={SearchPage} />
           <Route path="/detail/:id" component={DetailPage} />
-        </Switch>
-        <Switch>
-          <Route path="/auction/:id" component={AuctionPage} />
-        </Switch>
-        <Switch>
+          <Route path="/auction/buy/:id" component={AuctionPage} />
+          <Route path="/auction/sell/:id" component={SellAuctionPage} />
           <Route path="/purchase/:id" component={PurchasePage} />
-        </Switch>
-        <Switch>
           <Route path="/add_destination" component={AddDestinationPage} />
         </Switch>
       </ThemeProvider>

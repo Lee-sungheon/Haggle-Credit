@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProductList from '../../components/home/PruductList';
 import { RouteComponentProps } from 'react-router-dom';
-import { CATEGORYS, IDXTOCATEGORY } from '../../common/data';
-import CategoryList from '../../components/category/CategoryList';
-import Category from '../../components/category/Category';
+import { CATEGORYS } from '../../common/data';
+import CategoryList from '../../components/search/CategoryList';
+import { useDispatch } from 'react-redux';
+import { commonActions } from "../../state/common";
 
 interface MatchParams {
-  name: string;
+  id: string;
+}
+
+interface LocationParams {
+}
+
+interface HistoryParams {
 }
 
 const Container = styled.div`
@@ -73,35 +80,30 @@ const LastItem = styled.div`
   display: block;
 `;
 
-const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
-  const [category, setCategory] = useState(match.params.name);
-  const [subCategory, setSubCategory] = useState('');
+const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
+  const [category, setCategory] = useState('');
   const [buy, setBuy] = useState(true);
   const [filterIdx, setFilterIdx] = useState(0);
-
+  const [search, setSearch] = useState(location.search.split('=')[1]);
+  const dispatch = useDispatch();
+  
+  useEffect(()=> {
+    dispatch(commonActions.setIsSearch(true));
+    return () => {
+      dispatch(commonActions.setIsSearch(false));
+    };
+  }, [dispatch])
   useEffect(()=>{
-    window.scrollTo(0, 0);
-    const idx: number = parseInt(match.params.name.split('-')[1]);
-    if (idx <= 1200) {
-      setCategory(match.params.name);
-      setSubCategory('');
-    } else {
-      if (idx >= 100000) {
-        setCategory(IDXTOCATEGORY[String(idx).slice(0,4)]);
-      } else {
-        setCategory(IDXTOCATEGORY[String(idx).slice(0,3)]);
-      }
-      setSubCategory(match.params.name);
-    }
-  }, [match.params.name])
+    setSearch(decodeURI(decodeURIComponent(location.search.split('&')[0].split('=')[1])));
+  }, [location])
+  
   return (
     <Container>
       <ProductArea>
-        <Category category={category} subCategory={subCategory} />
-        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} />}
+        <CategoryList search={search} categoryList={Object.keys(CATEGORYS)} />
         <TitleArea>
           <TitleText>
-            {subCategory === '' ? category.split('-')[0] : subCategory.split('-')[0]} 상품 추천
+            {decodeURI(decodeURIComponent(search))} 검색결과
           </TitleText>
         </TitleArea>
         <FilterArea>
@@ -121,4 +123,4 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   )
 }
 
-export default CategoryPage;
+export default SearchPage;

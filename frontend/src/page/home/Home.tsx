@@ -23,7 +23,7 @@ const Home = () => {
       <Banner/>
       <ProductArea>
         <h2>오늘의 상품 추천</h2>
-        <ProductList />
+        <ProductList buy={true}/>
       </ProductArea>
     </Container>
   );

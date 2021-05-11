@@ -17,6 +17,7 @@ interface ITEM {
 
 interface ProductItemProps {
   item: ITEM;
+  buy: boolean;
 }
 
 const useStyles = makeStyles(() => ({
@@ -70,7 +71,7 @@ const ItemCategory = styled.span`
   margin-right: 4px;
 `;
 
-const ProductList = ({ item }: ProductItemProps) => {
+const ProductList = ({ item, buy }: ProductItemProps) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -78,7 +79,7 @@ const ProductList = ({ item }: ProductItemProps) => {
     dispatch(commonActions.addRecently(item));
     history.push({
       pathname: `/detail/${item.id}`,
-      state: {item}
+      state: {item, buy}
     });
   };
 
@@ -96,12 +97,16 @@ const ProductList = ({ item }: ProductItemProps) => {
           <ItemTitle>{item.title}</ItemTitle>
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory> 
-            {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemPrice>
-            <ItemCategory>즉구가</ItemCategory> 
-            {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          {buy ? <><ItemCategory>즉구가</ItemCategory> 
+            <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            :
+            <><ItemCategory>시작가</ItemCategory> 
+            <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            }
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemTime>
