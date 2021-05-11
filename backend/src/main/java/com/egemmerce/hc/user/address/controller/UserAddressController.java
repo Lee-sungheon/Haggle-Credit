@@ -26,7 +26,7 @@ public class UserAddressController {
 	/* C :: 배송지 추가 */
 	@PostMapping("/add")
 	public ResponseEntity<String> createUserAddress(UserAddress userAddress) throws Exception {
-		if(userAddressService.insertAddress(userAddress) > 0)
+		if(userAddressService.insertAddress(userAddress) != null)
 			return new ResponseEntity<String>("배송지 추가 완료", HttpStatus.OK);
 		return new ResponseEntity<String>("배송지 추가 실패", HttpStatus.NO_CONTENT);
 	}

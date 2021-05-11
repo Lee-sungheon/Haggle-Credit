@@ -7,7 +7,7 @@ import com.egemmerce.hc.repository.dto.UserAddress;
 public interface UserAddressService {
 
 	/* C :: 배송지 추가 */
-	int insertAddress(UserAddress userAddress) throws Exception;
+	UserAddress insertAddress(UserAddress userAddress) throws Exception;
 
 	/* R :: 나의 배송지 조회 */
 	List<UserAddress> selectAddressMine(int uNo) throws Exception;
@@ -20,5 +20,7 @@ public interface UserAddressService {
 
 	/* D :: 배송지 추가 */
 	boolean deleteAddress(int uaNo) throws Exception;
+
+	UserAddress selectDefaultAddress(int getuNo);
 
 }

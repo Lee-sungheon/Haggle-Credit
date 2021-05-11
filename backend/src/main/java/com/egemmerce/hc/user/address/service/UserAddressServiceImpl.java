@@ -2,44 +2,56 @@ package com.egemmerce.hc.user.address.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.UserAddress;
-import com.egemmerce.hc.repository.mapper.UserAddressMapper;
+import com.egemmerce.hc.repository.mapper.UserAddressRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserAddressServiceImpl implements UserAddressService {
-	@Autowired
-	private UserAddressMapper userAddressMapper;
-	
+
+	private final UserAddressRepository userAddressRepository;
+
 	/* C :: 배송지 추가 */
 	@Override
-	public int insertAddress(UserAddress userAddress) throws Exception {
-		return userAddressMapper.insertAddress(userAddress);
+	public UserAddress insertAddress(UserAddress userAddress) throws Exception {
+		return userAddressRepository.save(userAddress);
 	}
 
 	/* R :: 나의 배송지 조회 */
 	@Override
 	public List<UserAddress> selectAddressMine(int uNo) throws Exception {
-		return userAddressMapper.selectAddressMine(uNo);
+		return userAddressRepository.findByuaUserNo(uNo);
 	}
 
 	/* U :: 기본 배송지 변경 */
 	@Override
 	public boolean updateDefaultAddress(UserAddress userAddress) throws Exception {
-		return userAddressMapper.updateDefaultAddress(userAddress);
+		return userAddressRepository.save(userAddress) != null;
 	}
-	
+
 	/* U :: 배송지 정보 변경 */
 	@Override
 	public boolean updateUserAddressEdit(UserAddress userAddress) throws Exception {
-		return userAddressMapper.updateUserAddressEdit(userAddress);
+		return userAddressRepository.save(userAddress) != null;
 	}
-	
-	/* D :: 배송지 추가 */
+
+	/* D :: 배송지 삭제 */
 	@Override
 	public boolean deleteAddress(int uaNo) throws Exception {
-		return userAddressMapper.deleteUserAddress(uaNo);
+		userAddressRepository.deleteByuaNo(uaNo);
+		if (userAddressRepository.findByuaNo(uaNo) == null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public UserAddress selectDefaultAddress(int uNo) {
+		List<UserAddress> userAddress = userAddressRepository.findByuaUserNo(uNo);
+		return userAddress.get(0);
 	}
 }

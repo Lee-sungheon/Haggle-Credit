@@ -4,13 +4,17 @@ import GridListTile from "@material-ui/core/GridListTile";
 import { makeStyles } from "@material-ui/core/styles";
 import ProductItem from './ProductItem';
 
+interface PruductListProps {
+  buy: boolean
+}
+
 const useStyles = makeStyles(() => ({
   gridList: {
     height: "100%",
   },
 }));
 
-const ProductList = () => {
+const ProductList = ({buy}: PruductListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
   const ConfirmWidth = useCallback(()=>{
@@ -45,7 +49,7 @@ const ProductList = () => {
     >
       {ITEMS.length > 0 && ITEMS.map((item, idx) => (
         <GridListTile key={idx}>
-          <ProductItem item={item} />
+          <ProductItem item={item} buy={buy}/>
         </GridListTile>
       ))}
     </GridList>

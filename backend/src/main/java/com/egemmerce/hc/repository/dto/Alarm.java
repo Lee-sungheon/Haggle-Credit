@@ -3,7 +3,6 @@ package com.egemmerce.hc.repository.dto;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity @EqualsAndHashCode(of = "aNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Alarm {
-    @Id @GeneratedValue
+    @Id
 	private int aNo;
 	private int aSendUNo;
 	private int aRecvUNo;

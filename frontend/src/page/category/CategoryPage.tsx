@@ -37,9 +37,48 @@ const TitleText = styled.div`
   align-items: center;
 `;
 
+const FilterArea = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+`;
+
+const Filter = styled.div`
+  font-size: 12px;
+  display: flex;
+  font-weight: bold;
+`;
+
+const FilterItem = styled.div`
+  cursor: pointer;
+  margin-right: 20px;
+  position: relative;
+  display: block;
+  ::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: -10px;
+    width: 1px;
+    height: 12px;
+    border-right: 1px solid rgb(204, 204, 204);
+  }
+`;
+
+const LastItem = styled.div`
+  cursor: pointer;
+  position: relative;
+  display: block;
+`;
+
 const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
-  const [ category, setCategory ] = useState(match.params.name);
-  const [ subCategory, setSubCategory] = useState('');
+  const [category, setCategory] = useState(match.params.name);
+  const [subCategory, setSubCategory] = useState('');
+  const [buy, setBuy] = useState(true);
+  const [filterIdx, setFilterIdx] = useState(0);
+
   useEffect(()=>{
     window.scrollTo(0, 0);
     const idx: number = parseInt(match.params.name.split('-')[1]);
@@ -65,7 +104,18 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
             {subCategory === '' ? category.split('-')[0] : subCategory.split('-')[0]} 상품 추천
           </TitleText>
         </TitleArea>
-        <ProductList />
+        <FilterArea>
+          <Filter>
+            <FilterItem style={buy ? {color: '#ffceae'}:{}} onClick={() => setBuy(true)}>팝니다</FilterItem>
+            <LastItem style={buy ? {}:{color: '#ffceae'}} onClick={() => setBuy(false)}>삽니다</LastItem>
+          </Filter>
+          <Filter>
+            <FilterItem style={filterIdx === 0 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(0)}>최신순</FilterItem>
+            <FilterItem style={filterIdx === 1 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(1)}>저가순</FilterItem>
+            <LastItem style={filterIdx === 2 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(2)}>고가순</LastItem>
+          </Filter>
+        </FilterArea>
+        <ProductList buy={buy}/>
       </ProductArea>
     </Container>
   )

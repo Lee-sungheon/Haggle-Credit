@@ -12,6 +12,7 @@ interface ITEM {
 
 interface ProductInfoProps {
   item: ITEM;
+  buy: boolean;
 }
 
 const Container = styled.div`
@@ -115,10 +116,10 @@ const StyledButton = styled.div`
   align-items: center;
 `;
 
-const ProductInfo = ({item}: ProductInfoProps) => {
+const ProductInfo = ({item, buy}: ProductInfoProps) => {
   const [ isLike, setIsLike ] = useState(false);
   const [ time, setTime ] = useState('');
-  const endDate = '2021-05-10 23:00';
+  const endDate = '2021-05-20 23:00';
   const CalTime = useCallback(()=> {
     let t1 = moment(endDate);
     let t2 = moment();
@@ -152,13 +153,15 @@ const ProductInfo = ({item}: ProductInfoProps) => {
               {item.title}
             </InfoTitle>
             <InfoPrice>
-              <InfoText>현재가 : </InfoText>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}<InfoText>원</InfoText>
+              <InfoText>현재가 : </InfoText>
+              <span style={{ color: 'red' }}>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span> 
+              <InfoText>원</InfoText>
             </InfoPrice>
             <InfoPrice>
-              <InfoText>즉구가 : </InfoText>
-              <span style={{ color: 'red' }}>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              <InfoText>{buy ? "즉구가 : " : "시작가 : "}</InfoText>
+              <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               <InfoText>원</InfoText></span>
-              <InfoSubText>(시작가 : {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>
+              {buy ? <InfoSubText>(시작가 : {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>:<></>}
             </InfoPrice>
           </InfoTitlePrice>
         </InfoArea>
@@ -190,11 +193,13 @@ const ProductInfo = ({item}: ProductInfoProps) => {
             >♥</span> 
             찜 {isLike ? 0+1 : 0}
           </StyledButton>
-          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../auction/${1}`, '_blank')}>
+          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../auction/sell/${1}`, '_blank')}>
             입찰하기
           </StyledButton>
-          <StyledButton style={{ backgroundColor: 'red' }} onClick={() => window.open(`../purchase/${1}`, '_blank')}>
-            바로구매
+          <StyledButton style={buy ? { backgroundColor: 'red' }:{ backgroundColor: 'orange'}} 
+            onClick={buy ? () => window.open(`../purchase/buy/${1}`, '_blank') : 
+            () =>  window.open(`../purchase/sell/${1}`, '_blank')}>
+            {buy ? '바로구매' : '연락하기'}
           </StyledButton>
         </ButtonBox>
       </ProductInfoBox>

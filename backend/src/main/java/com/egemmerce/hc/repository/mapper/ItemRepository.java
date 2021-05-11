@@ -1,18 +1,13 @@
 package com.egemmerce.hc.repository.mapper;
 
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.egemmerce.hc.repository.dto.Item;
 
+@Transactional
 public interface ItemRepository extends JpaRepository<Item, Long>{
 
-	List<Item> findByiType(String iType);
-
-	Item findByiNo(int getiNo);
-
-	List<Item> findByiNameContaining(String iName,Pageable pageable);
+	Item findByiNo(int iNo);
 
 }
