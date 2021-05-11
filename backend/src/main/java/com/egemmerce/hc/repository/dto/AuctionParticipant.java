@@ -3,7 +3,6 @@ package com.egemmerce.hc.repository.dto;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -15,42 +14,66 @@ import lombok.NoArgsConstructor;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class AuctionParticipant {
 	
-    @Id @GeneratedValue
+    @Id
 	private int apNo;
-	private int apANo;
-	private int apUNo;
+	private int apItemNo;
+	private int apUserNo;
 	private int apBid;
 	private LocalDateTime apDate;
+	private String apAddress;
+	
+	public void generateapDate() {
+		this.apDate=LocalDateTime.now();
+	}
+
 	public int getApNo() {
 		return apNo;
 	}
+
 	public void setApNo(int apNo) {
 		this.apNo = apNo;
 	}
-	public int getApANo() {
-		return apANo;
+
+	public int getApItemNo() {
+		return apItemNo;
 	}
-	public void setApANo(int apANo) {
-		this.apANo = apANo;
+
+	public void setApItemNo(int apItemNo) {
+		this.apItemNo = apItemNo;
 	}
-	public int getApUNo() {
-		return apUNo;
+
+	public int getApUserNo() {
+		return apUserNo;
 	}
-	public void setApUNo(int apUNo) {
-		this.apUNo = apUNo;
+
+	public void setApUserNo(int apUserNo) {
+		this.apUserNo = apUserNo;
 	}
+
 	public int getApBid() {
 		return apBid;
 	}
+
 	public void setApBid(int apBid) {
 		this.apBid = apBid;
 	}
+
 	public LocalDateTime getApDate() {
 		return apDate;
 	}
+
 	public void setApDate(LocalDateTime apDate) {
 		this.apDate = apDate;
 	}
+
+	public String getApAddress() {
+		return apAddress;
+	}
+
+	public void setApAddress(String apAddress) {
+		this.apAddress = apAddress;
+	}
+	
 	
 	
 }

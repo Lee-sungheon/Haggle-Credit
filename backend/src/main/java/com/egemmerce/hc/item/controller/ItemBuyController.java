@@ -14,57 +14,66 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.egemmerce.hc.item.service.ItemBuyService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.Item;
+import com.egemmerce.hc.repository.dto.ItemBuy;
+import com.egemmerce.hc.repository.dto.ItemSell;
 
 @RestController
-@RequestMapping("/item")
-public class ItemController {
+@RequestMapping("/itemBuy")
+public class ItemBuyController {
+	
+	@Autowired
+	private ItemBuyService itemBuyService;
 	
 	@Autowired
 	private ItemService itemService;
 	
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")
-	public ResponseEntity<String> createItem(@RequestBody Item item) throws Exception {
-		if(itemService.insertItem(item) != null)
+	public ResponseEntity<String> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
+		Item item=itemService.insert(Item.builder().iType("Buy").build());
+		itemBuy.setIbItemNo(item.getiNo());
+		if(itemBuyService.insertItemBuy(itemBuy) != null)
 			return new ResponseEntity<String>("상품 등록 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
 	
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
-	public ResponseEntity<List<Item>> reviewItemAll() throws Exception {
-		return new ResponseEntity<List<Item>>(itemService.selectItemAll(), HttpStatus.OK);
-	}
-	
-	/* R :: 상품 조회(판매/구매) */
-	@GetMapping("/type")
-	public ResponseEntity<List<Item>> reviewItemByType(String iType) throws Exception {
-		return new ResponseEntity<List<Item>>(itemService.selectItemByType(iType), HttpStatus.OK);
+	public ResponseEntity<List<ItemBuy>> reviewItemAll() throws Exception {
+		return new ResponseEntity<List<ItemBuy>>(itemBuyService.selectItemBuyAll(), HttpStatus.OK);
 	}
 	
 	
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
-	public ResponseEntity<List<Item>> selectItemByiName(String iName,Pageable pageable) throws Exception {
-		return new ResponseEntity<List<Item>>(itemService.selectItemByiName(iName,pageable), HttpStatus.OK);
+	public ResponseEntity<List<ItemBuy>> selectItemByiName(String ibName,Pageable pageable) throws Exception {
+		return new ResponseEntity<List<ItemBuy>>(itemBuyService.selectItemBuyByibName(ibName,pageable), HttpStatus.OK);
 	}
 	
 	
 	
 	/* U :: 상품 업데이트(거래완료) */
 	@PutMapping("/updateDealCompleted")
-	public ResponseEntity<String> updateItem(@RequestBody Item item) throws Exception {
-		if(itemService.updateItemDealCompleted(item) != null)
+	public ResponseEntity<String> updateItem(@RequestBody ItemBuy itemBuy) throws Exception {
+		if(itemService.updateItemDealCompleted(itemBuy.getIbItemNo()) != null)
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
+	}
+	/* U :: 상품 업데이트 */
+	@PutMapping("/update")
+	public ResponseEntity<String> updateItemSell(@RequestBody ItemBuy itemBuy) throws Exception {
+		if(itemBuyService.updateItemBuy(itemBuy) != null)
+			return new ResponseEntity<String>("Success", HttpStatus.OK);
+		return new ResponseEntity<String>("Fail", HttpStatus.NO_CONTENT);
 	}
 	
 	/* D :: 상품 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteItem(int iNo) throws Exception {
-		if(itemService.deleteItem(iNo))
+	public ResponseEntity<String> deleteItem(int ibItemNo) throws Exception {
+		if(itemBuyService.deleteItemBuy(ibItemNo))
 			return new ResponseEntity<String>("상품 삭제 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("상품 삭제 실패", HttpStatus.NO_CONTENT);
 	}
