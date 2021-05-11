@@ -4,6 +4,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import { useHistory } from "react-router";
+import DestinationItem from "./DestinationItem";
 
 interface DestinationProps {
   isModal: boolean;
@@ -35,7 +36,6 @@ const DestinationArea = styled.div`
   padding-bottom: 0.5rem;
   line-height: 3.5rem;
   font-size: 1rem;
-  font-weight: bold;
   border-bottom: 1px solid rgb(220, 219, 228);
 `;
 
@@ -140,6 +140,7 @@ const DestinationList = styled.div`
 `;
 
 const DestinationItemArea = styled.div`
+  cursor: pointer;
   position: relative;
   padding: 1.5rem 1rem;
   background-color: rgb(255, 255, 255);
@@ -157,27 +158,16 @@ const AddressBox = styled.div`
   font-weight: bold;
 `;
 
-const BasicDestination = styled.span`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  height: 1.125rem;
-  margin-left: 0.5rem;
-  padding: 0px 0.375rem;
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: rgb(255, 80, 88);
-  border-radius: 9px;
-  border: 1px solid rgb(255, 80, 88);
-`;
-
 const ContentBox = styled.div`
   font-size: 13px;
 `;
 
 const RequestBox = styled.div`
   font-size: 13px;
-  margin-top: 1rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Destination = ({isModal, destination}: DestinationProps) => {
@@ -192,13 +182,25 @@ const Destination = ({isModal, destination}: DestinationProps) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <DestinationArea>
-        배송지
+        <p style={{fontWeight: 'bold', margin: 0}}>배송지</p>
         <DestinationButton onClick={handleOpen}>
           <StyledIcon />
         </DestinationButton>
+        <DestinationItemArea style={{border: 'none', padding: 0, paddingBottom: 20}}>
+          <AddressBox>
+            <p>{destination[0]['address']}</p>
+          </AddressBox>
+          <ContentBox>
+          {destination[0]['title']} ・ {destination[0]['name']} ・ {destination[0]['phone']}
+          </ContentBox>
+          <RequestBox>
+            <span>요청사항 | {destination[0]['request']}</span>
+          </RequestBox>
+        </DestinationItemArea>
       </DestinationArea>
 
       <Modal
@@ -237,18 +239,9 @@ const Destination = ({isModal, destination}: DestinationProps) => {
                 </DestinationContent>
               :
                 <DestinationList>
-                  <DestinationItemArea>
-                    <AddressBox>
-                      <p>{destination[0]['address']}</p>
-                      <BasicDestination>기본 배송지</BasicDestination>
-                    </AddressBox>
-                    <ContentBox>
-                    {destination[0]['title']} ・ {destination[0]['name']} ・ {destination[0]['phone']}
-                    </ContentBox>
-                    <RequestBox>
-                      <span>요청사항</span> | {destination[0]['request']}
-                    </RequestBox>
-                  </DestinationItemArea>
+                  <DestinationItem destination={destination}/>
+                  <DestinationItem destination={destination}/>
+                  <DestinationItem destination={destination}/>
                 </DestinationList>
               }
             </DestinationBox>

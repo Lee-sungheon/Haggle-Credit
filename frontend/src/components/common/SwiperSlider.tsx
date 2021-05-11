@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'; 
+import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 import 'swiper/swiper.scss';
@@ -9,17 +10,66 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import { useDispatch } from 'react-redux';
+import { commonActions } from "../../state/common";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    border: '1px solid rgba(0, 0, 0, 0.2)',
   },
+  cardMedia: {
+    objectFit: 'cover',
+    position: 'absolute',
+    height: '100%',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }
 });
+
+const ImgBox = styled.div`
+  width: 100%;
+  height: 0;
+  position: relative;
+  padding: 45% 0;
+  border-radius: 3px;
+`;
+
+const ItemTitle = styled.p`
+  font-size: 14px;
+  margin: 0;
+  padding: 5px;
+`;
+
+const ItemPrice = styled.p`
+  font-size: 16px;
+  margin: 0;
+  padding: 5px;
+  font-weight: 700;
+`;
+
+const ItemTime = styled.p`
+  font-size: 11px;
+  margin: 0;
+  padding: 5px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+`;
+
+const ItemCategory = styled.span`
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-right: 4px;
+`;
 
 const SwiperSlider: React.FC = () => { 
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(6);
+  const dispatch = useDispatch();
+  const history = useHistory();
   
   useEffect(()=>{
     ConfirmWidth();
@@ -28,6 +78,15 @@ const SwiperSlider: React.FC = () => {
       window.removeEventListener('resize', ConfirmWidth);
     }
   });
+
+  const goDetail = () => {
+    const buy = true;
+    // dispatch(commonActions.addRecently(item));
+    // history.push({
+    //   pathname: `/detail/${item.id}`,
+    //   state: {item, buy}
+    // });
+  };
 
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
@@ -52,22 +111,31 @@ const SwiperSlider: React.FC = () => {
       > 
       {ITEMS.map((item, idx: number) => (
         <SwiperSlide key={idx}>
-          <Card className={classes.root}>
+          <Card className={classes.root} onClick={goDetail}>
             <CardActionArea>
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                height="100%"
-                image={Object.values(item)[0]}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {Object.values(item)[1]}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {Object.values(item)[2]}
-                </Typography>
+              <ImgBox>
+                <CardMedia
+                  component="img"
+                  className={classes.cardMedia}
+                  image={item.url}
+                />
+              </ImgBox>
+              <CardContent style={{ padding : 0 }}>
+                <ItemTitle>{item.title}</ItemTitle>
+                <ItemPrice>
+                  <ItemCategory>현재가</ItemCategory> 
+                  <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                  <ItemCategory>원</ItemCategory>
+                </ItemPrice>
+                <ItemPrice>
+                <ItemCategory>즉구가</ItemCategory> 
+                  <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                  <ItemCategory>원</ItemCategory>
+                </ItemPrice>
+                <ItemTime>
+                  <ItemCategory>입찰자</ItemCategory> 0 
+                  <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{'05.21 23:59'}
+                </ItemTime>
               </CardContent>
             </CardActionArea>
           </Card>
@@ -79,48 +147,64 @@ const SwiperSlider: React.FC = () => {
 
 export default SwiperSlider;
 
-const ITEMS: object[] = [
+interface ITEM {
+  id: string;
+  url: string;
+  title: string;
+  price: number;
+}
+
+const ITEMS: ITEM[] = [
   {
+    id: '1',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item1',
     price: 50000,
   },
   {
+    id: '2',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item2',
     price: 50000,
   },
   {
+    id: '3',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item3',
     price: 50000,
   },
   {
+    id: '4',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item4',
     price: 50000,
   },
   {
+    id: '5',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item5',
     price: 50000,
   },
   {
+    id: '6',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item6',
     price: 50000,
   },
   {
+    id: '7',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item7',
     price: 50000,
   },
   {
+    id: '8',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item8',
     price: 50000,
   },
   {
+    id: '9',
     url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
     title: 'Item9',
     price: 50000,

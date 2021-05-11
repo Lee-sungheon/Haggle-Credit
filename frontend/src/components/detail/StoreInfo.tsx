@@ -292,7 +292,7 @@ const StoreInfo = () => {
           <StyledButton style={{ background: 'rgb(255, 164, 37)'}}>연락하기</StyledButton>
           <StyledButton 
             style={{ background: theme.color.main, marginRight: '15px' }}
-            onClick={() => window.open(`../auction/${1}`, '_blank')}
+            onClick={() => window.open(`../auction/buy/${1}`, '_blank')}
           >입찰하기</StyledButton>
         </ButtonArea>
       </StoreArea>

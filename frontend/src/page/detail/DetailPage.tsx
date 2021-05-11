@@ -18,6 +18,7 @@ interface MatchParams {
 
 interface LocationParams {
   item: ITEM;
+  buy: boolean;
 }
 
 interface HistoryParams {
@@ -37,6 +38,7 @@ const CategoryBox = styled.div`
 
 const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
   const item = location.state.item;
+  const buy = location.state.buy;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location])
@@ -45,7 +47,7 @@ const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
       <CategoryBox>
         <Category category={'여성의류-100'} subCategory={''} />
       </CategoryBox>
-      <ProductInfo item={item}/>
+      <ProductInfo item={item} buy={buy}/>
       <DetailTab />
     </Container>
   )

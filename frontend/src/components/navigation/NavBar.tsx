@@ -8,6 +8,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { CATEGORYS } from '../../common/data';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -180,9 +182,15 @@ const NavBar = () => {
   const categoryRef = useRef<HTMLDivElement>(null);
   const subCategoryRef = useRef<HTMLDivElement>(null);
   const [mainCategory, setMainCategory] = useState('');
+  const [search, setSearch] = useState('');
+  const isSearch = useSelector((state: RootState) => state.common.isSearch);
   const history = useHistory();
 
+
   useEffect(() => {
+    if (!isSearch){
+      setSearch("")
+    }
     if (mainCategory !== '') {
       if (null !== subCategoryRef.current) {
         if (
@@ -199,7 +207,7 @@ const NavBar = () => {
         }
       }
     }
-  }, [mainCategory]);
+  }, [mainCategory, isSearch]);
 
   const enterEvent = () => {
     if (null !== categoryRef.current) {
@@ -270,13 +278,20 @@ const NavBar = () => {
           <InputBase
             className={classes.input}
             style={{ padding: 0 }}
+            value={search}
             placeholder="상품명, 키워드 입력"
             inputProps={{ 'aria-label': '상품명 입력' }}
+            onKeyPress={(e) => {if(e.key === 'Enter'){
+              history.push(`/search?q=${search}`)}}}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <IconButton
             type="submit"
             className={classes.iconButton}
             aria-label="search"
+            onClick={
+              () => history.push(`/search?q=${search}`)
+            }
           >
             <SearchIcon />
           </IconButton>
