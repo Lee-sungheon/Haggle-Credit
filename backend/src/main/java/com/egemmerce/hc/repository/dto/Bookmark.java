@@ -8,26 +8,25 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "bINo")
+@Entity @EqualsAndHashCode(of = "bItemNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Bookmark {
 	
     @Id
-	private int bINo;
-	private int bUNo;
+	private int bItemNo;
+	private int bUserNo;
+	public int getbItemNo() {
+		return bItemNo;
+	}
+	public void setbItemNo(int bItemNo) {
+		this.bItemNo = bItemNo;
+	}
+	public int getbUserNo() {
+		return bUserNo;
+	}
+	public void setbUserNo(int bUserNo) {
+		this.bUserNo = bUserNo;
+	}
 	
-	public int getbINo() {
-		return bINo;
-	}
-	public void setbINo(int bINo) {
-		this.bINo = bINo;
-	}
-	public int getbUNo() {
-		return bUNo;
-	}
-	public void setbUNo(int bUNo) {
-		this.bUNo = bUNo;
-	}
-	
-	
+
 }

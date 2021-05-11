@@ -18,7 +18,7 @@ public class UserCredit {
 	private int ucNo;
     
 	private int ucApNo;
-	private int ucUNo;
+	private int ucUserNo;
 	private String ucClass;
 	private int ucPoint;
 	private LocalDateTime ucTime;
@@ -34,12 +34,6 @@ public class UserCredit {
 	}
 	public void setUcApNo(int ucApNo) {
 		this.ucApNo = ucApNo;
-	}
-	public int getUcUNo() {
-		return ucUNo;
-	}
-	public void setUcUNo(int ucUNo) {
-		this.ucUNo = ucUNo;
 	}
 	public String getUcClass() {
 		return ucClass;
@@ -58,6 +52,15 @@ public class UserCredit {
 	}
 	public void setUcTime(LocalDateTime ucTime) {
 		this.ucTime = ucTime;
+	}
+	public int getUcUserNo() {
+		return ucUserNo;
+	}
+	public void setUcUserNo(int ucUserNo) {
+		this.ucUserNo = ucUserNo;
+	}
+	public void setUcNo(int ucNo) {
+		this.ucNo = ucNo;
 	}
 	
 	
