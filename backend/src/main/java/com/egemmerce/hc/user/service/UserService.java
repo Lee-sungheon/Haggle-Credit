@@ -43,4 +43,7 @@ public interface UserService{
 
 	boolean updatePass(User user);
 
+	/*유저 번호로 조회*/
+	User selectUserByuNo(int isUserNo);
+
 }

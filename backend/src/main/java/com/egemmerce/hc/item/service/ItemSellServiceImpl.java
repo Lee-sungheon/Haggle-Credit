@@ -18,6 +18,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 	/* C :: 상품 등록 */
 	@Override
 	public ItemSell insertItemSell(ItemSell itemSell) {
+		itemSell.generateisRegDate();
 		return itemSellRepository.save(itemSell);
 	}
 	
@@ -45,6 +46,17 @@ public class ItemSellServiceImpl implements ItemSellService {
 	/*상품 업데이트*/
 	@Override
 	public ItemSell updateItemSell(ItemSell itemSell) {
+		return itemSellRepository.save(itemSell);
+	}
+
+	/*아이템 번호로 itemsell 조회*/
+	@Override
+	public ItemSell selectItemSellbyisItemNo(int isItemNo) {
+		return itemSellRepository.findByisItemNo(isItemNo);
+	}
+
+	@Override
+	public ItemSell updateAuctionPrice(ItemSell itemSell) {
 		return itemSellRepository.save(itemSell);
 	}
 }

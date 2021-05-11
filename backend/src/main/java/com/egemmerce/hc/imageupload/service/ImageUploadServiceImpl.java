@@ -2,12 +2,10 @@ package com.egemmerce.hc.imageupload.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.User;
-import com.egemmerce.hc.repository.mapper.ImageMapper;
 import com.egemmerce.hc.repository.mapper.ItemPhotoRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
@@ -28,8 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ImageUploadServiceImpl implements ImageUploadService {
-   @Autowired
-   private ImageMapper mapper;
+
 
    private ItemPhotoRepository itemPhotoRepository;
    private UserRepository userRepository;

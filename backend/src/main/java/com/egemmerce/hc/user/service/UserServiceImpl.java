@@ -3,7 +3,6 @@ package com.egemmerce.hc.user.service;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAccount;
-import com.egemmerce.hc.repository.mapper.UserMapper;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -38,10 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 	
-	/* User Mapper 객체 불러오기 */
-	@Autowired
-	private UserMapper userMapper;
-	
+
 	private final UserEmailService emailService;
 	private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -241,6 +236,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return new UserAccount(user);
     }
+
+	@Override
+	public User selectUserByuNo(int uNo) {
+		return userRepository.findByuNo(uNo);
+	}
 	
 	
 

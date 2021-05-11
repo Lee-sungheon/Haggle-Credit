@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 public class User {
 
 	@Id
-	@GeneratedValue
 	private int uNo;
 	private String uEmail;
 	private String uPassword;

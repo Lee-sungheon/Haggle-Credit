@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemBuy;
-import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	/* C :: 상품 등록 */
 	@Override
 	public ItemBuy insertItemBuy(ItemBuy itemBuy) {
+		itemBuy.generateibRegDate();
 		return itemBuyRepository.save(itemBuy);
 	}
 	
@@ -46,6 +46,17 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	/*상품 업데이트*/
 	@Override
 	public ItemBuy updateItemBuy(ItemBuy itemBuy) {
+		return itemBuyRepository.save(itemBuy);
+	}
+
+	/* R :: 상품 전체 조회 */
+	@Override
+	public ItemBuy selectItemBuybyibItemNo(int ibItemNo) {
+		return itemBuyRepository.findByibItemNo(ibItemNo);
+	}
+
+	@Override
+	public ItemBuy updateReverseAuctionPrice(ItemBuy itemBuy) {
 		return itemBuyRepository.save(itemBuy);
 	}
 }

@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -12,14 +11,14 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "isNo")
+@Entity @EqualsAndHashCode(of = "isItemNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class ItemSell {	
 	
     @Id
-	private int isNo;
-    private int isUserNo;
     private int isItemNo;
+
+    private int isUserNo;
     
 	private LocalDateTime isRegDate;
 	private String isCategoryMain;
@@ -38,14 +37,6 @@ public class ItemSell {
 	
 	public void generateisRegDate() {
 		this.isRegDate=LocalDateTime.now();
-	}
-
-	public int getIsNo() {
-		return isNo;
-	}
-
-	public void setIsNo(int isNo) {
-		this.isNo = isNo;
 	}
 
 	public int getIsUserNo() {

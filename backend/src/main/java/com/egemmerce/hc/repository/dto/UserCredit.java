@@ -3,7 +3,6 @@ package com.egemmerce.hc.repository.dto;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class UserCredit {
 	
-    @Id @GeneratedValue
+    @Id
 	private int ucNo;
     
 	private int ucApNo;

@@ -20,7 +20,7 @@ public class AuctionParticipant {
 	private int apUserNo;
 	private int apBid;
 	private LocalDateTime apDate;
-	private String apAddress;
+	private int apAddress;
 	
 	public void generateapDate() {
 		this.apDate=LocalDateTime.now();
@@ -66,14 +66,15 @@ public class AuctionParticipant {
 		this.apDate = apDate;
 	}
 
-	public String getApAddress() {
+	public int getApAddress() {
 		return apAddress;
 	}
 
-	public void setApAddress(String apAddress) {
+	public void setApAddress(int apAddress) {
 		this.apAddress = apAddress;
 	}
-	
+
+
 	
 	
 }

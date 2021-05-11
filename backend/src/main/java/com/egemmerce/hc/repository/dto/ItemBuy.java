@@ -11,12 +11,11 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "ibNo")
+@Entity @EqualsAndHashCode(of = "ibItemNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class ItemBuy {	
 	
     @Id
-	private int ibNo;
     private int ibItemNo;
     private int ibUserNo;
     private String ibName;
@@ -36,14 +35,6 @@ public class ItemBuy {
 	
 	public void generateibRegDate() {
 		this.ibRegDate = LocalDateTime.now();
-	}
-
-	public int getIbNo() {
-		return ibNo;
-	}
-
-	public void setIbNo(int ibNo) {
-		this.ibNo = ibNo;
 	}
 
 	public int getIbItemNo() {

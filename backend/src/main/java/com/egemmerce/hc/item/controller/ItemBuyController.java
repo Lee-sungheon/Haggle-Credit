@@ -2,7 +2,6 @@ package com.egemmerce.hc.item.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.egemmerce.hc.auction.service.ReverseAuctionParticipantService;
 import com.egemmerce.hc.item.service.ItemBuyService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
-import com.egemmerce.hc.repository.dto.ItemSell;
+import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/itemBuy")
+@RequiredArgsConstructor
 public class ItemBuyController {
 	
-	@Autowired
-	private ItemBuyService itemBuyService;
-	
-	@Autowired
-	private ItemService itemService;
+	private final ItemBuyService itemBuyService;
+	private final ItemService itemService;
+	private final ReverseAuctionParticipantService reverseAuctionParticipantService;
 	
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")
@@ -76,5 +77,22 @@ public class ItemBuyController {
 		if(itemBuyService.deleteItemBuy(ibItemNo))
 			return new ResponseEntity<String>("상품 삭제 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("상품 삭제 실패", HttpStatus.NO_CONTENT);
+	}
+	
+	/* 경매 입찰 */
+	@PutMapping("/auction")
+	public ResponseEntity<String> updateReverseAuction(int ibUserNo, int ibItemNo, int ibAuctionPrice) throws Exception {
+		ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(ibItemNo);
+		if (itemBuy.getIbAuctionPrice() < ibAuctionPrice) {
+			return new ResponseEntity<String>("기존 경매가보다 큽니다.", HttpStatus.OK);
+		}
+		if (itemBuyService.updateReverseAuctionPrice(
+				ItemBuy.builder().ibItemNo(ibItemNo).ibAuctionPrice(ibAuctionPrice).build()) != null) {
+			ReverseAuctionParticipant reverseAuctionParticipant = ReverseAuctionParticipant.builder().rapItemNo(ibItemNo).rapBid(ibAuctionPrice).rapUserNo(ibUserNo).build();
+			reverseAuctionParticipant.generaterapDate();
+			reverseAuctionParticipantService.insert(reverseAuctionParticipant);
+			return new ResponseEntity<String>("역경매가 업데이트 성공.", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("역경매가 업데이트 실패.", HttpStatus.OK);
 	}
 }
