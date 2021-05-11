@@ -52,6 +52,11 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Override
 	public UserAddress selectDefaultAddress(int uNo) {
 		List<UserAddress> userAddress = userAddressRepository.findByuaUserNo(uNo);
+		for (UserAddress ua : userAddress) {
+			if(ua.getUaDefaultSetting().equals("true")) {
+				return ua;
+			}
+		}
 		return userAddress.get(0);
 	}
 }
