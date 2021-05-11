@@ -2,6 +2,7 @@ package com.egemmerce.hc.item.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +21,16 @@ import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/itemBuy")
-@RequiredArgsConstructor
 public class ItemBuyController {
 	
-	private final ItemBuyService itemBuyService;
-	private final ItemService itemService;
-	private final ReverseAuctionParticipantService reverseAuctionParticipantService;
+	@Autowired
+	private ItemBuyService itemBuyService;
+	@Autowired
+	private ItemService itemService;
+	@Autowired
+	private ReverseAuctionParticipantService reverseAuctionParticipantService;
 	
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")

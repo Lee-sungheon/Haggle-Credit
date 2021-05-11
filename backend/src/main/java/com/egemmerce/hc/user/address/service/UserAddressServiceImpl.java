@@ -13,10 +13,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserAddressServiceImpl implements UserAddressService {
 
-	
 	private final UserAddressRepository userAddressRepository;
-	
-	
+
 	/* C :: 배송지 추가 */
 	@Override
 	public UserAddress insertAddress(UserAddress userAddress) throws Exception {
@@ -34,18 +32,18 @@ public class UserAddressServiceImpl implements UserAddressService {
 	public boolean updateDefaultAddress(UserAddress userAddress) throws Exception {
 		return userAddressRepository.save(userAddress) != null;
 	}
-	
+
 	/* U :: 배송지 정보 변경 */
 	@Override
 	public boolean updateUserAddressEdit(UserAddress userAddress) throws Exception {
-		return  userAddressRepository.save(userAddress) != null;
+		return userAddressRepository.save(userAddress) != null;
 	}
-	
+
 	/* D :: 배송지 삭제 */
 	@Override
 	public boolean deleteAddress(int uaNo) throws Exception {
 		userAddressRepository.deleteByuaNo(uaNo);
-		if(userAddressRepository.findByuaNo(uaNo)==null) {
+		if (userAddressRepository.findByuaNo(uaNo) == null) {
 			return true;
 		}
 		return false;
@@ -53,12 +51,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	public UserAddress selectDefaultAddress(int uNo) {
-		UserAddress userAddress=userAddressRepository.findbyuaNoAnduaDefaultSetting(uNo,"true");
-		if(userAddress!=null) {
-			return userAddress;
-		}else {
-			userAddress=userAddressRepository.findByuaNo(uNo);
-			return userAddress;
-		}
+		List<UserAddress> userAddress = userAddressRepository.findByuaUserNo(uNo);
+		return userAddress.get(0);
 	}
 }

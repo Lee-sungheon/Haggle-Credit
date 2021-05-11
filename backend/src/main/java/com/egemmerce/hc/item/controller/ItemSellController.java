@@ -2,6 +2,7 @@ package com.egemmerce.hc.item.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,19 +26,22 @@ import com.egemmerce.hc.user.address.service.UserAddressService;
 import com.egemmerce.hc.user.service.UserCreditService;
 import com.egemmerce.hc.user.service.UserService;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/itemSell")
-@RequiredArgsConstructor
 public class ItemSellController {
 
-	private final ItemSellService itemSellService;
-	private final ItemService itemService;
-	private final AuctionParticipantService auctionParticipantService;
-	private final UserService userService;
-	private final UserAddressService userAddressService;
-	private final UserCreditService	userCreditService;
+	@Autowired
+	private ItemSellService itemSellService;
+	@Autowired
+	private ItemService itemService;
+	@Autowired
+	private AuctionParticipantService auctionParticipantService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private UserAddressService userAddressService;
+	@Autowired
+	private UserCreditService	userCreditService;
 
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")
