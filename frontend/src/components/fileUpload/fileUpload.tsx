@@ -7,7 +7,7 @@ const spring_URL = process.env.VUE_APP_SPRING_URL;
 export function App() {
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
-
+  
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
@@ -17,8 +17,17 @@ export function App() {
     setImages(imageList as never[]);
   };
 
-  const saveIP = () => {
+  const saveIP = (imageList: ImageListType) => {
+    console.log(imageList);
     axios.post(`${spring_URL}/image/itemPhotoUpload`, imageList)
+    .then(res => {
+        console.log(res);
+    })
+  };
+
+  const updateProfile = (imageList: ImageListType) => {
+    console.log(imageList);
+    axios.post(`${spring_URL}/image/profileUpload`, imageList)
     .then(res => {
         console.log(res);
     })
@@ -61,8 +70,8 @@ export function App() {
                 </div>
               </div>
             ))}
-            <button onClick={saveIP}>ItemPhoto저장버튼!</button>
-            <button onClick={saveIP}>Profile저장버튼!</button>
+            <button onClick={() => saveIP(imageList)}>ItemPhoto저장버튼!</button>
+            <button onClick={() => updateProfile(imageList)}>Profile저장버튼!</button>
           </div>
         )}
       </ImageUploading>
