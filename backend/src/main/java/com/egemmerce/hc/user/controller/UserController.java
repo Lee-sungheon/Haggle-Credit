@@ -106,7 +106,7 @@ public class UserController {
 	/* U :: 개인 정보 수정 */
 	@ApiOperation(value = "뱅크수정을 위한 Restful API", response = User.class)
 	@PutMapping("/updateBank")
-	public ResponseEntity<String> updateUserBank(@PathVariable int uNo, String uBankName, String uBankNo) throws Exception {
+	public ResponseEntity<String> updateUserBank(@RequestBody int uNo, String uBankName, String uBankNo) throws Exception {
 		if (userService.updateUserBank(uNo,uBankName,uBankNo))
 			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
@@ -152,7 +152,7 @@ public class UserController {
 	/* U :: credit 충전 */
 	@ApiOperation(value = "Credit 충전 Restful API", response = User.class)
 	@PutMapping("/chargeCredit")
-	public ResponseEntity<String> chargeCredit(int uNo, int credit) {
+	public ResponseEntity<String> chargeCredit(@RequestBody int uNo, int credit) {
 		if (userService.chargeCredit(uNo,credit)) {
 			return new ResponseEntity<String>("충전 성공", HttpStatus.OK);
 		}
@@ -162,7 +162,7 @@ public class UserController {
 	/* U :: credit 출금 */
 	@ApiOperation(value = "Credit 출금 Restful API", response = User.class)
 	@PutMapping("/withdrawCredit")
-	public ResponseEntity<String> withdrawCredit(int uNo, int credit) {
+	public ResponseEntity<String> withdrawCredit(@RequestBody int uNo, int credit) {
 		if (userService.withdrawCredit(uNo, credit)) {
 			return new ResponseEntity<String>("출금 성공", HttpStatus.OK);
 		}
