@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		web.ignoring()
 				.antMatchers("/user/**")
 				.antMatchers("/item/**")
+				.antMatchers("/itemSell/**")
 				.antMatchers("/**")
 				.antMatchers("/chat/**")
 				.antMatchers("/login/**")
