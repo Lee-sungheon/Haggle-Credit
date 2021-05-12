@@ -1,19 +1,20 @@
-import { all } from "@redux-saga/core/effects";
-import { applyMiddleware, combineReducers, compose, createStore } from "redux";
-import { persistReducer } from "redux-persist";
-import storageSession from "redux-persist/lib/storage/session";
-import createSagaMiddleware from "redux-saga";
-import HomeReducer from "../state/home";
-import CommonReducer from "../state/common";
+import { all } from '@redux-saga/core/effects';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
+import createSagaMiddleware from 'redux-saga';
+import HomeReducer from '../state/home';
+import CommonReducer from '../state/common';
+import UserReducer from '../state/user';
 
 declare global {
   interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?:typeof compose;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: storageSession,
   whitelist: ['common'],
 };
@@ -21,6 +22,7 @@ const persistConfig = {
 const reducer = combineReducers({
   home: HomeReducer,
   common: CommonReducer,
+  user: UserReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
