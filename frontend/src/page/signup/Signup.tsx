@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
@@ -15,10 +14,6 @@ const SignupContainer = styled.div`
 
 const Logo = styled.div`
   margin-bottom: 15px;
-`;
-
-const Head = styled.h1`
-  text-align: center;
 `;
 
 const Form = styled.div`
@@ -99,9 +94,7 @@ const Signup = () => {
   const userUserNameHandler = (e: any) => {
     setUserData({ ...userData, u_name: e.target.value });
   };
-  const userPhoneHandler = (e: any) => {
-    setUserData({ ...userData, u_phone: e.target.value });
-  };
+
   const userPhoneHandler_1 = (e: any) => {
     const p1 = e.target.value
       .replace(/[^0-9.]/g, '')

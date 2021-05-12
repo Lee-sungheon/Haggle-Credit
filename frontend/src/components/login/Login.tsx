@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -91,6 +91,7 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
     email: '',
     password: '',
   });
+
   const onEmailHandler = (e: any) => {
     setInputData({ ...inputData, email: e.target.value });
   };

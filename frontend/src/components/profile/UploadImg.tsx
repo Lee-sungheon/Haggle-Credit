@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../state/user/index';
 import axios from 'axios';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
+
 const Container = styled.div`
   width: 300px;
   height: 300px;
@@ -13,57 +17,122 @@ const ImgSection = styled.div`
   position: relative;
   top: 50%;
 `;
+const ImgSection2 = styled.div`
+  top: 50%;
+  padding-left: 100px;
+`;
 
-const ImgInputLabel = styled.label`
+const ImgInputButton = styled.button`
   padding: 6px 25px;
+  border: none;
   background-color: #ff6600;
   border-radius: 4px;
   color: white;
   cursor: pointer;
 `;
 
+const Aaa = styled.div`
+  text-align: center;
+  ${ImgSection2} {
+    position: absolute;
+    visibility: hidden;
+  }
+  :hover {
+    ${ImgSection2} {
+      visibility: visible;
+    }
+  }
+`;
+
 const UploadImg = () => {
+  const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user.userData);
 
-  const uploadImgHandler = (e: any) => {
-    e.preventDefault();
-    const imageFile = e.target.files[0];
-    const imageUrl = URL.createObjectURL(imageFile);
-    axios
-      .put('https://k4d107.p.ssafy.io/haggle-credit/image/profileUpload', {
-        uImage: imageUrl,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const [images, setImages] = useState([]);
+  const maxNumber = 69;
+
+  const onChange = (imageList: ImageListType) => {
+    setImages(imageList as never[]);
+  };
+  useEffect(() => {
+    updateProfile(images);
+  }, [images]);
+  const updateProfile = (imageList: ImageListType) => {
+    if (imageList.length <= 0) {
+      return;
+    }
+    let body2 = userData;
+    body2.uImage = imageList[0].dataURL;
+    if (imageList[0].dataURL) {
+      axios
+        .put(`https://k4d107.p.ssafy.io/haggle-credit/user/update`, body2, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          dispatch(userActions.changeProfileImage(res.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   return (
     <>
-      {userData.uImage ? (
-        <img
-          src={userData.uImage}
-          id="img"
-          style={{
-            width: '300px',
-          }}
-        ></img>
-      ) : (
-        <Container>
-          <ImgSection>
-            <ImgInputLabel htmlFor="input-file">사진등록</ImgInputLabel>
-            <input
-              type="file"
-              id="input-file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={uploadImgHandler}
-            />
-          </ImgSection>
-        </Container>
-      )}
+      <ImageUploading value={images} onChange={onChange} maxNumber={maxNumber}>
+        {({
+          imageList,
+          onImageUpload,
+          onImageUpdate,
+          onImageRemove,
+          isDragging,
+          dragProps,
+        }) => (
+          // write your building UI
+          <>
+            {userData.uImage ? (
+              <>
+                <Aaa>
+                  <img
+                    src={userData.uImage}
+                    id="img"
+                    style={{
+                      width: '300px',
+                    }}
+                  ></img>
+
+                  <ImgSection2>
+                    <ImgInputButton
+                      style={isDragging ? { color: 'red' } : undefined}
+                      onClick={onImageUpload}
+                      {...dragProps}
+                    >
+                      사진바꾸기
+                    </ImgInputButton>
+                    <br />
+                    <ImgInputButton
+                      onClick={() => onImageRemove(0)}
+                      style={{ marginTop: '20px' }}
+                    >
+                      사진삭제
+                    </ImgInputButton>
+                  </ImgSection2>
+                </Aaa>
+              </>
+            ) : (
+              <Container>
+                <ImgSection>
+                  <ImgInputButton onClick={onImageUpload}>
+                    사진등록
+                  </ImgInputButton>
+                </ImgSection>
+              </Container>
+            )}
+          </>
+        )}
+      </ImageUploading>
     </>
   );
 };
