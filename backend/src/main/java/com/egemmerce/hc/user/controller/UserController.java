@@ -98,17 +98,19 @@ public class UserController {
 	/* U :: 개인 정보 수정 */
 	@ApiOperation(value = "개인정보수정을 위한 Restful API", response = User.class)
 	@PutMapping("/update")
-	public ResponseEntity<String> updateUser(@RequestBody User user) throws Exception {
-		if (userService.updateUser(user))
-			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
+	public ResponseEntity<?> updateUser(@RequestBody User user) throws Exception {
+		User check=userService.updateUser(user);
+		if (check!=null)
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
 	}
-	/* U :: 개인 정보 수정 */
+	/* U :: 뱅크 정보 수정 */
 	@ApiOperation(value = "뱅크수정을 위한 Restful API", response = User.class)
 	@PutMapping("/updateBank")
-	public ResponseEntity<String> updateUserBank(@RequestBody User user) throws Exception {
-		if (userService.updateUserBank(user.getuNo(),user.getuBankName(),user.getuBankNo()))
-			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
+	public ResponseEntity<?> updateUserBank(@RequestBody User user) throws Exception {
+		User check=userService.updateUserBank(user.getuNo(),user.getuBankName(),user.getuBankNo());
+		if (check!=null)
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
 	}
 
@@ -116,8 +118,9 @@ public class UserController {
 	@ApiOperation(value = "ID를 찾기위한 Restful API", response = User.class)
 	@GetMapping("/find/id")
 	public ResponseEntity<String> findUEmail(String uName, int uPhone) throws Exception {
-		if (userService.selectFindUEmail(uName, uPhone) != null) {
-			return new ResponseEntity<String>("이메일 찾기 성공", HttpStatus.OK);
+		User check=userService.selectFindUEmail(uName, uPhone);
+		if (check != null) {
+			return new ResponseEntity<String>(check.getuEmail(), HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("이메일 찾기 실패", HttpStatus.NO_CONTENT);
 	}
@@ -152,9 +155,10 @@ public class UserController {
 	/* U :: credit 충전 */
 	@ApiOperation(value = "Credit 충전 Restful API(uNo,uCredit)", response = User.class)
 	@PutMapping("/chargeCredit")
-	public ResponseEntity<String> chargeCredit(@RequestBody User user) {
-		if (userService.chargeCredit(user.getuNo(),user.getuCredit())) {
-			return new ResponseEntity<String>("충전 성공", HttpStatus.OK);
+	public ResponseEntity<?> chargeCredit(@RequestBody User user) {
+		User check=userService.chargeCredit(user.getuNo(),user.getuCredit());
+		if (check!=null) {
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("충전 실패", HttpStatus.NO_CONTENT);
 	}
@@ -162,19 +166,21 @@ public class UserController {
 	/* U :: credit 출금 */
 	@ApiOperation(value = "Credit 출금 Restful API(uNo,uCredit)", response = User.class)
 	@PutMapping("/withdrawCredit")
-	public ResponseEntity<String> withdrawCredit(@RequestBody User user) {
-		if (userService.withdrawCredit(user.getuNo(), user.getuCredit())) {
-			return new ResponseEntity<String>("출금 성공", HttpStatus.OK);
+	public ResponseEntity<?> withdrawCredit(@RequestBody User user) {
+		User check=userService.withdrawCredit(user.getuNo(), user.getuCredit());
+		if (check!=null) {
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("출금 실패", HttpStatus.NO_CONTENT);
 	}
 
-	/* U :: 개인 정보 수정 */
+	/* U :: 비밀번호 수정 */
 	@ApiOperation(value = "비밀번호 수정을 위한 Restful API(uNo,uPassword)", response = User.class)
 	@PutMapping("/updatePass")
-	public ResponseEntity<String> temp(@RequestBody User user) throws Exception {
-		if (userService.updatePass(user))
-			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
+	public ResponseEntity<?> temp(@RequestBody User user) throws Exception {
+		User check=userService.updatePass(user);
+		if (check!=null)
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
 	}
 }

@@ -132,8 +132,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	/* 회원 정보 수정*/
 	@Override
-	public boolean updateUser(User user) throws Exception {
-		return userRepository.save(user)!=null;
+	public User updateUser(User user) throws Exception {
+		return userRepository.save(user);
 	}
 	
 	/* 아이디 찾기 */
@@ -222,10 +222,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public boolean updatePass(User user) {
+	public User updatePass(User user) {
 		User check=userRepository.findByuNo(user.getuNo());
 		check.setuPassword(passwordEncoder.encode(user.getuPassword()));
-		return userRepository.save(check) != null;
+		return userRepository.save(check);
 	}
 
     @Override
@@ -246,23 +246,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	/* 크레딧 충전 */
 	@Override
-	public boolean chargeCredit(int uNo, int credit) {
+	public User chargeCredit(int uNo, int credit) {
 		User check = userRepository.findByuNo(uNo);
 		check.setuCredit(check.getuCredit() + credit);
 		UserCredit uCredit=UserCredit.builder().ucClass("plus").ucUserNo(check.getuNo()).ucCredit(check.getuCredit()).build();
 		uCredit.generateucTime();
 		userCreditRepository.save(uCredit);
-		return userRepository.save(check) != null;
+		return userRepository.save(check);
 	}
 	/* 크레딧 출금 */
 	@Override
-	public boolean withdrawCredit(int uNo, int credit) {
+	public User withdrawCredit(int uNo, int credit) {
 		User check = userRepository.findByuNo(uNo);
 		check.setuCredit(check.getuCredit() - credit);
 		UserCredit uCredit=UserCredit.builder().ucClass("minus").ucUserNo(uNo).ucCredit(check.getuCredit()).build();
 		uCredit.generateucTime();
 		userCreditRepository.save(uCredit);
-		return userRepository.save(check) != null;
+		return userRepository.save(check);
 	}
 	//입찰 실패로 인한 환불
 	@Override
@@ -285,12 +285,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public boolean updateUserBank(int uNo, String uBankName, String uBankNo) {
+	public User updateUserBank(int uNo, String uBankName, String uBankNo) {
 		User user=userRepository.findByuNo(uNo);
 		user.setuBankName(uBankName);
 		user.setuBankNo(uBankNo);
 		
-		return userRepository.save(user)!=null;
+		return userRepository.save(user);
 	}
 
 }

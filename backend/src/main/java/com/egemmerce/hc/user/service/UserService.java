@@ -27,7 +27,7 @@ public interface UserService{
 	User selectUserLogin(User user) throws Exception;
 	
 	/* 회원 정보 수정*/
-	boolean updateUser(User user) throws Exception;
+	User updateUser(User user) throws Exception;
 
 	/* 아이디 찾기 */
 	User selectFindUEmail(String uName, int uPhone) throws Exception;
@@ -41,14 +41,14 @@ public interface UserService{
 
 	User selectUserByEmail(String getuEmail);
 
-	boolean updatePass(User user);
+	User updatePass(User user);
 
 	/*유저 번호로 조회*/
 	User selectUserByuNo(int isUserNo);
 
-	boolean chargeCredit(int uNo, int credit);
+	User chargeCredit(int uNo, int credit);
 
-	boolean withdrawCredit(int uNo, int credit);
+	User withdrawCredit(int uNo, int credit);
 
 	//입찰 실패로 인한 환불
 	void updateUserCreditbyFail(int apUserNo, int apBid, int isItemNo);
@@ -56,7 +56,7 @@ public interface UserService{
 	//입찰시 유저 포인트 출금
 	void updateUserCreditbyAP(User user, int isAuctionPrice, int isItemNo);
 	
-	boolean updateUserBank(int uNo, String uBankName, String uBankNo);
+	User updateUserBank(int uNo, String uBankName, String uBankNo);
 	
 
 }

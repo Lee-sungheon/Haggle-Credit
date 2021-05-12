@@ -57,6 +57,9 @@ public class UserAddressServiceImpl implements UserAddressService {
 				return ua;
 			}
 		}
+		if(userAddress.size()==0) {
+			return null;
+		}
 		return userAddress.get(0);
 	}
 }

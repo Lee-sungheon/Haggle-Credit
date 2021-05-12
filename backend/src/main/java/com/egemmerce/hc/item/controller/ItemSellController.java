@@ -133,10 +133,15 @@ public class ItemSellController {
 
 			// 유저 배송지 가져오기
 			UserAddress userAddress = userAddressService.selectDefaultAddress(user.getuNo());
-
+			
+			if(userAddress==null) {
+				return new ResponseEntity<String>("배송지가 없습니다.", HttpStatus.OK);
+			}
 			// 이전에 경매에 참여한 사람 크래딧 환불
 			AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
-			userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
+			if(beforeAP!=null) {
+				userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
+			}
 
 			// 새로 입찰한 사람
 			AuctionParticipant auctionParticipant = AuctionParticipant.builder().apItemNo(isItemNo).apUserNo(isUserNo)
