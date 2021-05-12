@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -105,7 +106,7 @@ public class UserController {
 	/* U :: 개인 정보 수정 */
 	@ApiOperation(value = "뱅크수정을 위한 Restful API", response = User.class)
 	@PutMapping("/updateBank")
-	public ResponseEntity<String> updateUserBank(int uNo, String uBankName, String uBankNo) throws Exception {
+	public ResponseEntity<String> updateUserBank(@PathVariable int uNo, String uBankName, String uBankNo) throws Exception {
 		if (userService.updateUserBank(uNo,uBankName,uBankNo))
 			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
