@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@EqualsAndHashCode(of = "bItemNo")
+@EqualsAndHashCode(of = "bNo")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Bookmark {
 
 	@Id
+	private int bNo;
 	private int bItemNo;
 	private int bUserNo;
 
@@ -38,6 +39,14 @@ public class Bookmark {
 
 	public void setbUserNo(int bUserNo) {
 		this.bUserNo = bUserNo;
+	}
+
+	public int getbNo() {
+		return bNo;
+	}
+
+	public void setbNo(int bNo) {
+		this.bNo = bNo;
 	}
 
 }

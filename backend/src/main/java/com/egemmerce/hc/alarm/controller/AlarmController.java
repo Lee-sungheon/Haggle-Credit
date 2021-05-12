@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.alarm.service.AlarmService;
@@ -35,7 +36,7 @@ public class AlarmController {
 
 	/* C :: 알람 1줄 생성 */
 	@PostMapping("/create")
-	public ResponseEntity<String> createAlarm(Alarm alarm) throws Exception {
+	public ResponseEntity<String> createAlarm(@RequestParam Alarm alarm) throws Exception {
 		System.out.println(alarm.toString());
 		if (alarmService.createAlarm(alarm) != null) {
 			return new ResponseEntity<String>("알람 생성 성공", HttpStatus.OK);
@@ -45,13 +46,13 @@ public class AlarmController {
 
 	/* R :: 사용자의 알람 전체 조회 */
 	@GetMapping("/read")
-	public ResponseEntity<List<Alarm>> reviewAlarm(int uNo) throws Exception {
+	public ResponseEntity<List<Alarm>> reviewAlarm(@RequestParam int uNo) throws Exception {
 		return new ResponseEntity<List<Alarm>>(alarmService.reviewAlarm(uNo), HttpStatus.OK);
 	}
 
 	/* D :: 사용자의 알람 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteAlarm(int aNo) throws Exception {
+	public ResponseEntity<String> deleteAlarm(@RequestParam int aNo) throws Exception {
 		if (alarmService.deleteAlarm(aNo)) {
 			return new ResponseEntity<String>("알람 삭제 성공", HttpStatus.OK);
 		}
