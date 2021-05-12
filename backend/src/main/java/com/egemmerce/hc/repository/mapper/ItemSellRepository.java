@@ -18,4 +18,6 @@ public interface ItemSellRepository extends JpaRepository<ItemSell, Long> {
 
 	ItemSell findByisItemNo(int isItemNo);
 
+	List<ItemSell> findByisDealUserNo(int isDealUserNo);
+
 }

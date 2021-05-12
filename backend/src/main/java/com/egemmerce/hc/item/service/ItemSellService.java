@@ -28,6 +28,12 @@ public interface ItemSellService {
 
 	ItemSell updateAuctionPrice(ItemSell itemSell);
 
+	void updateItembyCool(int isItemNo, int uNo, int uaNo);
+
+	List<ItemSell> selectOverEndDate();
+
+	void updateItembyAuction(ItemSell is);
+
 
 
 

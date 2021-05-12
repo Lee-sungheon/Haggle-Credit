@@ -15,17 +15,20 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "isItemNo")
-@Builder @AllArgsConstructor @NoArgsConstructor
+@Entity
+@EqualsAndHashCode(of = "isItemNo")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class ItemSell {	
-	
-    @Id
-    private int isItemNo;
+public class ItemSell {
 
-    private int isUserNo;
-    private int isNo;
+	@Id
+	private int isItemNo;
+
+	private int isUserNo;
+	private int isNo;
 	private LocalDateTime isRegDate;
 	@ColumnDefault("기타")
 	private String isCategoryMain;
@@ -45,10 +48,11 @@ public class ItemSell {
 	private int isDealUserNo;
 	@ColumnDefault("0")
 	private int isDealPrice;
-	private String isDealAddress;
-	
+	@ColumnDefault("0")
+	private int isDealAddress;
+
 	public void generateisRegDate() {
-		this.isRegDate=LocalDateTime.now();
+		this.isRegDate = LocalDateTime.now();
 	}
 
 	public int getIsUserNo() {
@@ -163,14 +167,6 @@ public class ItemSell {
 		this.isDealPrice = isDealPrice;
 	}
 
-	public String getIsDealAddress() {
-		return isDealAddress;
-	}
-
-	public void setIsDealAddress(String isDealAddress) {
-		this.isDealAddress = isDealAddress;
-	}
-
 	public int getIsItemNo() {
 		return isItemNo;
 	}
@@ -186,6 +182,13 @@ public class ItemSell {
 	public void setIsNo(int isNo) {
 		this.isNo = isNo;
 	}
-	
-	
+
+	public int getIsDealAddress() {
+		return isDealAddress;
+	}
+
+	public void setIsDealAddress(int isDealAddress) {
+		this.isDealAddress = isDealAddress;
+	}
+
 }

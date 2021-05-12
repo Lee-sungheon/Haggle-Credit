@@ -1,5 +1,7 @@
 package com.egemmerce.hc.item.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,16 +72,33 @@ public class ItemSellController {
 				HttpStatus.OK);
 	}
 
-	/* U :: 상품 업데이트(거래완료) */
-	@ApiOperation(value = "거래완료 변경")
+	/* U :: 상품 업데이트(쿨거래) */
+	@ApiOperation(value = "거래완료 변경(쿨거래)")
 	@PutMapping("/updateDealCompleted")
-	public ResponseEntity<String> updateItem(@RequestBody ItemSell itemSell) throws Exception {
-		if (itemService.updateItemDealCompleted(itemSell.getIsItemNo()) != null) {
-			itemSellService.updateItemSell(itemSell);
+	public ResponseEntity<String> updateItembyCool(int isItemNo,int uNo,int uaNo) throws Exception {
+		if (itemService.updateItemDealCompleted(isItemNo) != null) {
+			itemSellService.updateItembyCool(isItemNo,uNo,uaNo);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 
 		}
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
+	}
+	/* U :: 상품 업데이트(경매 종료) */
+	@ApiOperation(value = "거래완료 변경(경매 기간 종료)")
+	@PutMapping("/endAuction")
+	public ResponseEntity<String> endAuction() throws Exception {
+		
+		List<ItemSell> endItemSell=itemSellService.selectOverEndDate();
+		if(endItemSell.size()==0) {
+			return new ResponseEntity<String>("종료된 경매가 없습니다.",HttpStatus.ACCEPTED);
+		}else {
+			for (ItemSell is : endItemSell) {
+				itemService.updateItemDealCompleted(is.getIsItemNo());
+				itemSellService.updateItembyAuction(is);
+				
+			}
+			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
+		}
 	}
 
 	/* U :: 상품 업데이트 */

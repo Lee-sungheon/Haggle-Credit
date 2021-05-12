@@ -12,7 +12,7 @@ public interface AuctionParticipantRepository extends JpaRepository<AuctionParti
 
 	List<AuctionParticipant> findByapItemNo(int apItemNo);
 
-	AuctionParticipant findByapItemNoOrderByApDate(int apItemNo);
+	AuctionParticipant findByapItemNoOrderByApDateDesc(int apItemNo);
 
 
 }
