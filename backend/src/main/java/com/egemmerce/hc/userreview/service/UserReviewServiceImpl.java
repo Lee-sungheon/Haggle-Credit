@@ -2,8 +2,12 @@ package com.egemmerce.hc.userreview.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.egemmerce.hc.repository.dto.UserReview;
 import com.egemmerce.hc.repository.mapper.UserReviewRepository;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * 
@@ -16,7 +20,8 @@ import com.egemmerce.hc.repository.mapper.UserReviewRepository;
  * @Description : 리뷰 업로드
  *
  */
-
+@Service
+@RequiredArgsConstructor
 public class UserReviewServiceImpl implements UserReviewService {
 
 	private UserReviewRepository userReviewRepository;

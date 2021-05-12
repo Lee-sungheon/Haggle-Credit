@@ -2,6 +2,7 @@ package com.egemmerce.hc.item.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.egemmerce.hc.repository.dto.ItemSell;
@@ -12,7 +13,7 @@ public interface ItemSellService {
 	ItemSell insertItemSell(ItemSell itemSell);
 
 	/* R :: 상품 전체 조회 */
-	List<ItemSell> selectItemSellAll();
+	Page<ItemSell> selectItemSellAll(Pageable pageable);
 
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
