@@ -36,7 +36,7 @@ public class UserController {
 	private UserService userService;
 
 	/* C :: 회원 가입 */
-	@ApiOperation(value = "회원가입을 위한 Restful API", response = User.class)
+	@ApiOperation(value = "회원가입을 위한 Restful API(uEmail,uPassword,uBirth(yyyy-mm-dd),uName,uPhone)", response = User.class)
 	@PostMapping("/join")
 	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
 		if (userService.insertUser(user) != null) {
@@ -47,7 +47,7 @@ public class UserController {
 	}
 
 	/* 일반 로그인 */
-	@ApiOperation(value = "로그인 처리하는 Restful API", response = User.class)
+	@ApiOperation(value = "로그인 처리하는 Restful API(uEmail,uPassword)", response = User.class)
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) throws Exception {
 		User check = userService.login(user);
@@ -104,7 +104,7 @@ public class UserController {
 
 	/* R :: ID 찾기 (등록된 이름과 휴대폰번호를 통해) */
 	@ApiOperation(value = "ID를 찾기위한 Restful API", response = User.class)
-	@GetMapping("find/id")
+	@GetMapping("/find/id")
 	public ResponseEntity<String> findUEmail(String uName, int uPhone) throws Exception {
 		if (userService.selectFindUEmail(uName, uPhone) != null) {
 			return new ResponseEntity<String>("이메일 찾기 성공", HttpStatus.OK);
@@ -114,7 +114,7 @@ public class UserController {
 
 	/* U :: PW 찾기[정확히는 등록된 이메일로 임시 비번 발급 및 업데이트] (등록된 이름, 휴대폰 그리고 이메일을 통해) */
 	@ApiOperation(value = "PW를 찾기위한 Restful API", response = User.class)
-	@PutMapping("find/pw")
+	@PutMapping("/find/pw")
 	public ResponseEntity<String> findUpassword(@RequestBody User user) throws Exception {
 		// 1. 우선 해당 이메일의 이름,폰번호 일치한지 확인
 		if (userService.selectUserByEmail(user.getuEmail()) != null) {
@@ -132,7 +132,7 @@ public class UserController {
 	}
 
 	@ApiOperation(value = "탈퇴를 위한 Restful API", response = User.class)
-	@DeleteMapping("delete")
+	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteUser(String uEmail) throws Exception {
 		if (userService.deleteUser(uEmail) == null)
 			return new ResponseEntity<String>("탈퇴처리 성공", HttpStatus.OK);
@@ -151,7 +151,7 @@ public class UserController {
 
 	/* U :: credit 출금 */
 	@ApiOperation(value = "Credit 출금 Restful API", response = User.class)
-	@PutMapping("/chargeCredit")
+	@PutMapping("/withdrawCredit")
 	public ResponseEntity<String> withdrawCredit(int uNo, int credit) {
 		if (userService.withdrawCredit(uNo, credit)) {
 			return new ResponseEntity<String>("출금 성공", HttpStatus.OK);

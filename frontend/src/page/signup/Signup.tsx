@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import { userSignup, checkUserEmail } from '../../api/UserApi';
 
 const SignupContainer = styled.div`
   width: 500px;
@@ -18,7 +21,7 @@ const Head = styled.h1`
   text-align: center;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   width: 500px;
   text-align: center;
 `;
@@ -37,6 +40,7 @@ const SectionSpan = styled.span`
 const SectionInput = styled.input`
   height: 25px;
   width: 200px;
+  padding-left: 5px;
 `;
 
 const Button = styled.button`
@@ -57,30 +61,211 @@ const Button = styled.button`
 `;
 
 const Signup = () => {
+  const history = useHistory();
+
   const [userData, setUserData] = useState({
-    userEmail: '',
-    password: '',
+    u_email: '',
+    u_password: '',
     confirmPassword: '',
-    userName: '',
-    phone: '',
+    u_name: '',
+    u_phone: '',
+    phone_1: '',
+    phone_2: '',
+    phone_3: '',
+    u_birth: '',
+  });
+  const [dataCheck, setDataCheck] = useState({
+    u_emailCheck: false,
+    u_password: false,
+    u_name: false,
+    u_phone: true,
+    u_birth: false,
+  });
+  const [overlappingCheck, setOverlappingCheck] = useState({
+    u_emailCheck: false,
+    u_phone: true,
+    u_confirmPassword: false,
   });
 
-  const userEmailHandler = (e: any) => {
-    setUserData({ ...userData, userEmail: e.target.value });
+  const userEmailHandler = async (e: any) => {
+    setUserData({ ...userData, u_email: e.target.value });
   };
   const userPasswordHandler = (e: any) => {
-    setUserData({ ...userData, password: e.target.value });
+    setUserData({ ...userData, u_password: e.target.value });
   };
   const userConfirmPasswordHandler = (e: any) => {
     setUserData({ ...userData, confirmPassword: e.target.value });
   };
   const userUserNameHandler = (e: any) => {
-    setUserData({ ...userData, userName: e.target.value });
+    setUserData({ ...userData, u_name: e.target.value });
   };
   const userPhoneHandler = (e: any) => {
-    setUserData({ ...userData, phone: e.target.value });
+    setUserData({ ...userData, u_phone: e.target.value });
+  };
+  const userPhoneHandler_1 = (e: any) => {
+    const p1 = e.target.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+
+    setUserData({ ...userData, phone_1: p1.substring(0, 3) });
+  };
+  const userPhoneHandler_2 = (e: any) => {
+    const p2 = e.target.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+    setUserData({ ...userData, phone_2: p2.substring(0, 4) });
+  };
+  const userPhoneHandler_3 = (e: any) => {
+    const p3 = e.target.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+    setUserData({ ...userData, phone_3: p3.substring(0, 4) });
+  };
+  const userBirthHandler = (e: any) => {
+    const birth = e.target.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+
+    setUserData({ ...userData, u_birth: birth.substring(0, 8) });
   };
 
+  useEffect(() => {
+    if (userData.u_email) {
+      const userEmail = userData.u_email;
+      const check_Email = function (str: any) {
+        let regExp =
+          /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        return regExp.test(str) ? true : false;
+      };
+
+      if (check_Email(userData.u_email) === false) {
+        setDataCheck({ ...dataCheck, u_emailCheck: false });
+        return;
+      } else {
+        setDataCheck({ ...dataCheck, u_emailCheck: true });
+      }
+      checkUserEmail(userEmail)
+        .then((res) => {
+          console.log(res);
+          if (res.data === '사용 가능한 아이디 입니다.') {
+            console.log('사용가능');
+            setOverlappingCheck({ ...overlappingCheck, u_emailCheck: true });
+          } else {
+            setOverlappingCheck({ ...overlappingCheck, u_emailCheck: false });
+          }
+        })
+        .catch((err) => {});
+    }
+  }, [userData.u_email]);
+
+  useEffect(() => {
+    const check_Password = function (str: any) {
+      var reg_pwd = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+      return !reg_pwd.test(str) ? false : true;
+    };
+    if (check_Password(userData.u_password) === false) {
+      setDataCheck({ ...dataCheck, u_password: false });
+      return;
+    } else {
+      setDataCheck({ ...dataCheck, u_password: true });
+    }
+    if (userData.u_password === userData.confirmPassword) {
+      setOverlappingCheck({ ...overlappingCheck, u_confirmPassword: true });
+    } else {
+      setOverlappingCheck({ ...overlappingCheck, u_confirmPassword: false });
+    }
+  }, [userData.u_password, userData.confirmPassword]);
+
+  useEffect(() => {
+    setUserData({
+      ...userData,
+      u_phone: userData.phone_1 + userData.phone_2 + userData.phone_3,
+    });
+  }, [userData.phone_1, userData.phone_2, userData.phone_3]);
+
+  useEffect(() => {
+    const check_Name = function (str: any) {
+      var regNm = /^[가-힣]{1,5}/;
+      return regNm.test(str) ? true : false;
+    };
+    if (check_Name(userData.u_name) === true) {
+      setDataCheck({ ...dataCheck, u_name: true });
+    } else {
+      setDataCheck({ ...dataCheck, u_name: false });
+    }
+  }, [userData.u_name]);
+
+  useEffect(() => {
+    if (userData.u_birth.length === 8) {
+      setDataCheck({ ...dataCheck, u_birth: true });
+    } else {
+      setDataCheck({ ...dataCheck, u_birth: false });
+    }
+  }, [userData.u_birth]);
+  useEffect(() => {}, [userData.u_phone]);
+
+  const SignupHandler = () => {
+    const body = {
+      uEmail: userData.u_email,
+      uPassword: userData.u_password,
+      uName: userData.u_name,
+      uPhone: userData.u_phone,
+      uBirth:
+        userData.u_birth.substring(0, 4) +
+        '-' +
+        userData.u_birth.substring(4, 6) +
+        '-' +
+        userData.u_birth.substring(6, 8),
+    };
+    if (
+      userData.u_email &&
+      dataCheck.u_emailCheck &&
+      overlappingCheck.u_emailCheck
+    ) {
+      if (
+        userData.u_password &&
+        userData.confirmPassword &&
+        dataCheck.u_password &&
+        overlappingCheck.u_confirmPassword
+      ) {
+        if (userData.u_name && dataCheck.u_name) {
+          if (
+            userData.u_phone &&
+            dataCheck.u_phone &&
+            overlappingCheck.u_phone
+          ) {
+            if (userData.u_birth && dataCheck.u_birth) {
+              console.log(body);
+              userSignup(body)
+                .then((res: any) => {
+                  console.log(res);
+                  alert('이메일 인증을 진행해 주세요.');
+                  history.push('/home');
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            } else {
+              alert('생년월일을 다시 작성해 주세요.');
+              return;
+            }
+          } else {
+            alert('전화번호를 다시 작성해 주세요.');
+            return;
+          }
+        } else {
+          alert('이름을 다시 작성해 주세요.');
+          return;
+        }
+      } else {
+        alert('비밀번호를 다시 작성해 주세요.');
+        return;
+      }
+    } else {
+      alert('이메일을 다시 작성해 주세요.');
+      return;
+    }
+  };
   return (
     <SignupContainer>
       <Logo>
@@ -90,23 +275,72 @@ const Signup = () => {
           alt="logo"
         />
       </Logo>
-      {/* <Head>회원가입</Head> */}
       <Form>
         <Section>
           <SectionSpan>이메일</SectionSpan>
           <SectionInput
             id="email"
             type="email"
-            value={userData.userEmail}
+            value={userData.u_email}
             required
             onChange={userEmailHandler}
           ></SectionInput>
+          {userData.u_email && dataCheck.u_emailCheck === false ? (
+            <p
+              style={{
+                textAlign: 'right',
+                paddingRight: '80px',
+                fontSize: '13px',
+                color: 'red',
+                height: '10px',
+                marginTop: '5px',
+                marginBottom: '0',
+              }}
+            >
+              사용할 수 없는 이메일입니다.
+            </p>
+          ) : null}
+          {userData.u_email &&
+          dataCheck.u_emailCheck === true &&
+          overlappingCheck.u_emailCheck === false ? (
+            <p
+              style={{
+                textAlign: 'right',
+                paddingRight: '80px',
+                fontSize: '13px',
+                color: 'red',
+                height: '10px',
+                marginTop: '5px',
+                marginBottom: '0',
+              }}
+            >
+              이미 존재하는 이메일입니다.
+            </p>
+          ) : null}
+          {userData.u_email &&
+          dataCheck.u_emailCheck === true &&
+          overlappingCheck.u_emailCheck === true ? (
+            <p
+              style={{
+                textAlign: 'right',
+                paddingRight: '80px',
+                fontSize: '13px',
+                color: 'blue',
+                height: '10px',
+                marginTop: '5px',
+                marginBottom: '0',
+              }}
+            >
+              사용가능한 이메일입니다.
+            </p>
+          ) : null}
         </Section>
         <Section>
           <SectionSpan>비밀번호</SectionSpan>
           <SectionInput
             id="password"
             type="password"
+            value={userData.u_password}
             required
             onChange={userPasswordHandler}
           ></SectionInput>
@@ -116,29 +350,109 @@ const Signup = () => {
           <SectionInput
             id="confirmpassword"
             type="password"
+            value={userData.confirmPassword}
             required
             onChange={userConfirmPasswordHandler}
           ></SectionInput>
+          {userData.u_password && dataCheck.u_password === false ? (
+            <p
+              style={{
+                textAlign: 'right',
+                paddingRight: '80px',
+                fontSize: '13px',
+                color: 'red',
+                height: '10px',
+                marginTop: '5px',
+                marginBottom: '0',
+              }}
+            >
+              영문, 숫자를 혼합하여 6~20자 이내로 작성해주세요.
+            </p>
+          ) : null}
+          {userData.u_password &&
+          dataCheck.u_password === true &&
+          overlappingCheck.u_confirmPassword === true ? (
+            <p
+              style={{
+                textAlign: 'right',
+                paddingRight: '80px',
+                fontSize: '13px',
+                height: '10px',
+                marginTop: '5px',
+                marginBottom: '0',
+                color: 'blue',
+              }}
+            >
+              사용가능한 비밀번호입니다.
+            </p>
+          ) : null}
+          {userData.u_password &&
+          userData.confirmPassword &&
+          dataCheck.u_password === true &&
+          overlappingCheck.u_confirmPassword === false ? (
+            <p
+              style={{
+                textAlign: 'right',
+                paddingRight: '80px',
+                fontSize: '13px',
+                height: '10px',
+                marginTop: '5px',
+                marginBottom: '0',
+                color: 'red',
+              }}
+            >
+              비밀번호가 일치하지 않습니다.
+            </p>
+          ) : null}
         </Section>
         <Section>
           <SectionSpan>이름</SectionSpan>
           <SectionInput
             id="name"
             type="text"
-            required
+            value={userData.u_name}
             onChange={userUserNameHandler}
           ></SectionInput>
         </Section>
         <Section>
           <SectionSpan>전화번호</SectionSpan>
+          <span style={{ width: '200px' }}>
+            <input
+              id="phone1"
+              type="text"
+              value={userData.phone_1}
+              onChange={userPhoneHandler_1}
+              style={{ width: '40px' }}
+            ></input>
+            <span> - </span>
+            <input
+              id="phone2"
+              type="text"
+              value={userData.phone_2}
+              onChange={userPhoneHandler_2}
+              style={{ width: '60px' }}
+            ></input>
+            <span> - </span>
+            <input
+              id="phone3"
+              type="text"
+              value={userData.phone_3}
+              onChange={userPhoneHandler_3}
+              style={{ width: '60px' }}
+            ></input>
+          </span>
+        </Section>
+        <Section>
+          <SectionSpan>생년월일</SectionSpan>
           <SectionInput
-            id="phone"
+            id="birth"
             type="tel"
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-            onChange={userPhoneHandler}
+            placeholder="yyyymmdd"
+            value={userData.u_birth}
+            onChange={userBirthHandler}
           ></SectionInput>
         </Section>
-        <Button>회원가입</Button>
+        <Button onClick={SignupHandler}>회원가입</Button>
       </Form>
     </SignupContainer>
   );

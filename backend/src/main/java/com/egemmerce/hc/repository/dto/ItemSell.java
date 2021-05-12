@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,16 +17,21 @@ import lombok.NoArgsConstructor;
 
 @Entity @EqualsAndHashCode(of = "isItemNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class ItemSell {	
 	
     @Id
     private int isItemNo;
 
     private int isUserNo;
-    
+    private int isNo;
 	private LocalDateTime isRegDate;
+	@ColumnDefault("기타")
 	private String isCategoryMain;
+	@ColumnDefault("기타")
 	private String isCategorySub;
+	@ColumnDefault("중고")
 	private String isUsedStatus;
 	private String isName;
 	private String isContent;
@@ -30,8 +39,11 @@ public class ItemSell {
 	private Date isStartDate;
 	private Date isEndDate;
 	private int isAuctionPrice;
+	@ColumnDefault("0")
 	private int isOriginPrice;
+	@ColumnDefault("0")
 	private int isDealUserNo;
+	@ColumnDefault("0")
 	private int isDealPrice;
 	private String isDealAddress;
 	
@@ -165,6 +177,14 @@ public class ItemSell {
 
 	public void setIsItemNo(int isItemNo) {
 		this.isItemNo = isItemNo;
+	}
+
+	public int getIsNo() {
+		return isNo;
+	}
+
+	public void setIsNo(int isNo) {
+		this.isNo = isNo;
 	}
 	
 	

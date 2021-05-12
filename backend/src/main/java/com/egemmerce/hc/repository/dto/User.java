@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +21,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class User {
 
 	@Id
@@ -42,6 +46,7 @@ public class User {
 	@ColumnDefault("false")
 	private String uSellerAuth;
 
+	@ColumnDefault("false")
 	private String uJoinConfirm;
 	private String uBankName;
 	private String uBankNo;

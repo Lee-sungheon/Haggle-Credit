@@ -3,6 +3,9 @@ package com.egemmerce.hc.repository.dto;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,6 +13,8 @@ import lombok.NoArgsConstructor;
 
 @Entity @EqualsAndHashCode(of = "bItemNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class Bookmark {
 	
     @Id

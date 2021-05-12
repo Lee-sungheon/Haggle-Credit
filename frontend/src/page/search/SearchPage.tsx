@@ -81,7 +81,6 @@ const LastItem = styled.div`
 `;
 
 const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
-  const [category, setCategory] = useState('');
   const [buy, setBuy] = useState(true);
   const [filterIdx, setFilterIdx] = useState(0);
   const [search, setSearch] = useState(location.search.split('=')[1]);
