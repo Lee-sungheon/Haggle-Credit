@@ -13,8 +13,8 @@ const ProductArea = styled.div`
   padding: 30px 0;
 `;
 
-
 const EventPage = () => {
+  
   useEffect(()=>{
     window.scrollTo(0, 0);
   }, [])

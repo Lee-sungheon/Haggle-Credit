@@ -289,7 +289,10 @@ const StoreInfo = () => {
           </MoreText>
         </MoreArea>
         <ButtonArea>
-          <StyledButton style={{ background: 'rgb(255, 164, 37)'}}>연락하기</StyledButton>
+          <StyledButton 
+            style={{ background: 'rgb(255, 164, 37)'}}
+            onClick={() => window.open(`../chatlist/${1}`, '_blank', "width=387,height=667")}
+            >연락하기</StyledButton>
           <StyledButton 
             style={{ background: theme.color.main, marginRight: '15px' }}
             onClick={() => window.open(`../auction/buy/${1}`, '_blank')}
