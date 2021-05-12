@@ -10,4 +10,6 @@ public interface AuctionParticipantService {
 
 	List<AuctionParticipant> findByapItemNo(int apItemNo);
 
+	AuctionParticipant selectBeforeAP(int isItemNo);
+
 }
