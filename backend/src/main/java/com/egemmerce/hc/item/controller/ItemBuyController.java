@@ -91,8 +91,7 @@ public class ItemBuyController {
 		if (itemBuy.getIbAuctionPrice() < ibAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 큽니다.", HttpStatus.OK);
 		}
-		if (itemBuyService.updateReverseAuctionPrice(
-				ItemBuy.builder().ibItemNo(ibItemNo).ibAuctionPrice(ibAuctionPrice).build()) != null) {
+		if (itemBuyService.updateReverseAuctionPrice(ibItemNo,ibAuctionPrice) != null) {
 			ReverseAuctionParticipant reverseAuctionParticipant = ReverseAuctionParticipant.builder().rapItemNo(ibItemNo).rapBid(ibAuctionPrice).rapUserNo(ibUserNo).build();
 			reverseAuctionParticipant.generaterapDate();
 			reverseAuctionParticipantService.insert(reverseAuctionParticipant);

@@ -16,16 +16,17 @@ import lombok.RequiredArgsConstructor;
 public class ItemBuyServiceImpl implements ItemBuyService {
 
 	private final ItemBuyRepository itemBuyRepository;
+
 	/* C :: 상품 등록 */
 	@Override
 	public ItemBuy insertItemBuy(ItemBuy itemBuy) {
 		itemBuy.generateibRegDate();
 		return itemBuyRepository.save(itemBuy);
 	}
-	
+
 	/* R :: 상품 전체 조회 */
 	@Override
-	public 	Page<ItemBuy> selectItemBuyAll(Pageable pageable) {
+	public Page<ItemBuy> selectItemBuyAll(Pageable pageable) {
 		return itemBuyRepository.findAll(pageable);
 	}
 
@@ -33,7 +34,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	@Override
 	public boolean deleteItemBuy(int ibItemNo) {
 		itemBuyRepository.delete(itemBuyRepository.findByibItemNo(ibItemNo));
-		if(itemBuyRepository.findByibItemNo(ibItemNo)==null) {
+		if (itemBuyRepository.findByibItemNo(ibItemNo) == null) {
 			return true;
 		}
 		return false;
@@ -44,7 +45,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 		return itemBuyRepository.findByibNameContaining(ibName, pageable);
 	}
 
-	/*상품 업데이트*/
+	/* 상품 업데이트 */
 	@Override
 	public ItemBuy updateItemBuy(ItemBuy itemBuy) {
 		return itemBuyRepository.save(itemBuy);
@@ -57,7 +58,9 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	}
 
 	@Override
-	public ItemBuy updateReverseAuctionPrice(ItemBuy itemBuy) {
+	public ItemBuy updateReverseAuctionPrice(int ibItemNo, int ibAuctionPrice) {
+		ItemBuy itemBuy=itemBuyRepository.findByibItemNo(ibItemNo);
+		itemBuy.setIbAuctionPrice(ibAuctionPrice);
 		return itemBuyRepository.save(itemBuy);
 	}
 }

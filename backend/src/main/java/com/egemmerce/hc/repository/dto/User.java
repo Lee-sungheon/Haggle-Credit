@@ -32,6 +32,7 @@ public class User {
 	private String uName;
 	private String uPhone;
 	private Date uBirth;
+	private String uContent;
 	private LocalDateTime uJoinDate;
 
 	@ColumnDefault("client")
@@ -194,6 +195,14 @@ public class User {
 
 	public void setuImage(String uImage) {
 		this.uImage = uImage;
+	}
+
+	public String getuContent() {
+		return uContent;
+	}
+
+	public void setuContent(String uContent) {
+		this.uContent = uContent;
 	}
 
 }

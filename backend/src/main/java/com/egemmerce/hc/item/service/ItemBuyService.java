@@ -20,18 +20,12 @@ public interface ItemBuyService {
 
 	Page<ItemBuy> selectItemBuyByibName(String ibName, Pageable pageable);
 
-	/*상품 업데이트*/
+	/* 상품 업데이트 */
 	ItemBuy updateItemBuy(ItemBuy itemBuy);
 
 	/* R :: 상품 조회 */
 	ItemBuy selectItemBuybyibItemNo(int ibItemNo);
 
-	ItemBuy updateReverseAuctionPrice(ItemBuy itemBuy);
-
-
-
-
-
-
+	ItemBuy updateReverseAuctionPrice(int ibItemNo, int ibAuctionPrice);
 
 }
