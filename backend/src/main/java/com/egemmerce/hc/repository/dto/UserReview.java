@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@EqualsAndHashCode(of = "ipNo")
+@EqualsAndHashCode(of = "urNo")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
