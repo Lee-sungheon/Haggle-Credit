@@ -12,10 +12,12 @@ type userLogin = ReturnType<typeof userActions.userLogin>;
 
 export interface userState {
   userData: object;
+  isLogin: boolean;
 }
 
 const INITIAL_STATE: userState = {
   userData: {},
+  isLogin: false,
 };
 
 const reducer = createReducer<userState>(INITIAL_STATE, {
@@ -23,6 +25,7 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
     return {
       ...state,
       userData: action.userData,
+      isLogin: true,
     };
   },
 });
