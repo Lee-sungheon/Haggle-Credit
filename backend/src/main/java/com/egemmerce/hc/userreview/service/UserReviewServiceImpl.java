@@ -28,7 +28,7 @@ public class UserReviewServiceImpl implements UserReviewService {
 
 	@Override
 	public List<UserReview> selectUserReviewList(int urUserNo) {
-		return userReviewRepository.findByurUserNo(urUserNo);
+		return userReviewRepository.findAllByurUserNo(urUserNo);
 	}
 
 	@Override
