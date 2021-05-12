@@ -223,7 +223,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public boolean updatePass(User user) {
-		User check=userRepository.findByuEmail(user.getuEmail());
+		User check=userRepository.findByuNo(user.getuNo());
 		check.setuPassword(passwordEncoder.encode(user.getuPassword()));
 		return userRepository.save(check) != null;
 	}
