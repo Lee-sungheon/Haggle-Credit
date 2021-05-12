@@ -5,7 +5,6 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import styled from 'styled-components';
 import '../../styles/font/font.css';
-import axios from 'axios';
 import { userLogin } from '../../api/UserApi';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
