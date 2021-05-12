@@ -137,20 +137,23 @@ public class ItemSellController {
 			if(userAddress==null) {
 				return new ResponseEntity<String>("배송지가 없습니다.", HttpStatus.OK);
 			}
-			// 이전에 경매에 참여한 사람 크래딧 환불
-			AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
-			if(beforeAP!=null) {
-				userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
-			}
-
+//			// 이전에 경매에 참여한 사람 크래딧 환불
+//			AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
+//			if(beforeAP!=null) {
+//				userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
+//			}
+			userService.updateBeforeAndNew(isUserNo,isItemNo,isAuctionPrice);
+//
 			// 새로 입찰한 사람
 			AuctionParticipant auctionParticipant = AuctionParticipant.builder().apItemNo(isItemNo).apUserNo(isUserNo)
 					.apBid(isAuctionPrice).apAddress(userAddress.getUaNo()).build();
 			auctionParticipant.generateapDate();
 			auctionParticipantService.insert(auctionParticipant);
-
-			// 새로 입찰한 유저 포인트 출금
-			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);
+//
+//			// 새로 입찰한 유저 포인트 출금
+//			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);
+			
+			//이전에 경매에 참여한 사람 크래딧 환불 새로 입찰한 사람 크래딧 회수
 
 			return new ResponseEntity<String>("경매가 업데이트 성공.", HttpStatus.OK);
 		}

@@ -1,8 +1,10 @@
 package com.egemmerce.hc.user.service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,11 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.EmailMessage;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAccount;
 import com.egemmerce.hc.repository.dto.UserCredit;
+import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
+import com.egemmerce.hc.repository.mapper.UserCreditMapper;
 import com.egemmerce.hc.repository.mapper.UserCreditRepository;
+import com.egemmerce.hc.repository.mapper.UserMapper;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +49,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 	private final UserCreditRepository userCreditRepository;
+	private final AuctionParticipantRepository auctionParticipantRepository;
+	
+	@Autowired
+	private UserCreditMapper userCreditMapper;
+	
+	@Autowired
+	private UserMapper userMapper;
 	
 	/* 일반 로그인 */
 	@Override
@@ -291,6 +304,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setuBankNo(uBankNo);
 		
 		return userRepository.save(user);
+	}
+
+	@Override
+	public void updateBeforeAndNew(int isUserNo, int isItemNo, int isAuctionPrice) {
+		List<AuctionParticipant> beforelist=auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo);
+		User user=null;
+		UserCredit uc=null;
+		if(beforelist.size()!=0) {
+			AuctionParticipant before=beforelist.get(0);
+			user=userRepository.findByuNo(before.getApUserNo());
+			user.setuCredit(user.getuCredit()+before.getApBid());
+			uc=UserCredit.builder().ucClass("plus").ucUserNo(user.getuNo()).ucCredit(user.getuCredit()).ucApNo(isItemNo).build();
+			uc.generateucTime();
+			userCreditRepository.save(uc);
+			userRepository.save(user);
+		}
+		
+		user=userRepository.findByuNo(isUserNo);
+		user.setuCredit(user.getuCredit()-isAuctionPrice);
+		uc=UserCredit.builder().ucClass("minus").ucUserNo(isUserNo).ucCredit(user.getuCredit()).ucApNo(isItemNo).build();
+		uc.generateucTime();
+//		userCreditRepository.save(uc);
+		userRepository.save(user);
+		userCreditMapper.insert(uc);
+//		userMapper.insertCredit(user);
 	}
 
 }

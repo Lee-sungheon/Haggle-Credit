@@ -57,6 +57,8 @@ public interface UserService{
 	void updateUserCreditbyAP(User user, int isAuctionPrice, int isItemNo);
 	
 	User updateUserBank(int uNo, String uBankName, String uBankNo);
+
+	void updateBeforeAndNew(int isUserNo, int isItemNo, int isAuctionPrice);
 	
 
 }
