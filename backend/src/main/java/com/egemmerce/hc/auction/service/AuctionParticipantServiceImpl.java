@@ -29,7 +29,7 @@ public class AuctionParticipantServiceImpl implements AuctionParticipantService 
 
 	@Override
 	public AuctionParticipant selectBeforeAP(int isItemNo) {
-		return auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo);
+		return auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo).get(0);
 	}
 
 }

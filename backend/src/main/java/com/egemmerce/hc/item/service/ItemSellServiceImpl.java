@@ -90,7 +90,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 		userService.updateUserCreditbyAP(user, itemSell.getIsCoolPrice(), isItemNo);
 		
 		//UserCredit 수정
-		AuctionParticipant beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo);
+		AuctionParticipant beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo).get(0);
 		userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
 	}
 
@@ -108,7 +108,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 
 	@Override
 	public void updateItembyAuction(ItemSell is) {
-		AuctionParticipant beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(is.getIsItemNo());
+		AuctionParticipant beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(is.getIsItemNo()).get(0);
 		if(beforeAP==null) {
 			is.setIsDealPrice(0);
 			is.setIsDealAddress(0);
