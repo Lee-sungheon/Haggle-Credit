@@ -20,7 +20,7 @@ public interface UserReviewService {
 
 	public UserReview InsertUserReview(UserReview userReview) throws Exception;
 	
-	public List<UserReview> selectUserReviewList();
+	public List<UserReview> selectUserReviewList(int urUserNo);
 	
 	public UserReview UpdateUserReview(UserReview userReview) throws Exception;
 }

@@ -27,13 +27,13 @@ public class UserReviewServiceImpl implements UserReviewService {
 	}
 
 	@Override
-	public List<UserReview> selectUserReviewList() {
-		return userReviewRepository.findAll();
+	public List<UserReview> selectUserReviewList(int urUserNo) {
+		return userReviewRepository.findByurUserNo(urUserNo);
 	}
 
 	@Override
 	public UserReview UpdateUserReview(UserReview userReview) throws Exception {
-		UserReview check = userReviewRepository.findAllByurNo(userReview.getUrNo());
+		UserReview check = userReviewRepository.findByurNo(userReview.getUrNo());
 		check.setUrContent(userReview.getUrContent());
 		check.setUrScore(userReview.getUrScore());
 		return userReviewRepository.save(check);
