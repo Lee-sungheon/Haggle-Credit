@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import axios from 'axios';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
+import { changeProfileImageAPI } from '../../api/UserApi';
 
 const Container = styled.div`
   width: 300px;
@@ -61,15 +62,10 @@ const UploadImg = () => {
     if (imageList.length <= 0) {
       return;
     }
-    let body2 = userData;
-    body2.uImage = imageList[0].dataURL;
+    let body = userData;
+    body.uImage = imageList[0].dataURL;
     if (imageList[0].dataURL) {
-      axios
-        .put(`https://k4d107.p.ssafy.io/haggle-credit/user/update`, body2, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+      changeProfileImageAPI(body)
         .then((res) => {
           console.log(res);
           dispatch(userActions.changeProfileImage(res.data));
@@ -78,6 +74,18 @@ const UploadImg = () => {
           console.log(err);
         });
     }
+  };
+  const onRemoveImage = () => {
+    let body = userData;
+    body.uImage = '';
+    changeProfileImageAPI(body)
+      .then((res) => {
+        console.log(res);
+        dispatch(userActions.changeProfileImage(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -113,7 +121,7 @@ const UploadImg = () => {
                     </ImgInputButton>
                     <br />
                     <ImgInputButton
-                      onClick={() => onImageRemove(0)}
+                      onClick={() => onRemoveImage()}
                       style={{ marginTop: '20px' }}
                     >
                       사진삭제

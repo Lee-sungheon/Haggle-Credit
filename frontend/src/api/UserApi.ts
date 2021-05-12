@@ -41,3 +41,21 @@ export function changeCredit(body: any) {
     },
   });
 }
+
+export function changeIntroduceAPI(body: any) {
+  const url: string = 'https://k4d107.p.ssafy.io/haggle-credit/user/update';
+  return axios.put(url, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export function changeProfileImageAPI(body: any) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/update`;
+  return axios.put(url, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
