@@ -24,5 +24,5 @@ public interface BookmarkService {
 	List<Bookmark> selectBookmark(int uNo) throws Exception;
 	
 	/* D :: 북마크 삭제 */
-	boolean deleteBookmark(int bNo) throws Exception;
+	int deleteBookmark(int bNo) throws Exception;
 }

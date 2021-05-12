@@ -53,7 +53,7 @@ public class BookmarkController {
 	/* D :: 북마크 삭제 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteBookmark(@RequestParam int bNo) throws Exception {
-		if (bookmarkService.deleteBookmark(bNo)) {
+		if (bookmarkService.deleteBookmark(bNo) > 0) {
 			return new ResponseEntity<String>("북마크 삭제 성공ㅎ", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("북마크 삭제 실패ㅠ", HttpStatus.NO_CONTENT);

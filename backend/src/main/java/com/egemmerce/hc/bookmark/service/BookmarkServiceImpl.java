@@ -41,7 +41,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	/* D :: 북마크 삭제 */
 	@Override
-	public boolean deleteBookmark(int bNo) throws Exception {
+	public int deleteBookmark(int bNo) throws Exception {
 		return bookmarkRepository.deleteBybNo(bNo);
 	}
 
