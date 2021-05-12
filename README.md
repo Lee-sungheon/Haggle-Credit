@@ -12,10 +12,10 @@
 
 <h5>프로젝트 기획 배경은 다음과 같습니다.</h5>
 <ul>
-	✔️언택트 시대의 대표 서비스, 이커머스 서비스 개발 경험<br></br>
-	✔️역량 향상 :  <code><font color="blue"><b>React</b></font></code>, <code><font color="blue"><b>TypeScript</b></font></code>, 	<code><font color="lime"><b>Spring Security</b></font></code>, <code><font color="green"><b>Spring JPA</b></font></code>, <code><font color="blue"><b>Kubernetes</b></font></code><br></br>
-	✔️경매를 통한 팔리지 않는 물품 판매 처리<br></br>
-	✔️최적의 가격에 물품을 구매할 수 있는 기회 제공<br></br>
+	<li>✔️언택트 시대의 대표 서비스, 이커머스 서비스 개발 경험</li>
+	<li>✔️역량 향상 :  <code><font color="blue"><b>React</b></font></code>, <code><font color="blue"><b>TypeScript</b></font></code>, 	<code><font color="lime"><b>Spring Security</b></font></code>, <code><font color="green"><b>Spring JPA</b></font></code>, <code><font color="blue"><b>Kubernetes</b></font></code></li>
+	<li>✔️경매를 통한 팔리지 않는 물품 판매 처리</li>
+	<li>✔️최적의 가격에 물품을 구매할 수 있는 기회 제공</li>
 </ul>
 <ul>
 
@@ -28,10 +28,10 @@
 >  <h3><font color="green">주요 서비스 기능</font></h3>
 <h5>프로젝트의 대표 서비스는 다음과 같습니다.</h5>
 <ul>
-	⭐️사기 방지를 위한 서비스 자체 크레딧포인트(Credit) 거래 시스템<br></br>
-	⭐️좀 더 싼 가격에 구매자가 물품을 사게하기 위한 역경매 시스템<br></br>
-	⭐️경매 시스템을 도입한 판매 활성화<br></br>
-	⭐️거래자들을 위한 팔리지 않은 물건들은 좀 더 싼 가격에 팔아주는 이벤트 경매<br></br>
+	<li>⭐️사기 방지를 위한 서비스 자체 크레딧포인트(Credit) 거래 시스템</li>
+	<li>⭐️좀 더 싼 가격에 구매자가 물품을 사게하기 위한 역경매 시스템</li>
+	<li>⭐️경매 시스템을 도입한 판매 활성화</li>
+	<li>⭐️거래자들을 위한 팔리지 않은 물건들은 좀 더 싼 가격에 팔아주는 이벤트 경매</li>
 </ul>
 
 
