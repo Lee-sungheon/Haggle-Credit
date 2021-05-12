@@ -26,8 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AlarmServiceImpl implements AlarmService {
 
-	@Autowired
-	private AlarmRepository alarmRepository;
+	private final AlarmRepository alarmRepository;
 
 	/* C :: 알람 1줄 생성 */
 	@Override
@@ -38,7 +37,7 @@ public class AlarmServiceImpl implements AlarmService {
 	/* R :: 사용자의 알람 전체 조회 */
 	@Override
 	public List<Alarm> reviewAlarm(int uNo) throws Exception {
-		return alarmRepository.findAllByaRecvUNo(uNo);
+		return alarmRepository.findAllByaRecvUserNo(uNo);
 	}
 
 	/* D :: 사용자의 알람 삭제 */
