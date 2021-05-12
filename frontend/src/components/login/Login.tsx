@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import styled from 'styled-components';
 import '../../styles/font/font.css';
+import axios from 'axios';
+import { userLogin } from '../../api/UserApi';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../state/user/index';
 
 const Logo = styled.div`
   margin-bottom: 15px;
@@ -82,6 +86,44 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [inputData, setInputData] = useState({
+    email: '',
+    password: '',
+  });
+  const onEmailHandler = (e: any) => {
+    setInputData({ ...inputData, email: e.target.value });
+  };
+  const onPasswordHandler = (e: any) => {
+    setInputData({ ...inputData, password: e.target.value });
+  };
+
+  const LoginHandler = () => {
+    const body = {
+      uEmail: inputData.email,
+      uPassword: inputData.password,
+    };
+    userLogin(body)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          alert('로그인에 성공하셨습니다.');
+          dispatch(userActions.userLogin(res.data));
+          handleClose();
+          // 로그인 성공
+        } else if (res.status === 204) {
+          // 비밀번호 틀림
+          alert('비밀번호가 틀렸습니다.');
+        }
+      })
+      .catch((err) => {
+        // 없는 이메일
+        alert('존재하지 않는 이메일입니다.');
+
+        console.log(err);
+      });
+  };
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -94,14 +136,22 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
           alt="logo"
         />
       </Logo>
-      <Form>
-        <InputTag id="email" type="email" placeholder="이메일"></InputTag>
+      <Form onSubmit={LoginHandler}>
+        <InputTag
+          id="email"
+          type="email"
+          placeholder="이메일"
+          value={inputData.email}
+          onChange={onEmailHandler}
+        ></InputTag>
         <InputTag
           id="password"
           type="password"
           placeholder="비밀번호"
+          value={inputData.password}
+          onChange={onPasswordHandler}
         ></InputTag>
-        <LoginButton>로그인</LoginButton>
+        <LoginButton onClick={LoginHandler}>로그인</LoginButton>
       </Form>
       <SubSection>
         <p>비밀번호를 잊어버리셨나요?</p>

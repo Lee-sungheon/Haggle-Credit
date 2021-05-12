@@ -1,27 +1,20 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import ProductList from './PruductList';
-const Container = styled.div``;
-
+const TabName = styled.div`
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  text-align: left;
+  height: 50px;
+  border-bottom: 1px solid #bdbdbd;
+`;
 const ProductTab = () => {
   return (
-    <Container>
-      <div
-        style={{
-          marginTop: '30px',
-          marginBottom: '10px',
-          padding: '0 10px',
-
-          textAlign: 'left',
-          height: '50px',
-          borderBottom: '1px solid #bdbdbd',
-        }}
-      >
-        상품
-      </div>
-
+    <>
+      <TabName>상품</TabName>
       <ProductList />
-    </Container>
+    </>
   );
 };
 

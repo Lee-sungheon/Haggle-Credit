@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import styled from 'styled-components';
 import ProductTab from './Tab/ProductTab';
 import TransactionReviewTab from './Tab/TransactionReviewTab';
 import BasketTab from './Tab/BasketTab';
 import TenderListTab from './Tab/TenderListTab';
+import { Route, Switch } from 'react-router-dom';
+
 const Container = styled.div`
   text-align: center;
   margin-top: 10px;
@@ -43,121 +47,58 @@ const Tab = styled.div`
 `;
 
 const ProfileTab2 = () => {
+  const history = useHistory();
   const [tabId, setTabId] = useState(0);
-  const clickHandler = (id: number) => {
-    setTabId(id);
+  const clickHandler = (id: string) => {
+    history.push(id);
   };
   return (
     <Container>
       <Body>
-        {tabId === 0 ? (
-          <ActTab onClick={() => clickHandler(0)}>
+        {window.location.pathname === '/profile' ? (
+          <ActTab onClick={() => clickHandler('/profile')}>
             <p>상품</p>
           </ActTab>
         ) : (
-          <Tab style={{}} onClick={() => clickHandler(0)}>
+          <Tab style={{}} onClick={() => clickHandler('/profile')}>
             <p>상품</p>
           </Tab>
         )}
-        {tabId === 1 ? (
-          <ActTab onClick={() => clickHandler(1)}>
+        {window.location.pathname === '/profile/transactionreview' ? (
+          <ActTab onClick={() => clickHandler('/profile/transactionreview')}>
             <p>거래리뷰</p>
           </ActTab>
         ) : (
-          <Tab onClick={() => clickHandler(1)}>
+          <Tab onClick={() => clickHandler('/profile/transactionreview')}>
             <p>거래 리뷰</p>
           </Tab>
         )}
-        {tabId === 2 ? (
-          <ActTab onClick={() => clickHandler(2)}>
+        {window.location.pathname === '/profile/basket' ? (
+          <ActTab onClick={() => clickHandler('/profile/basket')}>
             <p>찜</p>
           </ActTab>
         ) : (
-          <Tab onClick={() => clickHandler(2)}>
+          <Tab onClick={() => clickHandler('/profile/basket')}>
             <p>찜</p>
           </Tab>
         )}
-        {tabId === 3 ? (
-          <ActTab onClick={() => clickHandler(3)}>
+        {window.location.pathname === '/profile/tenderlist' ? (
+          <ActTab onClick={() => clickHandler('/profile/tenderlist')}>
             <p>입찰내역</p>
           </ActTab>
         ) : (
-          <Tab onClick={() => clickHandler(3)}>
+          <Tab onClick={() => clickHandler('/profile/tenderlist')}>
             <p>입찰내역</p>
-          </Tab>
-        )}
-        {tabId === 4 ? (
-          <ActTab onClick={() => clickHandler(4)}>
-            <p>팔로잉</p>
-          </ActTab>
-        ) : (
-          <Tab onClick={() => clickHandler(4)}>
-            <p>팔로잉</p>
-          </Tab>
-        )}
-        {tabId === 5 ? (
-          <ActTab onClick={() => clickHandler(5)}>
-            <p>팔로워</p>
-          </ActTab>
-        ) : (
-          <Tab onClick={() => clickHandler(5)}>
-            <p>팔로워</p>
           </Tab>
         )}
       </Body>
-      <div key="1" hidden={tabId !== 0}>
-        <ProductTab />
-      </div>
-      <div key="2" hidden={tabId !== 1}>
-        <TransactionReviewTab />
-      </div>
-      <div key="3" hidden={tabId !== 2}>
-        <BasketTab />
-      </div>
-      <div key="4" hidden={tabId !== 3}>
-        <TenderListTab />
-      </div>
-
-      <div key="5" hidden={tabId !== 4}>
-        <div
-          style={{
-            marginTop: '30px',
-            marginLeft: '30px',
-            textAlign: 'left',
-            height: '50px',
-            borderBottom: '1px solid #bdbdbd',
-          }}
-        >
-          팔로잉
-        </div>
-        <div
-          style={{
-            paddingTop: '30px',
-          }}
-        >
-          팔로잉이 없습니다.
-        </div>
-      </div>
-      <div key="6" hidden={tabId !== 5}>
-        <div
-          style={{
-            marginTop: '30px',
-            marginLeft: '30px',
-            textAlign: 'left',
-            height: '50px',
-            borderBottom: '1px solid #bdbdbd',
-          }}
-        >
-          팔로워
-        </div>
-        <div
-          style={{
-            paddingTop: '30px',
-          }}
-        >
-          팔로워가 없습니다.
-        </div>
-      </div>
+      <Route exact path="/profile" component={ProductTab}></Route>
+      <Route
+        path="/profile/transactionreview"
+        component={TransactionReviewTab}
+      ></Route>
+      <Route path="/profile/basket" component={BasketTab}></Route>
+      <Route path="/profile/tenderlist" component={TenderListTab} />
     </Container>
   );
 };
