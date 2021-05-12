@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
 
 const Container = styled.div`
   width: 200px;
@@ -15,9 +17,11 @@ const TagP = styled.p`
 `;
 
 const UserName = () => {
+  const userData = useSelector((state: RootState) => state.user.userData);
+
   return (
     <Container>
-      <TagP>손동민 님</TagP>
+      <TagP>{userData.uName} 님</TagP>
     </Container>
   );
 };

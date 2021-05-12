@@ -161,7 +161,9 @@ const ProductRegistration = () => {
                       return <ImageList key={idx} item={item}></ImageList>;
                     })}
                   {imageUrls.length === 0 && (
-                    <div>상품 이미지를 등록해주세요.</div>
+                    <div style={{ width: '300px' }}>
+                      상품 이미지를 등록해주세요.
+                    </div>
                   )}
                 </GridList>
               </div>
