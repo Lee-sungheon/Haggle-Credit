@@ -62,8 +62,17 @@ public class ImageUploadController {
 	}
 
 	@GetMapping("/getItemPhotoList")
-	public List<ItemPhoto> getItemPhotoList() {
-		return imageUploadService.selectItemPhotoList();
+	public ResponseEntity<List<ItemPhoto>> getItemPhotoList(@RequestParam int ipItemNo) throws Exception {
+		return new ResponseEntity<List<ItemPhoto>>(imageUploadService.selectItemPhotoList(ipItemNo), HttpStatus.OK);
+	}
+
+	@GetMapping("/getUserProfile")
+	public ResponseEntity<String> getUserProfile(@RequestParam int uNo) throws Exception {
+		String basicImg = "https://i.pinimg.com/474x/83/fc/4c/83fc4c6dca8298dc8e03ba63d35a9cae.jpg";
+		if (imageUploadService.selectUserImage(uNo) != null) {
+			return new ResponseEntity<String>(imageUploadService.selectUserImage(uNo), HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(basicImg, HttpStatus.OK);
 	}
 
 	@PutMapping("/profileUpload")

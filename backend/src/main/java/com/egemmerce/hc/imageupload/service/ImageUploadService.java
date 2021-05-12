@@ -21,8 +21,10 @@ public interface ImageUploadService {
 
    public ItemPhoto InsertItemPhoto(ItemPhoto itemphoto) throws Exception;
 
-   public List<ItemPhoto> selectItemPhotoList();
+   public List<ItemPhoto> selectItemPhotoList(int ipItemNo) throws Exception;
 
    public User UpdateProfile(User user) throws Exception;
 
+   public String selectUserImage(int uNo) throws Exception;
+   
 }
