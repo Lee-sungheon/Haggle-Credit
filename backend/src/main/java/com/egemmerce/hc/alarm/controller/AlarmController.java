@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ public class AlarmController {
 
 	/* C :: 알람 1줄 생성 */
 	@PostMapping("/create")
-	public ResponseEntity<String> createAlarm(@RequestParam Alarm alarm) throws Exception {
+	public ResponseEntity<String> createAlarm(@RequestBody Alarm alarm) throws Exception {
 		System.out.println(alarm.toString());
 		if (alarmService.createAlarm(alarm) != null) {
 			return new ResponseEntity<String>("알람 생성 성공", HttpStatus.OK);

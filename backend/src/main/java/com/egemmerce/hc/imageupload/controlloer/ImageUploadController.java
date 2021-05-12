@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,20 +45,20 @@ public class ImageUploadController {
 	private ImageUploadService imageUploadService;
 
 	@PostMapping("/itemPhotoUpload")
-	public String InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam("mrNo") int ipINo)
-			throws Exception {
-		String ipValue = path + "/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
+//	public String InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam("mrNo") int ipINo)
+	public String InsertItemPhoto(@RequestBody ItemPhoto itemPhoto) throws Exception {
+//		String ipValue = path + "/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
+//
+//		File dest = new File(ipValue);
+//		file.transferTo(dest);
+//
+//		ipValue = "https://k4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
 
-		File dest = new File(ipValue);
-		file.transferTo(dest);
+		ItemPhoto ip = new ItemPhoto();
+		ip.setIpItemNo(itemPhoto.getIpItemNo());
+		ip.setIpValue(itemPhoto.getIpValue());
 
-		ipValue = "https://k4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
-
-		ItemPhoto itemphoto = new ItemPhoto();
-		itemphoto.setIpItemNo(ipINo);
-		itemphoto.setIpValue(ipValue);
-
-		return imageUploadService.InsertItemPhoto(itemphoto) != null ? "OK" : "FAIL";
+		return imageUploadService.InsertItemPhoto(ip) != null ? "OK" : "FAIL";
 	}
 
 	@GetMapping("/getItemPhotoList")
