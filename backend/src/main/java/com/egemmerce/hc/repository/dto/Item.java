@@ -17,7 +17,7 @@ public class Item {
     @Id
 	private int iNo;
     private String iType;
-	@ColumnDefault("판매중")
+	@ColumnDefault("false")
     private String iCompleted;
 	public int getiNo() {
 		return iNo;

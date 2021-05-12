@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class Alarm {
     @Id
 	private int aNo;
-	private int aSendUNo;
-	private int aRecvUNo;
+	private int aSendUserNo;
+	private int aRecvUserNo;
 	private String aTitle;
 	private String aContent;
 	private LocalDateTime aTime;
@@ -27,18 +27,6 @@ public class Alarm {
 	}
 	public void setaNo(int aNo) {
 		this.aNo = aNo;
-	}
-	public int getaSendUNo() {
-		return aSendUNo;
-	}
-	public void setaSendUNo(int aSendUNo) {
-		this.aSendUNo = aSendUNo;
-	}
-	public int getaRecvUNo() {
-		return aRecvUNo;
-	}
-	public void setaRecvUNo(int aRecvUNo) {
-		this.aRecvUNo = aRecvUNo;
 	}
 	public String getaTitle() {
 		return aTitle;
@@ -63,6 +51,18 @@ public class Alarm {
 	}
 	public void setaLink(String aLink) {
 		this.aLink = aLink;
+	}
+	public int getaSendUserNo() {
+		return aSendUserNo;
+	}
+	public void setaSendUserNo(int aSendUserNo) {
+		this.aSendUserNo = aSendUserNo;
+	}
+	public int getaRecvUserNo() {
+		return aRecvUserNo;
+	}
+	public void setaRecvUserNo(int aRecvUserNo) {
+		this.aRecvUserNo = aRecvUserNo;
 	}
 	
 	
