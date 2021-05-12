@@ -85,7 +85,7 @@ const Account = () => {
     updateBank(body)
       .then((res) => {
         console.log(res);
-        dispatch(userActions.updateBank(body));
+        dispatch(userActions.updateBank(res.data));
         onchangeAccountToggle();
       })
       .catch((err) => {

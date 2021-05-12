@@ -6,6 +6,7 @@ export const types = {
   UPDATE_BANK: 'user/UPDATE_BANK',
   CHANGE_CREDIT: 'user/CHANGE_CREDIT',
   CHANGE_PROFILE_IMAGE: 'user/CHANGE_PROFILE_IMAGE',
+  CHANGE_INTRODUCE: 'user/CHANGE_INTRODUCE',
 };
 
 export const userActions = {
@@ -16,12 +17,17 @@ export const userActions = {
     type: types.CHANGE_PROFILE_IMAGE,
     userData,
   }),
+  changeIntroduce: (userData: {}) => ({
+    type: types.CHANGE_INTRODUCE,
+    userData,
+  }),
 };
 
 type userLogin = ReturnType<typeof userActions.userLogin>;
 type updateBank = ReturnType<typeof userActions.updateBank>;
 type changeCredit = ReturnType<typeof userActions.changeCredit>;
 type changeProfileImage = ReturnType<typeof userActions.changeProfileImage>;
+type changeIntroduce = ReturnType<typeof userActions.changeIntroduce>;
 
 export interface userState {
   userData: UserData;
@@ -46,6 +52,7 @@ interface UserData {
   uBankNo?: string;
   uAuthKey?: string;
   uAuthKeyGeneratedAt?: string;
+  uContent?: string;
 }
 
 const INITIAL_STATE: userState = {
@@ -74,6 +81,13 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
     };
   },
   [types.CHANGE_PROFILE_IMAGE]: (state, action: changeProfileImage) => {
+    return {
+      ...state,
+      userData: action.userData,
+    };
+  },
+
+  [types.CHANGE_INTRODUCE]: (state, action: changeIntroduce) => {
     return {
       ...state,
       userData: action.userData,

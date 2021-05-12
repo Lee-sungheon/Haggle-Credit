@@ -1,5 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../state/user/index';
+import { changeIntroduceAPI } from '../../api/UserApi';
 
 const Container = styled.div`
   height: 230px;
@@ -60,15 +65,37 @@ const IntroduceTextArea = styled.textarea`
 `;
 
 const Introduce = () => {
-  const [toggle, setToggle] = useState(true);
-  const [introduce, setIntroduce] = useState('안녕하세요');
+  const dispatch = useDispatch();
 
+  const [toggle, setToggle] = useState(true);
+  const [introduce, setIntroduce] = useState('');
+  const userData = useSelector((state: RootState) => state.user.userData);
+  useEffect(() => {
+    if (userData.uContent) {
+      setIntroduce(userData.uContent);
+    }
+  }, []);
   const onToggleHandler = () => {
     setToggle(!toggle);
   };
 
-  const onChangeIntroduce = (e: any) => {
+  const onIntroduceHandler = (e: any) => {
     setIntroduce(e.target.value);
+  };
+
+  const changeIntroduce = () => {
+    let body = userData;
+    body.uContent = introduce;
+    changeIntroduceAPI(body)
+      .then((res) => {
+        console.log(res);
+        dispatch(userActions.changeIntroduce(res.data));
+
+        onToggleHandler();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <Container>
@@ -77,7 +104,7 @@ const Introduce = () => {
         {toggle ? (
           <EditButton onClick={onToggleHandler}>수정</EditButton>
         ) : (
-          <EditCompleteButton onClick={onToggleHandler}>
+          <EditCompleteButton onClick={changeIntroduce}>
             수정완료
           </EditCompleteButton>
         )}
@@ -95,12 +122,12 @@ const Introduce = () => {
             // marginTop: '3px',
           }}
           spellCheck="false"
-          value={introduce}
+          value={userData.uContent}
         ></textarea>
       ) : (
         <IntroduceTextArea
           value={introduce}
-          onChange={onChangeIntroduce}
+          onChange={onIntroduceHandler}
         ></IntroduceTextArea>
       )}
     </Container>
