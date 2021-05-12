@@ -49,8 +49,8 @@ const MenuList = styled.div`
   }
 `;
 
-const Menu = styled.div<{isIndex: boolean}>`
-  width: ${({isIndex}) => isIndex ? 80 : 60}px;
+const Menu = styled.div<{ isIndex: boolean }>`
+  width: ${({ isIndex }) => (isIndex ? 80 : 60)}px;
   height: 40px;
   margin-left: 12px;
   float: left;

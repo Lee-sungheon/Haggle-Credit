@@ -11,8 +11,28 @@ export const userActions = {
 type userLogin = ReturnType<typeof userActions.userLogin>;
 
 export interface userState {
-  userData: object;
+  userData: UserData;
   isLogin: boolean;
+}
+
+interface UserData {
+  uImage?: string;
+  uNo?: number;
+  uEmail?: string;
+  uPassword?: string;
+  uName?: string;
+  uPhone?: string;
+  uBirth?: string;
+  uJoinDate?: string;
+  uAuthorit?: string;
+  uCredit?: number;
+  uPenalty?: string;
+  uSellerAuth?: string;
+  uJoinConfirm?: string;
+  uBankName?: string;
+  uBankNo?: string;
+  uAuthKey?: string;
+  uAuthKeyGeneratedAt?: string;
 }
 
 const INITIAL_STATE: userState = {
