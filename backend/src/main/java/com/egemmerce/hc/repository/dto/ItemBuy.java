@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,13 +17,18 @@ import lombok.NoArgsConstructor;
 
 @Entity @EqualsAndHashCode(of = "ibItemNo")
 @Builder @AllArgsConstructor @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class ItemBuy {	
 	
     @Id
     private int ibItemNo;
+    private int ibNo;
     private int ibUserNo;
     private String ibName;
+	@ColumnDefault("기타")
     private String ibCategoryMain;
+	@ColumnDefault("기타")
     private String ibCategorySub;
     private String ibTitle;
     private String ibContent;
@@ -28,8 +37,11 @@ public class ItemBuy {
     private int ibCoolPrice;
     private int ibAuctionPrice;
 	private LocalDateTime ibRegDate;
+	@ColumnDefault("0")
 	private int ibOriginPrice;
-	private int ibDealUNo;
+	@ColumnDefault("0")
+	private int ibDealUserNo;
+	@ColumnDefault("0")
 	private int ibDealPrice;
 	private int ibDealAddress;
 	
@@ -141,13 +153,7 @@ public class ItemBuy {
 		this.ibOriginPrice = ibOriginPrice;
 	}
 
-	public int getIbDealUNo() {
-		return ibDealUNo;
-	}
 
-	public void setIbDealUNo(int ibDealUNo) {
-		this.ibDealUNo = ibDealUNo;
-	}
 
 	public int getIbDealPrice() {
 		return ibDealPrice;
@@ -163,6 +169,22 @@ public class ItemBuy {
 
 	public void setIbDealAddress(int ibDealAddress) {
 		this.ibDealAddress = ibDealAddress;
+	}
+
+	public int getIbNo() {
+		return ibNo;
+	}
+
+	public void setIbNo(int ibNo) {
+		this.ibNo = ibNo;
+	}
+
+	public int getIbDealUserNo() {
+		return ibDealUserNo;
+	}
+
+	public void setIbDealUserNo(int ibDealUserNo) {
+		this.ibDealUserNo = ibDealUserNo;
 	}
 	
 	

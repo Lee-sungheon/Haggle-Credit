@@ -3,6 +3,7 @@ package com.egemmerce.hc.item.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/itemBuy")
 public class ItemBuyController {
@@ -33,6 +36,7 @@ public class ItemBuyController {
 	private ReverseAuctionParticipantService reverseAuctionParticipantService;
 	
 	/* C :: 상품 등록 */
+	@ApiOperation(value = "ib_auction_price,ib_category_main,ib_cool_price,ib_deal_address,ib_name,ib_start_date,ib_user_no,ib_end_date")
 	@PostMapping("/regist")
 	public ResponseEntity<String> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
 		Item item=itemService.insert(Item.builder().iType("Buy").build());
@@ -44,15 +48,15 @@ public class ItemBuyController {
 	
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
-	public ResponseEntity<List<ItemBuy>> reviewItemAll() throws Exception {
-		return new ResponseEntity<List<ItemBuy>>(itemBuyService.selectItemBuyAll(), HttpStatus.OK);
+	public ResponseEntity<Page<ItemBuy>> selectItemAll(Pageable pageable) throws Exception {
+		return new ResponseEntity<Page<ItemBuy>>(itemBuyService.selectItemBuyAll(pageable), HttpStatus.OK);
 	}
 	
 	
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
-	public ResponseEntity<List<ItemBuy>> selectItemByiName(String ibName,Pageable pageable) throws Exception {
-		return new ResponseEntity<List<ItemBuy>>(itemBuyService.selectItemBuyByibName(ibName,pageable), HttpStatus.OK);
+	public ResponseEntity<Page<ItemBuy>> selectItemByiName(String ibName,Pageable pageable) throws Exception {
+		return new ResponseEntity<Page<ItemBuy>>(itemBuyService.selectItemBuyByibName(ibName,pageable), HttpStatus.OK);
 	}
 	
 	

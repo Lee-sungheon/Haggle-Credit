@@ -1,16 +1,53 @@
 import { useState } from 'react';
 import Radio from '@material-ui/core/Radio';
+import styled from 'styled-components';
+import ImageList from './ImageList';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+
+const ImgInputLabel = styled.label`
+  padding: 6px 25px;
+  background-color: #ff6600;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+`;
+
+const ImgSection = styled.div`
+  position: relative;
+  top: 40%;
+  text-align: center;
+`;
+
+type sArray = object[];
 
 const ProductRegistration = () => {
   const [stateSelectedValue, setStateSelectedValue] = useState('a');
   const [changeSelectedValue, setChangeSelectedValue] = useState('a');
 
+  const [itemNum, setItemNum] = useState(6);
+
+  const [imageUrls, setImgData] = useState<sArray>([]);
   const handleState = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStateSelectedValue(event.target.value);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChangeSelectedValue(event.target.value);
   };
+
+  const uploadImgHandler = (e: any) => {
+    e.preventDefault();
+    for (let i = 0; i < e.target.files.length; i++) {
+      if (i >= 12) {
+        return;
+      }
+      const imageFile = e.target.files[i];
+      const imageUrl = URL.createObjectURL(imageFile);
+      console.log(imageUrl);
+      setImgData((imageUrls) => [...imageUrls, { url: imageUrl }]);
+    }
+  };
+
   return (
     <div
       style={{
@@ -88,7 +125,7 @@ const ProductRegistration = () => {
             <p>
               상품이미지<span style={{ color: 'red' }}>* </span>
               <span style={{ color: 'gray', fontWeight: 'normal' }}>
-                (0/12)
+                ({imageUrls.length}/12)
               </span>
             </p>
           </div>
@@ -97,7 +134,7 @@ const ProductRegistration = () => {
               width: 'auto',
             }}
           >
-            <div style={{ height: '200px' }}>
+            <div style={{ height: '200px', display: 'flex' }}>
               <div
                 style={{
                   width: '200px',
@@ -105,12 +142,28 @@ const ProductRegistration = () => {
                   height: '100%',
                 }}
               >
-                <p>이미지 등록</p>
-                <input
-                  type="file"
-                  id="input-file"
-                  style={{ display: 'none' }}
-                />
+                <ImgSection>
+                  <ImgInputLabel htmlFor="input-file">사진등록</ImgInputLabel>
+                  <input
+                    type="file"
+                    id="input-file"
+                    accept="image/*"
+                    multiple
+                    style={{ display: 'none' }}
+                    onChange={uploadImgHandler}
+                  />
+                </ImgSection>
+              </div>
+              <div style={{ paddingLeft: '40px', width: '600px' }}>
+                <GridList cellHeight={'auto'} cols={itemNum} spacing={6}>
+                  {imageUrls.length > 0 &&
+                    imageUrls.map((item, idx) => {
+                      return <ImageList key={idx} item={item}></ImageList>;
+                    })}
+                  {imageUrls.length === 0 && (
+                    <div>상품 이미지를 등록해주세요.</div>
+                  )}
+                </GridList>
               </div>
             </div>
             <div

@@ -1,8 +1,7 @@
 package com.egemmerce.hc.item.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +25,8 @@ import com.egemmerce.hc.user.address.service.UserAddressService;
 import com.egemmerce.hc.user.service.UserCreditService;
 import com.egemmerce.hc.user.service.UserService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/itemSell")
 public class ItemSellController {
@@ -44,6 +45,7 @@ public class ItemSellController {
 	private UserCreditService userCreditService;
 
 	/* C :: 상품 등록 */
+	@ApiOperation(value = "is_user_no,is_auction_price, is_category_main, is_cool_price, is_name, is_orgin_price, is_start_date, is_end_date")
 	@PostMapping("/regist")
 	public ResponseEntity<String> createItem(@RequestBody ItemSell itemSell) throws Exception {
 		Item item = itemService.insert(Item.builder().iType("Sell").build());
@@ -55,18 +57,21 @@ public class ItemSellController {
 
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
-	public ResponseEntity<List<ItemSell>> reviewItemAll() throws Exception {
-		return new ResponseEntity<List<ItemSell>>(itemSellService.selectItemSellAll(), HttpStatus.OK);
+	public ResponseEntity<Page<ItemSell>> selectItemAll(Pageable pageable) throws Exception {
+		Page<ItemSell> itemSell=itemSellService.selectItemSellAll(pageable);
+		System.out.println(itemSell.getSize());
+		return new ResponseEntity<Page<ItemSell>>(itemSell, HttpStatus.OK);
 	}
 
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
-	public ResponseEntity<List<ItemSell>> selectItemByiName(String isName, Pageable pageable) throws Exception {
-		return new ResponseEntity<List<ItemSell>>(itemSellService.selectItemSellByisName(isName, pageable),
+	public ResponseEntity<Page<ItemSell>> selectItemByiName(String isName, Pageable pageable) throws Exception {
+		return new ResponseEntity<Page<ItemSell>>(itemSellService.selectItemSellByisName(isName, pageable),
 				HttpStatus.OK);
 	}
 
 	/* U :: 상품 업데이트(거래완료) */
+	@ApiOperation(value = "거래완료 변경")
 	@PutMapping("/updateDealCompleted")
 	public ResponseEntity<String> updateItem(@RequestBody ItemSell itemSell) throws Exception {
 		if (itemService.updateItemDealCompleted(itemSell.getIsItemNo()) != null) {

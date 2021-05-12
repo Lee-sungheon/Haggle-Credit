@@ -23,6 +23,7 @@ const TagP2 = styled.p`
     cursor: pointer;
   }
 `;
+
 const EditButton = styled.button`
   font-size: 10px;
   margin: 0;
@@ -36,6 +37,10 @@ const EditButton = styled.button`
   :hover {
     cursor: pointer;
   }
+`;
+
+const AccountDiv = styled.div`
+  margin-top: -20px;
 `;
 
 const Account = () => {
@@ -54,17 +59,13 @@ const Account = () => {
           <TagP1>연결계좌: 대구은행 508-10-1231231</TagP1>
           <TagP2>
             {!isChangeAccount ? (
-              <div
-                style={{
-                  marginTop: '-20px',
-                }}
-              >
+              <AccountDiv>
                 <input></input>
                 <div>
                   <EditButton>변경</EditButton>
                   <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
                 </div>
-              </div>
+              </AccountDiv>
             ) : (
               <div onClick={onchangeAccountToggle}>연결계좌변경</div>
             )}
@@ -75,17 +76,13 @@ const Account = () => {
           <TagP1>연결된계좌 없음</TagP1>
           <TagP2>
             {!isChangeAccount ? (
-              <div
-                style={{
-                  marginTop: '-20px',
-                }}
-              >
+              <AccountDiv>
                 <input></input>
                 <div>
                   <EditButton>연결</EditButton>
                   <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
                 </div>
-              </div>
+              </AccountDiv>
             ) : (
               <div onClick={onchangeAccountToggle}>계좌 연결</div>
             )}
