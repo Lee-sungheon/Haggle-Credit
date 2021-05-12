@@ -24,7 +24,7 @@ public class ItemServiceImpl implements ItemService{
 	@Override
 	public Item updateItemDealCompleted(int isItemNo) {
 		Item item=itemRepository.findByiNo(isItemNo);
-		item.setiCompleted("판매완료");
+		item.setiCompleted("true");
 		return itemRepository.save(item);
 	}
 

@@ -36,7 +36,7 @@ public class UserController {
 	private UserService userService;
 
 	/* C :: 회원 가입 */
-	@ApiOperation(value = "회원가입을 위한 Restful API", response = User.class)
+	@ApiOperation(value = "회원가입을 위한 Restful API(uEmail,uPassword,uBirth(yyyy-mm-dd),uName,uPhone)", response = User.class)
 	@PostMapping("/join")
 	public ResponseEntity<String> createUser(@RequestBody User user, HttpServletRequest request) throws Exception {
 		if (userService.insertUser(user) != null) {
@@ -47,7 +47,7 @@ public class UserController {
 	}
 
 	/* 일반 로그인 */
-	@ApiOperation(value = "로그인 처리하는 Restful API", response = User.class)
+	@ApiOperation(value = "로그인 처리하는 Restful API(uEmail,uPassword)", response = User.class)
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) throws Exception {
 		User check = userService.login(user);
