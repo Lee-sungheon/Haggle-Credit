@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { userLogin, checkUserEmail } from '../../api/UserApi';
 
 const SignupContainer = styled.div`
   width: 500px;
@@ -61,6 +62,7 @@ const Button = styled.button`
 
 const Signup = () => {
   const history = useHistory();
+
   const [userData, setUserData] = useState({
     u_email: '',
     u_password: '',
@@ -142,10 +144,7 @@ const Signup = () => {
       } else {
         setDataCheck({ ...dataCheck, u_emailCheck: true });
       }
-      axios
-        .get(
-          `https://k4d107.p.ssafy.io/haggle-credit/user/check/id?uEmail=${userEmail}`
-        )
+      checkUserEmail(userEmail)
         .then((res) => {
           console.log(res);
           if (res.data === '사용 가능한 아이디 입니다.') {
@@ -237,16 +236,7 @@ const Signup = () => {
           ) {
             if (userData.u_birth && dataCheck.u_birth) {
               console.log(body);
-              axios
-                .post(
-                  'https://k4d107.p.ssafy.io/haggle-credit/user/join',
-                  JSON.stringify(body),
-                  {
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  }
-                )
+              userLogin(body)
                 .then((res: any) => {
                   console.log(res);
                   alert('이메일 인증을 진행해 주세요.');
