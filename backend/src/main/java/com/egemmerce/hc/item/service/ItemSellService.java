@@ -18,7 +18,7 @@ public interface ItemSellService {
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
 
-	List<ItemSell> selectItemSellByisName(String isName, Pageable pageable);
+	Page<ItemSell> selectItemSellByisName(String isName, Pageable pageable);
 
 	/*상품 업데이트*/
 	ItemSell updateItemSell(ItemSell itemSell);

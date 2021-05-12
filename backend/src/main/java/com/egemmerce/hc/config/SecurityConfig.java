@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/user/**")
 				.antMatchers("/item/**")
 				.antMatchers("/itemSell/**")
+				.antMatchers("/itemBuy/**")
 				.antMatchers("/**")
 				.antMatchers("/chat/**")
 				.antMatchers("/login/**")
