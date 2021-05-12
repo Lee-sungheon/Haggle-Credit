@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { userLogin, checkUserEmail } from '../../api/UserApi';
+import { userSignup, checkUserEmail } from '../../api/UserApi';
 
 const SignupContainer = styled.div`
   width: 500px;
@@ -236,7 +236,7 @@ const Signup = () => {
           ) {
             if (userData.u_birth && dataCheck.u_birth) {
               console.log(body);
-              userLogin(body)
+              userSignup(body)
                 .then((res: any) => {
                   console.log(res);
                   alert('이메일 인증을 진행해 주세요.');

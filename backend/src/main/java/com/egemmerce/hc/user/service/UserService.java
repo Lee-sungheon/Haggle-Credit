@@ -55,5 +55,8 @@ public interface UserService{
 
 	//입찰시 유저 포인트 출금
 	void updateUserCreditbyAP(User user, int isAuctionPrice, int isItemNo);
+	
+	boolean updateUserBank(int uNo, String uBankName, String uBankNo);
+	
 
 }

@@ -51,7 +51,7 @@ public class ImageUploadController {
 		File dest = new File(ipValue);
 		file.transferTo(dest);
 
-		ipValue = "https://i4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
+		ipValue = "https://k4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
 
 		ItemPhoto itemphoto = new ItemPhoto();
 		itemphoto.setIpItemNo(ipINo);
@@ -73,7 +73,7 @@ public class ImageUploadController {
 		File dest = new File(uImage);
 		file.transferTo(dest);
 
-		uImage = "https://i4d107.p.ssafy.io/images/" + userEmail + "-" + file.getOriginalFilename();
+		uImage = "https://k4d107.p.ssafy.io/images/" + userEmail + "-" + file.getOriginalFilename();
 
 		User user = new User();
 		user.setuImage(uImage);
