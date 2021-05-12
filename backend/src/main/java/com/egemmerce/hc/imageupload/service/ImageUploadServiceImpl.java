@@ -27,25 +27,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ImageUploadServiceImpl implements ImageUploadService {
 
+	private final ItemPhotoRepository itemPhotoRepository;
+	private final UserRepository userRepository;
 
-   private ItemPhotoRepository itemPhotoRepository;
-   private UserRepository userRepository;
-   
-   @Override
-   public ItemPhoto InsertItemPhoto(ItemPhoto itemPhoto) throws Exception {
-      return itemPhotoRepository.save(itemPhoto);
-   }
+	@Override
+	public ItemPhoto InsertItemPhoto(ItemPhoto itemPhoto) throws Exception {
+		return itemPhotoRepository.save(itemPhoto);
+	}
 
-   @Override
-   public List<ItemPhoto> selectItemPhotoList() {
-      return itemPhotoRepository.findAll();
-   }
+	@Override
+	public List<ItemPhoto> selectItemPhotoList(int ipItemNo) throws Exception {
+		return itemPhotoRepository.findAllByipItemNo(ipItemNo);
+	}
 
-   @Override
-   public User UpdateProfile(User user) throws Exception {
-	   User check=userRepository.findByuEmail(user.getuEmail());
-	   check.setuImage(user.getuImage());
-      return userRepository.save(check);
-   }
+	@Override
+	public User UpdateProfile(User user) throws Exception {
+		User check = userRepository.findByuEmail(user.getuEmail());
+		check.setuImage(user.getuImage());
+		return userRepository.save(check);
+	}
+
+	@Override
+	public String selectUserImage(int uNo) throws Exception {
+		User check = userRepository.findByuNo(uNo);
+		return check.getuImage();
+	}
 
 }
