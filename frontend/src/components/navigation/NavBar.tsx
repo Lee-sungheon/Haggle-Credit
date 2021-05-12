@@ -170,7 +170,7 @@ const StyledMenuItemLink = styled(Link).attrs(() => ({}))`
   align-items: center;
   position: relative;
   cursor: pointer;
-  @media (max-width: 1220px) {
+  @media (max-width: 1250px) {
     display: block;
     text-align: center;
     font-size: 13px;
@@ -314,7 +314,7 @@ const NavBar = () => {
           />
           <p style={{ margin: 0 }}>삽니다</p>
         </StyledMenuItemLink>
-        <StyledMenuItemLink to={'/home'}>
+        <StyledMenuItemLink to={'/event'}>
           <img
             src="../images/navbar/event.png"
             alt=""

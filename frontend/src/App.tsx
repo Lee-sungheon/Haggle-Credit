@@ -11,6 +11,7 @@ import AuctionPage from './page/purchase/AuctionPage';
 import SellAuctionPage from './page/purchase/SellAuctionPage';
 import PurchasePage from './page/purchase/PurchasePage';
 import SearchPage from './page/search/SearchPage';
+import EventPage from './page/event/EventPage';
 import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/profile" component={Profile} />
           <Route path="/productregistraion" component={ProductRegistration} />
           <Route path="/search" component={SearchPage} />
+          <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
           <Route path="/auction/buy/:id" component={AuctionPage} />
           <Route path="/auction/sell/:id" component={SellAuctionPage} />

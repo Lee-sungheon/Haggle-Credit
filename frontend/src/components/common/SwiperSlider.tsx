@@ -10,9 +10,6 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import { useDispatch } from 'react-redux';
-import { commonActions } from "../../state/common";
-import { useHistory } from "react-router";
 
 const useStyles = makeStyles({
   root: {
@@ -68,8 +65,6 @@ const ItemCategory = styled.span`
 const SwiperSlider: React.FC = () => { 
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(6);
-  const dispatch = useDispatch();
-  const history = useHistory();
   
   useEffect(()=>{
     ConfirmWidth();
@@ -78,15 +73,6 @@ const SwiperSlider: React.FC = () => {
       window.removeEventListener('resize', ConfirmWidth);
     }
   });
-
-  const goDetail = () => {
-    const buy = true;
-    // dispatch(commonActions.addRecently(item));
-    // history.push({
-    //   pathname: `/detail/${item.id}`,
-    //   state: {item, buy}
-    // });
-  };
 
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
@@ -111,7 +97,7 @@ const SwiperSlider: React.FC = () => {
       > 
       {ITEMS.map((item, idx: number) => (
         <SwiperSlide key={idx}>
-          <Card className={classes.root} onClick={goDetail}>
+          <Card className={classes.root}>
             <CardActionArea>
               <ImgBox>
                 <CardMedia

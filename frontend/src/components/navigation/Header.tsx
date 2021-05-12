@@ -49,8 +49,8 @@ const MenuList = styled.div`
   }
 `;
 
-const Menu = styled.div`
-  width: 80px;
+const Menu = styled.div<{isIndex: boolean}>`
+  width: ${({isIndex}) => isIndex ? 80 : 60}px;
   height: 40px;
   margin-left: 12px;
   float: left;
@@ -62,9 +62,6 @@ const Menu = styled.div`
   font-size: 12px;
   :hover {
     font-weight: 900;
-  }
-  @media (max-width: 1024px) {
-    margin-left: 6px;
   }
 `;
 
