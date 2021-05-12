@@ -74,10 +74,6 @@ public class ItemSellServiceImpl implements ItemSellService {
 		return itemSellRepository.findByisItemNo(isItemNo);
 	}
 
-	@Override
-	public ItemSell updateAuctionPrice(ItemSell itemSell) {
-		return itemSellRepository.save(itemSell);
-	}
 
 	@Override
 	public void updateItembyCool(int isItemNo, int uNo, int uaNo) {
@@ -126,5 +122,12 @@ public class ItemSellServiceImpl implements ItemSellService {
 			ItemDelivery itemDelivery=ItemDelivery.builder().idSendUserNo(is.getIsUserNo()).idReceiveUserNo(is.getIsDealUserNo()).idItemNo(is.getIsItemNo()).build();
 			itemDeliveryRepository.save(itemDelivery);
 		}
+	}
+
+	@Override
+	public ItemSell updateAuctionPrice(int isItemNo, int isAuctionPrice) {
+		ItemSell itemSell=itemSellRepository.findByisItemNo(isItemNo);
+		itemSell.setIsAuctionPrice(isAuctionPrice);
+		return itemSellRepository.save(itemSell);
 	}
 }

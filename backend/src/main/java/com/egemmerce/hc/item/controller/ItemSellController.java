@@ -128,8 +128,7 @@ public class ItemSellController {
 			return new ResponseEntity<String>("기존 경매가보다 작습니다.", HttpStatus.OK);
 		}
 		// 아이템 정보 변경
-		if (itemSellService.updateAuctionPrice(
-				ItemSell.builder().isItemNo(isItemNo).isAuctionPrice(isAuctionPrice).build()) != null) {
+		if (itemSellService.updateAuctionPrice(isItemNo,isAuctionPrice) != null) {
 			User user = userService.selectUserByuNo(isUserNo);
 
 			// 유저 배송지 가져오기

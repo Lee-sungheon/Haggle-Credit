@@ -26,13 +26,14 @@ public interface ItemSellService {
 	/*itemsell 조회*/
 	ItemSell selectItemSellbyisItemNo(int isItemNo);
 
-	ItemSell updateAuctionPrice(ItemSell itemSell);
 
 	void updateItembyCool(int isItemNo, int uNo, int uaNo);
 
 	List<ItemSell> selectOverEndDate();
 
 	void updateItembyAuction(ItemSell is);
+
+	ItemSell updateAuctionPrice(int isItemNo, int isAuctionPrice);
 
 
 
