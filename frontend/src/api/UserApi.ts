@@ -22,3 +22,22 @@ export function checkUserEmail(userEmail: any) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/check/id?uEmail=${userEmail}`;
   return axios.get(url);
 }
+
+export function updateBank(body: any) {
+  const url: string = 'https://k4d107.p.ssafy.io/haggle-credit/user/updateBank';
+  return axios.put(url, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export function changeCredit(body: any) {
+  const url: string =
+    'https://k4d107.p.ssafy.io/haggle-credit/user/chargeCredit';
+  return axios.put(url, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   RequestPayParams,
@@ -10,9 +10,13 @@ import {
   RequestPayAdditionalResponse,
   RequestPayResponseCallback,
 } from 'iamport-typings';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+import { changeCredit } from '../../api/UserApi';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../state/user/index';
 const Container = styled.div`
-  width: 500px;
+  width: 450px;
   height: auto;
   text-align: left;
 `;
@@ -72,7 +76,8 @@ const CreditPaymentDiv = styled.div`
 const Credit = () => {
   const [payment, setPayment] = useState(false);
   const [inputCredit, setInputCredit] = useState(0);
-  const [credit, setCredit] = useState<any>(0);
+  const userData = useSelector((state: RootState) => state.user.userData);
+  const dispatch = useDispatch();
 
   const togglePayment = () => {
     setPayment(!payment);
@@ -86,35 +91,48 @@ const Credit = () => {
     const { IMP } = window;
     IMP?.init('imp43006657');
     console.log(IMP);
-    const params: RequestPayParams = {
-      pg: 'kakaopay',
-      pay_method: 'card',
-      merchant_uid: 'merchant_' + new Date().getTime(),
-      name: 'haggle credit 충전',
-      amount: inputCredit,
-      buyer_email: 'gildong@gmail.com',
-      buyer_name: '홍길동',
-      buyer_tel: '010-4242-4242',
-      buyer_addr: '서울특별시 강남구 신사동',
-      buyer_postcode: '01181',
-    };
+    if (userData.uPhone) {
+      const params: RequestPayParams = {
+        pg: 'kakaopay',
+        pay_method: 'card',
+        merchant_uid: 'merchant_' + new Date().getTime(),
+        name: 'haggle credit 충전',
+        amount: inputCredit,
+        buyer_email: userData.uEmail,
+        buyer_name: userData.uName,
+        buyer_tel: userData.uPhone,
+        buyer_addr: '서울특별시 강남구 신사동',
+        buyer_postcode: '01181',
+      };
 
-    IMP?.request_pay(params, onPaymentAccepted);
+      IMP?.request_pay(params, onPaymentAccepted);
+    }
   };
   const onPaymentAccepted = (response: RequestPayResponse) => {
     const { imp_uid, merchant_uid } = response;
     console.log(imp_uid, merchant_uid);
     console.log(response);
     if (response.success === true) {
-      setCredit(credit + response?.paid_amount);
-      togglePayment();
+      const body = {
+        uNo: userData.uNo,
+        uCredit: inputCredit,
+      };
+      changeCredit(body)
+        .then((res) => {
+          console.log(res);
+          dispatch(userActions.changeCredit(res.data));
+          togglePayment();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (
     <Container>
       <TagP>
         <CreditName> credit</CreditName>
-        <CreditDiv>{credit} C</CreditDiv>
+        <CreditDiv>{userData.uCredit} C</CreditDiv>
         {payment ? (
           <CreditPaymentDiv>
             <input

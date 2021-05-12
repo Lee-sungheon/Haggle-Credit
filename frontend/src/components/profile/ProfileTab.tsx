@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -6,7 +5,7 @@ import ProductTab from './Tab/ProductTab';
 import TransactionReviewTab from './Tab/TransactionReviewTab';
 import BasketTab from './Tab/BasketTab';
 import TenderListTab from './Tab/TenderListTab';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 const Container = styled.div`
   text-align: center;
@@ -48,7 +47,6 @@ const Tab = styled.div`
 
 const ProfileTab2 = () => {
   const history = useHistory();
-  const [tabId, setTabId] = useState(0);
   const clickHandler = (id: string) => {
     history.push(id);
   };

@@ -1,14 +1,27 @@
+import { ImageType } from 'react-images-uploading';
 import { createReducer } from '../../common/createReducer';
 
 export const types = {
-  USER_LOGIN: 'user/SET_MOVIELIST',
+  USER_LOGIN: 'user/USER_LOGIN',
+  UPDATE_BANK: 'user/UPDATE_BANK',
+  CHANGE_CREDIT: 'user/CHANGE_CREDIT',
+  CHANGE_PROFILE_IMAGE: 'user/CHANGE_PROFILE_IMAGE',
 };
 
 export const userActions = {
   userLogin: (userData: {}) => ({ type: types.USER_LOGIN, userData }),
+  updateBank: (userData: {}) => ({ type: types.UPDATE_BANK, userData }),
+  changeCredit: (userData: {}) => ({ type: types.CHANGE_CREDIT, userData }),
+  changeProfileImage: (userData: {}) => ({
+    type: types.CHANGE_PROFILE_IMAGE,
+    userData,
+  }),
 };
 
 type userLogin = ReturnType<typeof userActions.userLogin>;
+type updateBank = ReturnType<typeof userActions.updateBank>;
+type changeCredit = ReturnType<typeof userActions.changeCredit>;
+type changeProfileImage = ReturnType<typeof userActions.changeProfileImage>;
 
 export interface userState {
   userData: UserData;
@@ -46,6 +59,24 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
       ...state,
       userData: action.userData,
       isLogin: true,
+    };
+  },
+  [types.UPDATE_BANK]: (state, action: updateBank) => {
+    return {
+      ...state,
+      userData: action.userData,
+    };
+  },
+  [types.CHANGE_CREDIT]: (state, action: changeCredit) => {
+    return {
+      ...state,
+      userData: action.userData,
+    };
+  },
+  [types.CHANGE_PROFILE_IMAGE]: (state, action: changeProfileImage) => {
+    return {
+      ...state,
+      userData: action.userData,
     };
   },
 });
