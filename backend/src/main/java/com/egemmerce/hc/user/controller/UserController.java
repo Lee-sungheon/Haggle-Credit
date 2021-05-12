@@ -106,8 +106,8 @@ public class UserController {
 	/* U :: 개인 정보 수정 */
 	@ApiOperation(value = "뱅크수정을 위한 Restful API", response = User.class)
 	@PutMapping("/updateBank")
-	public ResponseEntity<String> updateUserBank(@RequestBody int uNo, String uBankName, String uBankNo) throws Exception {
-		if (userService.updateUserBank(uNo,uBankName,uBankNo))
+	public ResponseEntity<String> updateUserBank(@RequestBody User user) throws Exception {
+		if (userService.updateUserBank(user.getuNo(),user.getuBankName(),user.getuBankNo()))
 			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
 	}
