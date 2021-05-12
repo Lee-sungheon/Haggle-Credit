@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +29,7 @@ import com.egemmerce.hc.repository.dto.Alarm;
  *
  */
 
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/alarm")
 public class AlarmController {
@@ -54,8 +55,8 @@ public class AlarmController {
 
 	/* D :: 사용자의 알람 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteAlarm(@PathVariable int aNo) throws Exception {
-		if (alarmService.deleteAlarm(aNo)) {
+	public ResponseEntity<String> deleteAlarm(int aNo) throws Exception {
+		if (alarmService.deleteAlarm(aNo) > 0) {
 			return new ResponseEntity<String>("알람 삭제 성공", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("알람 삭제 실패", HttpStatus.NO_CONTENT);

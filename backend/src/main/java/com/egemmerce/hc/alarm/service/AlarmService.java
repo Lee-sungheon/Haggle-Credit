@@ -25,6 +25,6 @@ public interface AlarmService {
 	List<Alarm> reviewAlarm(int uNo) throws Exception;
 
 	/* D :: 사용자의 알람 삭제 */
-	boolean deleteAlarm(int aNo) throws Exception;
+	int deleteAlarm(int aNo) throws Exception;
 
 }

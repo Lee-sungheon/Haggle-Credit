@@ -42,7 +42,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 	/* D :: 사용자의 알람 삭제 */
 	@Override
-	public boolean deleteAlarm(int aNo) throws Exception {
+	public int deleteAlarm(int aNo) throws Exception {
 		return alarmRepository.deleteByaNo(aNo);
 	}
 }

@@ -11,5 +11,5 @@ import com.egemmerce.hc.repository.dto.Alarm;
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 	List<Alarm> findAllByaRecvUserNo(int aRecvUserNo);
 
-	boolean deleteByaNo(int aNo);
+	int deleteByaNo(int aNo);
 }
