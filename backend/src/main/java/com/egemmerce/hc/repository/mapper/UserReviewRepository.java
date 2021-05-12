@@ -10,7 +10,7 @@ import com.egemmerce.hc.repository.dto.UserReview;
 @Transactional
 public interface UserReviewRepository extends JpaRepository<UserReview, Long>{
 
-	UserReview findAllByurNo(int urNo);
+	UserReview findByurNo(int urNo);
 
 	List<UserReview> findAllByurUserNo(int urUserNo);
 

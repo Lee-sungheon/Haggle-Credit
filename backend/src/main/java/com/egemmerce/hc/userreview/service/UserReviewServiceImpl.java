@@ -33,7 +33,7 @@ public class UserReviewServiceImpl implements UserReviewService {
 
 	@Override
 	public UserReview UpdateUserReview(UserReview userReview) throws Exception {
-		UserReview check = userReviewRepository.findAllByurNo(userReview.getUrNo());
+		UserReview check = userReviewRepository.findByurNo(userReview.getUrNo());
 		check.setUrContent(userReview.getUrContent());
 		check.setUrScore(userReview.getUrScore());
 		return userReviewRepository.save(check);
