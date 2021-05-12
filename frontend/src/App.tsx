@@ -12,6 +12,8 @@ import SellAuctionPage from './page/purchase/SellAuctionPage';
 import PurchasePage from './page/purchase/PurchasePage';
 import SearchPage from './page/search/SearchPage';
 import EventPage from './page/event/EventPage';
+import ChatPage from './page/chat/ChatPage';
+import ChatListPage from './page/chat/ChatListPage';
 import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
@@ -42,6 +44,8 @@ const App = () => {
           <Route path="/auction/sell/:id" component={SellAuctionPage} />
           <Route path="/purchase/:id" component={PurchasePage} />
           <Route path="/add_destination" component={AddDestinationPage} />
+          <Route path="/chat/:id" component={ChatPage} />
+          <Route path="/chatlist/:id" component={ChatListPage} />
         </Switch>
       </ThemeProvider>
     </BrowserRouter>
