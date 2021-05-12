@@ -2,6 +2,7 @@ package com.egemmerce.hc.user.address.controller;
 
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.repository.dto.UserAddress;
 import com.egemmerce.hc.user.address.service.UserAddressService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/user/address")
@@ -37,7 +40,7 @@ public class UserAddressController {
 		return new ResponseEntity<List<UserAddress>>(userAddressService.selectAddressMine(uNo), HttpStatus.OK);
 	}
 	
-	/* U :: 기본 배송지 변경 => 이거 sql문 고쳐야함... */
+	@ApiOperation(value = "기본 배송지 변경 (ua_no,ua_default_setting)")
 	@PutMapping("/change/defaultAddress")
 	public ResponseEntity<String> updateDefaultUserAddress(@RequestBody UserAddress userAddress) throws Exception {
 		if(userAddressService.updateDefaultAddress(userAddress))
@@ -46,6 +49,7 @@ public class UserAddressController {
 	}
 	
 	/* U :: 배송지 정보 변경 */
+	@ApiOperation(value = "배송 정보 변경")
 	@PutMapping("/edit")
 	public ResponseEntity<String> updateUserAddress(@RequestBody UserAddress userAddress) throws Exception {
 		if(userAddressService.updateUserAddressEdit(userAddress))

@@ -2,6 +2,7 @@ package com.egemmerce.hc.item.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,8 @@ public class ItemSellServiceImpl implements ItemSellService {
 	
 	/* R :: 상품 전체 조회 */
 	@Override
-	public 	List<ItemSell> selectItemSellAll() {
-		return itemSellRepository.findAll();
+	public 	Page<ItemSell> selectItemSellAll(Pageable pageable) {
+		return itemSellRepository.findAll(pageable);
 	}
 
 	/* D :: 상품 삭제 */
@@ -39,7 +40,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 	}
 
 	@Override
-	public List<ItemSell> selectItemSellByisName(String isName, Pageable pageable) {
+	public Page<ItemSell> selectItemSellByisName(String isName, Pageable pageable) {
 		return itemSellRepository.findByisNameContaining(isName, pageable);
 	}
 

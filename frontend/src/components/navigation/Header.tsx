@@ -5,7 +5,7 @@ import Login from '../login/Login';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 
-const Container = styled.div<{isPurchase: boolean}>`
+const Container = styled.div<{ isPurchase: boolean }>`
   width: 100%;
   height: 64px;
   position: fixed;
@@ -15,14 +15,14 @@ const Container = styled.div<{isPurchase: boolean}>`
   color: #3c4758;
   display: block;
   opacity: 1;
-  display: ${({isPurchase}) => isPurchase ? 'none' : 'block' };
+  display: ${({ isPurchase }) => (isPurchase ? 'none' : 'block')};
 `;
 
-const HeaderContainer = styled.div<{isIndex: boolean}>`
+const HeaderContainer = styled.div<{ isIndex: boolean }>`
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  padding: ${({isIndex}) => isIndex ? '0 40px' : '0 200px' };
+  padding: ${({ isIndex }) => (isIndex ? '0 40px' : '0 200px')};
   position: relative;
   display: flex;
   align-items: center;
@@ -74,6 +74,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const isIndex = useSelector((state: RootState) => state.common.isIndex);
   const isPurchase = useSelector((state: RootState) => state.common.isPurchase);
+  const isLogin = useSelector((state: RootState) => state.user.isLogin);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -123,15 +124,31 @@ const Header = () => {
           </Link>
         </LogoBox>
         <MenuList>
-          <Menu isIndex={isIndex}>
-            <StyledLink to={'/signup'}>회원가입</StyledLink>
-          </Menu>
-          <Menu onClick={handleOpen} isIndex={isIndex}>
-            <p style={{ textDecoration: 'none', color: 'black' }}>로그인</p>
-          </Menu>
-          <Menu isIndex={isIndex}>
-            <StyledLink to={'/profile'}>내상점</StyledLink>
-          </Menu>
+          {!isLogin ? (
+            <>
+              <Menu>
+                <StyledLink to={'/signup'}>회원가입</StyledLink>
+              </Menu>
+              <Menu onClick={handleOpen}>
+                <p style={{ textDecoration: 'none', color: 'black' }}>로그인</p>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <Menu>
+                <StyledLink to={'/profile'}>내상점</StyledLink>
+              </Menu>
+              <Menu
+                onClick={() => {
+                  window.location.href = '/home';
+                }}
+              >
+                <p style={{ textDecoration: 'none', color: 'black' }}>
+                  로그아웃
+                </p>
+              </Menu>
+            </>
+          )}
         </MenuList>
       </HeaderContainer>
       <Login open={open} handleClose={handleClose} />
