@@ -40,7 +40,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 	}
 
 	@Override
-	public List<ItemSell> selectItemSellByisName(String isName, Pageable pageable) {
+	public Page<ItemSell> selectItemSellByisName(String isName, Pageable pageable) {
 		return itemSellRepository.findByisNameContaining(isName, pageable);
 	}
 
