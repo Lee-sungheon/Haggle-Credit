@@ -3,6 +3,7 @@ package com.egemmerce.hc.item.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +56,10 @@ public class ItemSellController {
 
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
-	public ResponseEntity<List<ItemSell>> reviewItemAll() throws Exception {
-		return new ResponseEntity<List<ItemSell>>(itemSellService.selectItemSellAll(), HttpStatus.OK);
+	public ResponseEntity<Page<ItemSell>> selectItemAll(Pageable pageable) throws Exception {
+		Page<ItemSell> itemSell=itemSellService.selectItemSellAll(pageable);
+		System.out.println(itemSell.getSize());
+		return new ResponseEntity<Page<ItemSell>>(itemSell, HttpStatus.OK);
 	}
 
 	/* R :: 상품명 조회 */
