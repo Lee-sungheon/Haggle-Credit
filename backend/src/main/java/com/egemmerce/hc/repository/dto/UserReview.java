@@ -1,6 +1,7 @@
 package com.egemmerce.hc.repository.dto;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class UserReview {
 	private int urWriteUserNo;
 	private int urScore;
 	private String urContent;
-	private Date urWriteDate;
+	private LocalDateTime urWriteDate;
 
 	public int getUrNo() {
 		return urNo;
@@ -74,11 +75,11 @@ public class UserReview {
 		this.urContent = urContent;
 	}
 
-	public Date getUrWriteDate() {
+	public LocalDateTime getUrWriteDate() {
 		return urWriteDate;
 	}
 
-	public void setUrWriteDate(Date urWriteDate) {
+	public void setUrWriteDate(LocalDateTime urWriteDate) {
 		this.urWriteDate = urWriteDate;
 	}
 }
