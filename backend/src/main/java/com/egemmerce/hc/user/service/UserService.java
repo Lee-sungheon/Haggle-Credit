@@ -50,4 +50,6 @@ public interface UserService{
 
 	boolean withdrawCredit(int uNo, int credit);
 
+	boolean updateUserBank(int uNo, String uBankName, String uBankNo);
+
 }

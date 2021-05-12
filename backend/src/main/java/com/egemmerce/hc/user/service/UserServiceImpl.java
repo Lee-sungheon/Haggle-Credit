@@ -265,4 +265,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userRepository.save(check) != null;
 	}
 
+	@Override
+	public boolean updateUserBank(int uNo, String uBankName, String uBankNo) {
+		User user=userRepository.findByuNo(uNo);
+		user.setuBankName(uBankName);
+		user.setuBankNo(uBankNo);
+		
+		return userRepository.save(user)!=null;
+	}
+
 }

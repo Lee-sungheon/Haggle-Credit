@@ -9,7 +9,7 @@ import com.egemmerce.hc.repository.dto.Alarm;
 
 @Transactional
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
-	List<Alarm> findAllByaRecvUNo(int aRecvUNo);
+	List<Alarm> findAllByaRecvUserNo(int aRecvUserNo);
 
 	boolean deleteByaNo(int aNo);
 }

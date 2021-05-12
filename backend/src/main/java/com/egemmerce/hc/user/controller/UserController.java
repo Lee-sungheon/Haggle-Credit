@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.user.service.UserService;
+import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -98,6 +99,14 @@ public class UserController {
 	@PutMapping("/update")
 	public ResponseEntity<String> updateUser(@RequestBody User user) throws Exception {
 		if (userService.updateUser(user))
+			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
+		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
+	}
+	/* U :: 개인 정보 수정 */
+	@ApiOperation(value = "뱅크수정을 위한 Restful API", response = User.class)
+	@PutMapping("/updateBank")
+	public ResponseEntity<String> updateUserBank(int uNo, String uBankName, String uBankNo) throws Exception {
+		if (userService.updateUserBank(uNo,uBankName,uBankNo))
 			return new ResponseEntity<String>("개인 정보 수정 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("개인 정보 수정 실패", HttpStatus.NO_CONTENT);
 	}
