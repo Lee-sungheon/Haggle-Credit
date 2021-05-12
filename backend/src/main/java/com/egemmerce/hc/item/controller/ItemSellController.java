@@ -41,7 +41,7 @@ public class ItemSellController {
 	@Autowired
 	private UserAddressService userAddressService;
 	@Autowired
-	private UserCreditService	userCreditService;
+	private UserCreditService userCreditService;
 
 	/* C :: 상품 등록 */
 	@PostMapping("/regist")
@@ -72,7 +72,7 @@ public class ItemSellController {
 		if (itemService.updateItemDealCompleted(itemSell.getIsItemNo()) != null) {
 			itemSellService.updateItemSell(itemSell);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
-			
+
 		}
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
 	}
@@ -96,18 +96,34 @@ public class ItemSellController {
 	/* 경매 입찰 */
 	@PutMapping("/auction")
 	public ResponseEntity<String> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice) throws Exception {
+		// 입찰에 참여한 물건 정도
 		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
+
+		// 현 입찰가보다 작을 경유
 		if (itemSell.getIsAuctionPrice() > isAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 작습니다.", HttpStatus.OK);
 		}
+		// 아이템 정보 변경
 		if (itemSellService.updateAuctionPrice(
 				ItemSell.builder().isItemNo(isItemNo).isAuctionPrice(isAuctionPrice).build()) != null) {
 			User user = userService.selectUserByuNo(isUserNo);
+
+			// 유저 배송지 가져오기
 			UserAddress userAddress = userAddressService.selectDefaultAddress(user.getuNo());
+
+			// 이전에 경매에 참여한 사람 크래딧 환불
+			AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
+			userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
+
+			// 새로 입찰한 사람
 			AuctionParticipant auctionParticipant = AuctionParticipant.builder().apItemNo(isItemNo).apUserNo(isUserNo)
 					.apBid(isAuctionPrice).apAddress(userAddress.getUaNo()).build();
 			auctionParticipant.generateapDate();
 			auctionParticipantService.insert(auctionParticipant);
+
+			// 새로 입찰한 유저 포인트 출금
+			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);
+
 			return new ResponseEntity<String>("경매가 업데이트 성공.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("경매가 업데이트 실패.", HttpStatus.OK);

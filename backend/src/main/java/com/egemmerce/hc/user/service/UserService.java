@@ -50,4 +50,10 @@ public interface UserService{
 
 	boolean withdrawCredit(int uNo, int credit);
 
+	//입찰 실패로 인한 환불
+	void updateUserCreditbyFail(int apUserNo, int apBid, int isItemNo);
+
+	//입찰시 유저 포인트 출금
+	void updateUserCreditbyAP(User user, int isAuctionPrice, int isItemNo);
+
 }

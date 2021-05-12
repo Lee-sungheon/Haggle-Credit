@@ -264,5 +264,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userCreditRepository.save(uCredit);
 		return userRepository.save(check) != null;
 	}
+	//입찰 실패로 인한 환불
+	@Override
+	public void updateUserCreditbyFail(int apUserNo, int apBid,int isItemNo) {
+		User user=userRepository.findByuNo(apUserNo);
+		user.setuCredit(user.getuCredit()+apBid);
+		UserCredit uCredit=UserCredit.builder().ucClass("plus").ucUserNo(apUserNo).ucCredit(user.getuCredit()).ucApNo(isItemNo).build();
+		uCredit.generateucTime();
+		userCreditRepository.save(uCredit);
+		userRepository.save(user);
+	}
+	//입찰시 유저 크레딧 출금
+	@Override
+	public void updateUserCreditbyAP(User user, int isAuctionPrice,int isItemNo) {
+		user.setuCredit(user.getuCredit()-isAuctionPrice);
+		UserCredit uCredit=UserCredit.builder().ucClass("minus").ucUserNo(user.getuNo()).ucCredit(user.getuCredit()).ucApNo(isItemNo).build();
+		uCredit.generateucTime();
+		userCreditRepository.save(uCredit);
+		userRepository.save(user);
+	}
 
 }
