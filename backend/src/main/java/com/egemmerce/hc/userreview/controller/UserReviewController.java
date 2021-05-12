@@ -40,6 +40,7 @@ public class UserReviewController {
 	/* C :: 리뷰 등록 */
 	@PostMapping("/add")
 	public ResponseEntity<String> InsertUserReview(@RequestBody UserReview userReview, HttpServletRequest request) throws Exception {
+		userReview.generateurWriteDate();
 		userReviewService.InsertUserReview(userReview);
 		return new ResponseEntity<String>(userReview.getUrWriteUserNo() + "리뷰 등록 성공", HttpStatus.OK);
 	}
@@ -51,7 +52,7 @@ public class UserReviewController {
 	}
 	
 	/* U :: 리뷰 수정 */
-	@PostMapping("/add")
+	@PostMapping("/update")
 	public ResponseEntity<String> UpdateUserReview(@RequestBody UserReview userReview, HttpServletRequest request) throws Exception {
 		userReviewService.UpdateUserReview(userReview);
 		return new ResponseEntity<String>(userReview.getUrContent() + "리뷰 수정 성공", HttpStatus.OK);
