@@ -13,21 +13,13 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-<<<<<<< HEAD
 @Entity
 @EqualsAndHashCode(of = "aNo")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-=======
-@Entity @EqualsAndHashCode(of = "aNo")
-@Builder @AllArgsConstructor @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-<<<<<<< HEAD
-=======
->>>>>>> 47b78be0b5a0b2577e82087df14b18ddcedc896a
->>>>>>> backend/KDB/alarm
 public class Alarm {
 	@Id
 	private int aNo;
@@ -45,29 +37,23 @@ public class Alarm {
 	public void setaNo(int aNo) {
 		this.aNo = aNo;
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
 	public int getaSendUserNo() {
-		return aSendUNo;
+		return aSendUserNo;
 	}
 
-	public void setaSendUserNo(int aSendUNo) {
-		this.aSendUNo = aSendUNo;
+	public void setaSendUserNo(int aSendUserNo) {
+		this.aSendUserNo = aSendUserNo;
 	}
 
 	public int getaRecvUserNo() {
-		return aRecvUNo;
+		return aRecvUserNo;
 	}
 
-	public void setaRecvUserNo(int aRecvUNo) {
-		this.aRecvUNo = aRecvUNo;
+	public void setaRecvUserNo(int aRecvUserNo) {
+		this.aRecvUserNo = aRecvUserNo;
 	}
 
-=======
->>>>>>> 47b78be0b5a0b2577e82087df14b18ddcedc896a
->>>>>>> backend/KDB/alarm
 	public String getaTitle() {
 		return aTitle;
 	}
@@ -99,25 +85,5 @@ public class Alarm {
 	public void setaLink(String aLink) {
 		this.aLink = aLink;
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
-=======
->>>>>>> backend/KDB/alarm
-	public int getaSendUserNo() {
-		return aSendUserNo;
-	}
-	public void setaSendUserNo(int aSendUserNo) {
-		this.aSendUserNo = aSendUserNo;
-	}
-	public int getaRecvUserNo() {
-		return aRecvUserNo;
-	}
-	public void setaRecvUserNo(int aRecvUserNo) {
-		this.aRecvUserNo = aRecvUserNo;
-	}
-	
-	
->>>>>>> 47b78be0b5a0b2577e82087df14b18ddcedc896a
 }
