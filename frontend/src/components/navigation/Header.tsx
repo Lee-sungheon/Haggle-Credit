@@ -49,8 +49,8 @@ const MenuList = styled.div`
   }
 `;
 
-const Menu = styled.div<{isIndex: boolean}>`
-  width: ${({isIndex}) => isIndex ? 80 : 60}px;
+const Menu = styled.div<{ isIndex: boolean }>`
+  width: ${({ isIndex }) => (isIndex ? 80 : 60)}px;
   height: 40px;
   margin-left: 12px;
   float: left;
@@ -126,22 +126,23 @@ const Header = () => {
         <MenuList>
           {!isLogin ? (
             <>
-              <Menu>
+              <Menu isIndex={isIndex}>
                 <StyledLink to={'/signup'}>회원가입</StyledLink>
               </Menu>
-              <Menu onClick={handleOpen}>
+              <Menu onClick={handleOpen} isIndex={isIndex}>
                 <p style={{ textDecoration: 'none', color: 'black' }}>로그인</p>
               </Menu>
             </>
           ) : (
             <>
-              <Menu>
+              <Menu isIndex={isIndex}>
                 <StyledLink to={'/profile'}>내상점</StyledLink>
               </Menu>
               <Menu
                 onClick={() => {
                   window.location.href = '/home';
                 }}
+                isIndex={isIndex}
               >
                 <p style={{ textDecoration: 'none', color: 'black' }}>
                   로그아웃

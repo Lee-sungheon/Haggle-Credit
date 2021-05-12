@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
-
+import axios from 'axios';
 const Container = styled.div`
   width: 300px;
   height: 300px;
@@ -25,24 +25,26 @@ const ImgInputLabel = styled.label`
 const UploadImg = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
 
-  const [ImgData, setImgData] = useState({
-    imageUrl: '',
-  });
-  useEffect(() => {
-    if (userData) {
-    }
-  }, []);
   const uploadImgHandler = (e: any) => {
     e.preventDefault();
     const imageFile = e.target.files[0];
     const imageUrl = URL.createObjectURL(imageFile);
-    setImgData({ ...ImgData, imageUrl: imageUrl });
+    axios
+      .put('https://k4d107.p.ssafy.io/haggle-credit/image/profileUpload', {
+        uImage: imageUrl,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
-      {ImgData.imageUrl ? (
+      {userData.uImage ? (
         <img
-          src={ImgData.imageUrl}
+          src={userData.uImage}
           id="img"
           style={{
             width: '300px',
