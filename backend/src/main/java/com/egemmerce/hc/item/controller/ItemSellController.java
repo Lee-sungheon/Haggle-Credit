@@ -55,8 +55,10 @@ public class ItemSellController {
 
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
-	public ResponseEntity<List<ItemSell>> reviewItemAll() throws Exception {
-		return new ResponseEntity<List<ItemSell>>(itemSellService.selectItemSellAll(), HttpStatus.OK);
+	public ResponseEntity<List<ItemSell>> selectItemAll() throws Exception {
+		List<ItemSell> itemSell=itemSellService.selectItemSellAll();
+		System.out.println(itemSell.size());
+		return new ResponseEntity<List<ItemSell>>(itemSell, HttpStatus.OK);
 	}
 
 	/* R :: 상품명 조회 */
