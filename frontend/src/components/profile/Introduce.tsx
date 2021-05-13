@@ -118,16 +118,16 @@ const Introduce = () => {
             textAlign: 'left',
             padding: '8px',
             resize: 'none',
-            // marginLeft: '25px',
-            // marginTop: '3px',
           }}
           spellCheck="false"
           value={userData.uContent}
+          readOnly
         ></textarea>
       ) : (
         <IntroduceTextArea
           value={introduce}
           onChange={onIntroduceHandler}
+          placeholder="소개를 입력해주세요."
         ></IntroduceTextArea>
       )}
     </Container>
