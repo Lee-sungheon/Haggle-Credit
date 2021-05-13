@@ -85,7 +85,7 @@ const ProductPrice = ({
         style={{
           display: 'flex',
           padding: '25px 0',
-          paddingBottom: '0',
+          paddingBottom: '10px',
         }}
       >
         <div
@@ -95,9 +95,7 @@ const ProductPrice = ({
             fontWeight: 'bolder',
           }}
         >
-          <p>
-            즉시구매가격<span style={{ color: 'red' }}>* </span>
-          </p>
+          즉시구매가격<span style={{ color: 'red' }}>* </span>
         </div>
         <div>
           <div>
@@ -115,7 +113,7 @@ const ProductPrice = ({
               원
             </div>
           </div>
-          <div style={{ fontSize: '12px', color: 'red', marginTop: '-10px' }}>
+          <div style={{ fontSize: '12px', color: 'red' }}>
             *판매글 등록시 100원아래의 금액은 0으로 대체됩니다.
             <br />
             ex{')'}123123원 -{'>'} 123100원
@@ -127,7 +125,7 @@ const ProductPrice = ({
         style={{
           display: 'flex',
           padding: '25px 0',
-          paddingBottom: '0',
+          paddingBottom: '10px',
           paddingTop: '0',
         }}
       >
@@ -138,9 +136,7 @@ const ProductPrice = ({
             fontWeight: 'bolder',
           }}
         >
-          <p>
-            경매시작가격<span style={{ color: 'red' }}>* </span>
-          </p>
+          경매시작가격<span style={{ color: 'red' }}>* </span>
         </div>
         <div>
           <div>
@@ -158,7 +154,7 @@ const ProductPrice = ({
               원
             </div>
           </div>
-          <div style={{ fontSize: '12px', color: 'red', marginTop: '-10px' }}>
+          <div style={{ fontSize: '12px', color: 'red' }}>
             *판매글 등록시 100원아래의 금액은 0으로 대체됩니다.
             <br />
             ex{')'}123123원 -{'>'} 123100원
@@ -181,9 +177,7 @@ const ProductPrice = ({
             fontWeight: 'bolder',
           }}
         >
-          <p>
-            경매종료시간<span style={{ color: 'red' }}>* </span>
-          </p>
+          경매종료시간<span style={{ color: 'red' }}>* </span>
         </div>
         <div>
           <div>

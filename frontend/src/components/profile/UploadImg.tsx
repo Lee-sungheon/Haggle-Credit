@@ -19,7 +19,7 @@ const ImgSection = styled.div`
 `;
 const ImgSection2 = styled.div`
   position: relative;
-  margin-top: -150px;
+  margin-top: -200px;
 `;
 
 const ImgInputButton = styled.button`
@@ -31,7 +31,7 @@ const ImgInputButton = styled.button`
   cursor: pointer;
 `;
 
-const Aaa = styled.div`
+const ImageList = styled.div`
   text-align: center;
   ${ImgSection2} {
     visibility: hidden;
@@ -100,7 +100,7 @@ const UploadImg = () => {
           <>
             {userData.uImage ? (
               <>
-                <Aaa>
+                <ImageList>
                   <img
                     src={userData.uImage}
                     id="img"
@@ -125,7 +125,7 @@ const UploadImg = () => {
                       사진삭제
                     </ImgInputButton>
                   </ImgSection2>
-                </Aaa>
+                </ImageList>
               </>
             ) : (
               <Container>

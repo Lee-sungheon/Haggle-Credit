@@ -2,9 +2,11 @@ package com.egemmerce.hc.userreview.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.UserReview;
+import com.egemmerce.hc.repository.mapper.UserReviewMapper;
 import com.egemmerce.hc.repository.mapper.UserReviewRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,9 @@ public class UserReviewServiceImpl implements UserReviewService {
 
 	private UserReviewRepository userReviewRepository;
 
+	@Autowired
+	private UserReviewMapper userReviewMapper;
+	
 	@Override
 	public UserReview InsertUserReview(UserReview userReview) throws Exception {
 		return userReviewRepository.save(userReview);
@@ -44,4 +49,28 @@ public class UserReviewServiceImpl implements UserReviewService {
 		return userReviewRepository.save(check);
 	}
 
+	/* C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) */ 
+	@Override
+	public int insertReview(UserReview userReview) throws Exception {
+		return userReviewMapper.insertReview(userReview);
+	}
+	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
+	@Override
+	public List<UserReview> selectMyWrittenReviews(int uNo) throws Exception {
+		return userReviewMapper.selectMyWrittenReviews(uNo);
+	}
+	
+	/* R :: (나의프로필에서) 나에게 달린 리뷰 보기 */
+	@Override
+	public List<UserReview> selectMyReviews(int uNo) throws Exception {
+		return userReviewMapper.selectMyReviews(uNo);
+	}
+	
+	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */
+	@Override
+	public List<UserReview> selectOtherReviews(int uNo) throws Exception {
+		return userReviewMapper.selectOtherReviews(uNo);
+	}
+
+	
 }

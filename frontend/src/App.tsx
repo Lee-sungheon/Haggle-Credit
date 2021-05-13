@@ -44,7 +44,7 @@ const App = () => {
           <Route path="/auction/sell/:id" component={SellAuctionPage} />
           <Route path="/purchase/:id" component={PurchasePage} />
           <Route path="/add_destination" component={AddDestinationPage} />
-          <Route path="/chat/:id" component={ChatPage} />
+          <Route path="/chat/:id/:roomNo" component={ChatPage} />
           <Route path="/chatlist/:id" component={ChatListPage} />
         </Switch>
       </ThemeProvider>

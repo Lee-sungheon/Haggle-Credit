@@ -3,13 +3,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import { useHistory } from "react-router";
-
-interface ITEM {
-  id: number,
-  title: string,
-  url: string,
-  price: number,
-}
+import { ITEM } from "styled-components";
 
 interface RecentlyBoxItemProps {
   item: ITEM;
@@ -97,13 +91,13 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
       style={isHover?{border: '1px solid black', borderLeft: 'none'}:{}}
     >
       <ItemDesBox ref={ItemRef}>
-        <DesTitle>{item.title}</DesTitle>
-        <DesTitle style={{fontWeight: 900}}>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</DesTitle>
+        <DesTitle>{item.isItemName}</DesTitle>
+        <DesTitle style={{fontWeight: 900}}>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</DesTitle>
         <DeleteButton onClick={deleteItem}>X</DeleteButton>
       </ItemDesBox>
-      <ItemImg src={item.url} alt={item.title} 
+      <ItemImg src={item.ipValue} alt={item.isItemName} 
         onClick={() => history.push({
-        pathname: `/detail/${item.id}`,
+        pathname: `/detail/${item.ipItemNo}`,
         state: {item}
       })}/>
     </Item>

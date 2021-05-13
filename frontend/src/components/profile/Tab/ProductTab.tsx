@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ProductList from './PruductList';
 const TabName = styled.div`
   margin-top: 30px;
   margin-bottom: 10px;
@@ -12,7 +11,6 @@ const ProductTab = () => {
   return (
     <>
       <TabName>상품</TabName>
-      <ProductList />
     </>
   );
 };

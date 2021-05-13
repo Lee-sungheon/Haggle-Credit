@@ -114,12 +114,10 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
                   fontWeight: 'bolder',
                 }}
               >
-                <p>
-                  상품이미지<span style={{ color: 'red' }}>* </span>
-                  <span style={{ color: 'gray', fontWeight: 'normal' }}>
-                    ({images.length}/8)
-                  </span>
-                </p>
+                상품이미지<span style={{ color: 'red' }}>* </span>
+                <span style={{ color: 'gray', fontWeight: 'normal' }}>
+                  ({images.length}/8)
+                </span>
               </div>
               <div
                 style={{

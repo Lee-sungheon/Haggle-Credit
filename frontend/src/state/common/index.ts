@@ -1,11 +1,5 @@
 import { createReducer } from "../../common/createReducer";
-
-interface ITEM {
-  id: number,
-  title: string,
-  url: string,
-  price: number,
-}
+import { ITEM } from "styled-components";
 
 export const types = {
   SET_ISINDEX: "common/SET_ISINDEX",
@@ -65,7 +59,7 @@ const reducer = createReducer<CommonState>(INITIAL_STATE, {
   [types.ADD_RECENTLY]: (state, action: AddRecently) => {
     let isExist: boolean = false;
     for(let i = 0; i < state.recentlyItems.length; i++) {
-      if(state.recentlyItems[i].id === action.data.id)  {
+      if(state.recentlyItems[i].ipItemNo === action.data.ipItemNo)  {
         isExist = true;
         break;
       }
@@ -80,7 +74,7 @@ const reducer = createReducer<CommonState>(INITIAL_STATE, {
   },
   [types.DELETE_RECENTLY]: (state, action: DeleteRecently) => {
     for(let i = 0; i < state.recentlyItems.length; i++) {
-      if(state.recentlyItems[i].id === action.data.id)  {
+      if(state.recentlyItems[i].ipItemNo === action.data.ipItemNo)  {
         state.recentlyItems.splice(i, 1);
         break;
       }

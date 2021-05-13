@@ -7,13 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import { useHistory } from "react-router";
-
-interface ITEM {
-  id: number,
-  title: string,
-  url: string,
-  price: number,
-}
+import { ITEM } from "styled-components";
 
 interface ProductItemProps {
   item: ITEM;
@@ -44,10 +38,14 @@ const ImgBox = styled.div`
   border-radius: 3px;
 `;
 
-const ItemTitle = styled.p`
+const ItemTitle = styled.div`
+  height: 52px;
   font-size: 14px;
   margin: 0;
   padding: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const ItemPrice = styled.p`
@@ -78,7 +76,7 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
   const goDetail = () => {
     dispatch(commonActions.addRecently(item));
     history.push({
-      pathname: `/detail/${item.id}`,
+      pathname: `/detail/${item.ipItemNo}`,
       state: {item, buy}
     });
   };
@@ -90,28 +88,28 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
           <CardMedia
             component="img"
             className={classes.cardMedia}
-            image={item.url}
+            image={item.ipValue}
           />
         </ImgBox>
         <CardContent style={{ padding : 0 }}>
-          <ItemTitle>{item.title}</ItemTitle>
+          <ItemTitle>{item.isItemName}</ItemTitle>
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory> 
-            <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+            <span>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemPrice>
           {buy ? <><ItemCategory>즉구가</ItemCategory> 
-            <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            <span>{item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
             :
             <><ItemCategory>시작가</ItemCategory> 
-            <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            <span>{item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
             }
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemTime>
-            <ItemCategory>입찰자</ItemCategory> 0 
-            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{'05.21 23:59'}
+            <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
+            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{item.isEndDate}
           </ItemTime>
         </CardContent>
       </CardActionArea>

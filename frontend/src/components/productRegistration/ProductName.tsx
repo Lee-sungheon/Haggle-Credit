@@ -27,25 +27,21 @@ const ProductName = ({ onIsNameHandler }: ProductNameProps) => {
           fontWeight: 'bolder',
         }}
       >
-        <p>
-          상품이름<span style={{ color: 'red' }}>* </span>
-        </p>
+        상품이름<span style={{ color: 'red' }}>* </span>
       </div>
       <div>
-        <p>
-          <input
-            style={{
-              height: '40px',
-              width: '800px',
-              border: '1px solid #FF6600',
-              marginRight: '25px',
-            }}
-            value={inputName}
-            onChange={onInputTitleHandler}
-            placeholder="상품 이름을 입력해주세요."
-          ></input>
-          <span>({inputName.length}/40)</span>
-        </p>
+        <input
+          style={{
+            height: '40px',
+            width: '800px',
+            border: '1px solid #FF6600',
+            marginRight: '25px',
+          }}
+          value={inputName}
+          onChange={onInputTitleHandler}
+          placeholder="상품 이름을 입력해주세요."
+        ></input>
+        <span>({inputName.length}/40)</span>
       </div>
     </div>
   );

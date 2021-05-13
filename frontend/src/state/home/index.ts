@@ -1,28 +1,45 @@
 import { createReducer } from "../../common/createReducer";
+import { ITEM } from "styled-components";
 
 export const types = {
-  SET_MOVIELIST: "home/SET_MOVIELIST",
+  REQUEST_SELLLIST: "home/REQUEST_SELLLIST",
+  SET_SELLLIST: "home/SET_SELLLIST",
+  SET_LOADING: "home/SET_LOADING",
 };
 
 export const homeActions = {
-  setMovieList: (data: []) => ({ type: types.SET_MOVIELIST, data }),
+  requestSellList: (pageNum: string) => ({ type: types.REQUEST_SELLLIST, pageNum }),
+  setSellList: (data: ITEM[]) => ({ type: types.SET_SELLLIST, data }),
+  setLoading: (isLoading: boolean) => ({
+    type: types.SET_LOADING,
+    isLoading,
+  }),
 };
 
-type SetMovieList = ReturnType<typeof homeActions.setMovieList>;
+type SetSellList = ReturnType<typeof homeActions.setSellList>;
+type SetLoading = ReturnType<typeof homeActions.setLoading>;
 
 export interface HomeState {
-  movieLists: object[];
+  sellLists: ITEM[];
+  isLoading: boolean,
 }
 
 const INITIAL_STATE: HomeState = {
-  movieLists: [{'1': 'test'}],
+  sellLists: [],
+  isLoading: false,
 };
 
 const reducer = createReducer<HomeState>(INITIAL_STATE, {
-  [types.SET_MOVIELIST]: (state, action: SetMovieList) => {
+  [types.SET_SELLLIST]: (state, action: SetSellList) => {
     return {
       ...state,
-      movieLists: action.data,
+      sellLists: action.data,
+    };
+  },
+  [types.SET_LOADING]: (state, action: SetLoading) => {
+    return {
+      ...state,
+      isLoading: action.isLoading
     };
   },
 });

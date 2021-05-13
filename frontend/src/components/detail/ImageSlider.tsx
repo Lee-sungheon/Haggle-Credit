@@ -6,7 +6,11 @@ import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import './ImageSlider.css';
 
-const ImageSlider: React.FC = () => { 
+interface Props {
+  images: string[];
+}
+
+const ImageSlider = ({images}: Props) => { 
   SwiperCore.use([Navigation, Pagination, Autoplay]);
   return ( 
     <Swiper 
@@ -18,7 +22,7 @@ const ImageSlider: React.FC = () => {
       navigation 
       pagination={{ clickable: true }}
       > 
-      {ITEMS.map((item, idx: number) => (
+      {images.map((item, idx: number) => (
         <SwiperSlide key={idx}>
           <div style={{
             width: '100%',

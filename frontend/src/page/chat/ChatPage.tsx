@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import { RouteComponentProps } from 'react-router-dom';
 import Chat from '../../components/chat/Chat';
 import ChatInput from '../../components/chat/ChatInput';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+import { callApiRoomInfo, callApiChat } from '../../api/ChatApi';
+import { ROOMINFO, CHAT } from 'styled-components';
 
 interface MatchParams {
   id: string;
@@ -15,6 +19,10 @@ interface LocationParams {
 }
 
 interface HistoryParams {
+}
+
+interface MSG {
+  [key: string]: string
 }
 
 const Container = styled.div`
@@ -88,9 +96,68 @@ const ItemTitle = styled.div`
 `;
 
 const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
+  const serverURL = `https://k4d107.p.ssafy.io/haggle-credit/websocket`;
+  const socket = useMemo(()=>{
+    return new SockJS(serverURL);
+  }, [serverURL])
+  const stompClient = useMemo(()=>{
+    return Stomp.over(socket);
+  }, [socket])
   const [value, setValue] = useState("");
-  const [feeds, setFeeds] = useState(FEEDS);
+  const [feeds, setFeeds] = useState<CHAT[]>([]);
+  const [roomInfo, setRoomInfo] = useState<ROOMINFO[]>([]);
+  const [userOrder, setUserOrder] = useState("One");
   const dispatch = useDispatch();
+  const crNo = location.pathname.split('/')[3];
+  const userNo = location.pathname.split('/')[2];
+  useEffect(()=>{
+    const fetchRoomInfo = async() => {
+      const result = await callApiRoomInfo(crNo);
+      await setRoomInfo(result);
+      if (result[0].crUserNoOne === parseInt(userNo)){
+        setUserOrder("Two");
+      }
+      else {
+        setUserOrder("One");
+      }
+    }
+    const fetchChat = async() => {
+      const result = await callApiChat(crNo);
+      await setFeeds(result);
+      await stompClient.connect(
+        {},
+        frame => {
+          stompClient.connected = true;
+          console.log('소켓 연결 성공', frame);
+          stompClient.subscribe("/send", res => {
+            console.log('구독으로 받은 메시지 입니다.', JSON.parse(res.body));
+            const message = {
+              icNo: JSON.parse(res.body).icNo,
+              icCrNo: JSON.parse(res.body).icCrNo,
+              icUserNo: JSON.parse(res.body).icUserNo,
+              icChatContent: JSON.parse(res.body).icChatContent,
+              icDate: JSON.parse(res.body).icDate,
+            }
+            setFeeds((feeds) => [...feeds, message])
+          });
+        },
+        error => {
+          console.log('소켓 연결 실패', error);
+          stompClient.connected = false;
+        }
+      );
+  
+      return () => {
+        console.log("채팅창 종료!");
+        if (stompClient) {
+          stompClient.unsubscribe("/send");
+          stompClient.disconnect();
+        }
+      }
+    }
+    fetchRoomInfo();
+    fetchChat();
+  }, [crNo, stompClient, userNo])
 
   useEffect(() => {
     dispatch(commonActions.setIsIndex(true));
@@ -100,81 +167,44 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
       dispatch(commonActions.setIsPurchase(false));
     };
   }, [dispatch]);
+
+  useEffect(() => {
+  }, [serverURL, stompClient]);
+  
+  const send = (message: MSG) => {
+    if (stompClient && stompClient.connected) {
+      const msg = { 
+        icUserNo: userNo,
+        icChatContent: message.content,
+        icCrNo: crNo,
+      };
+      stompClient.send("/pub/receive", JSON.stringify(msg), {});
+    }
+  }
+
   return (
     <Container>
       <Header>
-        <Title>싸피4기취업못함</Title>
+        <Title>{roomInfo.length > 0 && userOrder === "One" && roomInfo[0].crUserOneName}</Title>
+        <Title>{roomInfo.length > 0 && userOrder === "Two" && roomInfo[0].crUserTwoName}</Title>
       </Header>
       <ItemArea>
         <ItemBox>
-          <img 
-            src="https://media.bunjang.co.kr/product/109253582_{cnt}_1569993641_w{res}.jpg" 
+          {roomInfo.length > 0 && <img 
+            src={roomInfo[0].crItemImage}
             alt="ItemImage" 
             style={{height: "2.5rem", width: "2.5rem", marginRight: "0.5rem"}}
-            />
+            />}
           <ItemContentArea>
-            <ItemPrice>{'60000'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}<small> 원</small></ItemPrice>
-            <ItemTitle>몽블랑 카드지갑</ItemTitle>
+            <ItemPrice>{roomInfo.length > 0 && roomInfo[0].crItemPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}<small> 원</small></ItemPrice>
+            <ItemTitle>{roomInfo.length > 0 && roomInfo[0].crItemName}</ItemTitle>
           </ItemContentArea>
         </ItemBox>
       </ItemArea>
-      <Chat feeds={feeds}/>
-      <ChatInput feeds={feeds} setFeeds={setFeeds} value={value} setValue={setValue}/>
+      <Chat feeds={feeds} crNo={crNo} userNo={userNo} roomInfo={roomInfo[0]} userOrder={userOrder}/>
+      <ChatInput value={value} setValue={setValue} send={send}/>
     </Container>
   )
 }
 
 export default ChatPage;
-
-
-interface CHAT {
-  id: string;
-  url: string;
-  content: string;
-  date: string;
-}
-
-const FEEDS: CHAT[] = [
-  {
-    id: '1',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '그러세요 그러세요 그러세요 그러세요',
-    date: '오후 11:42'
-  }, 
-  {
-    id: '2',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요',
-    date: '오후 11:42'
-  }, 
-  {
-    id: '2',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요',
-    date: '오후 11:42'
-  }, 
-  {
-    id: '1',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '그러세요 그러세요 그러세요 그러세요',
-    date: '오후 11:42'
-  },
-  {
-    id: '1',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '그러세요 그러세요 그러세요 그러세요',
-    date: '오후 11:42'
-  }, 
-  {
-    id: '2',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요',
-    date: '오후 11:42'
-  }, 
-  {
-    id: '1',
-    url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
-    content: '그러세요 그러세요 그러세요 그러세요',
-    date: '오후 11:42'
-  }, 
-]
