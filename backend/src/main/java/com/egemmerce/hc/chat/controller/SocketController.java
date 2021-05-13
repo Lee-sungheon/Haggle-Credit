@@ -38,7 +38,6 @@ public class SocketController {
 		// vo에서 getter로 userName을 가져옵니다.
 //    	System.out.println(session.getAttributes().toString());
 		int icUserNo = itemChatting.getIcUserNo();
-		int icItemNo = itemChatting.getIcItemNo();
 		int icCrNo = itemChatting.getIcCrNo();
 		// vo에서 setter로 content를 가져옵니다.
 		String content = itemChatting.getIcChatContent();
@@ -49,7 +48,6 @@ public class SocketController {
 //		String icName = itemChatting.getIcItemNo() + "-" + mainUNo + "-" + subUNo;
 
 		result.setIcChatContent(content);
-		result.setIcItemNo(icItemNo);
 		result.setIcUserNo(icUserNo);
 		result.setIcCrNo(icCrNo);
 		result.generateicDate();

@@ -25,7 +25,6 @@ public class ItemChatting {
 	private int icNo;
 
 	private int icCrNo;
-	private int icItemNo;
 	private int icUserNo;
 	private String icChatContent;
 	private LocalDateTime icDate;
@@ -64,14 +63,6 @@ public class ItemChatting {
 
 	public void setIcUserNo(int icUserNo) {
 		this.icUserNo = icUserNo;
-	}
-
-	public int getIcItemNo() {
-		return icItemNo;
-	}
-
-	public void setIcItemNo(int icItemNo) {
-		this.icItemNo = icItemNo;
 	}
 
 	public int getIcCrNo() {
