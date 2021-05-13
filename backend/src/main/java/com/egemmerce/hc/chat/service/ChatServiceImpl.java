@@ -55,7 +55,7 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public List<ChatRoom> selectChatRoomByuNo(int uNo) {
 		List<ChatRoom> one = chatRoomRepository.findAllBycrUserNoOne(uNo);
-		List<ChatRoom> two = chatRoomRepository.findAllBycrUserNoOne(uNo);
+		List<ChatRoom> two = chatRoomRepository.findAllBycrUserNoTwo(uNo);
 		List<ChatRoom> sum = new ArrayList<>();
 		for(int i = 0; i < one.size(); i++)
 			sum.add(one.get(i));
