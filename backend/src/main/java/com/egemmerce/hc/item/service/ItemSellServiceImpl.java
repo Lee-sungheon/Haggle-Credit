@@ -44,7 +44,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 	/* C :: 상품 등록 */
 	@Override
 	public ItemSell insertItemSell(ItemSell itemSell) {
-		itemSell.generateisRegDate();
+		itemSell.generateStartDate();
 		return itemSellRepository.save(itemSell);
 	}
 	
@@ -78,7 +78,16 @@ public class ItemSellServiceImpl implements ItemSellService {
 		return itemSellMapper.selectItemYesSub(sortProcess);
 	}
 	
-	
+	@Override
+	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception {
+		System.out.println("###"+sortProcess.toString());
+		return itemSellMapper.selectItemAllHomeUp(sortProcess);
+	}
+	@Override
+	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception {
+		System.out.println("###"+sortProcess.toString());
+		return itemSellMapper.selectItemAllHomeDown(sortProcess);
+	}
 
 	/* D :: 상품 삭제 */
 	@Override
@@ -91,8 +100,8 @@ public class ItemSellServiceImpl implements ItemSellService {
 	}
 
 	@Override
-	public Page<ItemSell> selectItemSellByisName(String isName, Pageable pageable) {
-		return itemSellRepository.findByisNameContaining(isName, pageable);
+	public Page<ItemSell> selectItemSellByisItemName(String isItemName, Pageable pageable) {
+		return itemSellRepository.findByisItemNameContaining(isItemName, pageable);
 	}
 
 	/*상품 업데이트*/
@@ -160,7 +169,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Override
 	public ItemSell updateAuctionPrice(int isItemNo, int isAuctionPrice) {
 		ItemSell itemSell=itemSellRepository.findByisItemNo(isItemNo);
-		itemSell.setIsAuctionPrice(isAuctionPrice);
+		itemSell.setIsAuctionIngPrice(isAuctionPrice);
 		return itemSellRepository.save(itemSell);
 	}
 }

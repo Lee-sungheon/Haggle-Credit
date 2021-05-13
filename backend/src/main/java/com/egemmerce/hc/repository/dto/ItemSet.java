@@ -17,27 +17,27 @@ public class ItemSet {
 	private String isContent;
 	private String isUsedStatus;
 	private int isCoolPrice;
-	private int isOriginPrice;
-	private int isAuctionPrice;
-	private int isDealAddress;
+	private int isAuctionInitPrice;
 	private int isDealPrice;
 	private int isDealUserNo;
+	private int isDealAddress;
 	private String isStartDate;
 	private String isEndDate;
 	private String isEventAgree;
-	private String isRegDate;
-	private String isName;
+	private int isAuctionIngPrice;
 	private int ipNo;
 	private int ipItemNo;
 	private String ipValue;
+	private int apItemNo;
+	private int joinerCnt;
 	public ItemSet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public ItemSet(int isNo, int isItemNo, int isUserNo, String isItemName, String isCategoryMain, String isCategorySub,
-			String isContent, String isUsedStatus, int isCoolPrice, int isOriginPrice, int isAuctionPrice,
-			int isDealAddress, int isDealPrice, int isDealUserNo, String isStartDate, String isEndDate,
-			String isEventAgree, String isRegDate, String isName, int ipNo, int ipItemNo, String ipValue) {
+			String isContent, String isUsedStatus, int isCoolPrice, int isAuctionInitPrice, int isDealPrice,
+			int isDealUserNo, int isDealAddress, String isStartDate, String isEndDate, String isEventAgree,
+			int isAuctionIngPrice, int ipNo, int ipItemNo, String ipValue, int apItemNo, int joinerCnt) {
 		super();
 		this.isNo = isNo;
 		this.isItemNo = isItemNo;
@@ -48,19 +48,19 @@ public class ItemSet {
 		this.isContent = isContent;
 		this.isUsedStatus = isUsedStatus;
 		this.isCoolPrice = isCoolPrice;
-		this.isOriginPrice = isOriginPrice;
-		this.isAuctionPrice = isAuctionPrice;
-		this.isDealAddress = isDealAddress;
+		this.isAuctionInitPrice = isAuctionInitPrice;
 		this.isDealPrice = isDealPrice;
 		this.isDealUserNo = isDealUserNo;
+		this.isDealAddress = isDealAddress;
 		this.isStartDate = isStartDate;
 		this.isEndDate = isEndDate;
 		this.isEventAgree = isEventAgree;
-		this.isRegDate = isRegDate;
-		this.isName = isName;
+		this.isAuctionIngPrice = isAuctionIngPrice;
 		this.ipNo = ipNo;
 		this.ipItemNo = ipItemNo;
 		this.ipValue = ipValue;
+		this.apItemNo = apItemNo;
+		this.joinerCnt = joinerCnt;
 	}
 	public int getIsNo() {
 		return isNo;
@@ -116,23 +116,11 @@ public class ItemSet {
 	public void setIsCoolPrice(int isCoolPrice) {
 		this.isCoolPrice = isCoolPrice;
 	}
-	public int getIsOriginPrice() {
-		return isOriginPrice;
+	public int getIsAuctionInitPrice() {
+		return isAuctionInitPrice;
 	}
-	public void setIsOriginPrice(int isOriginPrice) {
-		this.isOriginPrice = isOriginPrice;
-	}
-	public int getIsAuctionPrice() {
-		return isAuctionPrice;
-	}
-	public void setIsAuctionPrice(int isAuctionPrice) {
-		this.isAuctionPrice = isAuctionPrice;
-	}
-	public int getIsDealAddress() {
-		return isDealAddress;
-	}
-	public void setIsDealAddress(int isDealAddress) {
-		this.isDealAddress = isDealAddress;
+	public void setIsAuctionInitPrice(int isAuctionInitPrice) {
+		this.isAuctionInitPrice = isAuctionInitPrice;
 	}
 	public int getIsDealPrice() {
 		return isDealPrice;
@@ -145,6 +133,12 @@ public class ItemSet {
 	}
 	public void setIsDealUserNo(int isDealUserNo) {
 		this.isDealUserNo = isDealUserNo;
+	}
+	public int getIsDealAddress() {
+		return isDealAddress;
+	}
+	public void setIsDealAddress(int isDealAddress) {
+		this.isDealAddress = isDealAddress;
 	}
 	public String getIsStartDate() {
 		return isStartDate;
@@ -164,17 +158,11 @@ public class ItemSet {
 	public void setIsEventAgree(String isEventAgree) {
 		this.isEventAgree = isEventAgree;
 	}
-	public String getIsRegDate() {
-		return isRegDate;
+	public int getIsAuctionIngPrice() {
+		return isAuctionIngPrice;
 	}
-	public void setIsRegDate(String isRegDate) {
-		this.isRegDate = isRegDate;
-	}
-	public String getIsName() {
-		return isName;
-	}
-	public void setIsName(String isName) {
-		this.isName = isName;
+	public void setIsAuctionIngPrice(int isAuctionIngPrice) {
+		this.isAuctionIngPrice = isAuctionIngPrice;
 	}
 	public int getIpNo() {
 		return ipNo;
@@ -194,5 +182,18 @@ public class ItemSet {
 	public void setIpValue(String ipValue) {
 		this.ipValue = ipValue;
 	}
+	public int getApItemNo() {
+		return apItemNo;
+	}
+	public void setApItemNo(int apItemNo) {
+		this.apItemNo = apItemNo;
+	}
+	public int getJoinerCnt() {
+		return joinerCnt;
+	}
+	public void setJoinerCnt(int joinerCnt) {
+		this.joinerCnt = joinerCnt;
+	}
+
 	
 }

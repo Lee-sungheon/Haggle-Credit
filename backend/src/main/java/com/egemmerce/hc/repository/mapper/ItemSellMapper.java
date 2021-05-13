@@ -13,4 +13,6 @@ public interface ItemSellMapper {
 	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
 	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
 	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
 }
