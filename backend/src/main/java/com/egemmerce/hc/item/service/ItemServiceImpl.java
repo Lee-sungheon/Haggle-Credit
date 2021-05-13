@@ -28,4 +28,10 @@ public class ItemServiceImpl implements ItemService{
 		return itemRepository.save(item);
 	}
 
+
+	@Override
+	public Item selectItem(int iNo) {
+		return itemRepository.findByiNo(iNo);
+	}
+
 }

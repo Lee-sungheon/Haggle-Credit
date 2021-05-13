@@ -7,5 +7,7 @@ public interface ItemService {
 	Item insert(Item item);
 
 	Item updateItemDealCompleted(int isItemNo);
+	
+	Item selectItem(int iNo);
 
 }
