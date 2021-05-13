@@ -103,11 +103,11 @@ public class ChatController {
 		if (type.equals("sell")) {
 			ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(iNo);
 			chatRoom.setCrItemName(itemSell.getIsItemName());
-			chatRoom.setCrItemPrice(itemSell.getIsDealPrice());
+			chatRoom.setCrItemPrice(itemSell.getIsAuctionIngPrice());
 		} else {
 			ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(iNo);
 			chatRoom.setCrItemName(itemBuy.getIbName());
-			chatRoom.setCrItemPrice(itemBuy.getIbDealPrice());
+			chatRoom.setCrItemPrice(itemBuy.getIbAuctionPrice());
 		}
 		chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
 

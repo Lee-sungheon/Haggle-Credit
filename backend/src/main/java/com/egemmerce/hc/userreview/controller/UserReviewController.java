@@ -57,4 +57,27 @@ public class UserReviewController {
 		userReviewService.UpdateUserReview(userReview);
 		return new ResponseEntity<String>(userReview.getUrContent() + "리뷰 수정 성공", HttpStatus.OK);
 	}
+	
+	/* C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) */ 
+	@PostMapping("writing")
+	public ResponseEntity<String> InsertReview(@RequestBody UserReview userReview) throws Exception {
+		if(userReviewService.insertReview(userReview) > 0)
+			return new ResponseEntity<String>("리뷰 추가 성공", HttpStatus.OK);
+		return new ResponseEntity<String>("리뷰 추가 실패", HttpStatus.NO_CONTENT);
+	}
+	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
+	@GetMapping("myWritten")
+	public ResponseEntity<List<UserReview>> SelectMyWrittenReviews(int uNo) throws Exception {
+		return new ResponseEntity<List<UserReview>>(userReviewService.selectMyWrittenReviews(uNo), HttpStatus.OK);
+	}
+	/* R :: (나의프로필에서) 나에게 달린 리뷰 보기 */
+	@GetMapping("mine")
+	public ResponseEntity<List<UserReview>> SelectMyReviews(int uNo) throws Exception {
+		return new ResponseEntity<List<UserReview>>(userReviewService.selectMyReviews(uNo), HttpStatus.OK);
+	}
+	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */
+	@GetMapping("theirs")
+	public ResponseEntity<List<UserReview>> SelectYourReviews(int uNo) throws Exception {
+		return new ResponseEntity<List<UserReview>>(userReviewService.selectOtherReviews(uNo), HttpStatus.OK);
+	}
 }
