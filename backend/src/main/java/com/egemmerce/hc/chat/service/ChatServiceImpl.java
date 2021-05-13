@@ -71,7 +71,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatRoom> selectBycrNo(int crNo) {
+	public ChatRoom selectBycrNo(int crNo) {
 		return chatRoomRepository.findAllBycrNo(crNo);
 	}
 

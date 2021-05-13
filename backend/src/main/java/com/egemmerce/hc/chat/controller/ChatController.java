@@ -1,5 +1,6 @@
 package com.egemmerce.hc.chat.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,7 +54,9 @@ public class ChatController {
 	/* 해당 채팅방 조회 */
 	@GetMapping("/roominfo")
 	public List<ChatRoom> selectChatRoomBycrNo(int crNo) throws Exception {
-		return chatservice.selectBycrNo(crNo);
+		List<ChatRoom> cr = new ArrayList<>();
+		cr.add(chatservice.selectBycrNo(crNo));
+		return cr;
 	}
 
 	/* 사용자의 채팅 방 조회 */

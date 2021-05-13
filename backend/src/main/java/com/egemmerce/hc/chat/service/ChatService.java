@@ -31,5 +31,5 @@ public interface ChatService {
 	
 	List<ChatRoom> selectChatRoomByuNo(int uNo);
 	
-	List<ChatRoom> selectBycrNo(int crNo);
+	ChatRoom selectBycrNo(int crNo);
 }
