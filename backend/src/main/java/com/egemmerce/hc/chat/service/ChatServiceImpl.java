@@ -43,11 +43,6 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ItemChatting> selectMainChatByicItemNoAndicMainUserNo(int icItemNo, int icMainUserNo) {
-		return itemChattingRepository.findDistinctByIcItemNoAndIcMainUserNo(icItemNo, icMainUserNo);
-	}
-
-	@Override
 	public ChatRoom createChatRoom(ChatRoom chatRoom) {
 		return chatRoomRepository.save(chatRoom);
 	}

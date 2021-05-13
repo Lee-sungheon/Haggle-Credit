@@ -12,6 +12,4 @@ public interface ItemChattingRepository extends JpaRepository<ItemChatting, Long
 
 	List<ItemChatting> findByicCrNo(int crNo);
 
-	List<ItemChatting> findDistinctByIcItemNoAndIcMainUserNo(int icItemNo, int icMainUserNo);
-
 }

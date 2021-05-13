@@ -23,8 +23,6 @@ public interface ChatService {
 
 	ItemChatting createItemChat(ItemChatting itemChatting);
 
-	List<ItemChatting> selectMainChatByicItemNoAndicMainUserNo(int icItemNo, int icMainUserNo);
-
 	ChatRoom createChatRoom(ChatRoom ChatRoom);
 	
 	ChatRoom selectBycrName(String crName);
