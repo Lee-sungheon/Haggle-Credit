@@ -100,9 +100,7 @@ const ProductCategory = ({
           fontWeight: 'bolder',
         }}
       >
-        <p>
-          카테고리<span style={{ color: 'red' }}>* </span>
-        </p>
+        카테고리<span style={{ color: 'red' }}>* </span>
       </div>
       <div>
         <div>

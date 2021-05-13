@@ -32,9 +32,7 @@ const ProductState = ({ onIsUsedStatus }: ProductStateProps) => {
           fontWeight: 'bolder',
         }}
       >
-        <p>
-          상태<span style={{ color: 'red' }}>* </span>
-        </p>
+        상태<span style={{ color: 'red' }}>* </span>
       </div>
       <div>
         <div>
