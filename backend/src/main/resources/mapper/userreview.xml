@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.UserReviewMapper">
+
+
+<!-- C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) -->
+<insert id="insertReview" parameterType="UserReview">
+insert into user_review
+(ur_user_no, ur_item_no, ur_write_user_no, ur_content, ur_score, ur_write_date)
+values
+(#{urUserNo}, #{urItemNo}, #{urWriteUserNo}, #{urContent}, #{urScore}, now());
+</insert>
+
+<!-- R :: (나의프로필에서) 내가 쓴 리뷰 보기 -->
+<select id="selectMyWrittenReviews" resultType="UserReview">
+select *
+  from user_review
+ where ur_write_user_no = #{uNo}
+order by ur_no desc
+</select>
+
+<!-- R :: (나의프로필에서) 나에게 달린 리뷰 보기 -->
+<select id="selectMyReviews" parameterType="int" resultType="UserReview">
+select *
+  from user_review
+ where ur_user_no = #{uNo}
+ order by ur_no desc
+</select>
+
+<!-- R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 -->
+<select id="selectOtherReviews" parameterType="int" resultType="UserReview">
+select *
+  from user_review
+ where ur_user_no = #{uNo}
+ order by ur_no desc
+</select>
+</mapper>
