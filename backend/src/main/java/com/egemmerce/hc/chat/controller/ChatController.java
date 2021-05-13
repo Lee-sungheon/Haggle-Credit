@@ -47,7 +47,6 @@ public class ChatController {
 	/* 해당 채팅방 채팅 불러오기 */
 	@GetMapping("/enter")
 	public List<ItemChatting> selectChatBycrNo(int crNo) throws Exception {
-//		System.out.println(crNo + "번방에 입장");
 		return chatservice.selectChatByicCrNo(crNo);
 	}
 	
@@ -65,24 +64,10 @@ public class ChatController {
 		return chatservice.selectChatRoomByuNo(uNo);
 	}
 
-	/* Main의 채팅 방 조회 */
-	@GetMapping("/selectMain")
-	public Set<Integer> selectMainChatByiNoandmainNo(int icItemNo, int icMainUserNo) throws Exception {
-		List<ItemChatting> check = chatservice.selectMainChatByicItemNoAndicMainUserNo(icItemNo, icMainUserNo);
-		Set<Integer> subNo = new HashSet<Integer>();
-		for (ItemChatting ic : check) {
-			subNo.add(ic.getIcSubUserNo());
-		}
-		return subNo;
-	}
-
 	/* 해당 채팅방의 채팅 생성 */
 	@PostMapping("/create")
 	public ItemChatting createChat(@RequestBody ItemChatting itemChatting) throws Exception {
 		itemChatting.generateicDate();
-		System.out.println(itemChatting.getIcChatContent());
-		System.out.println(itemChatting.getIcMainUserNo());
-		System.out.println(itemChatting.getIcSubUserNo());
 		return chatservice.createItemChat(itemChatting);
 	}
 
