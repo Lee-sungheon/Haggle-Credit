@@ -17,6 +17,18 @@ import com.egemmerce.hc.repository.dto.ChatRoom;
 import com.egemmerce.hc.repository.dto.ItemChatting;
 import com.egemmerce.hc.user.service.UserService;
 
+/**
+ * 
+ * @Date : 2021. 5. 13.
+ * @Team : Egemmerce
+ * @author : 김동빈, 임호빈
+ * @deploy : 임호빈
+ * @Project : Haggle Credit :: backend
+ * @Function : 채팅 관련 컨트롤러 클래스
+ * @Description : 채팅과 채팅방 관련 데이터 저장, 조회
+ *
+ */
+
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
@@ -40,7 +52,7 @@ public class ChatController {
 	
 	/* 해당 채팅방 조회 */
 	@GetMapping("/roominfo")
-	public ChatRoom selectChatRoomBycrNo(int crNo) throws Exception {
+	public List<ChatRoom> selectChatRoomBycrNo(int crNo) throws Exception {
 		return chatservice.selectBycrNo(crNo);
 	}
 

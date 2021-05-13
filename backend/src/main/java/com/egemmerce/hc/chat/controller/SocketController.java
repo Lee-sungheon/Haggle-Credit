@@ -9,6 +9,18 @@ import com.egemmerce.hc.chat.service.ChatService;
 import com.egemmerce.hc.repository.dto.ChatRoom;
 import com.egemmerce.hc.repository.dto.ItemChatting;
 
+/**
+ * 
+ * @Date : 2021. 5. 13.
+ * @Team : Egemmerce
+ * @author : 김동빈, 임호빈
+ * @deploy : 임호빈
+ * @Project : Haggle Credit :: backend
+ * @Function : 소켓통신, 채팅 관련 컨트롤러 클래스
+ * @Description : 소켓통신과 채팅 데이터를 db에 저장
+ *
+ */
+
 @RestController
 public class SocketController {
 	@Autowired
@@ -35,13 +47,7 @@ public class SocketController {
 		// 생성자로 반환값을 생성합니다.
 		ItemChatting result = new ItemChatting();
 
-		System.out.println(mainUNo);
-		System.out.println(subUNo);
-		System.out.println(content);
-		System.out.println("방번호" + icCrNo);
 //		String icName = itemChatting.getIcItemNo() + "-" + mainUNo + "-" + subUNo;
-//		System.out.println("채팅방 이름 : " + icName);
-
 
 		result.setIcChatContent(content);
 		result.setIcItemNo(icItemNo);

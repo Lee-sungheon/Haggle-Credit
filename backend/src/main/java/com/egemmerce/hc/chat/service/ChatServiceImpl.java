@@ -13,6 +13,18 @@ import com.egemmerce.hc.repository.mapper.ItemChattingRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 
+ * @Date : 2021. 5. 13.
+ * @Team : Egemmerce
+ * @author : 김동빈, 임호빈
+ * @deploy : 임호빈
+ * @Project : Haggle Credit :: backend
+ * @Function : 채팅 관련 서비스 클래스
+ * @Description : 채팅과 채팅방 관련 데이터 저장, 조회
+ *
+ */
+
 @Service
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
@@ -59,7 +71,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ChatRoom selectBycrNo(int crNo) {
+	public List<ChatRoom> selectBycrNo(int crNo) {
 		return chatRoomRepository.findAllBycrNo(crNo);
 	}
 

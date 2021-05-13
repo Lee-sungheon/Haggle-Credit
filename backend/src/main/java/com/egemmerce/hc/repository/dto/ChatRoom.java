@@ -13,6 +13,18 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * 
+ * @Date : 2021. 5. 13.
+ * @Team : Egemmerce
+ * @author : 김동빈
+ * @deploy : 김동빈
+ * @Project : Haggle Credit :: backend
+ * @Function : 채팅방 dto
+ * @Description : 채팅방
+ *
+ */
+
 @Entity
 @EqualsAndHashCode(of = "crNo")
 @Builder

@@ -9,8 +9,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 /**
  * 
- * @Date : 2021. 2. 5.
- * @Team : AnJanDa
+ * @Date : 2021. 5. 12.
+ * @Team : Egemmerce
  * @author : 임호빈
  * @deploy : 김동빈
  * @Project : Egemmerce :: backend
