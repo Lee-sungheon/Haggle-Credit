@@ -37,8 +37,7 @@ public class SocketController {
 	public ItemChatting SocketHandler(ItemChatting itemChatting) throws Exception {
 		// vo에서 getter로 userName을 가져옵니다.
 //    	System.out.println(session.getAttributes().toString());
-		int mainUNo = itemChatting.getIcMainUserNo();
-		int subUNo = itemChatting.getIcSubUserNo();
+		int icUserNo = itemChatting.getIcUserNo();
 		int icItemNo = itemChatting.getIcItemNo();
 		int icCrNo = itemChatting.getIcCrNo();
 		// vo에서 setter로 content를 가져옵니다.
@@ -51,8 +50,7 @@ public class SocketController {
 
 		result.setIcChatContent(content);
 		result.setIcItemNo(icItemNo);
-		result.setIcMainUserNo(mainUNo);
-		result.setIcSubUserNo(subUNo);
+		result.setIcUserNo(icUserNo);
 		result.setIcCrNo(icCrNo);
 		result.generateicDate();
 		chatservice.createItemChat(result);

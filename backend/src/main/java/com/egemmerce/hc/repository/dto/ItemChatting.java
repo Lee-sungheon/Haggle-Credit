@@ -26,8 +26,7 @@ public class ItemChatting {
 
 	private int icCrNo;
 	private int icItemNo;
-	private int icMainUserNo;
-	private int icSubUserNo;
+	private int icUserNo;
 	private String icChatContent;
 	private LocalDateTime icDate;
 
@@ -59,20 +58,12 @@ public class ItemChatting {
 		this.icDate = LocalDateTime.now();
 	}
 
-	public int getIcMainUserNo() {
-		return icMainUserNo;
+	public int getIcUserNo() {
+		return icUserNo;
 	}
 
-	public void setIcMainUserNo(int icMainUserNo) {
-		this.icMainUserNo = icMainUserNo;
-	}
-
-	public int getIcSubUserNo() {
-		return icSubUserNo;
-	}
-
-	public void setIcSubUserNo(int icSubUserNo) {
-		this.icSubUserNo = icSubUserNo;
+	public void setIcUserNo(int icUserNo) {
+		this.icUserNo = icUserNo;
 	}
 
 	public int getIcItemNo() {
