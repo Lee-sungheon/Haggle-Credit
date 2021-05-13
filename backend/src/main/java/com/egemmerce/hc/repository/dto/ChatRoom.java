@@ -3,10 +3,10 @@ package com.egemmerce.hc.repository.dto;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
