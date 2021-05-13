@@ -2,13 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import ImageSlider from './ImageSlider';
 import moment from 'moment';
-
-interface ITEM {
-  id: number,
-  title: string,
-  url: string,
-  price: number,
-}
+import { ITEM } from "styled-components";
 
 interface ProductInfoProps {
   item: ITEM;
@@ -144,33 +138,33 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   return (
     <Container>
       <ImgBox>
-        <ImageSlider />
+        <ImageSlider images={[item.ipValue]}/>
       </ImgBox>
       <ProductInfoBox>
         <InfoArea>
           <InfoTitlePrice>
             <InfoTitle>
-              {item.title}
+              {item.isItemName}
             </InfoTitle>
             <InfoPrice>
               <InfoText>현재가 : </InfoText>
-              <span style={{ color: 'red' }}>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span> 
+              <span style={{ color: 'red' }}>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span> 
               <InfoText>원</InfoText>
             </InfoPrice>
             <InfoPrice>
               <InfoText>{buy ? "즉구가 : " : "시작가 : "}</InfoText>
-              <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              <span>{item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               <InfoText>원</InfoText></span>
-              {buy ? <InfoSubText>(시작가 : {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>:<></>}
+              {buy ? <InfoSubText>(시작가 : {item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>:<></>}
             </InfoPrice>
           </InfoTitlePrice>
         </InfoArea>
         <DetailBox style={{borderBottom: '1px solid rgb(238, 238, 238)'}}>
           <DetailItem>
-            <ItemTitle>· 입찰수</ItemTitle><ItemContent>1회</ItemContent>
+            <ItemTitle>· 입찰수</ItemTitle><ItemContent>{item.joinerCnt}회</ItemContent>
           </DetailItem>
           <DetailItem>
-            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} (종료: {endDate})</ItemContent>
+            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} (종료: {item.isEndDate.slice(5,)} 24:00)</ItemContent>
           </DetailItem>
         </DetailBox>
         <DetailBox>
@@ -178,7 +172,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             <ItemTitle>· 상품상태</ItemTitle><ItemContent>중고</ItemContent>
           </DetailItem>
           <DetailItem>
-            <ItemTitle>· 교환여부</ItemTitle><ItemContent>교환불가능</ItemContent>
+            <ItemTitle>· 환불여부</ItemTitle><ItemContent>환불불가능</ItemContent>
           </DetailItem>
           <DetailItem>
             <ItemTitle>· 배송비</ItemTitle><ItemContent>별도</ItemContent>

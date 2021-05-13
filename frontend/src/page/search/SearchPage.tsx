@@ -116,7 +116,7 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
             <LastItem style={filterIdx === 2 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(2)}>고가순</LastItem>
           </Filter>
         </FilterArea>
-        <ProductList buy={buy}/>
+        <ProductList buy={buy} products={[]}/>
       </ProductArea>
     </Container>
   )

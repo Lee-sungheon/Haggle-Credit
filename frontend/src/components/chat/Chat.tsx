@@ -1,22 +1,16 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
-import moment from 'moment';
+import { ROOMINFO, CHAT } from 'styled-components';
 
 interface Props {
-  feeds: CHAT[]
-}
-
-interface CHAT {
-  id: string;
-  url: string;
-  content: string;
-  date: string;
+  feeds: CHAT[];
+  roomInfo: ROOMINFO;
+  crNo: string;
+  userNo: string;
+  userOrder: string;
 }
 
 const Container = styled.div`
-  /* flex: 1 1 0%; */
   background: rgb(244, 244, 250);
   display: block;
   overflow: auto;
@@ -145,8 +139,7 @@ const YourChat = styled.div`
   align-items: center;
 `;
 
-const Chat = ({feeds}: Props) => {
-  const userId = '1';
+const Chat = ({feeds, roomInfo, crNo, userNo, userOrder}: Props) => {
   const DivRef = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     if (null !== DivRef.current){
@@ -154,95 +147,30 @@ const Chat = ({feeds}: Props) => {
     }
   }, [feeds]);
 
-  useEffect(()=>{
-    const serverURL = `https://k4d107.p.ssafy.io/haggle-credit/websocket`
-    let socket = new SockJS(serverURL);
-    const stompClient = Stomp.over(socket);
-    console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-    stompClient.connect(
-      {},
-      frame => {
-        stompClient.connected = true;
-        console.log('소켓 연결 성공', frame);
-        stompClient.subscribe("/send", res => {
-          console.log('구독으로 받은 메시지 입니다.', '1', JSON.parse(res.body));
-          const message = {
-            id: JSON.parse(res.body).mrcUNo,
-            roomNo: JSON.parse(res.body).mrcMrNo,
-            author: '1',
-            contents: JSON.parse(res.body).mrcContent,
-            date: moment().format('HH:mm'),
-            uImage: ''
-          }
-          if(message.roomNo == '1'){
-            console.log("방번호가 일치합니다.")
-            // feed.push(message)
-            console.log(message)
-          }
-        });
-        const msg = { 
-        mrcUNo: '1',
-        mrcContent: '',
-        mrcMrNo: '1'
-        };
-      console.log(msg)
-      stompClient.send("/pub", JSON.stringify(msg), {});
-      },
-      error => {
-        console.log('소켓 연결 실패', error);
-        stompClient.connected = false;
-      }
-    );
-    const onNewOwnMessage = (message: string) => {
-      const newOwnMessage = {
-        id: '1',
-        author: '',
-        contents: message,
-        date: moment().format('HH:mm')
-      };
-      // send();
-    }
-    const send = () => {
-      if (stompClient && stompClient.connected) {
-        const msg = { 
-          mrcUNo: '1',
-          mrcContent: '',
-          mrcMrNo: '1'
-        };
-        stompClient.send("/pub/receive", JSON.stringify(msg), {});
-      }
-    }
-
-    return () => {
-      console.log("채팅창 종료!");
-      if (stompClient) {
-        stompClient.unsubscribe("/send");
-        stompClient.disconnect();
-      }
-    }
-  }, []);
-
-
   return(
     <Container>
       <ChatArea>
-        <StyledDate>2021. 5. 12 수요일</StyledDate>
-        {feeds.map((feed, idx)=>(
+        {feeds.length > 0 && feeds.map((feed, idx)=>(
           <div key={idx}>
-            {userId === feed.id ?
+            {idx+1 < feeds.length && feeds[idx+1].icDate.slice(0,10) !== feed.icDate.slice(0,10) ?
+              <StyledDate>{feed.icDate.slice(0,10)}</StyledDate>
+            :
+              <></>
+            }
+            {parseInt(userNo) === feed.icUserNo ?
             <MyChatArea>
               <MyChatBubble>
                 <SubContent>
-                {idx+1 < feeds.length && feeds[idx+1].id === feed.id && feeds[idx+1].date === feed.date ? 
+                {idx+1 < feeds.length && feeds[idx+1].icUserNo === feed.icUserNo && feeds[idx+1].icDate.slice(11,16) === feed.icDate.slice(11,16) ? 
                     <div style={{marginLeft: '10px', width: '47px'}}/>
                     :
                     <div style={{color: 'rgb(195, 194, 204)', paddingLeft: '10px', textAlign: 'right'}}>
-                      {feed.date}
+                      {feed.icDate.slice(11,16)}
                     </div>
                   }
                 </SubContent>
                 <MyChat>
-                  {feed.content}
+                  {feed.icChatContent}
                 </MyChat>
               </MyChatBubble>
             </MyChatArea>
@@ -250,9 +178,9 @@ const Chat = ({feeds}: Props) => {
             <YourChatArea>
               <YourChatBox>
                   <YourChatAvatar>
-                    {idx-1 > 0 && feeds[idx-1].id === feed.id ? 
+                    {idx-1 >= 0 && feeds[idx-1].icUserNo === feed.icUserNo ? 
                       <div /> : <img 
-                      src={feed.url} 
+                      src={userOrder==="One" ? `${roomInfo.crUserOneProfile}`:`${roomInfo.crUserTwoProfile}`}
                       alt="프로필이미지" 
                       width="36" 
                       height="36" 
@@ -261,15 +189,15 @@ const Chat = ({feeds}: Props) => {
                   </YourChatAvatar>
                 <YourChatBubble>
                   <YourChat>
-                    {feed.content}
+                    {feed.icChatContent}
                   </YourChat>
                 </YourChatBubble>
                 <SubContent>
-                  {idx+1 < feeds.length && feeds[idx+1].id === feed.id && feeds[idx+1].date === feed.date ? 
+                  {idx+1 < feeds.length && feeds[idx+1].icUserNo === feed.icUserNo && feeds[idx+1].icDate.slice(11,16) === feed.icDate.slice(11,16) ? 
                     <div style={{marginLeft: '10px', width: '47px'}}/>
                     :
                     <div style={{color: 'rgb(195, 194, 204)', paddingLeft: '10px', textAlign: 'right'}}>
-                      {feed.date}
+                      {feed.icDate.slice(11,16)}
                     </div>
                   }
                 </SubContent>

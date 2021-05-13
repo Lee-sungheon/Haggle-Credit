@@ -7,13 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import { useHistory } from "react-router";
-
-interface ITEM {
-  id: number,
-  title: string,
-  url: string,
-  price: number,
-}
+import { ITEM } from "styled-components";
 
 interface ProductItemProps {
   item: ITEM;
@@ -78,14 +72,14 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
   const goDetail = () => {
     dispatch(commonActions.addRecently(item));
     history.push({
-      pathname: `/detail/${item.id}`,
+      pathname: `/detail/${item.ipItemNo}`,
       state: {item, buy}
     });
   };
 
   return (
     <Card className={classes.root} onClick={goDetail}>
-      <CardActionArea>
+      {/* <CardActionArea>
         <ImgBox>
           <CardMedia
             component="img"
@@ -116,7 +110,7 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
             <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{'05.21 23:59'}
           </ItemTime>
         </CardContent>
-      </CardActionArea>
+      </CardActionArea> */}
     </Card>
   )
 }
