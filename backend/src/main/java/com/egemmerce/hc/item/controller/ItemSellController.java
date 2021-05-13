@@ -104,12 +104,23 @@ public class ItemSellController {
 		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
 	}
 	
+	@GetMapping("viewHome")
+	public ResponseEntity<List<ItemSet>> selectItemAllHome(int pageNo, String sortName, String UD) throws Exception {
+		List<ItemSet> itemSellSet = null;
+		SortProcess sp = new SortProcess(pageNo, "", "", sortName);
+		if(UD.equals("up")) {
+			itemSellSet = itemSellService.selectItemAllHomeUp(sp);
+		}else {
+			itemSellSet = itemSellService.selectItemAllHomeDown(sp);
+		}
+		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+	}
 //	===============
 	
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
 	public ResponseEntity<Page<ItemSell>> selectItemByiName(String isName, Pageable pageable) throws Exception {
-		return new ResponseEntity<Page<ItemSell>>(itemSellService.selectItemSellByisName(isName, pageable),
+		return new ResponseEntity<Page<ItemSell>>(itemSellService.selectItemSellByisItemName(isName, pageable),
 				HttpStatus.OK);
 	}
 
@@ -165,7 +176,7 @@ public class ItemSellController {
 		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
 
 		// 현 입찰가보다 작을 경유
-		if (itemSell.getIsAuctionPrice() > isAuctionPrice) {
+		if (itemSell.getIsAuctionIngPrice() > isAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 작습니다.", HttpStatus.OK);
 		}
 		// 아이템 정보 변경

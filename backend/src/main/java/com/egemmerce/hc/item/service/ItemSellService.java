@@ -22,12 +22,13 @@ public interface ItemSellService {
 	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
 	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
 	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
-	
+	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
 	
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
 
-	Page<ItemSell> selectItemSellByisName(String isName, Pageable pageable);
+	Page<ItemSell> selectItemSellByisItemName(String isItemName, Pageable pageable);
 
 	/*상품 업데이트*/
 	ItemSell updateItemSell(ItemSell itemSell);

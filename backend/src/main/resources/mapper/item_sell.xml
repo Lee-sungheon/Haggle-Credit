@@ -7,43 +7,74 @@
 
 <!-- 상품등록 -->
 
+
+
+
 <!-- 상품 전체 조회 -->
 <select id="selectItemNoSubRvsSort" parameterType="SortProcess" resultType="ItemSet">
-select *
-from item_sell
-   inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)tmp_table on is_item_no = tmp_table.ip_item_no
+select * 
+from (select * 
+from item_sell inner join 
+(select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+tmp_table on is_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_nowhere is_category_main=#{ctgrMain}
 where is_category_main=#{ctgrMain}
 order by ${sortName} desc
 limit #{pageNo}, 100;
 </select>
 
 <select id="selectItemYesSubRvsSort" parameterType="SortProcess" resultType="ItemSet">
-select *
-from item_sell
-   inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)tmp_table on is_item_no = tmp_table.ip_item_no
+select * from (select * from item_sell
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on is_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
 where is_category_main=#{ctgrMain} and is_category_sub=#{ctgrSub}
 order by ${sortName} desc
 limit #{pageNo}, 100;
 </select>
 
 <select id="selectItemNoSub" parameterType="SortProcess" resultType="ItemSet">
-select *
-from item_sell
-   inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)tmp_table on is_item_no = tmp_table.ip_item_no
+select * from (select * from item_sell
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on is_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
 where is_category_main=#{ctgrMain}
 order by ${sortName}
 limit #{pageNo}, 100;
 </select>
 
 <select id="selectItemYesSub" parameterType="SortProcess" resultType="ItemSet">
-select *
-from item_sell
-   inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)tmp_table on is_item_no = tmp_table.ip_item_no
+select * from (select * from item_sell
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on is_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
 where is_category_main=#{ctgrMain} and is_category_sub=#{ctgrSub}
 order by ${sortName}
 limit #{pageNo}, 100;
 </select>
 
+<select id="selectItemAllHomeUp" parameterType="SortProcess" resultType="ItemSet">
+select * from (select * from item_sell
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on is_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
+order by ${sortName}
+limit #{pageNo}, 100;
+</select>
+
+<select id="selectItemAllHomeDown" parameterType="SortProcess" resultType="ItemSet">
+select * from (select * from item_sell
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on is_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
+order by ${sortName} desc
+limit #{pageNo}, 100;
+</select>
 
 <!-- 상품삭제 -->
 
