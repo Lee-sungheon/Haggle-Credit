@@ -38,6 +38,7 @@ public class SocketController {
 		System.out.println(mainUNo);
 		System.out.println(subUNo);
 		System.out.println(content);
+		System.out.println("방번호" + icCrNo);
 //		String icName = itemChatting.getIcItemNo() + "-" + mainUNo + "-" + subUNo;
 //		System.out.println("채팅방 이름 : " + icName);
 
