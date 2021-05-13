@@ -24,6 +24,7 @@ import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
 import com.egemmerce.hc.user.address.service.UserAddressService;
@@ -68,20 +69,42 @@ public class ItemSellController {
 		return new ResponseEntity<Page<ItemSell>>(itemSell, HttpStatus.OK);
 	}
 	
+//	=============================
+	
 	/* R :: 임시임.. 상품 전체 조회 */
-	@GetMapping("/allTmp")
-	public ResponseEntity<List<ItemSet>> selectItemAll_xml(Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "최신순") String sortName) throws Exception {
-			List<ItemSet> itemSellSet = null;
-		if(sortName.equals("가격오름차순")) 
-			itemSellSet = itemSellService.selectItemSellAll_xml_1((pageNo-1)*100);
-		else if(sortName.equals("가격내림차순")) 
-			itemSellSet = itemSellService.selectItemSellAll_xml_2((pageNo-1)*100);
-		else 
-			itemSellSet = itemSellService.selectItemSellAll_xml_3((pageNo-1)*100);
+	@GetMapping("views")
+	public ResponseEntity<List<ItemSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName, String UD) throws Exception {
+		List<ItemSet> itemSellSet = null;
+		SortProcess sp = new SortProcess((int)(pageNo-1)*100, ctgrMain, ctgrSub, sortName);
 		
-		System.out.println(itemSellSet.size() + " : 시작아이템은 " + ((pageNo)-1)*100);
+		if(UD.equals("up")) { // 오름차순
+			if(sp.getCtgrSub() == null) {
+				sp.setCtgrSub("");
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				itemSellSet = itemSellService.selectItemNoSub(sortProcess);
+				System.out.println("하위카데고리선택하지않음");
+			} else {
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				itemSellSet = itemSellService.selectItemYesSub(sortProcess);
+				System.out.println("하위까지 카테고리선택함");
+			}
+		} else {	// 내림차순
+			if(sp.getCtgrSub() == null) {
+				sp.setCtgrSub("");
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				itemSellSet = itemSellService.selectItemNoSubRvsSort(sortProcess);
+				System.out.println("하위카데고리선택하지않음");
+			} else {
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				itemSellSet = itemSellService.selectItemYesSubRvsSort(sortProcess);
+				System.out.println("하위까지 카테고리선택함");
+			}
+		}
+
 		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
 	}
+	
+//	===============
 	
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")

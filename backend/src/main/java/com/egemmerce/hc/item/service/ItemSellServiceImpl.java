@@ -56,17 +56,29 @@ public class ItemSellServiceImpl implements ItemSellService {
 	
 	/* R :: 임시임... 아무튼 상품 전체조회 */
 	@Override
-	public List<ItemSet> selectItemSellAll_xml_1(int pageNo) throws Exception {
-		return itemSellMapper.selectItemSellAll_xml_1(pageNo);
+	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception {
+		System.out.println("##"+sortProcess.toString());
+		return itemSellMapper.selectItemNoSubRvsSort(sortProcess);
+	}
+	
+	@Override
+	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception {
+		System.out.println("###"+sortProcess.toString());
+		return itemSellMapper.selectItemYesSubRvsSort(sortProcess);
 	}
 	@Override
-	public List<ItemSet> selectItemSellAll_xml_2(int pageNo) throws Exception {
-		return itemSellMapper.selectItemSellAll_xml_2(pageNo);
+	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception {
+		System.out.println("##"+sortProcess.toString());
+		return itemSellMapper.selectItemNoSub(sortProcess);
 	}
+	
 	@Override
-	public List<ItemSet> selectItemSellAll_xml_3(int pageNo) throws Exception {
-		return itemSellMapper.selectItemSellAll_xml_3(pageNo);
+	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception {
+		System.out.println("###"+sortProcess.toString());
+		return itemSellMapper.selectItemYesSub(sortProcess);
 	}
+	
+	
 
 	/* D :: 상품 삭제 */
 	@Override

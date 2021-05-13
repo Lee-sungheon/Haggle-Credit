@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.UserCreditMapper">
+
+	<insert id="insert">
+INSERT INTO `haggle_credit`.`user_credit`
+(
+`uc_user_no`,
+`uc_ap_no`,
+`uc_class`,
+`uc_time`,
+`uc_credit`)
+VALUES
+(
+#{ucUserNo},
+#{ucApNo},
+#{ucClass},
+#{ucTime},
+#{ucCredit});
+	</insert>
+	
+	<select id="selectAlarm" parameterType="int" resultType="alarm">
+		SELECT *
+		  FROM alarm
+		 WHERE a_recv_u_no = #{uNo}
+	</select>
+
+	<delete id="deleteAlarm">
+		DELETE
+		  FROM alarm
+		 WHERE a_no = #{aNo}
+	</delete>
+	
+</mapper>
+

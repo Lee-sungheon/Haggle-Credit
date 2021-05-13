@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.SortProcess;
 
 public interface ItemSellService {
 
@@ -17,9 +18,10 @@ public interface ItemSellService {
 	Page<ItemSell> selectItemSellAll(Pageable pageable);
 
 	/* R :: 임시임.. 상품 전체 조회 */
-	public List<ItemSet> selectItemSellAll_xml_1(int pageNo) throws Exception;
-	public List<ItemSet> selectItemSellAll_xml_2(int pageNo) throws Exception;
-	public List<ItemSet> selectItemSellAll_xml_3(int pageNo) throws Exception;
+	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
 	
 	
 	/* D :: 상품 삭제 */

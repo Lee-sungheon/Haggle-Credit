@@ -9,7 +9,8 @@ import com.egemmerce.hc.repository.dto.SortProcess;
 
 @Mapper
 public interface ItemSellMapper {
-	public List<ItemSet> selectItemSellAll_xml_1(int pageNo) throws Exception;
-	public List<ItemSet> selectItemSellAll_xml_2(int pageNo) throws Exception;
-	public List<ItemSet> selectItemSellAll_xml_3(int pageNo) throws Exception;
+	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
+	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
 }
