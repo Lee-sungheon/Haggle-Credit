@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import Login from '../login/Login';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
-
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../state/user/index';
 const Container = styled.div<{ isPurchase: boolean }>`
   width: 100%;
   height: 64px;
@@ -75,6 +76,8 @@ const Header = () => {
   const isIndex = useSelector((state: RootState) => state.common.isIndex);
   const isPurchase = useSelector((state: RootState) => state.common.isPurchase);
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
+  const dispatch = useDispatch();
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -94,7 +97,10 @@ const Header = () => {
       }
     }
   }
-
+  const logOut = () => {
+    dispatch(userActions.userLogout());
+    window.location.href = '/home';
+  };
   useEffect(() => {
     if (isIndex) {
       window.addEventListener('scroll', myFunction);
@@ -138,12 +144,7 @@ const Header = () => {
               <Menu isIndex={isIndex}>
                 <StyledLink to={'/profile'}>내상점</StyledLink>
               </Menu>
-              <Menu
-                onClick={() => {
-                  window.location.href = '/home';
-                }}
-                isIndex={isIndex}
-              >
+              <Menu onClick={logOut} isIndex={isIndex}>
                 <p style={{ textDecoration: 'none', color: 'black' }}>
                   로그아웃
                 </p>

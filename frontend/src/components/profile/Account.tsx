@@ -12,14 +12,14 @@ const Container = styled.div`
   text-align: right;
 `;
 
-const TagP1 = styled.p`
+const TagP1 = styled.div`
   margin: 0;
   position: relative;
   padding-right: 0px;
   // transform: translateY(60%);
 `;
 
-const TagP2 = styled.p`
+const TagP2 = styled.div`
   margin: 0;
   position: relative;
   padding-right: 20px;
@@ -112,7 +112,7 @@ const Account = () => {
                     value={inputData.bankNo}
                     onChange={onBankNoHandler}
                   ></input>
-                </div>{' '}
+                </div>
                 <div>
                   <EditButton onClick={onUpdateBank}>변경</EditButton>
                   <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
