@@ -10,8 +10,12 @@ import com.egemmerce.hc.repository.dto.ChatRoom;
 @Transactional
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-	List<ChatRoom> findAllBycrUNoOne(int uNo);
+	List<ChatRoom> findAllBycrUserNoOne(int uNo);
 
-	List<ChatRoom> findAllBycrUNoTwo(int uNo);
+	List<ChatRoom> findAllBycrUserNoTwo(int uNo);
 
+	ChatRoom findAllBycrName(String crName);
+
+	ChatRoom findAllBycrNo(int crNo);
+	
 }

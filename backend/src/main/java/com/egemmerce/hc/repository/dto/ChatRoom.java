@@ -20,16 +20,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class ChatRoom {
+public class ChatRoom implements Comparable<ChatRoom> {
 	@Id
 	private int crNo;
 
 	private String crName;
 	private int crItemNo;
-	private int crUNoOne;
-	private int crUNoTwo;
+	private int crUserNoOne;
+	private int crUserNoTwo;
+	private String crUserOneProfile;
+	private String crUserTwoProfile;
+	private String crUserOneName;
+	private String crUserTwoName;
 	private String crLatestMessage;
 	private LocalDateTime crLatestMessageTime;
+
+	@Override
+	public int compareTo(ChatRoom cr) {
+		if (this.crLatestMessageTime.isBefore(cr.crLatestMessageTime)) {
+			return -1;
+		} else if (this.crLatestMessageTime.isAfter(cr.crLatestMessageTime)) {
+			return 1;
+		}
+		return 0;
+	}
 
 	public int getCrNo() {
 		return crNo;
@@ -55,20 +69,52 @@ public class ChatRoom {
 		this.crItemNo = crItemNo;
 	}
 
-	public int getCrUNoOne() {
-		return crUNoOne;
+	public int getCrUserNoOne() {
+		return crUserNoOne;
 	}
 
-	public void setCrUNoOne(int crUNoOne) {
-		this.crUNoOne = crUNoOne;
+	public void setCrUserNoOne(int crUserNoOne) {
+		this.crUserNoOne = crUserNoOne;
 	}
 
-	public int getCrUNoTwo() {
-		return crUNoTwo;
+	public int getCrUserNoTwo() {
+		return crUserNoTwo;
 	}
 
-	public void setCrUNoTwo(int crUNoTwo) {
-		this.crUNoTwo = crUNoTwo;
+	public void setCrUserNoTwo(int crUserNoTwo) {
+		this.crUserNoTwo = crUserNoTwo;
+	}
+
+	public String getCrUserOneProfile() {
+		return crUserOneProfile;
+	}
+
+	public void setCrUserOneProfile(String crUserOneProfile) {
+		this.crUserOneProfile = crUserOneProfile;
+	}
+
+	public String getCrUserTwoProfile() {
+		return crUserTwoProfile;
+	}
+
+	public void setCrUserTwoProfile(String crUserTwoProfile) {
+		this.crUserTwoProfile = crUserTwoProfile;
+	}
+
+	public String getCrUserOneName() {
+		return crUserOneName;
+	}
+
+	public void setCrUserOneName(String crUserOneName) {
+		this.crUserOneName = crUserOneName;
+	}
+
+	public String getCrUserTwoName() {
+		return crUserTwoName;
+	}
+
+	public void setCrUserTwoName(String crUserTwoName) {
+		this.crUserTwoName = crUserTwoName;
 	}
 
 	public String getCrLatestMessage() {
@@ -86,4 +132,5 @@ public class ChatRoom {
 	public void setCrLatestMessageTime(LocalDateTime crLatestMessageTime) {
 		this.crLatestMessageTime = crLatestMessageTime;
 	}
+
 }

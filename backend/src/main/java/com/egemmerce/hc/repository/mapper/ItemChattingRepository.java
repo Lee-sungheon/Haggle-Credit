@@ -10,7 +10,7 @@ import com.egemmerce.hc.repository.dto.ItemChatting;
 @Transactional
 public interface ItemChattingRepository extends JpaRepository<ItemChatting, Long>{
 
-	List<ItemChatting> findByicName(String icName);
+	List<ItemChatting> findByicCrNo(int crNo);
 
 	List<ItemChatting> findDistinctByIcItemNoAndIcMainUserNo(int icItemNo, int icMainUserNo);
 
