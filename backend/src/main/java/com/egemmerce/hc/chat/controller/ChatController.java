@@ -1,9 +1,7 @@
 package com.egemmerce.hc.chat.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.chat.service.ChatService;
 import com.egemmerce.hc.imageupload.service.ImageUploadService;
+import com.egemmerce.hc.item.service.ItemBuyService;
+import com.egemmerce.hc.item.service.ItemSellService;
+import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.ChatRoom;
+import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.ItemChatting;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.user.service.UserService;
 
 /**
@@ -44,12 +47,21 @@ public class ChatController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private ItemService itemService;
+
+	@Autowired
+	private ItemSellService itemSellService;
+
+	@Autowired
+	private ItemBuyService itemBuyService;
+
 	/* 해당 채팅방 채팅 불러오기 */
 	@GetMapping("/enter")
 	public List<ItemChatting> selectChatBycrNo(int crNo) throws Exception {
 		return chatservice.selectChatByicCrNo(crNo);
 	}
-	
+
 	/* 해당 채팅방 조회 */
 	@GetMapping("/roominfo")
 	public List<ChatRoom> selectChatRoomBycrNo(int crNo) throws Exception {
@@ -75,8 +87,8 @@ public class ChatController {
 	@PostMapping("/connect")
 	public int connectChatRoom(@RequestBody ChatRoom chatRoom) throws Exception {
 		String crName = chatRoom.getCrItemNo() + "-" + chatRoom.getCrUserNoOne() + "-" + chatRoom.getCrUserNoTwo();
-		if(chatservice.selectBycrName(crName) != null) {
-			return chatservice.selectBycrName(crName).getCrNo(); 
+		if (chatservice.selectBycrName(crName) != null) {
+			return chatservice.selectBycrName(crName).getCrNo();
 		}
 		int one = chatRoom.getCrUserNoOne();
 		int two = chatRoom.getCrUserNoTwo();
@@ -85,6 +97,20 @@ public class ChatController {
 		chatRoom.setCrUserTwoName(userService.selectUserByuNo(two).getuName());
 		chatRoom.setCrUserOneProfile(imageService.selectUserImage(one));
 		chatRoom.setCrUserTwoProfile(imageService.selectUserImage(two));
+
+		int iNo = chatRoom.getCrItemNo();
+		String type = itemService.selectItem(iNo).getiType();
+		if (type.equals("sell")) {
+			ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(iNo);
+			chatRoom.setCrItemName(itemSell.getIsItemName());
+			chatRoom.setCrItemPrice(itemSell.getIsDealPrice());
+		} else {
+			ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(iNo);
+			chatRoom.setCrItemName(itemBuy.getIbName());
+			chatRoom.setCrItemPrice(itemBuy.getIbDealPrice());
+		}
+		chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
+
 		return chatservice.createChatRoom(chatRoom).getCrNo();
 	}
 }
