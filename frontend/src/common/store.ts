@@ -16,7 +16,7 @@ declare global {
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['common'],
+  whitelist: ['common', 'user'],
 };
 
 const reducer = combineReducers({

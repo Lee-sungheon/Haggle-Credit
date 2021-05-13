@@ -3,6 +3,7 @@ import { createReducer } from '../../common/createReducer';
 
 export const types = {
   USER_LOGIN: 'user/USER_LOGIN',
+  USER_LOGOUT: 'user/USER_LOGOUT',
   UPDATE_BANK: 'user/UPDATE_BANK',
   CHANGE_CREDIT: 'user/CHANGE_CREDIT',
   CHANGE_PROFILE_IMAGE: 'user/CHANGE_PROFILE_IMAGE',
@@ -11,6 +12,7 @@ export const types = {
 
 export const userActions = {
   userLogin: (userData: {}) => ({ type: types.USER_LOGIN, userData }),
+  userLogout: () => ({ type: types.USER_LOGOUT }),
   updateBank: (userData: {}) => ({ type: types.UPDATE_BANK, userData }),
   changeCredit: (userData: {}) => ({ type: types.CHANGE_CREDIT, userData }),
   changeProfileImage: (userData: {}) => ({
@@ -24,6 +26,7 @@ export const userActions = {
 };
 
 type userLogin = ReturnType<typeof userActions.userLogin>;
+type userLogout = ReturnType<typeof userActions.userLogout>;
 type updateBank = ReturnType<typeof userActions.updateBank>;
 type changeCredit = ReturnType<typeof userActions.changeCredit>;
 type changeProfileImage = ReturnType<typeof userActions.changeProfileImage>;
@@ -66,6 +69,13 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
       ...state,
       userData: action.userData,
       isLogin: true,
+    };
+  },
+  [types.USER_LOGOUT]: (state, action: userLogout) => {
+    return {
+      ...state,
+      userData: {},
+      isLogin: false,
     };
   },
   [types.UPDATE_BANK]: (state, action: updateBank) => {

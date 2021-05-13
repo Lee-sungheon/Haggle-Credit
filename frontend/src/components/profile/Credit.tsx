@@ -1,15 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  RequestPayParams,
-  RequestPayAdditionalParams,
-  Display,
-} from 'iamport-typings';
-import {
-  RequestPayResponse,
-  RequestPayAdditionalResponse,
-  RequestPayResponseCallback,
-} from 'iamport-typings';
+import { RequestPayParams } from 'iamport-typings';
+import { RequestPayResponse } from 'iamport-typings';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { changeCredit } from '../../api/UserApi';
@@ -21,7 +13,7 @@ const Container = styled.div`
   text-align: left;
 `;
 
-const TagP = styled.p`
+const TagP = styled.div`
   margin: 0;
   position: relative;
   padding-left: 20px;
@@ -33,7 +25,7 @@ const TagP = styled.p`
 
 const TogglePaymentButton = styled.button`
   font-size: 10px;
-  margin-left: 15px;
+  margin-left: 5px;
   background-color: white;
   color: rgb(136, 136, 136);
   font-weight: bold;
@@ -50,6 +42,7 @@ const CreditName = styled.div`
 `;
 
 const CreditDiv = styled.div`
+  min-width: 50px;
   height: 30px;
   line-height: 30px;
   margin-left: 20px;
@@ -77,8 +70,17 @@ const Credit = () => {
   const [payment, setPayment] = useState(false);
   const [inputCredit, setInputCredit] = useState(0);
   const userData = useSelector((state: RootState) => state.user.userData);
+  const [credit, setCredit] = useState('0');
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (userData.uCredit) {
+      let set_credit = userData.uCredit.toString();
+      if (userData.uCredit > 99999999) {
+        set_credit = '99999999';
+      }
+      setCredit(set_credit.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'));
+    }
+  }, [userData]);
   const togglePayment = () => {
     setPayment(!payment);
   };
@@ -132,7 +134,8 @@ const Credit = () => {
     <Container>
       <TagP>
         <CreditName> credit</CreditName>
-        <CreditDiv>{userData.uCredit} C</CreditDiv>
+        {/* <CreditDiv>{userData.uCredit} C</CreditDiv> */}
+        <CreditDiv>{credit} C</CreditDiv>
         {payment ? (
           <CreditPaymentDiv>
             <input
@@ -141,9 +144,15 @@ const Credit = () => {
               value={inputCredit}
               onChange={onInputCredit}
             ></input>
-            <TogglePaymentButton onClick={creditPayment}>
-              충전
-            </TogglePaymentButton>
+            <br />
+            <div style={{ textAlign: 'right' }}>
+              <TogglePaymentButton onClick={creditPayment}>
+                충전
+              </TogglePaymentButton>
+              <TogglePaymentButton onClick={togglePayment}>
+                취소
+              </TogglePaymentButton>
+            </div>
           </CreditPaymentDiv>
         ) : (
           <div>

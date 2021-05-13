@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
-import axios from 'axios';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { changeProfileImageAPI } from '../../api/UserApi';
 
@@ -19,8 +18,8 @@ const ImgSection = styled.div`
   top: 50%;
 `;
 const ImgSection2 = styled.div`
-  top: 50%;
-  padding-left: 100px;
+  position: relative;
+  margin-top: -200px;
 `;
 
 const ImgInputButton = styled.button`
@@ -32,10 +31,9 @@ const ImgInputButton = styled.button`
   cursor: pointer;
 `;
 
-const Aaa = styled.div`
+const ImageList = styled.div`
   text-align: center;
   ${ImgSection2} {
-    position: absolute;
     visibility: hidden;
   }
   :hover {
@@ -102,15 +100,15 @@ const UploadImg = () => {
           <>
             {userData.uImage ? (
               <>
-                <Aaa>
+                <ImageList>
                   <img
                     src={userData.uImage}
                     id="img"
                     style={{
                       width: '300px',
+                      height: '300px',
                     }}
                   ></img>
-
                   <ImgSection2>
                     <ImgInputButton
                       style={isDragging ? { color: 'red' } : undefined}
@@ -127,7 +125,7 @@ const UploadImg = () => {
                       사진삭제
                     </ImgInputButton>
                   </ImgSection2>
-                </Aaa>
+                </ImageList>
               </>
             ) : (
               <Container>

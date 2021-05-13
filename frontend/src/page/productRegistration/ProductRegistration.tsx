@@ -1,53 +1,142 @@
-import { useState } from 'react';
-import Radio from '@material-ui/core/Radio';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ImageList from './ImageList';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+import ProductImage from '../../components/productRegistration/ProductImage';
+import ProductName from '../../components/productRegistration/ProductName';
+import ProductCategory from '../../components/productRegistration/ProductCategory';
+import DealRegion from '../../components/productRegistration/DealRegion';
+import ProductState from '../../components/productRegistration/ProductState';
+import ProductPrice from '../../components/productRegistration/ProductPrice';
+import ProductDescription from '../../components/productRegistration/ProductDescription';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+import axios from 'axios';
 
-const ImgInputLabel = styled.label`
-  padding: 6px 25px;
+const RegistButton = styled.button`
+  height: 50px;
+  width: 200px;
   background-color: #ff6600;
-  border-radius: 4px;
   color: white;
-  cursor: pointer;
+  border: none;
+  :hover {
+    cursor: pointer;
+  }
 `;
-
-const ImgSection = styled.div`
-  position: relative;
-  top: 40%;
-  text-align: center;
-`;
-
-type sArray = object[];
-
 const ProductRegistration = () => {
-  const [stateSelectedValue, setStateSelectedValue] = useState('a');
-  const [changeSelectedValue, setChangeSelectedValue] = useState('a');
+  const userData = useSelector((state: RootState) => state.user.userData);
 
-  const [itemNum, setItemNum] = useState(6);
+  const [productData, setProductData] = useState({
+    isUserNo: 0,
+    isName: '',
+    isCategoryMain: '',
+    isCategorySub: '',
+    isContent: '',
+    isEndDate: '',
+    isCoolPrice: 0,
+    isAuctionPrice: 0,
+    isDealPrice: 0,
+    isUsedStatus: '',
+  });
+  const [productPhoto, setProductPhoto] = useState([]);
 
-  const [imageUrls, setImgData] = useState<sArray>([]);
-  const handleState = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStateSelectedValue(event.target.value);
+  useEffect(() => {
+    if (userData.uNo) {
+      setProductData({ ...productData, isUserNo: userData.uNo });
+    } else {
+      window.location.href = '/home';
+    }
+  }, []);
+
+  const onIsNameHandler = (name: any) => {
+    setProductData({ ...productData, isName: name });
   };
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChangeSelectedValue(event.target.value);
+  const onIsCategoryMain = (categoryMain: any) => {
+    setProductData({ ...productData, isCategoryMain: categoryMain });
+  };
+  const onIsCategorySub = (categorySub: any) => {
+    setProductData({ ...productData, isCategorySub: categorySub });
+  };
+  const onIsContent = (content: any) => {
+    setProductData({ ...productData, isContent: content });
+  };
+  const onIsEndDate = (endDate: any) => {
+    setProductData({ ...productData, isEndDate: endDate });
+  };
+  const onIsCoolPrice = (coolPrice: any) => {
+    let price = Math.floor(Number(coolPrice) / 100) * 100;
+    setProductData({ ...productData, isCoolPrice: price });
+  };
+  const onIsAuctionPrice = (auctionPrice: any) => {
+    let price = Math.floor(Number(auctionPrice) / 100) * 100;
+    setProductData({ ...productData, isAuctionPrice: price });
   };
 
-  const uploadImgHandler = (e: any) => {
-    e.preventDefault();
-    for (let i = 0; i < e.target.files.length; i++) {
-      if (i >= 12) {
+  const onIsUsedStatus = (usedStatus: any) => {
+    setProductData({ ...productData, isUsedStatus: usedStatus });
+  };
+  const onisProductPhoto = (photoList: any) => {
+    setProductPhoto(photoList);
+  };
+
+  const onRegist = () => {
+    console.log('regist');
+    const body = productData;
+    if (
+      productData.isUserNo &&
+      productData.isName &&
+      productData.isCategoryMain &&
+      productData.isEndDate &&
+      productData.isCoolPrice &&
+      productData.isAuctionPrice &&
+      productData.isUsedStatus
+    ) {
+      console.log('data다있음');
+      if (productPhoto.length > 0) {
+        console.log(body);
+        axios
+          .post(
+            'https://k4d107.p.ssafy.io/haggle-credit/itemSell/regist',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res);
+            // for (let i = 0; i < productPhoto.length; i++) {
+            //   const body2 = {
+            //     ipNo: '',
+            //     ipValue: productPhoto[i],
+            //   };
+            //   axios
+            //     .post(
+            //       'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
+            //       body2,
+            //       {
+            //         headers: {
+            //           'Content-Type': 'application/json',
+            //         },
+            //       }
+            //     )
+            //     .then((res) => {
+            //       console.log(res);
+            //     })
+            //     .catch((err) => {
+            //       console.log(err);
+            //     });
+            // }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
         return;
       }
-      const imageFile = e.target.files[i];
-      const imageUrl = URL.createObjectURL(imageFile);
-      console.log(imageUrl);
-      setImgData((imageUrls) => [...imageUrls, { url: imageUrl }]);
+    } else {
+      return;
     }
   };
-
   return (
     <div
       style={{
@@ -57,36 +146,6 @@ const ProductRegistration = () => {
         paddingTop: '196px',
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-        }}
-      >
-        <div
-          style={{
-            width: '120px',
-            height: '50px',
-          }}
-        >
-          <p>상품등록</p>
-        </div>
-        <div
-          style={{
-            width: '120px',
-            height: '50px',
-          }}
-        >
-          <p>상품관리</p>
-        </div>
-        <div
-          style={{
-            width: '120px',
-            height: '50px',
-          }}
-        >
-          <p>구매/판매 내역</p>
-        </div>
-      </div>
       <div>
         <div
           id="header"
@@ -111,222 +170,28 @@ const ProductRegistration = () => {
             </p>
           </div>
         </div>
-        <div
-          id="imgSection"
-          style={{
-            display: 'flex',
-            borderBottom: '1px solid gray',
-            padding: '25px 0',
-          }}
-        >
-          <div
-            style={{ width: '180px', fontSize: '17px', fontWeight: 'bolder' }}
-          >
-            <p>
-              상품이미지<span style={{ color: 'red' }}>* </span>
-              <span style={{ color: 'gray', fontWeight: 'normal' }}>
-                ({imageUrls.length}/12)
-              </span>
-            </p>
-          </div>
-          <div
-            style={{
-              width: 'auto',
-            }}
-          >
-            <div style={{ height: '200px', display: 'flex' }}>
-              <div
-                style={{
-                  width: '200px',
-                  backgroundColor: '#eeeeee',
-                  height: '100%',
-                }}
-              >
-                <ImgSection>
-                  <ImgInputLabel htmlFor="input-file">사진등록</ImgInputLabel>
-                  <input
-                    type="file"
-                    id="input-file"
-                    accept="image/*"
-                    multiple
-                    style={{ display: 'none' }}
-                    onChange={uploadImgHandler}
-                  />
-                </ImgSection>
-              </div>
-              <div style={{ paddingLeft: '40px', width: '600px' }}>
-                <GridList cellHeight={'auto'} cols={itemNum} spacing={6}>
-                  {imageUrls.length > 0 &&
-                    imageUrls.map((item, idx) => {
-                      return <ImageList key={idx} item={item}></ImageList>;
-                    })}
-                  {imageUrls.length === 0 && (
-                    <div style={{ width: '300px' }}>
-                      상품 이미지를 등록해주세요.
-                    </div>
-                  )}
-                </GridList>
-              </div>
-            </div>
-            <div
-              style={{ marginTop: '10px', color: '#29b6f6', fontSize: '14px' }}
-            >
-              <span style={{ fontWeight: 'bolder' }}>
-                * 상품 이미지는 640x640에 최적화 되어 있습니다.
-              </span>
-              <br />
-              <span>
-                - 이미지는 상품등록 시 정사각형으로 짤려서 등록됩니다.
-              </span>
-              <br />
-              <span>
-                - 이미지를 클릭 할 경우 원본이미지를 확인할 수 있습니다.
-              </span>
-              <br />
-              <span>
-                - 이미지를 클릭 후 이동하여 등록순서를 변경할 수 있습니다.
-              </span>
-              <br />
-              <span>
-                - 큰 이미지일경우 이미지가 깨지는 경우가 발생할 수 있습니다.
-              </span>
-              <br />
-              <span>
-                최대 지원 사이즈인 640 X 640 으로 리사이즈 해서 올려주세요.(개당
-                이미지 최대 10M)
-              </span>
-              <br />
-            </div>
-          </div>
-        </div>
-        <div
-          id="titleSection"
-          style={{
-            height: 'auto',
-            display: 'flex',
-            borderBottom: '1px solid gray',
-            padding: '25px 0',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>
-              제목<span style={{ color: 'red' }}>* </span>
-            </p>
-          </div>
-          <div>
-            <input
-              style={{
-                height: '40px',
-                width: '800px',
-                border: '1px solid #FF6600',
-                marginRight: '25px',
-              }}
-              placeholder="상품 제목을 입력해주세요."
-            ></input>
-            <span>(0/40)</span>
-          </div>
-        </div>
-        <div
-          id="categorySection"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>
-              카테고리<span style={{ color: 'red' }}>* </span>
-            </p>
-          </div>
-          <div></div>
-        </div>
-        <div
+        <ProductImage onisProductPhoto={onisProductPhoto} />
+        <ProductName onIsNameHandler={onIsNameHandler} />
+        <ProductCategory
+          onIsCategoryMain={onIsCategoryMain}
+          onIsCategorySub={onIsCategorySub}
+        />
+        {/* <DealRegion /> */}
+        <ProductState onIsUsedStatus={onIsUsedStatus} />
+        <ProductPrice
+          onIsCoolPrice={onIsCoolPrice}
+          onIsAuctionPrice={onIsAuctionPrice}
+          onIsEndDate={onIsEndDate}
+        />
+        <ProductDescription onIsContent={onIsContent} />
+
+        {/* <div
           id="address"
           style={{
             display: 'flex',
             padding: '25px 0',
             borderBottom: '1px solid gray',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>
-              거래지역<span style={{ color: 'red' }}>* </span>
-            </p>
-          </div>
-        </div>
-        <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>
-              상태<span style={{ color: 'red' }}>* </span>
-            </p>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <div>
-              <Radio
-                id="radio1"
-                checked={stateSelectedValue === 'a'}
-                onChange={handleState}
-                value="a"
-                name="radio-button-demo"
-                inputProps={{ 'aria-label': 'A' }}
-              />
-              <span>중고상품</span>
-            </div>
-            <div>
-              <Radio
-                id="radio1"
-                checked={stateSelectedValue === 'b'}
-                onChange={handleState}
-                value="b"
-                name="radio-button-demo"
-                inputProps={{ 'aria-label': 'B' }}
-              />
-              <span>중고상품</span>
-            </div>
-          </div>
-        </div>
-        <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
+            marginBottom: '100px',
           }}
         >
           <div
@@ -370,67 +235,9 @@ const ProductRegistration = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>
-              가격<span style={{ color: 'red' }}>* </span>
-            </p>
-          </div>
-          <div>
-            <div>
-              <input
-                style={{
-                  height: '20px',
-                  width: '200px',
-                  padding: '10px',
-                }}
-                placeholder="숫자만 입력해주세요."
-              ></input>{' '}
-              원
-            </div>
-            <div></div>
-          </div>
-        </div>
-        <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>설명</p>
-          </div>
-          <div>
-            <textarea
-              placeholder="상품설명을 입력해주세요."
-              style={{ width: '1000px', height: '200px' }}
-            ></textarea>
-            <p style={{ textAlign: 'right', marginTop: '-2px' }}>0/2000</p>
-          </div>
-        </div>
-        <div
+        </div> */}
+
+        {/* <div
           id="address"
           style={{
             display: 'flex',
@@ -479,8 +286,8 @@ const ProductRegistration = () => {
               </span>
             </div>
           </div>
-        </div>
-        <div
+        </div> */}
+        {/* <div
           id="address"
           style={{
             display: 'flex',
@@ -508,7 +315,7 @@ const ProductRegistration = () => {
             ></input>{' '}
             개
           </div>
-        </div>
+        </div> */}
       </div>
       <div
         style={{
@@ -521,17 +328,7 @@ const ProductRegistration = () => {
           bottom: '10px',
         }}
       >
-        <button
-          style={{
-            height: '50px',
-            width: '200px',
-            backgroundColor: '#FF6600',
-            color: 'white',
-            border: 'none',
-          }}
-        >
-          등록하기
-        </button>
+        <RegistButton onClick={onRegist}>등록하기</RegistButton>
       </div>
     </div>
   );
