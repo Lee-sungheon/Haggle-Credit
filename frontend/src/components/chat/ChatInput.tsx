@@ -1,19 +1,9 @@
-import {useState} from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
 
 interface Props {
-  feeds: CHAT[];
-  setFeeds: Function;
   value: string;
-  setValue: Function
-}
-
-interface CHAT {
-  id: string;
-  url: string;
-  content: string;
-  date: string;
+  setValue: Function;
+  send: Function;
 }
 
 const Container = styled.div`
@@ -61,7 +51,6 @@ const SubmitButton = styled.div`
 const StyledTextArea = styled.textarea`
   width: 90%;
   max-height: 63px;
-  /* min-height: 40px; */
   overflow: auto;
   overflow-wrap: break-word;
   text-align: left;
@@ -79,17 +68,13 @@ const StyledTextArea = styled.textarea`
   resize: none;
 `;
 
-const ChatInput = ({feeds, setFeeds, value, setValue}: Props) => {
+const ChatInput = ({value, setValue, send}: Props) => {
   const submitFeed = () => {
     if (value.trimEnd().length > 0) {
-      const date = moment().format('a hh:mm').replace('am', '오전').replace('pm', '오후')
       const feed = {
-        id: '1',
-        url: 'https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png',
         content: value.trimEnd(),
-        date: date,
       }
-      setFeeds([...feeds, feed])
+      send(feed)
       setValue('')
     }
   }

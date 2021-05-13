@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
 import createSagaMiddleware from 'redux-saga';
 import HomeReducer from '../state/home';
+import HomeSaga from '../state/home/saga';
 import CommonReducer from '../state/common';
 import UserReducer from '../state/user';
 
@@ -16,7 +17,7 @@ declare global {
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['common'],
+  whitelist: ['common', 'user'],
 };
 
 const reducer = combineReducers({
@@ -33,7 +34,7 @@ const store = createStore(
 );
 
 function* rootSaga() {
-  yield all([]);
+  yield all([HomeSaga(),]);
 }
 sagaMiddleware.run(rootSaga);
 

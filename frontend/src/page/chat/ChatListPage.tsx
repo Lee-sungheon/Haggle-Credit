@@ -17,7 +17,7 @@ interface HistoryParams {
 }
 
 const Container = styled.div`
-  width: 392px;
+  width: 390px;
   height: 677px;
   background: rgb(244, 244, 250);
   overflow: hidden;

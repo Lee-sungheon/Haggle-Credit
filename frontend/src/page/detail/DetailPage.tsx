@@ -4,13 +4,7 @@ import Category from '../../components/category/Category';
 import DetailTab from '../../components/detail/DetailTab';
 import ProductInfo from '../../components/detail/ProductInfo';
 import { RouteComponentProps } from 'react-router-dom';
-
-interface ITEM {
-  id: number,
-  title: string,
-  url: string,
-  price: number,
-}
+import { ITEM } from "styled-components";
 
 interface MatchParams {
   id: string;
@@ -45,10 +39,10 @@ const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
   return (
     <Container>
       <CategoryBox>
-        <Category category={'여성의류-100'} subCategory={''} />
+        <Category category={item.isCategoryMain} subCategory={item.isCategorySub} />
       </CategoryBox>
       <ProductInfo item={item} buy={buy}/>
-      <DetailTab />
+      <DetailTab item={item}/>
     </Container>
   )
 }

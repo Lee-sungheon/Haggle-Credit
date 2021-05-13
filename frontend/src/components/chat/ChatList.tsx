@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const ChannelList = styled.ul`
   flex: 1 1 0%;
   height: calc(617px);
-  overflow: hidden auto;
+  overflow: auto;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -83,7 +83,7 @@ const ChatList = () => {
             <ChannelAvatar>
               <img src="https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png" alt="" width="48," height="48" style={{borderRadius: '50%'}}/>
             </ChannelAvatar>
-            <ItemContentBox onClick={() => window.open(`../chat/${1}`, '_blank', "width=387,height=667")}>
+            <ItemContentBox onClick={() => window.open(`../chat/${'32'}/${'1'}`, '_blank', "width=387,height=667")}>
               <ItemTitle>싸피4기취업못함</ItemTitle>
               <ItemContent>이건 뭔가요?</ItemContent>
             </ItemContentBox>
@@ -101,7 +101,7 @@ const ChatList = () => {
             </MoreButtonArea>
           </ChannelItem>
         </li>
-      ))};
+      ))}
     </ChannelList>
   )
 }

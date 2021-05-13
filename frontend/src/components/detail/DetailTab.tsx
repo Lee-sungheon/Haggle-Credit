@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import ProductDetail from './ProductDetail';
 import ProductQuestion from './ProductQuestion';
 import StoreInfo from './StoreInfo';
+import { ITEM } from "styled-components";
 
+interface Props {
+  item: ITEM;
+}
 const Container = styled.div`
   text-align: center;
   margin-top: 10px;
@@ -50,7 +54,7 @@ const Tab = styled.div`
   font-weight: 600;
 `;
 
-const DetailTab = () => {
+const DetailTab = ({item}: Props) => {
   const [tabId, setTabId] = useState(0);
   const detailRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLDivElement>(null);
@@ -92,7 +96,7 @@ const DetailTab = () => {
           )}
         </TabArea>
         <div ref={detailRef}>
-          <ProductDetail />
+          <ProductDetail item={item}/>
         </div>
         <div ref={questionRef}>
           <ProductQuestion/>
