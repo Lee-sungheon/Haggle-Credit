@@ -7,12 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.auction.service.AuctionParticipantService;
@@ -21,6 +23,7 @@ import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemSell;
+import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
 import com.egemmerce.hc.user.address.service.UserAddressService;
@@ -64,7 +67,22 @@ public class ItemSellController {
 		System.out.println(itemSell.getSize());
 		return new ResponseEntity<Page<ItemSell>>(itemSell, HttpStatus.OK);
 	}
-
+	
+	/* R :: 임시임.. 상품 전체 조회 */
+	@GetMapping("/allTmp")
+	public ResponseEntity<List<ItemSet>> selectItemAll_xml(Model model, @RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "최신순") String sortName) throws Exception {
+			List<ItemSet> itemSellSet = null;
+		if(sortName.equals("가격오름차순")) 
+			itemSellSet = itemSellService.selectItemSellAll_xml_1((pageNo-1)*100);
+		else if(sortName.equals("가격내림차순")) 
+			itemSellSet = itemSellService.selectItemSellAll_xml_2((pageNo-1)*100);
+		else 
+			itemSellSet = itemSellService.selectItemSellAll_xml_3((pageNo-1)*100);
+		
+		System.out.println(itemSellSet.size() + " : 시작아이템은 " + ((pageNo)-1)*100);
+		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+	}
+	
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
 	public ResponseEntity<Page<ItemSell>> selectItemByiName(String isName, Pageable pageable) throws Exception {

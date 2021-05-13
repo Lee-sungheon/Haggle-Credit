@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemSell;
+import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
 import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
+import com.egemmerce.hc.repository.mapper.ItemSellMapper;
 import com.egemmerce.hc.repository.mapper.ItemSellRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 import com.egemmerce.hc.user.service.UserService;
@@ -34,6 +37,10 @@ public class ItemSellServiceImpl implements ItemSellService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ItemSellMapper itemSellMapper;
+	
 	/* C :: 상품 등록 */
 	@Override
 	public ItemSell insertItemSell(ItemSell itemSell) {
@@ -45,6 +52,20 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Override
 	public 	Page<ItemSell> selectItemSellAll(Pageable pageable) {
 		return itemSellRepository.findAll(pageable);
+	}
+	
+	/* R :: 임시임... 아무튼 상품 전체조회 */
+	@Override
+	public List<ItemSet> selectItemSellAll_xml_1(int pageNo) throws Exception {
+		return itemSellMapper.selectItemSellAll_xml_1(pageNo);
+	}
+	@Override
+	public List<ItemSet> selectItemSellAll_xml_2(int pageNo) throws Exception {
+		return itemSellMapper.selectItemSellAll_xml_2(pageNo);
+	}
+	@Override
+	public List<ItemSet> selectItemSellAll_xml_3(int pageNo) throws Exception {
+		return itemSellMapper.selectItemSellAll_xml_3(pageNo);
 	}
 
 	/* D :: 상품 삭제 */

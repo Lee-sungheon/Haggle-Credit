@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.egemmerce.hc.repository.dto.ItemSell;
+import com.egemmerce.hc.repository.dto.ItemSet;
 
 public interface ItemSellService {
 
@@ -15,6 +16,12 @@ public interface ItemSellService {
 	/* R :: 상품 전체 조회 */
 	Page<ItemSell> selectItemSellAll(Pageable pageable);
 
+	/* R :: 임시임.. 상품 전체 조회 */
+	public List<ItemSet> selectItemSellAll_xml_1(int pageNo) throws Exception;
+	public List<ItemSet> selectItemSellAll_xml_2(int pageNo) throws Exception;
+	public List<ItemSet> selectItemSellAll_xml_3(int pageNo) throws Exception;
+	
+	
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
 
