@@ -38,6 +38,9 @@ public class ChatRoom implements Comparable<ChatRoom> {
 
 	private String crName;
 	private int crItemNo;
+	private String crItemImage;
+	private int crItemPrice;
+	private String crItemName;
 	private int crUserNoOne;
 	private int crUserNoTwo;
 	private String crUserOneProfile;
@@ -143,6 +146,30 @@ public class ChatRoom implements Comparable<ChatRoom> {
 
 	public void setCrLatestMessageTime(LocalDateTime crLatestMessageTime) {
 		this.crLatestMessageTime = crLatestMessageTime;
+	}
+
+	public String getCrItemImage() {
+		return crItemImage;
+	}
+
+	public void setCrItemImage(String crItemImage) {
+		this.crItemImage = crItemImage;
+	}
+
+	public int getCrItemPrice() {
+		return crItemPrice;
+	}
+
+	public void setCrItemPrice(int crItemPrice) {
+		this.crItemPrice = crItemPrice;
+	}
+
+	public String getCrItemName() {
+		return crItemName;
+	}
+
+	public void setCrItemName(String crItemName) {
+		this.crItemName = crItemName;
 	}
 
 }
