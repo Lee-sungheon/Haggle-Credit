@@ -1,6 +1,7 @@
 package com.egemmerce.hc.chat.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,9 @@ public class ChatController {
 	/* 해당 채팅방 채팅 불러오기 */
 	@GetMapping("/enter")
 	public List<ItemChatting> selectChatBycrNo(int crNo) throws Exception {
+		System.out.println(chatservice.selectChatByicCrNo(crNo).get(0).getIcDate());
+		Date now = new Date();
+		System.out.println(now);
 		return chatservice.selectChatByicCrNo(crNo);
 	}
 
