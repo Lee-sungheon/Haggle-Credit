@@ -29,7 +29,6 @@ public class ItemSell {
 	@Id
 	private int isItemNo;
 	
-	@GeneratedValue (strategy=GenerationType.SEQUENCE)
 	private int isNo;
 	
 	private int isUserNo;
