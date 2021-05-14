@@ -58,6 +58,7 @@ public class SocketController {
 		cr.setCrLatestMessageTime(result.getIcDate());
 		cr.setCrLatestMessage(result.getIcChatContent());
 		chatservice.createChatRoom(cr);
+		System.out.println(result.getIcDate());
 		
 		// 반환
 		return result;
