@@ -6,11 +6,14 @@ interface ProductNameProps {
 
 const ProductName = ({ onIsNameHandler }: ProductNameProps) => {
   const [inputName, setInputName] = useState('');
+
+
   const onInputTitleHandler = (e: any) => {
     let name = e.target.value.slice(0, 40);
     setInputName(name);
     onIsNameHandler(name);
   };
+  
   return (
     <div
       id="titleSection"

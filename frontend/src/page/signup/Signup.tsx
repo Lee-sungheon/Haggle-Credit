@@ -68,6 +68,7 @@ const Signup = () => {
     phone_2: '',
     phone_3: '',
     u_birth: '',
+    uImage: '',
   });
   const [dataCheck, setDataCheck] = useState({
     u_emailCheck: false,
@@ -196,13 +197,17 @@ const Signup = () => {
     }
   }, [userData.u_birth]);
   useEffect(() => {}, [userData.u_phone]);
-
+  useEffect(() => {
+    let num = Math.floor(Math.random() * 6) + 1;
+    setUserData({ ...userData, uImage: `../images/profileImage_${num}.jpg` });
+  }, []);
   const SignupHandler = () => {
     const body = {
       uEmail: userData.u_email,
       uPassword: userData.u_password,
       uName: userData.u_name,
       uPhone: userData.u_phone,
+      uImage: userData.uImage,
       uBirth:
         userData.u_birth.substring(0, 4) +
         '-' +

@@ -68,7 +68,7 @@ const UploadImg = () => {
   const onChange = (imageList: ImageListType) => {
     setImages(imageList as never[]);
   };
-  
+
   useEffect(() => {
     updateProfile(images);
   }, [images]);
@@ -91,7 +91,8 @@ const UploadImg = () => {
   };
   const onRemoveImage = () => {
     let body = userData;
-    body.uImage = '';
+    let num = Math.floor(Math.random() * 6) + 1;
+    body.uImage = `../images/profileImage_${num}.jpg`;
     changeProfileImageAPI(body)
       .then((res) => {
         console.log(res);

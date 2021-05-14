@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div<{ isPurchase: boolean }>`
   width: 100%;
@@ -79,6 +80,7 @@ const Header = () => {
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleOpen = () => {
     setOpen(true);
@@ -101,7 +103,7 @@ const Header = () => {
   }
   const logOut = () => {
     dispatch(userActions.userLogout());
-    window.location.href = '/home';
+    history.push('/home');
   };
   useEffect(() => {
     if (isIndex) {
@@ -144,7 +146,17 @@ const Header = () => {
           ) : (
             <>
               <Menu isIndex={isIndex}>
-                <div onClick={()=>window.open(`../chatlist/${userNo}`, '_blank', "width=387,height=667")}>크레딧톡</div>
+                <div
+                  onClick={() =>
+                    window.open(
+                      `../chatlist/${userNo}`,
+                      '_blank',
+                      'width=387,height=667'
+                    )
+                  }
+                >
+                  크레딧톡
+                </div>
               </Menu>
               <Menu isIndex={isIndex}>
                 <StyledLink to={'/profile'}>내상점</StyledLink>
