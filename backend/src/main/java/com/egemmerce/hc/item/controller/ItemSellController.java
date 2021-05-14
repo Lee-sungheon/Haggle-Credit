@@ -7,14 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.auction.service.AuctionParticipantService;
@@ -22,6 +20,8 @@ import com.egemmerce.hc.item.service.ItemSellService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
+import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
+import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
@@ -114,6 +114,16 @@ public class ItemSellController {
 			itemSellSet = itemSellService.selectItemAllHomeDown(sp);
 		}
 		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+	}
+	
+	@GetMapping("cgtrCnt")
+	public ResponseEntity<List<ItemCtgrCnt>> select(String ctgrMain, String ctgrSub) throws Exception {
+		if(ctgrSub == null) {
+			int idx = ctgrMain.length();
+			ctgrSub = ctgrMain.substring(idx-3);
+			return new ResponseEntity<List<ItemCtgrCnt>>(itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
+		}
+		return new ResponseEntity<List<ItemCtgrCnt>>(itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
 	}
 //	===============
 	

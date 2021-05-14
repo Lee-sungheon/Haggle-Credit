@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
+import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
+import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
@@ -87,6 +89,10 @@ public class ItemSellServiceImpl implements ItemSellService {
 	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception {
 		System.out.println("###"+sortProcess.toString());
 		return itemSellMapper.selectItemAllHomeDown(sortProcess);
+	}
+	@Override
+	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception {
+		return itemSellMapper.selectCountByCtgr(itemCtgrSearch);
 	}
 
 	/* D :: 상품 삭제 */
