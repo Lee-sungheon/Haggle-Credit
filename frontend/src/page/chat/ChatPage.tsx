@@ -131,14 +131,16 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
           console.log('소켓 연결 성공', frame);
           stompClient.subscribe("/send", res => {
             console.log('구독으로 받은 메시지 입니다.', JSON.parse(res.body));
-            const message = {
-              icNo: JSON.parse(res.body).icNo,
-              icCrNo: JSON.parse(res.body).icCrNo,
-              icUserNo: JSON.parse(res.body).icUserNo,
-              icChatContent: JSON.parse(res.body).icChatContent,
-              icDate: JSON.parse(res.body).icDate,
+            if (String(JSON.parse(res.body).icCrNo) === crNo){
+              const message = {
+                icNo: JSON.parse(res.body).icNo,
+                icCrNo: JSON.parse(res.body).icCrNo,
+                icUserNo: JSON.parse(res.body).icUserNo,
+                icChatContent: JSON.parse(res.body).icChatContent,
+                icDate: JSON.parse(res.body).icDate,
+              }
+              setFeeds((feeds) => [...feeds, message])
             }
-            setFeeds((feeds) => [...feeds, message])
           });
         },
         error => {
