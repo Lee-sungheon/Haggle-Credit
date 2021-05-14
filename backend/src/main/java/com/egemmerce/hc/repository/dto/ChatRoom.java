@@ -52,11 +52,12 @@ public class ChatRoom implements Comparable<ChatRoom> {
 
 	@Override
 	public int compareTo(ChatRoom cr) {
-		if (this.crLatestMessageTime.isBefore(cr.crLatestMessageTime)) {
-			return -1;
-		} else if (this.crLatestMessageTime.isAfter(cr.crLatestMessageTime)) {
-			return 1;
-		}
+		if (this.crLatestMessageTime != null && cr.crLatestMessageTime != null)
+			if (this.crLatestMessageTime.isBefore(cr.crLatestMessageTime)) {
+				return -1;
+			} else if (this.crLatestMessageTime.isAfter(cr.crLatestMessageTime)) {
+				return 1;
+			}
 		return 0;
 	}
 

@@ -111,6 +111,8 @@ public class ChatController {
 		}
 		chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
 
-		return chatservice.createChatRoom(chatRoom).getCrNo();
+		chatservice.createChatRoom(chatRoom);
+		
+		return chatservice.selectBycrName(crName).getCrNo();
 	}
 }
