@@ -8,8 +8,9 @@ import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { changeProfileImageAPI } from '../../api/UserApi';
 
 const ImgSection = styled.div`
-  position: absolute;
-  top: 50%;
+  text-align: center;
+  position: relative;
+  top: -50%;
 `;
 const ImgSection2 = styled.div``;
 const RemoveButton = styled.img`
@@ -26,7 +27,6 @@ const ImgInputButton = styled.button`
   border-radius: 4px;
   color: white;
   cursor: pointer;
-  margin-left: 45px;
 `;
 
 const ImgRemoveButton = styled.button`

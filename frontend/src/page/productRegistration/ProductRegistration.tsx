@@ -10,6 +10,8 @@ import ProductDescription from '../../components/productRegistration/ProductDesc
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import axios from 'axios';
+import { ImageListType } from 'react-images-uploading';
+import { useHistory } from 'react-router-dom';
 
 const RegistButton = styled.button`
   height: 50px;
@@ -23,6 +25,7 @@ const RegistButton = styled.button`
 `;
 const ProductRegistration = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
+  const history = useHistory();
 
   const [productData, setProductData] = useState({
     isUserNo: 0,
@@ -104,28 +107,7 @@ const ProductRegistration = () => {
           )
           .then((res) => {
             console.log(res);
-            // for (let i = 0; i < productPhoto.length; i++) {
-            //   const body2 = {
-            //     ipNo: '',
-            //     ipValue: productPhoto[i],
-            //   };
-            //   axios
-            //     .post(
-            //       'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
-            //       body2,
-            //       {
-            //         headers: {
-            //           'Content-Type': 'application/json',
-            //         },
-            //       }
-            //     )
-            //     .then((res) => {
-            //       console.log(res);
-            //     })
-            //     .catch((err) => {
-            //       console.log(err);
-            //     });
-            // }
+            uploadImage(productPhoto, res);
           })
           .catch((err) => {
             console.log(err);
@@ -135,6 +117,39 @@ const ProductRegistration = () => {
       }
     } else {
       return;
+    }
+  };
+
+  const uploadImage = (imageList: ImageListType, res: any) => {
+    const isItemNo = res.data.isItemNo;
+
+    for (let i = 0; i < imageList.length; i++) {
+      console.log(imageList[i]);
+      const body2 = {
+        ipItemNo: isItemNo,
+        ipValue: imageList[i].dataURL,
+      };
+      axios
+        .post(
+          'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
+          body2,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          alert('판매글을 등록하였습니다.')
+          history.push('/home');
+
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('판매글을 등록을 실패하였습니다.')
+
+        });
     }
   };
   return (
