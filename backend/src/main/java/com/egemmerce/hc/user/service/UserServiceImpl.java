@@ -33,8 +33,6 @@ import lombok.RequiredArgsConstructor;
  * @Date 2021. 4. 27.
  * @Title Haggle-Credit Backend
  * @Description : User Service 클래스
- * 	- 일반 / 카카오 로그인
- * 	- 일반 / 카카오 회원가입
  * 	- 회원 탈퇴
  * 	- 회원 정보 조회/변경/id중복체크
  *  - id/pw 찾기
@@ -114,13 +112,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}else {
 			return false;
 		}
-	}
-	
-	/* 카카오로 회원 가입 */
-	@Override
-	public User insertKakaoUser(User user) throws Exception {
-		user.generateEuAuthKey();
-		return userRepository.save(user);
 	}
 	
 	/* 회원 탈퇴 */
