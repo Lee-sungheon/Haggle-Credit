@@ -1,6 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,7 +27,7 @@ public class ItemChatting {
 	private int icCrNo;
 	private int icUserNo;
 	private String icChatContent;
-	private LocalDateTime icDate;
+	private Date icDate;
 
 	public int getIcNo() {
 		return icNo;
@@ -45,17 +45,17 @@ public class ItemChatting {
 		this.icChatContent = icChatContent;
 	}
 
-	public LocalDateTime getIcDate() {
+	public Date getIcDate() {
 		return icDate;
 	}
 
-	public void setIcDate(LocalDateTime icDate) {
+	public void setIcDate(Date icDate) {
 		this.icDate = icDate;
 	}
 
-	public void generateicDate() {
-		this.icDate = LocalDateTime.now();
-	}
+//	public void generateicDate() {
+//		this.icDate = LocalDateTime.now();
+//	}
 
 	public int getIcUserNo() {
 		return icUserNo;

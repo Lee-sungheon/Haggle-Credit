@@ -1,5 +1,7 @@
 package com.egemmerce.hc.chat.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -50,7 +52,10 @@ public class SocketController {
 		result.setIcChatContent(content);
 		result.setIcUserNo(icUserNo);
 		result.setIcCrNo(icCrNo);
-		result.setIcDate(itemChatting.getIcDate());
+		
+		// 시간
+		Date now = new Date();
+		result.setIcDate(now);
 		chatservice.createItemChat(result);
 		
 		// 채팅방 최신 대화, 시간 갱신

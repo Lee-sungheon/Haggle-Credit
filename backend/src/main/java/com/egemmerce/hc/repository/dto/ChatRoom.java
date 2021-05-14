@@ -1,6 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -48,14 +48,14 @@ public class ChatRoom implements Comparable<ChatRoom> {
 	private String crUserOneName;
 	private String crUserTwoName;
 	private String crLatestMessage;
-	private LocalDateTime crLatestMessageTime;
+	private Date crLatestMessageTime;
 
 	@Override
 	public int compareTo(ChatRoom cr) {
 		if (this.crLatestMessageTime != null && cr.crLatestMessageTime != null)
-			if (this.crLatestMessageTime.isBefore(cr.crLatestMessageTime)) {
+			if (this.crLatestMessageTime.before(cr.crLatestMessageTime)) {
 				return -1;
-			} else if (this.crLatestMessageTime.isAfter(cr.crLatestMessageTime)) {
+			} else if (this.crLatestMessageTime.after(cr.crLatestMessageTime)) {
 				return 1;
 			}
 		return 0;
@@ -141,11 +141,11 @@ public class ChatRoom implements Comparable<ChatRoom> {
 		this.crLatestMessage = crLatestMessage;
 	}
 
-	public LocalDateTime getCrLatestMessageTime() {
+	public Date getCrLatestMessageTime() {
 		return crLatestMessageTime;
 	}
 
-	public void setCrLatestMessageTime(LocalDateTime crLatestMessageTime) {
+	public void setCrLatestMessageTime(Date crLatestMessageTime) {
 		this.crLatestMessageTime = crLatestMessageTime;
 	}
 

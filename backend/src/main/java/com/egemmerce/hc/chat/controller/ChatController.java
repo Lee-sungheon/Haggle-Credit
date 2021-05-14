@@ -76,12 +76,12 @@ public class ChatController {
 		return chatservice.selectChatRoomByuNo(uNo);
 	}
 
-	/* 해당 채팅방의 채팅 생성 */
-	@PostMapping("/create")
-	public ItemChatting createChat(@RequestBody ItemChatting itemChatting) throws Exception {
-		itemChatting.generateicDate();
-		return chatservice.createItemChat(itemChatting);
-	}
+//	/* 해당 채팅방의 채팅 생성 */
+//	@PostMapping("/create")
+//	public ItemChatting createChat(@RequestBody ItemChatting itemChatting) throws Exception {
+//		itemChatting.generateicDate();
+//		return chatservice.createItemChat(itemChatting);
+//	}
 
 	/* 채팅방 */
 	@PostMapping("/connect")
