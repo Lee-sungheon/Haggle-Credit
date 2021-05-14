@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import { RouteComponentProps } from 'react-router-dom';
 import ChatList from "../../components/chat/ChatList";
+import { callApiRoomList } from '../../api/ChatApi';
+import { ROOMINFO } from 'styled-components';
 
 interface MatchParams {
   id: string;
@@ -44,21 +46,28 @@ const Title = styled.div`
 `;
 
 const ChatListPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
+  const [roomLists, setRoomLists] = useState<ROOMINFO[]>([]);
   const dispatch = useDispatch();
+  const userNo = location.pathname.split('/')[2];
   useEffect(() => {
     dispatch(commonActions.setIsIndex(true));
     dispatch(commonActions.setIsPurchase(true));
+    const fetchRoomLists = async() => {
+      const result = await callApiRoomList(userNo);
+      await setRoomLists(result);
+    }
+    fetchRoomLists();
     return () => {
       dispatch(commonActions.setIsIndex(false));
       dispatch(commonActions.setIsPurchase(false));
     };
-  }, [dispatch]);
+  }, [dispatch, userNo]);
   return (
     <Container>
       <Header>
         <Title>크레딧톡</Title>
       </Header>
-      <ChatList />
+      <ChatList roomLists={roomLists} userNo={userNo}/>
     </Container>
   )
 }

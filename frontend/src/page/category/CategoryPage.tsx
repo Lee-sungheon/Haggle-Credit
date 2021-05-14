@@ -4,7 +4,11 @@ import ProductList from '../../components/home/PruductList';
 import { RouteComponentProps } from 'react-router-dom';
 import { CATEGORYS, IDXTOCATEGORY } from '../../common/data';
 import CategoryList from '../../components/category/CategoryList';
+import LoadingList from '../../components/common/LoadingList';
 import Category from '../../components/category/Category';
+import { callApiCategoryProductList } from '../../api/ProductApi';
+import { ITEM } from "styled-components";
+import Pagination from '@material-ui/lab/Pagination';
 
 interface MatchParams {
   name: string;
@@ -78,22 +82,45 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   const [subCategory, setSubCategory] = useState('');
   const [buy, setBuy] = useState(true);
   const [filterIdx, setFilterIdx] = useState(0);
+  const [products, setProducts] = useState<ITEM[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
+
+  useEffect(()=>{
+    const fetchData = async() => {
+      setIsLoading(true);
+      if(filterIdx === 0){
+        const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_no');
+        setProducts(result);
+      } else if(filterIdx === 1){
+        const result = await callApiCategoryProductList('up', category, subCategory, String(pageNum), 'is_auction_ing_price');
+        setProducts(result);
+      } else if(filterIdx === 2){
+        const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_auction_ing_price');
+        setProducts(result);
+      }
+      setIsLoading(false);
+    }
+    setProducts([]);
+    fetchData();
+  }, [category, subCategory, filterIdx, pageNum])
 
   useEffect(()=>{
     window.scrollTo(0, 0);
     const idx: number = parseInt(match.params.name.split('-')[1]);
-    if (idx <= 1200) {
-      setCategory(match.params.name);
-      setSubCategory('');
-    } else {
-      if (idx >= 100000) {
-        setCategory(IDXTOCATEGORY[String(idx).slice(0,4)]);
+      if (idx <= 1200) {
+        setCategory(match.params.name);
+        setSubCategory('');
       } else {
-        setCategory(IDXTOCATEGORY[String(idx).slice(0,3)]);
+        if (idx >= 100000) {
+          setCategory(IDXTOCATEGORY[String(idx).slice(0, 4)]);
+        } else {
+          setCategory(IDXTOCATEGORY[String(idx).slice(0,3)]);
+        }
+        setSubCategory(match.params.name);
       }
-      setSubCategory(match.params.name);
-    }
   }, [match.params.name])
+
   return (
     <Container>
       <ProductArea>
@@ -115,7 +142,13 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
             <LastItem style={filterIdx === 2 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(2)}>고가순</LastItem>
           </Filter>
         </FilterArea>
-        <ProductList buy={buy} products={[]}/>
+        {isLoading ? 
+          <LoadingList /> :
+          <ProductList buy={buy} products={products}/>
+        }
+        <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>
+          <Pagination count={10} variant="outlined" shape="rounded" color="secondary" onChange={(e, page)=>setPageNum(page)}/>
+        </div>
       </ProductArea>
     </Container>
   )

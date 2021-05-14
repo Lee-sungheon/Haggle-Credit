@@ -1,15 +1,8 @@
-import styled from 'styled-components';
 import { useState, useEffect, useCallback } from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { makeStyles } from "@material-ui/core/styles";
-import ProductItem from './ProductItem';
-import { ITEM } from "styled-components";
-
-interface PruductListProps {
-  buy: boolean;
-  products: ITEM[];
-}
+import LoadingItem from './LoadingItem';
 
 const useStyles = makeStyles(() => ({
   gridList: {
@@ -17,25 +10,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const NoneContainer = styled.div`
-  width: 100%;
-  height: 30vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4rem 0px 8rem;
-`;
-
-const NoneBox = styled.div`
-  width: 100%;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 35px;
-`;
-
-const ProductList = ({buy, products}: PruductListProps) => {
+const LoadingList = () => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
   const ConfirmWidth = useCallback(()=>{
@@ -69,20 +44,19 @@ const ProductList = ({buy, products}: PruductListProps) => {
     cols={itemNum}
     spacing={7}
     >
-      {products.length > 0 && products.map((item, idx) => (
-        <GridListTile key={idx}>
-          <ProductItem item={item} buy={buy}/>
+      {products.length > 0 && products.map((item) => (
+        <GridListTile key={item}>
+          <LoadingItem />
         </GridListTile>
       ))}
     </GridList>
-    {products.length === 0 &&
-      <NoneContainer>
-        <NoneBox>
-          검색결과가 없습니다.
-        </NoneBox>
-      </NoneContainer>}
     </>
   );
 }
 
-export default ProductList;
+export default LoadingList;
+
+const products: number[] = []
+for (let i=0; i<100 ; i++){
+  products.push(i)
+}

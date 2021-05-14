@@ -113,7 +113,7 @@ const StyledButton = styled.div`
 const ProductInfo = ({item, buy}: ProductInfoProps) => {
   const [ isLike, setIsLike ] = useState(false);
   const [ time, setTime ] = useState('');
-  const endDate = '2021-05-20 23:00';
+  const endDate = item.isEndDate;
   const CalTime = useCallback(()=> {
     let t1 = moment(endDate);
     let t2 = moment();
@@ -128,7 +128,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
     const second = parseInt(String((duTime % 60)));
     const text = day + '일 ' + hour + '시간 ' + minute + '분 ' + second + '초';
     setTime(text);
-  }, [])
+  }, [endDate])
   
   useEffect(()=>{
     const countdown = setInterval(CalTime, 1000);

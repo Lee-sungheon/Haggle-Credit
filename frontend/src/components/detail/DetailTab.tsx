@@ -102,7 +102,7 @@ const DetailTab = ({item}: Props) => {
           <ProductQuestion/>
         </div>
       </TabContianer>
-      <StoreInfo />
+      <StoreInfo item={item}/>
     </Container>
   );
 };
