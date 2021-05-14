@@ -50,7 +50,7 @@ public class SocketController {
 		result.setIcChatContent(content);
 		result.setIcUserNo(icUserNo);
 		result.setIcCrNo(icCrNo);
-		result.generateicDate();
+		result.setIcDate(itemChatting.getIcDate());
 		chatservice.createItemChat(result);
 		
 		// 채팅방 최신 대화, 시간 갱신
