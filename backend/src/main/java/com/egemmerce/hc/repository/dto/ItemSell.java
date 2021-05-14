@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -26,7 +28,8 @@ public class ItemSell {
 
 	@Id
 	private int isItemNo;
-
+	
+	@GeneratedValue (strategy=GenerationType.SEQUENCE)
 	private int isNo;
 	
 	private int isUserNo;

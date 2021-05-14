@@ -1,8 +1,10 @@
 package com.egemmerce.hc.item.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.Item;
+import com.egemmerce.hc.repository.mapper.ItemMapper;
 import com.egemmerce.hc.repository.mapper.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -14,10 +16,14 @@ public class ItemServiceImpl implements ItemService{
 	
 	private final ItemRepository itemRepository;
 	
+	@Autowired
+	private ItemMapper itemMapper;
 	
 	@Override
 	public Item insert(Item item) {
-		return itemRepository.save(item);
+		itemRepository.save(item);
+		Item check=itemMapper.selectLast();
+		return check;
 	}
 
 

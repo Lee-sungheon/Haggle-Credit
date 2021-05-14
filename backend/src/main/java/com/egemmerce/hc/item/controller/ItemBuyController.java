@@ -38,11 +38,12 @@ public class ItemBuyController {
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "ib_auction_price,ib_category_main,ib_cool_price,ib_deal_address,ib_name,ib_start_date,ib_user_no,ib_end_date")
 	@PostMapping("/regist")
-	public ResponseEntity<String> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
+	public ResponseEntity<?> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
 		Item item=itemService.insert(Item.builder().iType("Buy").build());
 		itemBuy.setIbItemNo(item.getiNo());
-		if(itemBuyService.insertItemBuy(itemBuy) != null)
-			return new ResponseEntity<String>("상품 등록 성공", HttpStatus.OK);
+		ItemBuy check=itemBuyService.insertItemBuy(itemBuy);
+		if(check != null)
+			return new ResponseEntity<ItemBuy>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
 	

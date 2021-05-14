@@ -53,11 +53,12 @@ public class ItemSellController {
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "is_user_no,is_auction_price, is_category_main, is_cool_price, is_name, is_orgin_price, is_start_date, is_end_date")
 	@PostMapping("/regist")
-	public ResponseEntity<String> createItem(@RequestBody ItemSell itemSell) throws Exception {
+	public ResponseEntity<?> createItem(@RequestBody ItemSell itemSell) throws Exception {
 		Item item = itemService.insert(Item.builder().iType("Sell").build());
 		itemSell.setIsItemNo(item.getiNo());
-		if (itemSellService.insertItemSell(itemSell) != null)
-			return new ResponseEntity<String>("상품 등록 성공", HttpStatus.OK);
+		ItemSell check=itemSellService.insertItemSell(itemSell);
+		if ( check!= null)
+			return new ResponseEntity<ItemSell>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
 
