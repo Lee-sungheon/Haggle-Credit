@@ -80,5 +80,12 @@ limit #{pageNo}, 100;
 
 <!-- 상품 업데이트 -->
 
-<!-- 상품 상세조회(아이템번호로 해당 아이템 조회) -->
+<!-- 카테고리별 개수 -->
+<select id="selectCountByCtgr" parameterType="ItemCtgrSearch" resultType="ItemCtgrCnt">
+select * from (select is_category_main, count(*) as cnt_main from item_sell
+where is_category_main = #{ctgrMain}) a
+inner join (select is_category_sub, count(*) as cnt_sub from item_sell where is_category_main like concat(concat("%",#{ctgrSub}),"%") group by is_category_sub) b;
+
+
+</select>
 </mapper>
