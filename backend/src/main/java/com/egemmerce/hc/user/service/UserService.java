@@ -14,9 +14,6 @@ public interface UserService{
 	public void mailSendWithUserKey(User user) throws Exception;
 	public boolean alter_userKey_service(String uEmail, String uAuthKey) throws Exception;
 	
-	/* 카카오로 회원 가입 */
-	User insertKakaoUser(User user) throws Exception;
-
 	/* 회원 탈퇴 */
 	User deleteUser(String uEmail) throws Exception;
 
