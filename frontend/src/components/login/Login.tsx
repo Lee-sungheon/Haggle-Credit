@@ -143,6 +143,11 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
           placeholder="이메일"
           value={inputData.email}
           onChange={onEmailHandler}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              LoginHandler();
+            }
+          }}
         ></InputTag>
         <InputTag
           id="password"
@@ -150,6 +155,11 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
           placeholder="비밀번호"
           value={inputData.password}
           onChange={onPasswordHandler}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              LoginHandler();
+            }
+          }}
         ></InputTag>
         <LoginButton onClick={LoginHandler}>로그인</LoginButton>
       </Form>

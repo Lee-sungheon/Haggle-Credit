@@ -15,7 +15,7 @@ const Container = styled.div`
 const TagP1 = styled.div`
   margin: 0;
   position: relative;
-  padding-right: 0px;
+  padding-right: 5px;
   // transform: translateY(60%);
 `;
 
@@ -113,7 +113,7 @@ const Account = () => {
                     onChange={onBankNoHandler}
                   ></input>
                 </div>
-                <div>
+                <div style={{ paddingRight: '5px' }}>
                   <EditButton onClick={onUpdateBank}>변경</EditButton>
                   <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
                 </div>
@@ -123,7 +123,7 @@ const Account = () => {
                 <TagP1>
                   연결계좌: {userData.uBankName} {userData.uBankNo}
                 </TagP1>
-                <div onClick={onchangeAccountToggle}>연결계좌변경</div>
+                <TagP1 onClick={onchangeAccountToggle}>연결계좌변경</TagP1>
               </>
             )}
           </TagP2>

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ProductImage from '../../components/productRegistration/ProductImage';
-import ProductName from '../../components/productRegistration/ProductName';
-import ProductCategory from '../../components/productRegistration/ProductCategory';
-import DealRegion from '../../components/productRegistration/DealRegion';
-import ProductState from '../../components/productRegistration/ProductState';
-import ProductPrice from '../../components/productRegistration/ProductPrice';
+import ProductName from '../../components/itemBuy/ProductName';
+import ProductCategory from '../../components/itemBuy/ProductCategory';
+// import DealRegion from '../../components/itemBuy/DealRegion';
+// import ProductState from '../../components/itemBuy/ProductState';
+import ProductPrice from '../../components/itemBuy/ProductPrice';
 import ProductDescription from '../../components/productRegistration/ProductDescription';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
@@ -21,7 +20,7 @@ const RegistButton = styled.button`
     cursor: pointer;
   }
 `;
-const ProductRegistration = () => {
+const ItemBuy = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
 
   const [productData, setProductData] = useState({
@@ -171,14 +170,12 @@ const ProductRegistration = () => {
             </p>
           </div>
         </div>
-        <ProductImage onisProductPhoto={onisProductPhoto} />
         <ProductName onIsNameHandler={onIsNameHandler} />
         <ProductCategory
           onIsCategoryMain={onIsCategoryMain}
           onIsCategorySub={onIsCategorySub}
         />
         {/* <DealRegion /> */}
-        <ProductState onIsUsedStatus={onIsUsedStatus} />
         <ProductPrice
           onIsCoolPrice={onIsCoolPrice}
           onIsAuctionPrice={onIsAuctionPrice}
@@ -336,4 +333,4 @@ const ProductRegistration = () => {
   );
 };
 
-export default ProductRegistration;
+export default ItemBuy;

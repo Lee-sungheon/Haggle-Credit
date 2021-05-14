@@ -306,7 +306,7 @@ const NavBar = () => {
           />
           <p style={{ margin: 0 }}>팝니다</p>
         </StyledMenuItemLink>
-        <StyledMenuItemLink to={'/home'}>
+        <StyledMenuItemLink to={'/itemBuy'}>
           <img
             src="../images/navbar/buy.png"
             alt=""

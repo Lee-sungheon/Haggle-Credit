@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
@@ -8,17 +8,11 @@ import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { changeProfileImageAPI } from '../../api/UserApi';
 
 const ImgSection = styled.div`
-  position: absolute;
+  position: relative;
   top: 50%;
 `;
 const ImgSection2 = styled.div``;
-const RemoveButton = styled.img`
-  position: absolute;
-  width: 30px;
-  :hover {
-    cursor: pointer;
-  }
-`;
+
 const ImgInputButton = styled.button`
   padding: 6px 25px;
   border: none;
@@ -47,14 +41,8 @@ const ImageList = styled.div`
   ${ImgSection2} {
     visibility: hidden;
   }
-  ${RemoveButton} {
-    visibility: hidden;
-  }
   :hover {
     ${ImgSection2} {
-      visibility: visible;
-    }
-    ${RemoveButton} {
       visibility: visible;
     }
   }
@@ -65,7 +53,6 @@ interface ProductImageProps {
 const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user.userData);
-  const [isWrap, setIsWrapm] = useState(false);
 
   const [images, setImages] = useState([]);
   const maxNumber = 8;
@@ -74,21 +61,6 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
     setImages(imageList as never[]);
     onisProductPhoto(imageList as never[]);
   };
-  const ConfirmWidth = useCallback(() => {
-    const windowInnerWidth = window.innerWidth;
-    if (windowInnerWidth > 1622) {
-      setIsWrapm(false);
-    } else {
-      setIsWrapm(true);
-    }
-  }, []);
-  useEffect(() => {
-    ConfirmWidth();
-    window.addEventListener('resize', ConfirmWidth);
-    return () => {
-      window.removeEventListener('resize', ConfirmWidth);
-    };
-  });
   useEffect(() => {
     updateProfile(images);
   }, [images]);
@@ -149,20 +121,18 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
               </div>
               <div
                 style={{
-                  width: '50vw',
-                  minWidth: '650px',
+                  width: 'auto',
                 }}
               >
                 <div>
                   <div style={{ height: '200px', display: 'flex' }}>
-                    <div>
-                      <div
-                        style={{
-                          width: '200px',
-                          backgroundColor: '#eeeeee',
-                          height: '100%',
-                        }}
-                      ></div>
+                    <div
+                      style={{
+                        width: '200px',
+                        backgroundColor: '#eeeeee',
+                        height: '100%',
+                      }}
+                    >
                       <ImgSection>
                         <ImgInputButton
                           style={isDragging ? { color: 'red' } : undefined}
@@ -211,41 +181,33 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
                     </div>
                   </div>
                   <div
-                    style={
-                      isWrap
-                        ? {
-                            flexWrap: 'wrap',
-                            margin: 0,
-                            marginTop: '20px',
-                            width: '60vw',
-                            maxWidth: '1000px',
-                            display: 'flex',
-                          }
-                        : {
-                            margin: 0,
-                            marginTop: '20px',
-                            width: '60vw',
-                            maxWidth: '1000px',
-                            display: 'flex',
-                          }
-                    }
+                    style={{
+                      marginTop: '20px',
+                      width: '600px',
+                      display: 'flex',
+                    }}
                   >
                     {imageList.map((image, index) => (
-                      <ImageList
-                        key={index}
-                        className="image-item"
-                        style={{ display: 'flex' }}
-                      >
+                      <ImageList key={index} className="image-item">
                         <img
                           src={image.dataURL}
                           alt=""
-                          width="120px"
-                          height="120px"
+                          width="120"
+                          height="120"
+                          style={{ position: 'relative' }}
                         />
-                        <RemoveButton
-                          src={'../images/removeButton.png'}
-                          onClick={() => onImageRemove(index)}
-                        ></RemoveButton>
+                        <div
+                          className="image-item__btn-wrapper"
+                          style={{ position: 'relative', top: '-70%' }}
+                        >
+                          <ImgSection2>
+                            <ImgRemoveButton
+                              onClick={() => onImageRemove(index)}
+                            >
+                              삭제
+                            </ImgRemoveButton>
+                          </ImgSection2>
+                        </div>
                       </ImageList>
                     ))}
                   </div>
