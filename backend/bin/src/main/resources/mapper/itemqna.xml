@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.ItemQnaMapper">
+<!-- C :: 문의 작성 -->
+<insert id="InsertQna" parameterType="ItemQna">
+insert into item_qna
+	(iq_item_no, iq_user_no, iq_content, iq_date)
+values
+	(#{iqItemNo}, #{iqUserNo}, #{iqContent}, now())
+</insert>
+
+<!-- R :: 문의 조회 -->
+<select id="SelectQna" parameterType="int" resultType="ItemQna">
+select *
+  from item_qna
+ where iq_item_no = #{iqItemNo}
+</select>
+
+<!-- D :: 문의 삭제 -->
+<delete id="DeleteQna" parameterType="int">
+delete
+  from item_qna
+ where iq_user_no = #{iqUserNo}
+</delete>
+</mapper>
