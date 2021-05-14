@@ -2,6 +2,14 @@ import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import Rating from '@material-ui/lab/Rating';
+import { ITEM } from "styled-components";
+import { callConnetChat } from '../../api/ChatApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+
+interface Props {
+  item: ITEM;
+}
 
 const StoreContainer = styled.div`
 width: 330px;
@@ -152,8 +160,17 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-const StoreInfo = () => {
-
+const StoreInfo = ({item}: Props) => {
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  const goChat = async() => {
+    const body = {
+      crItemNo: item.ipItemNo,
+      crUserNoOne: userNo,
+      crUserNoTwo: item.isUserNo,
+    }
+    const RoomNo = await callConnetChat(body)
+    await window.open(`../chat/${userNo}/${RoomNo}`, '_blank', "width=387,height=667");
+  }
   return (
     <StoreContainer>
       <StoreTab />
@@ -291,7 +308,7 @@ const StoreInfo = () => {
         <ButtonArea>
           <StyledButton 
             style={{ background: 'rgb(255, 164, 37)'}}
-            onClick={() => window.open(`../chatlist/${1}`, '_blank', "width=387,height=667")}
+            onClick={goChat}
             >연락하기</StyledButton>
           <StyledButton 
             style={{ background: theme.color.main, marginRight: '15px' }}

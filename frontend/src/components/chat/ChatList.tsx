@@ -1,4 +1,10 @@
 import styled from 'styled-components';
+import { ROOMINFO } from 'styled-components';
+
+interface Props {
+  roomLists: ROOMINFO[];
+  userNo: string;
+}
 
 const ChannelList = styled.ul`
   flex: 1 1 0%;
@@ -74,21 +80,27 @@ const MoreButton = styled.div`
   outline: none;
 `;
 
-const ChatList = () => {
+const ChatList = ({roomLists, userNo}: Props) => {
   return(
     <ChannelList>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-        <li key={item}>
+      {roomLists.length > 0 && roomLists.map((room, idx) => (
+        <li key={idx}>
           <ChannelItem>
             <ChannelAvatar>
-              <img src="https://blog.kakaocdn.net/dn/sOFQo/btqFXIdG4BC/OSX6phlqjlj7p3EYH1jZjk/img.png" alt="" width="48," height="48" style={{borderRadius: '50%'}}/>
+            {parseInt(userNo) === room.crUserNoOne ? 
+              <img src={room.crUserTwoProfile} alt="" width="48," height="48" style={{borderRadius: '50%'}}/>:
+              <img src={room.crUserOneProfile} alt="" width="48," height="48" style={{borderRadius: '50%'}}/>
+            }
             </ChannelAvatar>
-            <ItemContentBox onClick={() => window.open(`../chat/${'32'}/${'1'}`, '_blank', "width=387,height=667")}>
-              <ItemTitle>싸피4기취업못함</ItemTitle>
-              <ItemContent>이건 뭔가요?</ItemContent>
+            <ItemContentBox onClick={() => window.open(`../chat/${room.crUserNoOne}/${room.crNo}`, '_blank', "width=387,height=667")}>
+              {parseInt(userNo) === room.crUserNoOne ? 
+                <ItemTitle>{room.crUserTwoName}</ItemTitle>:
+                <ItemTitle>{room.crUserOneName}</ItemTitle>
+              }
+              <ItemContent>{room.crLatestMessage}</ItemContent>
             </ItemContentBox>
             <StyledDate>
-              2021.4.28 수요일
+              {room.crLatestMessage !== null && room.crLatestMessageTime.slice(0, 10)}
             </StyledDate>
             <MoreButtonArea>
               <MoreButton>

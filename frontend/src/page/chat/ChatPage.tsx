@@ -97,12 +97,6 @@ const ItemTitle = styled.div`
 
 const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
   const serverURL = `https://k4d107.p.ssafy.io/haggle-credit/websocket`;
-  const socket = useMemo(()=>{
-    return new SockJS(serverURL);
-  }, [serverURL])
-  const stompClient = useMemo(()=>{
-    return Stomp.over(socket);
-  }, [socket])
   const [value, setValue] = useState("");
   const [feeds, setFeeds] = useState<CHAT[]>([]);
   const [roomInfo, setRoomInfo] = useState<ROOMINFO[]>([]);
@@ -110,6 +104,12 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
   const dispatch = useDispatch();
   const crNo = location.pathname.split('/')[3];
   const userNo = location.pathname.split('/')[2];
+  const socket = useMemo(()=>{
+    return new SockJS(serverURL);
+  }, [serverURL])
+  const stompClient = useMemo(()=>{
+    return Stomp.over(socket);
+  }, [socket])
   useEffect(()=>{
     const fetchRoomInfo = async() => {
       const result = await callApiRoomInfo(crNo);

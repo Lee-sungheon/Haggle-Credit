@@ -4,15 +4,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from 'react-redux';
-import { commonActions } from "../../state/common";
-import { useHistory } from "react-router";
-import { ITEM } from "styled-components";
-
-interface ProductItemProps {
-  item: ITEM;
-  buy: boolean;
-}
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -68,47 +59,33 @@ const ItemCategory = styled.span`
   margin-right: 4px;
 `;
 
-const ProductList = ({ item, buy }: ProductItemProps) => {
+const LoadingItem = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const goDetail = () => {
-    dispatch(commonActions.addRecently(item));
-    history.push({
-      pathname: `/detail/${item.ipItemNo}`,
-      state: {item, buy}
-    });
-  };
 
   return (
-    <Card className={classes.root} onClick={goDetail}>
+    <Card className={classes.root}>
       <CardActionArea>
         <ImgBox>
           <CardMedia
             component="img"
             className={classes.cardMedia}
-            image={item.ipValue}
+            image={""}
           />
         </ImgBox>
         <CardContent style={{ padding : 0 }}>
-          <ItemTitle>{item.isItemName}</ItemTitle>
+          <ItemTitle></ItemTitle>
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory> 
-            <span>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+            <span></span>
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemPrice>
-          {buy ? <><ItemCategory>즉구가</ItemCategory> 
-            <span>{item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
-            :
-            <><ItemCategory>시작가</ItemCategory> 
-            <span>{item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
-            }
-            <ItemCategory>원</ItemCategory>
+            <ItemCategory>즉구가</ItemCategory> 
+            <span></span>
           </ItemPrice>
           <ItemTime>
-            <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
-            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{item.isEndDate}
+            <ItemCategory>입찰자</ItemCategory>
+            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>
           </ItemTime>
         </CardContent>
       </CardActionArea>
@@ -116,4 +93,4 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
   )
 }
 
-export default ProductList;
+export default LoadingItem;

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
+
 const Container = styled.div<{ isPurchase: boolean }>`
   width: 100%;
   height: 64px;
@@ -76,6 +77,7 @@ const Header = () => {
   const isIndex = useSelector((state: RootState) => state.common.isIndex);
   const isPurchase = useSelector((state: RootState) => state.common.isPurchase);
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -141,6 +143,9 @@ const Header = () => {
             </>
           ) : (
             <>
+              <Menu isIndex={isIndex}>
+                <div onClick={()=>window.open(`../chatlist/${userNo}`, '_blank', "width=387,height=667")}>크레딧톡</div>
+              </Menu>
               <Menu isIndex={isIndex}>
                 <StyledLink to={'/profile'}>내상점</StyledLink>
               </Menu>
