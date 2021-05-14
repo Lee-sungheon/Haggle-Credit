@@ -16,12 +16,10 @@ interface ProductDescriptionProps {
 }
 const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
   const [introduce, setIntroduce] = useState('');
-
   const onIntroduceHandler = (e: any) => {
     setIntroduce(e.target.value);
     onIsContent(e.target.value);
   };
-
   return (
     <div
       id="address"
@@ -38,7 +36,7 @@ const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
           fontWeight: 'bolder',
         }}
       >
-        <p>설명</p>
+        <p>내용</p>
       </div>
       <div>
         <div>
@@ -46,6 +44,7 @@ const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
             value={introduce}
             onChange={onIntroduceHandler}
             placeholder="상품설명을 입력해주세요."
+            spellCheck="false"
           ></IntroduceTextArea>
           <p style={{ textAlign: 'right', marginTop: '-2px' }}>0/2000</p>
         </div>

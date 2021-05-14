@@ -30,14 +30,29 @@ const ImgInputButton = styled.button`
   color: white;
   cursor: pointer;
 `;
+const RemoveButton = styled.img`
+  position: relative;
+  top: -290px;
+  right: -120px;
+  width: 40px;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const ImageList = styled.div`
   text-align: center;
   ${ImgSection2} {
     visibility: hidden;
   }
+  ${RemoveButton} {
+    visibility: hidden;
+  }
   :hover {
     ${ImgSection2} {
+      visibility: visible;
+    }
+    ${RemoveButton} {
       visibility: visible;
     }
   }
@@ -53,6 +68,7 @@ const UploadImg = () => {
   const onChange = (imageList: ImageListType) => {
     setImages(imageList as never[]);
   };
+  
   useEffect(() => {
     updateProfile(images);
   }, [images]);
@@ -107,8 +123,21 @@ const UploadImg = () => {
                     style={{
                       width: '300px',
                       height: '300px',
+                      position: 'relative',
                     }}
                   ></img>
+                  <RemoveButton
+                    src={'../images/removeButton.png'}
+                    onClick={() => onRemoveImage()}
+                  ></RemoveButton>
+                  {/* <ImgInputButton
+                    onClick={() => onRemoveImage()}
+                    style={{
+                      position: 'relative',
+                      top: '-300px',
+                      right: '-100px',
+                    }}
+                  ></ImgInputButton> */}
                   <ImgSection2>
                     <ImgInputButton
                       style={isDragging ? { color: 'red' } : undefined}
@@ -116,13 +145,6 @@ const UploadImg = () => {
                       {...dragProps}
                     >
                       사진바꾸기
-                    </ImgInputButton>
-                    <br />
-                    <ImgInputButton
-                      onClick={() => onRemoveImage()}
-                      style={{ marginTop: '20px' }}
-                    >
-                      사진삭제
                     </ImgInputButton>
                   </ImgSection2>
                 </ImageList>

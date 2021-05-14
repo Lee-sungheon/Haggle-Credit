@@ -17,7 +17,8 @@ import ChatListPage from './page/chat/ChatListPage';
 import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
-import ProductRegistration from './page/productRegistration/ProductRegistration'
+import ProductRegistration from './page/productRegistration/ProductRegistration';
+import ItemBuy from './page/itemBuy/ItemBuy';
 import { theme } from './styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from './common/store';
@@ -29,7 +30,13 @@ const App = () => {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ThemeProvider theme={theme}>
         <Header />
-        {!isIndex && <><NavBar /><LikeBox /><RecentlyBox /></>}
+        {!isIndex && (
+          <>
+            <NavBar />
+            <LikeBox />
+            <RecentlyBox />
+          </>
+        )}
         <Switch>
           <Route exact path="/" component={IndexPage} />
           <Route path="/home" component={Home} />
@@ -37,6 +44,7 @@ const App = () => {
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
           <Route path="/productregistraion" component={ProductRegistration} />
+          <Route path="/itemBuy" component={ItemBuy} />
           <Route path="/search" component={SearchPage} />
           <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
