@@ -93,6 +93,6 @@ order by substring(is_category_sub,-3);
 select * from (select is_category_main, count(*) as cnt_main from item_sell
 where is_category_main = #{ctgrMain}) a
 inner join (select is_category_sub, ifnull(count(*), 0) as cnt_sub from item_sell where is_category_main like concat(concat("%",substring(#{ctgrMain},-3)),"%") group by is_category_sub) b
-where is_category_sub = #{ctgrSub};
+where is_category_sub like concat(concat("%", #{ctgrSub}),"%");
 </select>
 </mapper>
