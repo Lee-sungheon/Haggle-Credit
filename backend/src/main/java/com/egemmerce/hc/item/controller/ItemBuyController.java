@@ -40,6 +40,7 @@ public class ItemBuyController {
 	@PostMapping("/regist")
 	public ResponseEntity<?> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
 		Item item=itemService.insert(Item.builder().iType("Buy").build());
+		System.out.println(item.getiNo());
 		itemBuy.setIbItemNo(item.getiNo());
 		ItemBuy check=itemBuyService.insertItemBuy(itemBuy);
 		if(check != null)

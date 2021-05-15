@@ -178,4 +178,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 		itemSell.setIsAuctionIngPrice(isAuctionPrice);
 		return itemSellRepository.save(itemSell);
 	}
+
+	@Override
+	public List<ItemSell> selectMyItemByuNo(int uNo) {
+		return itemSellRepository.findByisUserNo(uNo);
+	}
 }
