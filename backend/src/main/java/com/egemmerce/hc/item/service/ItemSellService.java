@@ -28,6 +28,7 @@ public interface ItemSellService {
 	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
 	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
+	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
 
