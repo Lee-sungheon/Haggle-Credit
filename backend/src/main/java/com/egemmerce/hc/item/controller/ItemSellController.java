@@ -113,9 +113,9 @@ public class ItemSellController {
 	}
 	
 	@GetMapping("viewHome")
-	public ResponseEntity<List<ItemSet>> selectItemAllHome(int pageNo, String sortName, String UD) throws Exception {
+	public ResponseEntity<List<ItemSet>> selectItemAllHome(@RequestParam(defaultValue="1")int pageNo, String sortName, String UD) throws Exception {
 		List<ItemSet> itemSellSet = null;
-		SortProcess sp = new SortProcess(pageNo, "", "", sortName);
+		SortProcess sp = new SortProcess((pageNo-1)*100, "", "", sortName);
 		if(UD.equals("up")) {
 			itemSellSet = itemSellService.selectItemAllHomeUp(sp);
 		}else {
