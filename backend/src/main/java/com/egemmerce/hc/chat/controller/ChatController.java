@@ -60,9 +60,6 @@ public class ChatController {
 	/* 해당 채팅방 채팅 불러오기 */
 	@GetMapping("/enter")
 	public List<ItemChatting> selectChatBycrNo(int crNo) throws Exception {
-		System.out.println(chatservice.selectChatByicCrNo(crNo).get(0).getIcDate());
-		Date now = new Date();
-		System.out.println(now);
 		return chatservice.selectChatByicCrNo(crNo);
 	}
 
@@ -79,13 +76,6 @@ public class ChatController {
 	public List<ChatRoom> selectChatRoom(int uNo) throws Exception {
 		return chatservice.selectChatRoomByuNo(uNo);
 	}
-
-//	/* 해당 채팅방의 채팅 생성 */
-//	@PostMapping("/create")
-//	public ItemChatting createChat(@RequestBody ItemChatting itemChatting) throws Exception {
-//		itemChatting.generateicDate();
-//		return chatservice.createItemChat(itemChatting);
-//	}
 
 	/* 채팅방 */
 	@PostMapping("/connect")
