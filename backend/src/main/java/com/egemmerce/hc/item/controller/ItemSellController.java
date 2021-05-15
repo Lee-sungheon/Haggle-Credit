@@ -165,7 +165,7 @@ public class ItemSellController {
 	}
 	
 	/* R :: 상세 조회(이미지 따로 부르기) */
-	@GetMapping("/detail/images")
+	@GetMapping("detail/images")
 	public ResponseEntity<List<ItemPhoto>> selectItemImages(int ipItemNo) throws Exception {
 		return new ResponseEntity<List<ItemPhoto>>(itemSellService.selectItemImages(ipItemNo), HttpStatus.OK);
 	}
