@@ -14,15 +14,26 @@ import com.egemmerce.hc.repository.dto.SortProcess;
 @Mapper
 public interface ItemSellMapper {
 	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
+
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
+
 	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
+
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
+
 	public ItemSell selectItemOne(int isNo) throws Exception;
-	public List<ItemSell> selectItemListIndexing(int isUserNo, int moreCnt, int moreCnt2) throws Exception;
+
+	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
+
 	public int selectCountItemSell(int isUserNo) throws Exception;
 }

@@ -283,8 +283,8 @@ public class ItemSellController {
 	}
 	@ApiOperation(value = "더보기 활용한 인덱싱 처리(내판매상품)")
 	@GetMapping("/myItemIndexing")
-	public ResponseEntity<?> selectItemListIndexing(int isUserNo, @RequestParam(defaultValue="0")int moreCnt) throws Exception {
-		List<ItemSell> items = itemSellService.selectItemListIndexing(isUserNo, 0, (moreCnt+1)*100);
+	public ResponseEntity<?> selectItemListIndexing(int isUserNo, @RequestParam(defaultValue="0")int page) throws Exception {
+		List<ItemSell> items = itemSellService.selectItemListIndexing(isUserNo, (page-1)*100);
 		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
 		int itemValue = itemSellService.selectCountItemSell(isUserNo);
 		for(ItemSell is : items) {
