@@ -8,36 +8,37 @@ import { callConnetChat } from '../../api/ChatApi';
 import { callApiStoreInfo, callApiGetStoreReview, callApiGetStoreReviewCnt, callApiUserInfo } from '../../api/ProductApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   item: ITEM;
 }
 
 const StoreContainer = styled.div`
-width: 330px;
+  width: 330px;
 `;
 
 const StoreTab = styled.div`
-height: 50px;
-border-bottom: 1px solid rgb(33, 33, 33);
-display: flex;
-justify-content: flex-end;
-align-items: center;
-box-sizing: border-box;
+  height: 50px;
+  border-bottom: 1px solid rgb(33, 33, 33);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-sizing: border-box;
 `;
 
 const StoreArea = styled.div`
-height: calc(100% - 50px);
-border-right: 1px solid rgb(238, 238, 238);
-padding: 0 32px 10px;
-position: relative;
+  height: calc(100% - 50px);
+  border-right: 1px solid rgb(238, 238, 238);
+  padding: 0 32px 10px;
+  position: relative;
 `;
 
 const StoreTitle = styled.div`
-font-size: 18px;
-padding: 48px 0px 16px;
-border-bottom: 1px solid rgb(238, 238, 238);
-text-align: left;
+  font-size: 18px;
+  padding: 48px 0px 16px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+  text-align: left;
 `;
 
 const StoreDesc = styled.div`
@@ -193,17 +194,19 @@ const StoreInfo = ({item}: Props) => {
       crItemNo: item.ipItemNo,
       crUserNoOne: userNo,
       crUserNoTwo: item.isUserNo,
-    }
-    const RoomNo = await callConnetChat(body)
-    await window.open(`../chat/${userNo}/${RoomNo}`, '_blank', "width=387,height=667");
-  }
+    };
+    const RoomNo = await callConnetChat(body);
+    await window.open(
+      `../chat/${userNo}/${RoomNo}`,
+      '_blank',
+      'width=387,height=667'
+    );
+  };
   return (
     <StoreContainer>
       <StoreTab />
       <StoreArea>
-        <StoreTitle>
-          상점정보
-        </StoreTitle>
+        <StoreTitle>상점정보</StoreTitle>
         <StoreDesc>
           <Avatar>
             <img 
@@ -211,7 +214,12 @@ const StoreInfo = ({item}: Props) => {
               alt="" 
               width="48" 
               height="48"
-              style={{borderRadius: "50%"}}
+              style={{ borderRadius: '50%' }}
+              onClick={() => {
+                history.push({
+                  pathname: `/userprofile/32`,
+                });
+              }}
             />
           </Avatar>
           <div style={{fontSize: "15px", margin: '4px 0px 11px'}}>
@@ -275,7 +283,9 @@ const StoreInfo = ({item}: Props) => {
         <MoreArea>
           <MoreText>
             상점후기 더보기
-            <ChevronRightOutlinedIcon style={{ fontSize: "18px", paddingTop: "3px" }}/>
+            <ChevronRightOutlinedIcon
+              style={{ fontSize: '18px', paddingTop: '3px' }}
+            />
           </MoreText>
           <ButtonArea>
             <StyledButton 
@@ -291,6 +301,6 @@ const StoreInfo = ({item}: Props) => {
       </StoreArea>
     </StoreContainer>
   );
-}
+};
 
 export default StoreInfo;

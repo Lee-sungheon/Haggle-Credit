@@ -1,5 +1,6 @@
 package com.egemmerce.hc.item.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -7,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemBuy;
+import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
+import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
+import com.egemmerce.hc.repository.mapper.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class ItemBuyServiceImpl implements ItemBuyService {
 
 	private final ItemBuyRepository itemBuyRepository;
+	private final ItemDeliveryRepository itemDeliveryRepository;
+	private final UserRepository userRepository;
 
 	/* C :: 상품 등록 */
 	@Override
@@ -59,13 +65,25 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 
 	@Override
 	public ItemBuy updateReverseAuctionPrice(int ibItemNo, int ibAuctionPrice) {
-		ItemBuy itemBuy=itemBuyRepository.findByibItemNo(ibItemNo);
-		itemBuy.setIbAuctionPrice(ibAuctionPrice);
+		ItemBuy itemBuy = itemBuyRepository.findByibItemNo(ibItemNo);
+		itemBuy.setIbAuctionIngPrice(ibAuctionPrice);
 		return itemBuyRepository.save(itemBuy);
 	}
 
 	@Override
 	public List<ItemBuy> selectMyItemByuNo(int uNo) {
 		return itemBuyRepository.findByibUserNo(uNo);
+	}
+
+	@Override
+	public void updateItemByCool(int ibItemNo, int uNo) {
+		ItemBuy itemBuy = itemBuyRepository.findByibItemNo(ibItemNo);
+		itemBuy.setIbDealPrice(itemBuy.getIbCoolPrice());
+		itemBuy.setIbDealUserNo(uNo);
+		itemBuy.setIbEndDate(new Date(20210101));
+		itemBuyRepository.save(itemBuy);
+		ItemDelivery itemDelivery = ItemDelivery.builder().idType("buy").idPrice(itemBuy.getIbDealPrice())
+				.idSendUserNo(uNo).idReceiveUserNo(itemBuy.getIbUserNo()).idItemNo(ibItemNo).build();
+		itemDeliveryRepository.save(itemDelivery);
 	}
 }

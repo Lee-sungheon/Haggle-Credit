@@ -1,5 +1,8 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../common/store';
 
 const Container = styled.div``;
 
@@ -22,13 +25,50 @@ const ReviewTab2 = styled.div`
     cursor: pointer;
   }
 `;
-
+interface ReviewList {
+  urContent: string;
+  urItemNo: number;
+  urNo: number;
+  urScore: number;
+  urUserNo: number;
+  urWriteDate: string;
+  urWriteUserNo: number;
+}
 const TransactionReviewList = () => {
+  const userData = useSelector((state: RootState) => state.user.userData);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const [reviewTab, setReviewTab] = useState(1);
-  const [reviewList, setReviewList] = useState(['review1']);
+  const [myReviewList, setMyReviewList] = useState([] as ReviewList[]);
+  const [myWrittenList, setMyWrittenList] = useState([] as ReviewList[]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://k4d107.p.ssafy.io/haggle-credit/review/mine?uNo=${userData.uNo}`
+      )
+      .then((res) => {
+        setMyReviewList(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get(
+        `https://k4d107.p.ssafy.io/haggle-credit/review/myWritten?uNo=${userData.uNo}`
+      )
+      .then((res) => {
+        setMyWrittenList(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const onReviewTab1 = () => {
     setReviewTab(1);
   };
@@ -47,7 +87,7 @@ const TransactionReviewList = () => {
               나를 평가한 리뷰
             </ReviewTab2>
           </Body>
-          {reviewList.length === 0 ? (
+          {myWrittenList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -76,28 +116,28 @@ const TransactionReviewList = () => {
                   <div style={{ width: ' 100px' }}>작성일</div>
                 </div>
                 <div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      height: '40px',
-                    }}
-                  >
-                    <div style={{ width: '100px' }}>판매</div>
-                    <div style={{ width: '200px' }}>★★★★★</div>
-                    <div style={{ width: ' 500px' }}>친절하셨어요 </div>
-                    <div style={{ width: ' 100px' }}>2021-05-04</div>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      height: '40px',
-                    }}
-                  >
-                    <div style={{ width: '100px' }}>구매</div>
-                    <div style={{ width: '200px' }}>★★★★☆</div>
-                    <div style={{ width: ' 500px' }}>상품상태가 좋았어요.</div>
-                    <div style={{ width: ' 100px' }}>2021-05-05</div>
-                  </div>
+                  {myWrittenList.map((item, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        style={{
+                          display: 'flex',
+                          height: '40px',
+                        }}
+                      >
+                        <div style={{ width: '100px' }}>
+                          {item.urUserNo === item.urWriteUserNo
+                            ? '판매'
+                            : '구매'}
+                        </div>
+                        <div style={{ width: '200px' }}>{item.urScore}</div>
+                        <div style={{ width: ' 500px' }}>{item.urContent} </div>
+                        <div style={{ width: ' 100px' }}>
+                          {item.urWriteDate.slice(0, 10)}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -123,14 +163,6 @@ const TransactionReviewList = () => {
             </ReviewTab1>
             <ReviewTab2 onClick={onReviewTab2}>나를 평가한 리뷰</ReviewTab2>
           </div>
-          {/* <div
-    style={{
-      paddingTop: '30px',
-    }}
-  >
-    등록된 리뷰가 없습니다.
-  </div> */}
-
           <div
             style={{
               paddingTop: '30px',
@@ -151,28 +183,26 @@ const TransactionReviewList = () => {
                 <div style={{ width: ' 100px' }}>작성일</div>
               </div>
               <div>
-                <div
-                  style={{
-                    display: 'flex',
-                    height: '40px',
-                  }}
-                >
-                  <div style={{ width: '100px' }}>판매</div>
-                  <div style={{ width: '200px' }}>★★★★★</div>
-                  <div style={{ width: ' 500px' }}>상품상태가 좋았어요. </div>
-                  <div style={{ width: ' 100px' }}>2021-05-04</div>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    height: '40px',
-                  }}
-                >
-                  <div style={{ width: '100px' }}>구매</div>
-                  <div style={{ width: '200px' }}>★★★★☆</div>
-                  <div style={{ width: ' 500px' }}>친절하셨어요</div>
-                  <div style={{ width: ' 100px' }}>2021-05-05</div>
-                </div>
+                {myReviewList.map((item, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        height: '40px',
+                      }}
+                    >
+                      <div style={{ width: '100px' }}>
+                        {item.urUserNo === item.urWriteUserNo ? '판매' : '구매'}
+                      </div>
+                      <div style={{ width: '200px' }}>{item.urScore}</div>
+                      <div style={{ width: ' 500px' }}>{item.urContent} </div>
+                      <div style={{ width: ' 100px' }}>
+                        {item.urWriteDate.slice(0, 10)}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

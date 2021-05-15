@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.itemqna.service.ItemQnaService;
 import com.egemmerce.hc.repository.dto.ItemQna;
+import com.egemmerce.hc.repository.dto.ItemQnaResult;
 
 @RestController
 @RequestMapping("item/qna")
@@ -31,14 +32,15 @@ public class ItemQnaController {
 	
 	/* R :: 문의(댓글) 조회 */
 	@GetMapping("")
-	public ResponseEntity<List<ItemQna>> ReadQna(int iqItemNo) throws Exception {
-		return new ResponseEntity<List<ItemQna>>(qnaService.SelectQna(iqItemNo), HttpStatus.OK);
+	public ResponseEntity<List<ItemQnaResult>> ReadQna(int iqItemNo) throws Exception {
+		System.out.println(qnaService.SelectQna(iqItemNo).get(0).toString());
+		return new ResponseEntity<List<ItemQnaResult>>(qnaService.SelectQna(iqItemNo), HttpStatus.OK);
 	}
 	
 	/* D :: 문의(댓글) 삭제 */
 	@DeleteMapping("delete")
-	public ResponseEntity<String> DeleteQna(int iqUserNo) throws Exception {
-		if(qnaService.DeleteQna(iqUserNo) > 0)
+	public ResponseEntity<String> DeleteQna(int iqNo) throws Exception {
+		if(qnaService.DeleteQna(iqNo) > 0)
 			return new ResponseEntity<String>("문의 삭제 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("문의 삭제 실패", HttpStatus.NO_CONTENT);
 	}

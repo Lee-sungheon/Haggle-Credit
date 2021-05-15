@@ -95,4 +95,33 @@ where is_category_main = #{ctgrMain}) a
 inner join (select is_category_sub, ifnull(count(*), 0) as cnt_sub from item_sell where is_category_main like concat(concat("%",substring(#{ctgrMain},-3)),"%") group by is_category_sub) b
 where is_category_sub like concat(concat("%", #{ctgrSub}),"%");
 </select>
+
+<!-- 아이템 이미지들 조회 -->
+<select id="selectItemImages" parameterType="int" resultType="ItemPhoto">
+select *
+  from item_photo
+ where ip_item_no = #{ipItemNo}
+</select>
+
+<!-- 판매상품 상세 조회 -->
+<select id="selectItemOne" parameterType="int" resultType="itemSell">
+select *
+  from item_sell
+ where is_item_no = #{isItemNo}
+</select>
+
+<!-- 인덱싱 처리해서 100개단위로만 내상품 보여주기 -->
+<select id="selectItemListIndexing" parameterType="int" resultType="ItemSell">
+select *
+  from item_sell
+ where is_user_no = #{isUserNo}
+ order by is_no desc limit #{moreCnt}, #{moreCnt2};
+</select>
+
+<select id="selectCountItemSell" parameterType="int" resultType="int">
+select count(*)
+  from item_sell
+ where is_user_no = #{isUserNo}
+</select>
+
 </mapper>

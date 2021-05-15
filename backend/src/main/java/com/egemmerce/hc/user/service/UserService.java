@@ -1,5 +1,6 @@
 package com.egemmerce.hc.user.service;
 
+import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.User;
 
 public interface UserService{
@@ -56,6 +57,10 @@ public interface UserService{
 	User updateUserBank(int uNo, String uBankName, String uBankNo);
 
 	void updateBeforeAndNew(int isUserNo, int isItemNo, int isAuctionPrice);
+
+	void updateUserCreditbyRegistBuy(User user, int ibAuctionInitPrice, int ibItemNo);
+
+	void updateUserCreditbyBuyCool(int ibUserNo, ItemBuy itemBuy);
 	
 
 }

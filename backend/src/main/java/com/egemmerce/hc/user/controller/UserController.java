@@ -94,6 +94,16 @@ public class UserController {
 		}
 		return new ResponseEntity<String>("개인정보가 없음", HttpStatus.NO_CONTENT);
 	}
+	/* R :: 개인 정보 전체 조회 [토큰으로 확인] */
+	@ApiOperation(value = "개인정보 조회를 위한 Restful API", response = User.class)
+	@GetMapping("/myinfo")
+	public ResponseEntity<?> selectUserByuNo(int uNo) {
+		User check = userService.selectUserByuNo(uNo);
+		if (check != null) {
+			return new ResponseEntity<User>(check, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("개인정보가 없음", HttpStatus.NO_CONTENT);
+	}
 
 	/* U :: 개인 정보 수정 */
 	@ApiOperation(value = "개인정보수정을 위한 Restful API", response = User.class)

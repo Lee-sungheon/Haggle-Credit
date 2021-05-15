@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.auction.service.AuctionParticipantService;
@@ -24,6 +25,7 @@ import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
+import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
@@ -111,9 +113,9 @@ public class ItemSellController {
 	}
 	
 	@GetMapping("viewHome")
-	public ResponseEntity<List<ItemSet>> selectItemAllHome(int pageNo, String sortName, String UD) throws Exception {
+	public ResponseEntity<List<ItemSet>> selectItemAllHome(@RequestParam(defaultValue="1")int pageNo, String sortName, String UD) throws Exception {
 		List<ItemSet> itemSellSet = null;
-		SortProcess sp = new SortProcess(pageNo, "", "", sortName);
+		SortProcess sp = new SortProcess((pageNo-1)*100, "", "", sortName);
 		if(UD.equals("up")) {
 			itemSellSet = itemSellService.selectItemAllHomeUp(sp);
 		}else {
@@ -161,6 +163,12 @@ public class ItemSellController {
 			return new ResponseEntity<Integer>(result.get(0).getCntSub(), HttpStatus.OK);
 		}
 		
+	}
+	
+	/* R :: 상세 조회(이미지 따로 부르기) */
+	@GetMapping("detail/images")
+	public ResponseEntity<List<ItemPhoto>> selectItemImages(int ipItemNo) throws Exception {
+		return new ResponseEntity<List<ItemPhoto>>(itemSellService.selectItemImages(ipItemNo), HttpStatus.OK);
 	}
 //	===============
 	
@@ -266,11 +274,32 @@ public class ItemSellController {
 		List<ItemPhotoSet>itemsphoto=new ArrayList<>();
 		for (ItemSell is : items) {
 			
-			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo())) );
+			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), items.size()) );
 		}
 		if (items != null) {
 			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}
+	@ApiOperation(value = "더보기 활용한 인덱싱 처리(내판매상품)")
+	@GetMapping("/myItemIndexing")
+	public ResponseEntity<?> selectItemListIndexing(int isUserNo, @RequestParam(defaultValue="0")int moreCnt) throws Exception {
+		List<ItemSell> items = itemSellService.selectItemListIndexing(isUserNo, 0, (moreCnt+1)*100);
+		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
+		int itemValue = itemSellService.selectCountItemSell(isUserNo);
+		for(ItemSell is : items) {
+			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), itemValue) );
+		}
+		if(items != null) {
+			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("상품 없음", HttpStatus.NO_CONTENT);
+	}
+	
+	@ApiOperation(value = "아이템 상세 조회 정보")
+	@GetMapping("/detail/inform")
+	public ResponseEntity<ItemSell> selectItemOne(int isItemNo) throws Exception {
+		return new ResponseEntity<ItemSell>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
+	}
+	
 }

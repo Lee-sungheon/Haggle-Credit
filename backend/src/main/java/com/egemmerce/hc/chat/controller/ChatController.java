@@ -111,7 +111,7 @@ public class ChatController {
 		} else {
 			ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(iNo);
 			chatRoom.setCrItemName(itemBuy.getIbName());
-			chatRoom.setCrItemPrice(itemBuy.getIbAuctionPrice());
+			chatRoom.setCrItemPrice(itemBuy.getIbAuctionIngPrice());
 		}
 		chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
 

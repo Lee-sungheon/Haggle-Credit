@@ -30,4 +30,6 @@ public interface ItemBuyService {
 
 	List<ItemBuy> selectMyItemByuNo(int uNo);
 
+	void updateItemByCool(int isItemNo, int uNo);
+
 }

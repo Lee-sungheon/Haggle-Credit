@@ -52,10 +52,19 @@ public class BookmarkController {
 
 	/* D :: 북마크 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteBookmark(@RequestParam int bNo) throws Exception {
-		if (bookmarkService.deleteBookmark(bNo) > 0) {
-			return new ResponseEntity<String>("북마크 삭제 성공ㅎ", HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteBookmark(@RequestParam int bItemNo, @RequestParam int bUserNo) throws Exception {
+		if (bookmarkService.deleteBookmark(bItemNo, bUserNo) > 0) {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("북마크 삭제 실패ㅠ", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/checkedStatus")
+	public ResponseEntity<String> selectBookmarkStatus(Bookmark bookmark) throws Exception {
+		if(bookmarkService.selectBookmarkStatus(bookmark) != null) {
+			System.out.println("찜한 상태");
+			return new ResponseEntity<String>("찜된 상태입니다.", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("찜되지 않은 상태입니다.", HttpStatus.OK);
 	}
 }

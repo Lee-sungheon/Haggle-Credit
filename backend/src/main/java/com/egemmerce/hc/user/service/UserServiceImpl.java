@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.EmailMessage;
+import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAccount;
 import com.egemmerce.hc.repository.dto.UserCredit;
@@ -320,6 +321,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userRepository.save(user);
 		userCreditMapper.insert(uc);
 //		userMapper.insertCredit(user);
+	}
+
+	@Override
+	public void updateUserCreditbyRegistBuy(User user, int ibAuctionInitPrice, int ibItemNo) {
+		user.setuCredit(user.getuCredit()-ibAuctionInitPrice);
+		UserCredit uCredit=UserCredit.builder().ucClass("minus").ucUserNo(user.getuNo()).ucCredit(user.getuCredit()).ucApNo(ibItemNo).build();
+		uCredit.generateucTime();
+		userCreditRepository.save(uCredit);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void updateUserCreditbyBuyCool(int ibUserNo, ItemBuy itemBuy) {
+		User user=userRepository.findByuNo(ibUserNo);
+		user.setuCredit(user.getuCredit()+itemBuy.getIbAuctionInitPrice()-itemBuy.getIbCoolPrice());
+		UserCredit uCredit=UserCredit.builder().ucClass("plus").ucUserNo(user.getuNo()).ucCredit(user.getuCredit()).ucApNo(itemBuy.getIbItemNo()).build();
+		uCredit.generateucTime();
+		userCreditRepository.save(uCredit);
+		userRepository.save(user);
 	}
 
 }

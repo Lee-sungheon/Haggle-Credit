@@ -29,6 +29,8 @@ public class ItemDelivery {
 	private LocalDateTime idSendDate;
 	@ColumnDefault("false")
 	private String idReceive;
+	private String idType;
+	private int idPrice;
 	
 	public void generateidSendDate() {
 		this.idSendDate=LocalDateTime.now();
@@ -88,6 +90,22 @@ public class ItemDelivery {
 
 	public void setIdItemNo(int idItemNo) {
 		this.idItemNo = idItemNo;
+	}
+
+	public String getIdType() {
+		return idType;
+	}
+
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
+
+	public int getIdPrice() {
+		return idPrice;
+	}
+
+	public void setIdPrice(int idPrice) {
+		this.idPrice = idPrice;
 	}
 	
 	
