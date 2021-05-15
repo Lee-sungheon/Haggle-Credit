@@ -58,7 +58,7 @@ export function callApiImageList(itemNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
-      return 0;
+      return [];
     });
 }
 
