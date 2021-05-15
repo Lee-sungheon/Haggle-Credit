@@ -126,6 +126,37 @@ public class ItemSellController {
 		}
 		return new ResponseEntity<List<ItemCtgrCnt>>(itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
 	}
+	
+	@GetMapping("categoryCount")
+	public ResponseEntity<Integer> selectCategoryCount(String ctgrMain, String ctgrSub) throws Exception {
+		List<ItemCtgrCnt> result = null;
+		if(ctgrSub == null) { // 이건 무조건 상위임..
+			ctgrSub = "-";
+			result = itemSellService.selectCountByCtgrSub(new ItemCtgrSearch(ctgrMain, ctgrSub));
+			if(result == null) {
+				System.out.println("상위만 입력되었지만, 결과반환되는게 없음..(이름안맞거나, 존재하는게 없을때");
+				return new ResponseEntity<Integer>(0, HttpStatus.OK);
+			}
+			if(result.get(0).getCntMain() == 0) {
+				System.out.println("상위만 입력되었지만, 상위카테고리의 아이템 개수 0일때?");
+				return new ResponseEntity<Integer>(0, HttpStatus.OK);
+			}
+			return new ResponseEntity<Integer>(result.get(0).getCntMain(), HttpStatus.OK);
+		} else {
+			result = itemSellService.selectCountByCtgrSub(new ItemCtgrSearch(ctgrMain, ctgrSub));
+			if(result.size() == 0) {
+				System.out.println("반환이 되는게 없을 때 null!!");
+				return new ResponseEntity<Integer>(0, HttpStatus.OK);
+			}
+//			System.out.println("출력하려는 하위 카테고리=" + result.get(0).getIsCategorySub() + ", 출력할 개수="+result.get(0).getCntSub());
+			if(result.get(0).getCntSub() == 0) {
+				System.out.println("하위카테고리인데, 해당 아이템 없을 때");
+				return new ResponseEntity<Integer>(0, HttpStatus.OK);
+			}
+			return new ResponseEntity<Integer>(result.get(0).getCntSub(), HttpStatus.OK);
+		}
+		
+	}
 //	===============
 	
 	/* R :: 상품명 조회 */

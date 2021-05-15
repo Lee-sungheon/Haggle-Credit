@@ -18,4 +18,5 @@ public interface ItemSellMapper {
 	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
 	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
+	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
 }

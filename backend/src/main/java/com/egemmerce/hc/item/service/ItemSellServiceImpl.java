@@ -94,6 +94,13 @@ public class ItemSellServiceImpl implements ItemSellService {
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception {
 		return itemSellMapper.selectCountByCtgr(itemCtgrSearch);
 	}
+	@Override
+	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception {
+		if(itemSellMapper.selectCountByCtgrSub(itemCtgrSearch) == null)
+			return null;
+		return itemSellMapper.selectCountByCtgrSub(itemCtgrSearch);
+	}
+	
 
 	/* D :: 상품 삭제 */
 	@Override
