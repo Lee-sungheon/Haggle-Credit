@@ -222,4 +222,14 @@ public class ItemSellController {
 		}
 		return new ResponseEntity<String>("경매가 업데이트 실패.", HttpStatus.OK);
 	}
+	/* R :: 내가 올린 상품 */
+	@ApiOperation(value = "내가 올린 상품 Restful API")
+	@GetMapping("/myitem")
+	public ResponseEntity<?> selectMyItem(int uNo) {
+		List<ItemSell> items = itemSellService.selectMyItemByuNo(uNo);
+		if (items != null) {
+			return new ResponseEntity<List<ItemSell>>(items, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemSell;
@@ -46,6 +47,8 @@ public interface ItemSellService {
 	void updateItembyAuction(ItemSell is);
 
 	ItemSell updateAuctionPrice(int isItemNo, int isAuctionPrice);
+
+	List<ItemSell> selectMyItemByuNo(int uNo);
 
 
 

@@ -15,27 +15,30 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "ibItemNo")
-@Builder @AllArgsConstructor @NoArgsConstructor
+@Entity
+@EqualsAndHashCode(of = "ibItemNo")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class ItemBuy {	
-	
-    @Id
-    private int ibItemNo;
-    private int ibNo;
-    private int ibUserNo;
-    private String ibName;
+public class ItemBuy {
+
+	@Id
+	private int ibItemNo;
+	private int ibNo;
+	private int ibUserNo;
+	private String ibName;
 	@ColumnDefault("기타")
-    private String ibCategoryMain;
+	private String ibCategoryMain;
 	@ColumnDefault("기타")
-    private String ibCategorySub;
-    private String ibTitle;
-    private String ibContent;
-    private Date ibStartDate;
-    private Date ibEndDate;
-    private int ibCoolPrice;
-    private int ibAuctionPrice;
+	private String ibCategorySub;
+	private String ibTitle;
+	private String ibContent;
+	private LocalDateTime ibStartDate;
+	private Date ibEndDate;
+	private int ibCoolPrice;
+	private int ibAuctionPrice;
 	private LocalDateTime ibRegDate;
 	@ColumnDefault("0")
 	private int ibOriginPrice;
@@ -43,10 +46,11 @@ public class ItemBuy {
 	private int ibDealUserNo;
 	@ColumnDefault("0")
 	private int ibDealPrice;
-	private int ibDealAddress;
-	
+	private String ibDealAddress;
+
 	public void generateibRegDate() {
 		this.ibRegDate = LocalDateTime.now();
+		this.ibStartDate = LocalDateTime.now();
 	}
 
 	public int getIbItemNo() {
@@ -105,14 +109,6 @@ public class ItemBuy {
 		this.ibContent = ibContent;
 	}
 
-	public Date getIbStartDate() {
-		return ibStartDate;
-	}
-
-	public void setIbStartDate(Date ibStartDate) {
-		this.ibStartDate = ibStartDate;
-	}
-
 	public Date getIbEndDate() {
 		return ibEndDate;
 	}
@@ -153,22 +149,12 @@ public class ItemBuy {
 		this.ibOriginPrice = ibOriginPrice;
 	}
 
-
-
 	public int getIbDealPrice() {
 		return ibDealPrice;
 	}
 
 	public void setIbDealPrice(int ibDealPrice) {
 		this.ibDealPrice = ibDealPrice;
-	}
-
-	public int getIbDealAddress() {
-		return ibDealAddress;
-	}
-
-	public void setIbDealAddress(int ibDealAddress) {
-		this.ibDealAddress = ibDealAddress;
 	}
 
 	public int getIbNo() {
@@ -186,6 +172,21 @@ public class ItemBuy {
 	public void setIbDealUserNo(int ibDealUserNo) {
 		this.ibDealUserNo = ibDealUserNo;
 	}
-	
-	
+
+	public String getIbDealAddress() {
+		return ibDealAddress;
+	}
+
+	public void setIbDealAddress(String ibDealAddress) {
+		this.ibDealAddress = ibDealAddress;
+	}
+
+	public LocalDateTime getIbStartDate() {
+		return ibStartDate;
+	}
+
+	public void setIbStartDate(LocalDateTime ibStartDate) {
+		this.ibStartDate = ibStartDate;
+	}
+
 }
