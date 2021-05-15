@@ -109,4 +109,14 @@ select *
   from item_sell
  where is_no = #{isNo}
 </select>
+
+<!-- 인덱싱 처리해서 100개단위로만 내상품 보여주기 -->
+<select id="selectItemListIndexing" parameterType="int" resultType="ItemSell">
+select *
+  from item_sell
+ where is_user_no = #{isUserNo}
+ order by is_no desc limit #{moreCnt}, #{moreCnt2};
+</select>
+
+
 </mapper>

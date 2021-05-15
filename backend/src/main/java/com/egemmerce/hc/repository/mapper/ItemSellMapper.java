@@ -23,4 +23,5 @@ public interface ItemSellMapper {
 	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
 	public ItemSell selectItemOne(int isNo) throws Exception;
+	public List<ItemSell> selectItemListIndexing(int isUserNo, int moreCnt, int moreCnt2) throws Exception;
 }
