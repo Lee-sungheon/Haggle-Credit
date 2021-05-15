@@ -170,6 +170,7 @@ const StyledButton = styled.div`
 `;
 
 const StoreInfo = ({ item }: Props) => {
+  const history = useHistory();
   const [storeInfoList, setStoreInfo] = useState<STOREINFO[]>([]);
   const [reviewList, setReviewList] = useState<STOREREVIEW[]>([]);
   const [reviewCnt, setReviewCnt] = useState(0);

@@ -216,8 +216,8 @@ public class ItemSellServiceImpl implements ItemSellService {
 	}
 	
 	@Override
-	public List<ItemSell> selectItemListIndexing(int isUserNo, int moreCnt, int moreCnt2) throws Exception {
-		return itemSellMapper.selectItemListIndexing(isUserNo, moreCnt, moreCnt2);
+	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception {
+		return itemSellMapper.selectItemListIndexing(isUserNo, page);
 	}
 	
 	@Override

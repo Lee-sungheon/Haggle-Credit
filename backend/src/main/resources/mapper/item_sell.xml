@@ -115,7 +115,7 @@ select *
 select *
   from item_sell
  where is_user_no = #{isUserNo}
- order by is_no desc limit #{moreCnt}, #{moreCnt2};
+ order by is_no desc limit #{page}, 100;
 </select>
 
 <select id="selectCountItemSell" parameterType="int" resultType="int">
