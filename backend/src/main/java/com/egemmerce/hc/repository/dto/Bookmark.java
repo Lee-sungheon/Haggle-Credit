@@ -1,5 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -26,7 +27,9 @@ public class Bookmark {
 
 	@Id
 	private int bNo;
+	@Column
 	private int bItemNo;
+	@Column
 	private int bUserNo;
 
 	public int getbItemNo() {
