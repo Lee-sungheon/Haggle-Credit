@@ -24,7 +24,7 @@ public interface UserReviewService {
 	public UserReview UpdateUserReview(UserReview userReview) throws Exception;
 
 	/* R :: 내 상점 리뷰 보기 */
-	public List<Map<String, Object>> selectMyReviews(int uNo) throws Exception;
+	public List<Map<String, Object>> selectMyReviews(int uNo, int page) throws Exception;
 
 	/* C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) */
 	public int insertReview(UserReview userReview) throws Exception;

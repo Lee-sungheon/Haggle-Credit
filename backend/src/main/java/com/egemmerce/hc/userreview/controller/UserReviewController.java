@@ -49,8 +49,9 @@ public class UserReviewController {
 
 	/* R :: 내 상점 리뷰 보기 */
 	@GetMapping("/mystore")
-	public ResponseEntity<List<Map<String, Object>>> SelectMyReviews(int uNo) throws Exception {
-		return new ResponseEntity<List<Map<String, Object>>>(userReviewService.selectMyReviews(uNo), HttpStatus.OK);
+	public ResponseEntity<List<Map<String, Object>>> SelectMyReviews(int uNo, int page) throws Exception {
+		page = (page - 1) * 10;
+		return new ResponseEntity<List<Map<String, Object>>>(userReviewService.selectMyReviews(uNo, page), HttpStatus.OK);
 	}
 
 	/* U :: 리뷰 수정 */

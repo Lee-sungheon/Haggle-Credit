@@ -47,8 +47,8 @@ public class UserReviewServiceImpl implements UserReviewService {
 
 	/* R :: 내 상점 리뷰 보기 */
 	@Override
-	public List<Map<String, Object>> selectMyReviews(int uNo) throws Exception {
-		return userReviewMapper.selectMyReviews(uNo);
+	public List<Map<String, Object>> selectMyReviews(int uNo, int page) throws Exception {
+		return userReviewMapper.selectMyReviews(uNo, page);
 	}
 
 	/* C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) */
