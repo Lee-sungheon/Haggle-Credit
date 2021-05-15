@@ -5,6 +5,7 @@ import ProductList from '../../components/home/PruductList';
 import { useDispatch, useSelector } from 'react-redux';
 import { homeActions } from "../../state/home";
 import { RootState } from '../../common/store';
+import Pagination from '@material-ui/lab/Pagination';
 
 const Container = styled.div`
   padding: 145px 200px 0 200px;
@@ -21,6 +22,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const SellLists = useSelector((state: RootState) => state.home.sellLists);
   const [itemNum, setItemNum] = useState(5);
+  const [pageNum, setPageNum] = useState(1);
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -40,11 +42,11 @@ const Home = () => {
     window.scrollTo(0, 0);
     ConfirmWidth();
     window.addEventListener('resize', ConfirmWidth);
-    dispatch(homeActions.requestSellList('1'));
+    dispatch(homeActions.requestSellList(pageNum));
     return () => {
       window.removeEventListener('resize', ConfirmWidth);
     }
-  }, [ConfirmWidth, dispatch])
+  }, [ConfirmWidth, dispatch, pageNum])
 
   return (
     <Container>
@@ -52,6 +54,15 @@ const Home = () => {
       <ProductArea>
         <h2>최근 올라온 상품</h2>
         <ProductList buy={true} products={SellLists} itemNum={itemNum}/>
+        <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>
+          {SellLists.length > 0 && 
+            <Pagination 
+            count={10} 
+            variant="outlined" 
+            shape="rounded" 
+            color="secondary" 
+            onChange={(e, page)=>setPageNum(page)}/>}
+        </div>
       </ProductArea>
     </Container>
   );

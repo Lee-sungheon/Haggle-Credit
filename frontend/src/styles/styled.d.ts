@@ -55,6 +55,65 @@ declare module 'styled-components' {
     icChatContent: string;
     icDate: string;
   }
+  export interface PHOTO {
+    ipNo: number;
+    ipItemNo: number;
+    ipValue: string;
+  }
+  export interface STOREINFO {
+    itemSell: STOREITEM;
+    itemPhotoes: PHOTO[];
+    itemCnt: number;
+  }
+  export interface STOREITEM {
+    isItemNo: number;
+    isNo: number;
+    isUserNo: number;
+    isItemName: string;
+    isCategoryMain: string;
+    isCategorySub: string;
+    isUsedStatus: string;
+    isCoolPrice: number;
+    isAuctionInitPrice: number;
+    isDealAddress: number;
+    isDealPrice: number;
+    isDealUserNo: number;
+    isStartDate: string;
+    isEndDate: string;
+    isEventAgree: string;
+    isAuctionIngPrice: number;
+  }
+  export interface STOREREVIEW {
+    u_name: string;
+    u_image: string;
+    ur_write_user_no: number;
+    ur_no: number;
+    ur_user_no: number;
+    ur_item_no: number;
+    ur_content: string;
+    ur_write_date: string;
+    ur_score: number;
+  }
+  export interface USERINFO {
+    uImage?: string;
+    uNo?: number;
+    uEmail?: string;
+    uPassword?: string;
+    uName?: string;
+    uPhone?: string;
+    uBirth?: string;
+    uJoinDate?: string;
+    uAuthorit?: string;
+    uCredit?: number;
+    uPenalty?: string;
+    uSellerAuth?: string;
+    uJoinConfirm?: string;
+    uBankName?: string;
+    uBankNo?: string;
+    uAuthKey?: string;
+    uAuthKeyGeneratedAt?: string;
+    uContent?: string;
+  }
   export interface USERDATA {
     uImage?: string;
     uNo?: number;

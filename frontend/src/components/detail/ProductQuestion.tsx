@@ -1,7 +1,25 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined';
-import RoomServiceOutlinedIcon from '@material-ui/icons/RoomServiceOutlined';
+import CloseIcon from '@material-ui/icons/Close';
+import { callApiQnaList, callApiWriteQna, callApiDeleteQna } from '../../api/ProductApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+
+interface Props {
+  itemNo: number;
+}
+
+interface QNA {
+  iqContent: string;
+  iqDate: string;
+  iqItemNo: number;
+  iqNo: number;
+  iqUserNo: number;
+  u_name: string;
+  u_image: string;
+}
 
 const Container = styled.div`
   padding-top: 10px;
@@ -119,112 +137,90 @@ const QuestionButtonArea = styled.div`
   cursor: pointer;
 `;
 
-const ProductQuestion = () => {
+const ProductQuestion = ({itemNo}: Props) => {
+  const [ qnaList, setQnaList ] = useState<QNA[]>([]);
+  const [ value, setValue ] = useState('');
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  
+  useEffect(()=>{
+    const fetchData = async() => {
+      const result = await callApiQnaList(itemNo);
+      setQnaList(result.reverse());
+    }
+    fetchData();
+  }, [itemNo])
+  
+  const submitQna = async() => {
+    if (!userNo){
+      alert("qna를 남기려면 로그인 해주세요.");
+    } else {
+      const data = {
+        iqContent: value,
+        iqItemNo: itemNo,
+        iqUserNo: userNo
+      }
+      await callApiWriteQna(data);
+      const result = await callApiQnaList(itemNo);
+      setQnaList(result.reverse());
+      setValue('');
+    }
+  }
+
+  const deleteQna = async(qnaNo: number) => {
+    await callApiDeleteQna(qnaNo);
+    const result = await callApiQnaList(itemNo);
+    setQnaList(result.reverse());
+  }
+
+  const recommentQna = async(userName: string) => {
+    setValue(`@${userName} `+value)
+  }
+
   return (
     <Container>
       <QuestionTitle>
-        상품문의 <span style={{color: 'red'}}>2</span>
+        상품문의 <span style={{color: 'red'}}>{qnaList.length}</span>
       </QuestionTitle>
       <InputContainer>
         <MainInputArea>
-          <MainInput placeholder="상품문의 입력" />
+          <MainInput placeholder="상품문의 입력" value={value} onChange={(e)=>setValue(e.target.value)} maxLength={100}/>
         </MainInputArea>
         <SubInputArea>
-          <SubInput>1 / 100</SubInput>
-          <InputButton><CreateOutlinedIcon style={{ fontSize: '20px' }}/>등록</InputButton>
+          <SubInput>{value.length} / 100</SubInput>
+          <InputButton onClick={submitQna}><CreateOutlinedIcon style={{ fontSize: '20px' }}/>등록</InputButton>
         </SubInputArea>
       </InputContainer>
       <QuestionContainer>
-        <QuestionArea>
-          <Avatar>
-            <img 
-              src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
-              alt="" 
-              width="48" 
-              height="48"
-              style={{borderRadius: "50%"}}
-            />
-          </Avatar>
-          <QuestionItem>
-            <QuestionHeader>
-              <div>싸피4기취업못함엄마미안해</div>
-              <div style={{fontSize: '13px', color: 'rgb(204, 204, 204)'}}>3초전</div>
-            </QuestionHeader>
-            <QuestionContent>
-              건전지는 어는정도 사용했나요.)??<br />
-              두개다 사용한건가요??
-            </QuestionContent>
-            <QuestionFooter>
-              <QuestionButtonArea>
-                <InsertCommentOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/> 댓글달기
-              </QuestionButtonArea>
-              <div style={{ borderRight: "1px solid rgb(238, 238, 238)", width: "1px", marginRight: "10px"}}/>
-              <QuestionButtonArea>
-                <RoomServiceOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/>신고하기
-              </QuestionButtonArea>
-            </QuestionFooter>
-          </QuestionItem>
-        </QuestionArea>
-        <QuestionArea>
-          <Avatar>
-            <img 
-              src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
-              alt="" 
-              width="48" 
-              height="48"
-              style={{borderRadius: "50%"}}
-            />
-          </Avatar>
-          <QuestionItem>
-            <QuestionHeader>
-              <div>싸피4기취업못함엄마미안해</div>
-              <div style={{fontSize: '13px', color: 'rgb(204, 204, 204)'}}>3초전</div>
-            </QuestionHeader>
-            <QuestionContent>
-              건전지는 어는정도 사용했나요.)??<br />
-              두개다 사용한건가요??
-            </QuestionContent>
-            <QuestionFooter>
-              <QuestionButtonArea>
-                <InsertCommentOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/> 댓글달기
-              </QuestionButtonArea>
-              <div style={{ borderRight: "1px solid rgb(238, 238, 238)", width: "1px", marginRight: "10px"}}/>
-              <QuestionButtonArea>
-                <RoomServiceOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/>신고하기
-              </QuestionButtonArea>
-            </QuestionFooter>
-          </QuestionItem>
-        </QuestionArea>
-        <QuestionArea>
-          <Avatar>
-            <img 
-              src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
-              alt="" 
-              width="48" 
-              height="48"
-              style={{borderRadius: "50%"}}
-            />
-          </Avatar>
-          <QuestionItem>
-            <QuestionHeader>
-              <div>싸피4기취업못함엄마미안해</div>
-              <div style={{fontSize: '13px', color: 'rgb(204, 204, 204)'}}>3초전</div>
-            </QuestionHeader>
-            <QuestionContent>
-              건전지는 어는정도 사용했나요.)??<br />
-              두개다 사용한건가요??
-            </QuestionContent>
-            <QuestionFooter>
-              <QuestionButtonArea>
-                <InsertCommentOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/> 댓글달기
-              </QuestionButtonArea>
-              <div style={{ borderRight: "1px solid rgb(238, 238, 238)", width: "1px", marginRight: "10px"}}/>
-              <QuestionButtonArea>
-                <RoomServiceOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/>신고하기
-              </QuestionButtonArea>
-            </QuestionFooter>
-          </QuestionItem>
-        </QuestionArea>
+        {qnaList.map((qna, idx)=>(
+          <QuestionArea key={idx}>
+            <Avatar>
+              <img 
+                src={qna.u_image}
+                alt="" 
+                width="48" 
+                height="48"
+                style={{borderRadius: "50%"}}
+              />
+            </Avatar>
+            <QuestionItem>
+              <QuestionHeader>
+                <div>{qna.u_name}</div>
+                <div style={{fontSize: '13px', color: 'rgb(204, 204, 204)'}}>{qna.iqDate}</div>
+              </QuestionHeader>
+              <QuestionContent>
+                {qna.iqContent}
+              </QuestionContent>
+              <QuestionFooter>
+                <QuestionButtonArea onClick={() => recommentQna(qna.u_name)}>
+                  <InsertCommentOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/> 댓글달기
+                </QuestionButtonArea>
+                <QuestionButtonArea onClick={() => deleteQna(qna.iqNo)}>
+                  <CloseIcon style={{fontSize: "20px", marginRight: "3px"}}/>{qna.iqUserNo === userNo && '삭제하기'}
+                </QuestionButtonArea>
+              </QuestionFooter>
+            </QuestionItem>
+          </QuestionArea>
+        ))}
       </QuestionContainer>
     </Container>
   )

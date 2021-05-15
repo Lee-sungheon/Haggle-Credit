@@ -5,7 +5,6 @@ import { ROOMINFO, CHAT } from 'styled-components';
 interface Props {
   feeds: CHAT[];
   roomInfo: ROOMINFO;
-  crNo: string;
   userNo: string;
   userOrder: string;
 }
@@ -139,7 +138,7 @@ const YourChat = styled.div`
   align-items: center;
 `;
 
-const Chat = ({feeds, roomInfo, crNo, userNo, userOrder}: Props) => {
+const Chat = ({feeds, roomInfo, userNo, userOrder}: Props) => {
   const DivRef = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     if (null !== DivRef.current){
@@ -152,7 +151,7 @@ const Chat = ({feeds, roomInfo, crNo, userNo, userOrder}: Props) => {
       <ChatArea>
         {feeds.length > 0 && feeds.map((feed, idx)=>(
           <div key={idx}>
-            {idx+1 < feeds.length && feeds[idx+1].icDate.slice(0,10) !== feed.icDate.slice(0,10) ?
+            {idx >= 1 && feeds[idx-1].icDate.slice(0,10) !== feed.icDate.slice(0,10) ?
               <StyledDate>{feed.icDate.slice(0,10)}</StyledDate>
             :
               <></>

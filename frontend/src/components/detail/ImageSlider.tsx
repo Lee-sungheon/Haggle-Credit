@@ -1,16 +1,31 @@
-import React from 'react'; 
+import { useEffect, useState } from 'react'; 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
+import { callApiImageList } from '../../api/ProductApi';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss'; 
 import 'swiper/components/pagination/pagination.scss';
 import './ImageSlider.css';
 
 interface Props {
-  images: string[];
+  itemNo: number;
 }
 
-const ImageSlider = ({images}: Props) => { 
+interface IMAGES {
+  ipItemNo: number;
+  ipNo: number;
+  ipValue: string;
+}
+
+const ImageSlider = ({itemNo}: Props) => { 
+  const [imageList, setImageList] = useState<IMAGES[]>([]);
+  useEffect(()=>{
+    const fetchData = async() => {
+      const result = await callApiImageList(itemNo);
+      setImageList(result);
+    };
+    fetchData();
+  }, [itemNo])
   SwiperCore.use([Navigation, Pagination, Autoplay]);
   return ( 
     <Swiper 
@@ -22,7 +37,7 @@ const ImageSlider = ({images}: Props) => {
       navigation 
       pagination={{ clickable: true }}
       > 
-      {images.map((item, idx: number) => (
+      {imageList.map((item, idx: number) => (
         <SwiperSlide key={idx}>
           <div style={{
             width: '100%',
@@ -33,7 +48,7 @@ const ImageSlider = ({images}: Props) => {
           }}>
             
           </div>
-          <img src={item} alt="" style={{
+          <img src={item.ipValue} alt="" style={{
             objectFit: 'cover',
             position: 'absolute',
             width: '100%',
@@ -49,9 +64,3 @@ const ImageSlider = ({images}: Props) => {
 };
 
 export default ImageSlider;
-
-const ITEMS: string[] = [
-  'http://www.tallykumc.org/xe/files/attach/images/185/869/019/6b03a88b5f273a505efec55236eae5b8.jpg',
-  'https://xenosium.com/wp-content/uploads/1/4212118951.jpg',
-  'https://dnvefa72aowie.cloudfront.net/origin/article/202006/d109dc8a07c507dd2de711125af989aaa568cc3eedec778d9537dc98da9c318c.webp?q=95&s=1440x1440&t=inside',
-]

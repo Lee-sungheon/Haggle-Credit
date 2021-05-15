@@ -8,7 +8,7 @@ export const types = {
 };
 
 export const homeActions = {
-  requestSellList: (pageNum: string) => ({ type: types.REQUEST_SELLLIST, pageNum }),
+  requestSellList: (pageNum: number) => ({ type: types.REQUEST_SELLLIST, pageNum }),
   setSellList: (data: ITEM[]) => ({ type: types.SET_SELLLIST, data }),
   setLoading: (isLoading: boolean) => ({
     type: types.SET_LOADING,
