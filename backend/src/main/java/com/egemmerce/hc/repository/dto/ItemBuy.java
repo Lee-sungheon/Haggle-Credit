@@ -38,7 +38,8 @@ public class ItemBuy {
 	private LocalDateTime ibStartDate;
 	private Date ibEndDate;
 	private int ibCoolPrice;
-	private int ibAuctionPrice;
+	private int ibAuctionInitPrice;
+	private int ibAuctionIngPrice;
 	private LocalDateTime ibRegDate;
 	@ColumnDefault("0")
 	private int ibOriginPrice;
@@ -125,14 +126,6 @@ public class ItemBuy {
 		this.ibCoolPrice = ibCoolPrice;
 	}
 
-	public int getIbAuctionPrice() {
-		return ibAuctionPrice;
-	}
-
-	public void setIbAuctionPrice(int irAuctionPrice) {
-		this.ibAuctionPrice = irAuctionPrice;
-	}
-
 	public LocalDateTime getIbRegDate() {
 		return ibRegDate;
 	}
@@ -187,6 +180,22 @@ public class ItemBuy {
 
 	public void setIbStartDate(LocalDateTime ibStartDate) {
 		this.ibStartDate = ibStartDate;
+	}
+
+	public int getIbAuctionInitPrice() {
+		return ibAuctionInitPrice;
+	}
+
+	public void setIbAuctionInitPrice(int ibAuctionInitPrice) {
+		this.ibAuctionInitPrice = ibAuctionInitPrice;
+	}
+
+	public int getIbAuctionIngPrice() {
+		return ibAuctionIngPrice;
+	}
+
+	public void setIbAuctionIngPrice(int ibAuctionIngPrice) {
+		this.ibAuctionIngPrice = ibAuctionIngPrice;
 	}
 
 }

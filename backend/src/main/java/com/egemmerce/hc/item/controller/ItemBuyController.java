@@ -28,80 +28,85 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/itemBuy")
 public class ItemBuyController {
-	
+
 	@Autowired
 	private ItemBuyService itemBuyService;
 	@Autowired
 	private ItemService itemService;
 	@Autowired
 	private ReverseAuctionParticipantService reverseAuctionParticipantService;
-	
+
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "ib_auction_price,ib_category_main,ib_cool_price,ib_deal_address,ib_name,ib_start_date,ib_user_no,ib_end_date")
 	@PostMapping("/regist")
 	public ResponseEntity<?> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
-		Item item=itemService.insert(Item.builder().iType("Buy").build());
+		Item item = itemService.insert(Item.builder().iType("Buy").build());
 		System.out.println(item.getiNo());
 		itemBuy.setIbItemNo(item.getiNo());
-		ItemBuy check=itemBuyService.insertItemBuy(itemBuy);
-		if(check != null)
+		ItemBuy check = itemBuyService.insertItemBuy(itemBuy);
+		if (check != null)
 			return new ResponseEntity<ItemBuy>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
-	
+
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
 	public ResponseEntity<Page<ItemBuy>> selectItemAll(Pageable pageable) throws Exception {
 		return new ResponseEntity<Page<ItemBuy>>(itemBuyService.selectItemBuyAll(pageable), HttpStatus.OK);
 	}
-	
-	
+
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
-	public ResponseEntity<Page<ItemBuy>> selectItemByiName(String ibName,Pageable pageable) throws Exception {
-		return new ResponseEntity<Page<ItemBuy>>(itemBuyService.selectItemBuyByibName(ibName,pageable), HttpStatus.OK);
+	public ResponseEntity<Page<ItemBuy>> selectItemByiName(String ibName, Pageable pageable) throws Exception {
+		return new ResponseEntity<Page<ItemBuy>>(itemBuyService.selectItemBuyByibName(ibName, pageable), HttpStatus.OK);
 	}
-	
-	
-	
-	/* U :: 상품 업데이트(거래완료) */
+
+	/* U :: 상품 업데이트(쿨거래) */
+	@ApiOperation(value = "거래완료 변경(쿨거래)")
 	@PutMapping("/updateDealCompleted")
-	public ResponseEntity<String> updateItem(@RequestBody ItemBuy itemBuy) throws Exception {
-		if(itemService.updateItemDealCompleted(itemBuy.getIbItemNo()) != null)
+	public ResponseEntity<String> updateItem(int ibItemNo, int uNo) throws Exception {
+		if (itemService.updateItemDealCompleted(ibItemNo) != null) {
+			itemBuyService.updateItemByCool(ibItemNo, uNo);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
+
+		}
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
 	}
+
 	/* U :: 상품 업데이트 */
 	@PutMapping("/update")
 	public ResponseEntity<String> updateItemSell(@RequestBody ItemBuy itemBuy) throws Exception {
-		if(itemBuyService.updateItemBuy(itemBuy) != null)
+		if (itemBuyService.updateItemBuy(itemBuy) != null)
 			return new ResponseEntity<String>("Success", HttpStatus.OK);
 		return new ResponseEntity<String>("Fail", HttpStatus.NO_CONTENT);
 	}
-	
+
 	/* D :: 상품 삭제 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteItem(int ibItemNo) throws Exception {
-		if(itemBuyService.deleteItemBuy(ibItemNo))
+		if (itemBuyService.deleteItemBuy(ibItemNo))
 			return new ResponseEntity<String>("상품 삭제 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("상품 삭제 실패", HttpStatus.NO_CONTENT);
 	}
-	
+
 	/* 경매 입찰 */
 	@PutMapping("/auction")
-	public ResponseEntity<String> updateReverseAuction(int ibUserNo, int ibItemNo, int ibAuctionPrice) throws Exception {
+	public ResponseEntity<String> updateReverseAuction(int ibUserNo, int ibItemNo, int ibAuctionPrice)
+			throws Exception {
 		ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(ibItemNo);
-		if (itemBuy.getIbAuctionPrice() < ibAuctionPrice) {
+		if (itemBuy.getIbAuctionIngPrice() < ibAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 큽니다.", HttpStatus.OK);
 		}
-		if (itemBuyService.updateReverseAuctionPrice(ibItemNo,ibAuctionPrice) != null) {
-			ReverseAuctionParticipant reverseAuctionParticipant = ReverseAuctionParticipant.builder().rapItemNo(ibItemNo).rapBid(ibAuctionPrice).rapUserNo(ibUserNo).build();
+		if (itemBuyService.updateReverseAuctionPrice(ibItemNo, ibAuctionPrice) != null) {
+			ReverseAuctionParticipant reverseAuctionParticipant = ReverseAuctionParticipant.builder()
+					.rapItemNo(ibItemNo).rapBid(ibAuctionPrice).rapUserNo(ibUserNo).build();
 			reverseAuctionParticipant.generaterapDate();
 			reverseAuctionParticipantService.insert(reverseAuctionParticipant);
 			return new ResponseEntity<String>("역경매가 업데이트 성공.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("역경매가 업데이트 실패.", HttpStatus.OK);
 	}
+
 	/* R :: 내가 올린 상품 */
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
