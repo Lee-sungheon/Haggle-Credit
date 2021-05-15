@@ -24,6 +24,7 @@ import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
+import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;

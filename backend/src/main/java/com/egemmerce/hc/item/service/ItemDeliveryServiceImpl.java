@@ -57,9 +57,7 @@ public class ItemDeliveryServiceImpl implements ItemDeliveryService {
 		ItemDelivery itemDelivery=itemDeliveryRepository.findByidItemNo(idItemNo);
 		itemDelivery.setIdReceive("true");
 		
-		//itemSell 정보
-		ItemSell itemSell=itemSellRepository.findByisItemNo(idItemNo);
-		userService.updateUserCreditbyFail(itemSell.getIsUserNo(), itemSell.getIsDealPrice(), idItemNo);
+		userService.updateUserCreditbyFail(itemDelivery.getIdSendUserNo(), itemDelivery.getIdPrice(), idItemNo);
 		return itemDeliveryRepository.save(itemDelivery);
 	}
 

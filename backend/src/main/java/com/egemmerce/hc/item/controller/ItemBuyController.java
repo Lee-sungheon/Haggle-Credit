@@ -20,8 +20,9 @@ import com.egemmerce.hc.item.service.ItemBuyService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
-import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
+import com.egemmerce.hc.repository.dto.User;
+import com.egemmerce.hc.user.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -34,6 +35,8 @@ public class ItemBuyController {
 	@Autowired
 	private ItemService itemService;
 	@Autowired
+	private UserService userService;
+	@Autowired
 	private ReverseAuctionParticipantService reverseAuctionParticipantService;
 
 	/* C :: 상품 등록 */
@@ -44,8 +47,11 @@ public class ItemBuyController {
 		System.out.println(item.getiNo());
 		itemBuy.setIbItemNo(item.getiNo());
 		ItemBuy check = itemBuyService.insertItemBuy(itemBuy);
-		if (check != null)
+		User user = userService.selectUserByuNo(check.getIbUserNo());
+		userService.updateUserCreditbyRegistBuy(user, check.getIbAuctionInitPrice(), check.getIbItemNo());
+		if (check != null) {
 			return new ResponseEntity<ItemBuy>(check, HttpStatus.OK);
+		}
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
 
@@ -67,6 +73,8 @@ public class ItemBuyController {
 	public ResponseEntity<String> updateItem(int ibItemNo, int uNo) throws Exception {
 		if (itemService.updateItemDealCompleted(ibItemNo) != null) {
 			itemBuyService.updateItemByCool(ibItemNo, uNo);
+			ItemBuy itemBuy=itemBuyService.selectItemBuybyibItemNo(ibItemNo);
+			userService.updateUserCreditbyBuyCool(itemBuy.getIbUserNo(), itemBuy);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 
 		}
