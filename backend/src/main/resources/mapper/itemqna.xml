@@ -12,16 +12,22 @@ values
 </insert>
 
 <!-- R :: 문의 조회 -->
-<select id="SelectQna" parameterType="int" resultType="ItemQna">
+<select id="SelectQna" parameterType="int" resultType="ItemQnaResult">
+select A.iq_no, A.iq_item_no, A.iq_user_no, A.iq_content, A.iq_date, B.u_name, B.u_image
+from item_qna A inner join (select u_no, u_name, u_image from user) B on A.iq_user_no = B.u_no
+where A.iq_item_no = #{iqItemNo};
+</select>
+
+<select id="forSelectQna" parameterType="int" resultType="User">
 select *
-  from item_qna
- where iq_item_no = #{iqItemNo}
+from user
+where u_no = #{iqUserNo}
 </select>
 
 <!-- D :: 문의 삭제 -->
 <delete id="DeleteQna" parameterType="int">
 delete
   from item_qna
- where iq_user_no = #{iqUserNo}
+ where iq_no = #{iqNo}
 </delete>
 </mapper>

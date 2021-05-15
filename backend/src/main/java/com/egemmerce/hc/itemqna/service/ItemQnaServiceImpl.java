@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemQna;
+import com.egemmerce.hc.repository.dto.ItemQnaResult;
+import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.mapper.ItemQnaMapper;
 
 @Service
@@ -21,13 +23,25 @@ public class ItemQnaServiceImpl implements ItemQnaService {
 	
 	/* R :: 문의(댓글) 조회 */
 	@Override
-	public List<ItemQna> SelectQna(int iqItemNo) throws Exception {
-		return qnaMapper.SelectQna(iqItemNo);
+	public List<ItemQnaResult> SelectQna(int iqItemNo) throws Exception {
+		int sizes = qnaMapper.SelectQna(iqItemNo).size();
+		List<ItemQnaResult> result = null;
+		result = qnaMapper.SelectQna(iqItemNo);
+		for(int i = 0; i < sizes; i++) {
+			int user = qnaMapper.SelectQna(iqItemNo).get(i).getIqUserNo();
+			User forUser = qnaMapper.forSelectQna(user);
+			System.out.println("1:" + forUser.getuImage());
+			System.out.println("2:" + forUser.getuName());
+			
+			result.get(i).setU_image(forUser.getuImage());
+			result.get(i).setU_name(forUser.getuName());
+		}
+		return result;
 	}
 	
 	/* D :: 문의(댓글) 삭제 */
 	@Override
-	public int DeleteQna(int iqUserNo) throws Exception {
-		return qnaMapper.DeleteQna(iqUserNo);
+	public int DeleteQna(int iqNo) throws Exception {
+		return qnaMapper.DeleteQna(iqNo);
 	}
 }
