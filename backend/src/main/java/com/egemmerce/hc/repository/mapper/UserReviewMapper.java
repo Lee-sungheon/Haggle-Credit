@@ -1,6 +1,7 @@
 package com.egemmerce.hc.repository.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,8 +14,8 @@ public interface UserReviewMapper {
 	public int insertReview(UserReview userReview) throws Exception;
 	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
 	public List<UserReview> selectMyWrittenReviews(int uNo) throws Exception;
-	/* R :: (나의프로필에서) 나에게 달린 리뷰 보기 */
-	public List<UserReview> selectMyReviews(int uNo) throws Exception;
+	/* R :: 내 상점 리뷰 보기 */
+	public List<Map<String, Object>> selectMyReviews(int uNo) throws Exception;
 	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */
 	public List<UserReview> selectOtherReviews(int uNo) throws Exception;
 }

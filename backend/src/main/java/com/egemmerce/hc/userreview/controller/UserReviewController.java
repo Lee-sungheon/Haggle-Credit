@@ -1,6 +1,7 @@
 package com.egemmerce.hc.userreview.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,45 +37,44 @@ public class UserReviewController {
 
 	@Autowired
 	private UserReviewService userReviewService;
-	
+
 	/* C :: 리뷰 등록 */
 	@PostMapping("/add")
-	public ResponseEntity<String> InsertUserReview(@RequestBody UserReview userReview, HttpServletRequest request) throws Exception {
+	public ResponseEntity<String> InsertUserReview(@RequestBody UserReview userReview, HttpServletRequest request)
+			throws Exception {
 		userReview.generateurWriteDate();
 		userReviewService.InsertUserReview(userReview);
 		return new ResponseEntity<String>(userReview.getUrWriteUserNo() + "리뷰 등록 성공", HttpStatus.OK);
 	}
-	
-	/* R :: 리뷰 조회 */
-	@GetMapping("/all")
-	public ResponseEntity<List<UserReview>> selectByurUserNo(int urUserNo) throws Exception {
-		return new ResponseEntity<List<UserReview>>(userReviewService.selectUserReviewList(urUserNo), HttpStatus.OK);
+
+	/* R :: 내 상점 리뷰 보기 */
+	@GetMapping("/mystore")
+	public ResponseEntity<List<Map<String, Object>>> SelectMyReviews(int uNo) throws Exception {
+		return new ResponseEntity<List<Map<String, Object>>>(userReviewService.selectMyReviews(uNo), HttpStatus.OK);
 	}
-	
+
 	/* U :: 리뷰 수정 */
 	@PostMapping("/update")
-	public ResponseEntity<String> UpdateUserReview(@RequestBody UserReview userReview, HttpServletRequest request) throws Exception {
+	public ResponseEntity<String> UpdateUserReview(@RequestBody UserReview userReview, HttpServletRequest request)
+			throws Exception {
 		userReviewService.UpdateUserReview(userReview);
 		return new ResponseEntity<String>(userReview.getUrContent() + "리뷰 수정 성공", HttpStatus.OK);
 	}
-	
-	/* C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) */ 
+
+	/* C :: (남의프로필에서) 리뷰 작성하기(거래확정되어야만가능) */
 	@PostMapping("writing")
 	public ResponseEntity<String> InsertReview(@RequestBody UserReview userReview) throws Exception {
-		if(userReviewService.insertReview(userReview) > 0)
+		if (userReviewService.insertReview(userReview) > 0)
 			return new ResponseEntity<String>("리뷰 추가 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("리뷰 추가 실패", HttpStatus.NO_CONTENT);
 	}
+
 	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
 	@GetMapping("myWritten")
 	public ResponseEntity<List<UserReview>> SelectMyWrittenReviews(int uNo) throws Exception {
 		return new ResponseEntity<List<UserReview>>(userReviewService.selectMyWrittenReviews(uNo), HttpStatus.OK);
 	}
-	/* R :: (나의프로필에서) 나에게 달린 리뷰 보기 */
-	@GetMapping("mine")
-	public ResponseEntity<List<UserReview>> SelectMyReviews(int uNo) throws Exception {
-		return new ResponseEntity<List<UserReview>>(userReviewService.selectMyReviews(uNo), HttpStatus.OK);
-	}
+
 	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */
 	@GetMapping("theirs")
 	public ResponseEntity<List<UserReview>> SelectYourReviews(int uNo) throws Exception {
