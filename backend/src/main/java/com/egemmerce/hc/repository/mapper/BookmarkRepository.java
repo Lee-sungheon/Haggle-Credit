@@ -12,6 +12,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 	
 	List<Bookmark> findAllBybUserNo(int uNo);
 	
-	int deleteBybNo(int bNo);
+	
 	
 }
