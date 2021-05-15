@@ -81,4 +81,10 @@ public class UserReviewController {
 	public ResponseEntity<List<UserReview>> SelectYourReviews(int uNo) throws Exception {
 		return new ResponseEntity<List<UserReview>>(userReviewService.selectOtherReviews(uNo), HttpStatus.OK);
 	}
+	
+	/* R :: 내 상점 전체 리뷰 수 */
+	@GetMapping("/count")
+	public ResponseEntity<Integer> countUserReviews(int urUserNo) throws Exception {
+		return new ResponseEntity<Integer>(userReviewService.countUserReviews(urUserNo), HttpStatus.OK);
+	}
 }

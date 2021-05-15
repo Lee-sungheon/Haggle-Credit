@@ -2,6 +2,7 @@ package com.egemmerce.hc.repository.dto;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -24,6 +25,7 @@ public class UserReview {
 
 	@Id
 	private int urNo;
+	@Column
 	private int urUserNo;
 	private int urItemNo;
 	private int urWriteUserNo;
