@@ -7,8 +7,10 @@ interface ProductNameProps {
 const ProductName = ({ onIsNameHandler }: ProductNameProps) => {
   const [inputName, setInputName] = useState('');
   const onInputTitleHandler = (e: any) => {
-    setInputName(e.target.value);
-    onIsNameHandler(e.target.value);
+    let name = e.target.value.slice(0, 40);
+
+    setInputName(name);
+    onIsNameHandler(name);
   };
   return (
     <div

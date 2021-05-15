@@ -29,18 +29,21 @@ const ProductRegistration = () => {
 
   const [productData, setProductData] = useState({
     isUserNo: 0,
-    isName: '',
+    isItemName: '',
     isCategoryMain: '',
     isCategorySub: '',
     isContent: '',
     isEndDate: '',
     isCoolPrice: 0,
-    isAuctionPrice: 0,
+    isAuctionIngPrice: 0,
+    isAuctionInitPrice: 0,
     isDealPrice: 0,
     isUsedStatus: '',
   });
   const [productPhoto, setProductPhoto] = useState([]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (userData.uNo) {
       setProductData({ ...productData, isUserNo: userData.uNo });
@@ -50,7 +53,7 @@ const ProductRegistration = () => {
   }, []);
 
   const onIsNameHandler = (name: any) => {
-    setProductData({ ...productData, isName: name });
+    setProductData({ ...productData, isItemName: name });
   };
   const onIsCategoryMain = (categoryMain: any) => {
     setProductData({ ...productData, isCategoryMain: categoryMain });
@@ -70,7 +73,11 @@ const ProductRegistration = () => {
   };
   const onIsAuctionPrice = (auctionPrice: any) => {
     let price = Math.floor(Number(auctionPrice) / 100) * 100;
-    setProductData({ ...productData, isAuctionPrice: price });
+    setProductData({
+      ...productData,
+      isAuctionIngPrice: price,
+      isAuctionInitPrice: price,
+    });
   };
 
   const onIsUsedStatus = (usedStatus: any) => {
@@ -85,11 +92,12 @@ const ProductRegistration = () => {
     const body = productData;
     if (
       productData.isUserNo &&
-      productData.isName &&
+      productData.isItemName &&
       productData.isCategoryMain &&
       productData.isEndDate &&
       productData.isCoolPrice &&
-      productData.isAuctionPrice &&
+      productData.isAuctionIngPrice &&
+      productData.isAuctionInitPrice &&
       productData.isUsedStatus
     ) {
       console.log('data다있음');
@@ -141,14 +149,12 @@ const ProductRegistration = () => {
         )
         .then((res) => {
           console.log(res);
-          alert('판매글을 등록하였습니다.')
+          alert('판매글을 등록하였습니다.');
           history.push('/home');
-
         })
         .catch((err) => {
           console.log(err);
-          alert('판매글을 등록을 실패하였습니다.')
-
+          alert('판매글을 등록을 실패하였습니다.');
         });
     }
   };
@@ -172,7 +178,7 @@ const ProductRegistration = () => {
           }}
         >
           <div style={{ fontSize: '25px', width: '150px', fontWeight: 500 }}>
-            <p>기본정보</p>
+            <p>판매글</p>
           </div>
           <div
             style={{

@@ -17,6 +17,7 @@ import ChatListPage from './page/chat/ChatListPage';
 import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
+import UserProfile from './page/userProfile/UserProfile';
 import ProductRegistration from './page/productRegistration/ProductRegistration';
 import ItemBuy from './page/itemBuy/ItemBuy';
 import { theme } from './styles/theme';
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="/category/:name" component={CategoryPage} />
           <Route path="/signup" component={Signup} />
           <Route path="/profile" component={Profile} />
+          <Route path="/userProfile/:id" component={UserProfile} />
           <Route path="/productregistraion" component={ProductRegistration} />
           <Route path="/itemBuy" component={ItemBuy} />
           <Route path="/search" component={SearchPage} />
