@@ -274,7 +274,7 @@ public class ItemSellController {
 		List<ItemPhotoSet>itemsphoto=new ArrayList<>();
 		for (ItemSell is : items) {
 			
-			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo())) );
+			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), items.size()) );
 		}
 		if (items != null) {
 			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
@@ -286,8 +286,9 @@ public class ItemSellController {
 	public ResponseEntity<?> selectItemListIndexing(int isUserNo, @RequestParam(defaultValue="0")int moreCnt) throws Exception {
 		List<ItemSell> items = itemSellService.selectItemListIndexing(isUserNo, 0, (moreCnt+1)*100);
 		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
+		int itemValue = itemSellService.selectCountItemSell(isUserNo);
 		for(ItemSell is : items) {
-			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo())) );
+			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), itemValue) );
 		}
 		if(items != null) {
 			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
