@@ -1,6 +1,6 @@
-import "styled-components";
+import 'styled-components';
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
     color: {
       main: string;
@@ -54,5 +54,25 @@ declare module "styled-components" {
     icUserNo: number;
     icChatContent: string;
     icDate: string;
+  }
+  export interface USERDATA {
+    uImage?: string;
+    uNo?: number;
+    uEmail?: string;
+    uPassword?: string;
+    uName?: string;
+    uPhone?: string;
+    uBirth?: string;
+    uJoinDate?: string;
+    uAuthorit?: string;
+    uCredit?: number;
+    uPenalty?: string;
+    uSellerAuth?: string;
+    uJoinConfirm?: string;
+    uBankName?: string;
+    uBankNo?: string;
+    uAuthKey?: string;
+    uAuthKeyGeneratedAt?: string;
+    uContent?: string;
   }
 }

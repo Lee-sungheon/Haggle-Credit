@@ -28,35 +28,37 @@ const ReviewTab2 = styled.div`
   }
 `;
 const ProductTab = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const userData = useSelector((state: RootState) => state.user.joinUserData);
   const [reviewTab, setReviewTab] = useState(1);
 
   const [sellItemList, setSellItemList] = useState([]);
   const [buyItemList, setBuyItemList] = useState([]);
   useEffect(() => {
-    axios
-      .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/itemSell/myitem?uNo=${userData.uNo}`
-      )
-      .then((res) => {
-        setSellItemList(res.data);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    axios
-      .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/myitem?uNo=${userData.uNo}`
-      )
-      .then((res) => {
-        setBuyItemList(res.data);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (userData.uNo) {
+      axios
+        .get(
+          `https://k4d107.p.ssafy.io/haggle-credit/itemSell/myitem?uNo=${userData.uNo}`
+        )
+        .then((res) => {
+          setSellItemList(res.data);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .get(
+          `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/myitem?uNo=${userData.uNo}`
+        )
+        .then((res) => {
+          setBuyItemList(res.data);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [userData]);
   const onReviewTab1 = () => {
     setReviewTab(1);
   };

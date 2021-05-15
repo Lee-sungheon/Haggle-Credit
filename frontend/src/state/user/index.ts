@@ -8,6 +8,7 @@ export const types = {
   CHANGE_CREDIT: 'user/CHANGE_CREDIT',
   CHANGE_PROFILE_IMAGE: 'user/CHANGE_PROFILE_IMAGE',
   CHANGE_INTRODUCE: 'user/CHANGE_INTRODUCE',
+  JOIN_USER_DATA: 'user/JOIN_USER_DATA',
 };
 
 export const userActions = {
@@ -23,6 +24,10 @@ export const userActions = {
     type: types.CHANGE_INTRODUCE,
     userData,
   }),
+  joinUserData: (joinUserData: {}) => ({
+    type: types.JOIN_USER_DATA,
+    joinUserData,
+  }),
 };
 
 type userLogin = ReturnType<typeof userActions.userLogin>;
@@ -31,10 +36,12 @@ type updateBank = ReturnType<typeof userActions.updateBank>;
 type changeCredit = ReturnType<typeof userActions.changeCredit>;
 type changeProfileImage = ReturnType<typeof userActions.changeProfileImage>;
 type changeIntroduce = ReturnType<typeof userActions.changeIntroduce>;
+type joinUserData = ReturnType<typeof userActions.joinUserData>;
 
 export interface userState {
   userData: UserData;
   isLogin: boolean;
+  joinUserData: UserData;
 }
 
 interface UserData {
@@ -60,6 +67,7 @@ interface UserData {
 
 const INITIAL_STATE: userState = {
   userData: {},
+  joinUserData: {},
   isLogin: false,
 };
 
@@ -69,6 +77,12 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
       ...state,
       userData: action.userData,
       isLogin: true,
+    };
+  },
+  [types.JOIN_USER_DATA]: (state, action: joinUserData) => {
+    return {
+      ...state,
+      joinUserData: action.joinUserData,
     };
   },
   [types.USER_LOGOUT]: (state, action: userLogout) => {

@@ -35,7 +35,7 @@ interface ReviewList {
   urWriteUserNo: number;
 }
 const TransactionReviewList = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const userData = useSelector((state: RootState) => state.user.joinUserData);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -81,10 +81,10 @@ const TransactionReviewList = () => {
         <>
           <Body>
             <ReviewTab1 style={{ marginRight: '10px' }} onClick={onReviewTab1}>
-              내가 작성한 리뷰
+              작성한 리뷰
             </ReviewTab1>
             <ReviewTab2 style={{ color: '#bdbdbd' }} onClick={onReviewTab2}>
-              나를 평가한 리뷰
+              평가받은 리뷰
             </ReviewTab2>
           </Body>
           {myWrittenList.length === 0 ? (
@@ -159,9 +159,9 @@ const TransactionReviewList = () => {
               style={{ marginRight: '10px', color: '#bdbdbd' }}
               onClick={onReviewTab1}
             >
-              내가 작성한 리뷰
+              작성한 리뷰
             </ReviewTab1>
-            <ReviewTab2 onClick={onReviewTab2}>나를 평가한 리뷰</ReviewTab2>
+            <ReviewTab2 onClick={onReviewTab2}>평가받은 리뷰</ReviewTab2>
           </div>
           <div
             style={{

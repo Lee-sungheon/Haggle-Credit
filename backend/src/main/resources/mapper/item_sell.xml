@@ -107,7 +107,7 @@ select *
 <select id="selectItemOne" parameterType="int" resultType="itemSell">
 select *
   from item_sell
- where is_no = #{isNo}
+ where is_item_no = #{isItemNo}
 </select>
 
 <!-- 인덱싱 처리해서 100개단위로만 내상품 보여주기 -->
