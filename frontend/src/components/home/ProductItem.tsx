@@ -87,7 +87,7 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
           <CardMedia
             component="img"
             className={classes.cardMedia}
-            image={item.ipValue}
+            image={"http:"+item.ipValue}
           />
         </ImgBox>
         <CardContent style={{ padding : 0 }}>
