@@ -1,9 +1,7 @@
 package com.egemmerce.hc.item.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,14 +24,12 @@ import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
-import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
-import com.egemmerce.hc.repository.mapper.ItemPhotoRepository;
 import com.egemmerce.hc.user.address.service.UserAddressService;
 import com.egemmerce.hc.user.service.UserCreditService;
 import com.egemmerce.hc.user.service.UserService;
