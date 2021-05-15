@@ -69,4 +69,10 @@ public class UserReviewServiceImpl implements UserReviewService {
 		return userReviewMapper.selectOtherReviews(uNo);
 	}
 
+	/* R :: 내 상점 전체 리뷰 수 */
+	@Override
+	public Integer countUserReviews(int urUserNo) {
+		return userReviewMapper.countUserReviews(urUserNo);
+	}
+
 }
