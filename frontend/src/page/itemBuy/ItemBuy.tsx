@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import ProductImage from '../../components/itemBuy/ProductImage';
+
 import ProductName from '../../components/itemBuy/ProductName';
 import ProductCategory from '../../components/itemBuy/ProductCategory';
-// import DealRegion from '../../components/itemBuy/DealRegion';
+import DealRegion from '../../components/itemBuy/DealRegion';
 // import ProductState from '../../components/itemBuy/ProductState';
 import ProductPrice from '../../components/itemBuy/ProductPrice';
 import ProductDescription from '../../components/productRegistration/ProductDescription';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import axios from 'axios';
+import { ImageListType } from 'react-images-uploading';
+import { useHistory } from 'react-router-dom';
 
 const RegistButton = styled.button`
   height: 50px;
@@ -22,56 +26,63 @@ const RegistButton = styled.button`
 `;
 const ItemBuy = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
+  const history = useHistory();
 
   const [productData, setProductData] = useState({
-    isUserNo: 0,
-    isName: '',
-    isCategoryMain: '',
-    isCategorySub: '',
-    isContent: '',
-    isEndDate: '',
-    isCoolPrice: 0,
-    isAuctionPrice: 0,
-    isDealPrice: 0,
-    isUsedStatus: '',
+    ibUserNo: 0,
+    ibName: '',
+    ibCategoryMain: '',
+    ibCategorySub: '',
+    ibContent: '',
+    ibEndDate: '',
+    ibCoolPrice: 0,
+    ibAuctionIngPrice: 0,
+    ibAuctionInitPrice: 0,
+    ibDealAddress: '',
   });
   const [productPhoto, setProductPhoto] = useState([]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (userData.uNo) {
-      setProductData({ ...productData, isUserNo: userData.uNo });
+      setProductData({ ...productData, ibUserNo: userData.uNo });
     } else {
       window.location.href = '/home';
     }
   }, []);
 
   const onIsNameHandler = (name: any) => {
-    setProductData({ ...productData, isName: name });
+    setProductData({ ...productData, ibName: name });
+  };
+  const onIsRegionHandler = (address: any) => {
+    setProductData({ ...productData, ibDealAddress: address });
   };
   const onIsCategoryMain = (categoryMain: any) => {
-    setProductData({ ...productData, isCategoryMain: categoryMain });
+    setProductData({ ...productData, ibCategoryMain: categoryMain });
   };
   const onIsCategorySub = (categorySub: any) => {
-    setProductData({ ...productData, isCategorySub: categorySub });
+    setProductData({ ...productData, ibCategorySub: categorySub });
   };
   const onIsContent = (content: any) => {
-    setProductData({ ...productData, isContent: content });
+    setProductData({ ...productData, ibContent: content });
   };
   const onIsEndDate = (endDate: any) => {
-    setProductData({ ...productData, isEndDate: endDate });
+    setProductData({ ...productData, ibEndDate: endDate });
   };
   const onIsCoolPrice = (coolPrice: any) => {
     let price = Math.floor(Number(coolPrice) / 100) * 100;
-    setProductData({ ...productData, isCoolPrice: price });
+    setProductData({ ...productData, ibCoolPrice: price });
   };
   const onIsAuctionPrice = (auctionPrice: any) => {
     let price = Math.floor(Number(auctionPrice) / 100) * 100;
-    setProductData({ ...productData, isAuctionPrice: price });
+    setProductData({
+      ...productData,
+      ibAuctionIngPrice: price,
+      ibAuctionInitPrice: price,
+    });
   };
 
-  const onIsUsedStatus = (usedStatus: any) => {
-    setProductData({ ...productData, isUsedStatus: usedStatus });
-  };
   const onisProductPhoto = (photoList: any) => {
     setProductPhoto(photoList);
   };
@@ -80,20 +91,21 @@ const ItemBuy = () => {
     console.log('regist');
     const body = productData;
     if (
-      productData.isUserNo &&
-      productData.isName &&
-      productData.isCategoryMain &&
-      productData.isEndDate &&
-      productData.isCoolPrice &&
-      productData.isAuctionPrice &&
-      productData.isUsedStatus
+      productData.ibUserNo &&
+      productData.ibName &&
+      productData.ibCategoryMain &&
+      productData.ibEndDate &&
+      productData.ibCoolPrice &&
+      productData.ibAuctionIngPrice &&
+      productData.ibAuctionInitPrice &&
+      productData.ibDealAddress
     ) {
       console.log('data다있음');
       if (productPhoto.length > 0) {
         console.log(body);
         axios
           .post(
-            'https://k4d107.p.ssafy.io/haggle-credit/itemSell/regist',
+            'https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist',
             body,
             {
               headers: {
@@ -103,28 +115,8 @@ const ItemBuy = () => {
           )
           .then((res) => {
             console.log(res);
-            // for (let i = 0; i < productPhoto.length; i++) {
-            //   const body2 = {
-            //     ipNo: '',
-            //     ipValue: productPhoto[i],
-            //   };
-            //   axios
-            //     .post(
-            //       'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
-            //       body2,
-            //       {
-            //         headers: {
-            //           'Content-Type': 'application/json',
-            //         },
-            //       }
-            //     )
-            //     .then((res) => {
-            //       console.log(res);
-            //     })
-            //     .catch((err) => {
-            //       console.log(err);
-            //     });
-            // }
+            uploadImage(productPhoto, res);
+
           })
           .catch((err) => {
             console.log(err);
@@ -134,6 +126,36 @@ const ItemBuy = () => {
       }
     } else {
       return;
+    }
+  };
+  const uploadImage = (imageList: ImageListType, res: any) => {
+    const ibItemNo = res.data.ibItemNo;
+    console.log(ibItemNo);
+    for (let i = 0; i < imageList.length; i++) {
+      console.log(imageList[i]);
+      const body2 = {
+        ipItemNo: ibItemNo,
+        ipValue: imageList[i].dataURL,
+      };
+      axios
+        .post(
+          'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
+          body2,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          alert('구매글을 등록하였습니다.');
+          history.push('/home');
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('구매글 등록을 실패하였습니다.');
+        });
     }
   };
   return (
@@ -156,7 +178,7 @@ const ItemBuy = () => {
           }}
         >
           <div style={{ fontSize: '25px', width: '150px', fontWeight: 500 }}>
-            <p>기본정보</p>
+            <p>구매글</p>
           </div>
           <div
             style={{
@@ -170,12 +192,14 @@ const ItemBuy = () => {
             </p>
           </div>
         </div>
+        <ProductImage onisProductPhoto={onisProductPhoto} />
+
         <ProductName onIsNameHandler={onIsNameHandler} />
         <ProductCategory
           onIsCategoryMain={onIsCategoryMain}
           onIsCategorySub={onIsCategorySub}
         />
-        {/* <DealRegion /> */}
+        <DealRegion onIsRegionHandler={onIsRegionHandler} />
         <ProductPrice
           onIsCoolPrice={onIsCoolPrice}
           onIsAuctionPrice={onIsAuctionPrice}

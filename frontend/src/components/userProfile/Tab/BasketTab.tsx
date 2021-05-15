@@ -12,7 +12,7 @@ interface BookMarkList {
   bUserNo: number;
 }
 const BasketTab = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const userData = useSelector((state: RootState) => state.user.joinUserData);
   const [bookMarkList, setBookMarkList] = useState([] as BookMarkList[]);
   useEffect(() => {
     window.scrollTo(0, 0);
