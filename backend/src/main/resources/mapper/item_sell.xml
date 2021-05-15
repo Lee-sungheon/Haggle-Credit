@@ -118,5 +118,10 @@ select *
  order by is_no desc limit #{moreCnt}, #{moreCnt2};
 </select>
 
+<select id="selectCountItemSell" parameterType="int" resultType="int">
+select count(*)
+  from item_sell
+ where is_user_no = #{isUserNo}
+</select>
 
 </mapper>

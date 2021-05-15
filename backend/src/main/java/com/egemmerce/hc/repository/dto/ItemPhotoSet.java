@@ -14,5 +14,5 @@ import lombok.Setter;
 public class ItemPhotoSet {
 	private ItemSell itemSell;
 	private List<ItemPhoto> itemPhotoes;
-	
+	private int itemCnt;
 }
