@@ -89,13 +89,15 @@ const Header = () => {
   const navRef = useRef<HTMLDivElement>(null);
 
   function myFunction() {
-    if (null !== navRef.current) {
-      if (window.pageYOffset > 0) {
-        navRef.current.style.backgroundColor = 'white';
-        navRef.current.style.boxShadow = '0 4px 8px 0 rgb(0 0 0 / 4%)';
-      } else {
-        navRef.current.style.backgroundColor = 'inherit';
-        navRef.current.style.boxShadow = 'none';
+    if (isIndex) {
+      if (null !== navRef.current) {
+        if (window.pageYOffset > 0) {
+          navRef.current.style.backgroundColor = 'white';
+          navRef.current.style.boxShadow = '0 4px 8px 0 rgb(0 0 0 / 4%)';
+        } else {
+          navRef.current.style.backgroundColor = 'inherit';
+          navRef.current.style.boxShadow = 'none';
+        }
       }
     }
   }

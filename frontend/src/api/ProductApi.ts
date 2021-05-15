@@ -31,8 +31,13 @@ export function callApiCategoryProductList(ud:string, main:string, sub:string, p
     });
 }
 
-export function callApiCategoryCount(main: string) {
-  let url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/cgtrCnt?ctgrMain=${main}`;
+export function callApiCategoryCount(main:string, sub:string) {
+  let url: string = "";
+  if (sub === "") {
+    url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/categoryCount?ctgrMain=${main}`;
+  } else {
+    url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/categoryCount?ctgrMain=${main}&ctgrSub=${sub}`;
+  }
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -40,6 +45,6 @@ export function callApiCategoryCount(main: string) {
     })
     .catch((Error) => {
       console.log(Error);
-      return [];
+      return 0;
     });
 }

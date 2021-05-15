@@ -100,7 +100,7 @@ const ChatList = ({roomLists, userNo}: Props) => {
               <ItemContent>{room.crLatestMessage}</ItemContent>
             </ItemContentBox>
             <StyledDate>
-              {room.crLatestMessage !== null && room.crLatestMessageTime.slice(0, 10)}
+              {room.crLatestMessageTime !== null && String(room.crLatestMessageTime).slice(0, 10)}
             </StyledDate>
             <MoreButtonArea>
               <MoreButton>
