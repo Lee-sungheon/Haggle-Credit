@@ -28,4 +28,6 @@ public interface ItemBuyService {
 
 	ItemBuy updateReverseAuctionPrice(int ibItemNo, int ibAuctionPrice);
 
+	List<ItemBuy> selectMyItemByuNo(int uNo);
+
 }

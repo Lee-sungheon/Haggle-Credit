@@ -1,5 +1,7 @@
 package com.egemmerce.hc.repository.mapper;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +15,7 @@ public interface ItemBuyRepository extends JpaRepository<ItemBuy, Long>{
 	Page<ItemBuy> findByibNameContaining(String ibName, Pageable pageable);
 
 	ItemBuy findByibItemNo(int ibItemNo);
+
+	List<ItemBuy> findByibUserNo(int uNo);
 
 }

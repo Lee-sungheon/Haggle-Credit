@@ -1,6 +1,9 @@
 package com.egemmerce.hc.item.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,17 +19,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.auction.service.AuctionParticipantService;
+import com.egemmerce.hc.imageupload.service.ImageUploadService;
 import com.egemmerce.hc.item.service.ItemSellService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
+import com.egemmerce.hc.repository.dto.ItemPhoto;
+import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
+import com.egemmerce.hc.repository.mapper.ItemPhotoRepository;
 import com.egemmerce.hc.user.address.service.UserAddressService;
 import com.egemmerce.hc.user.service.UserCreditService;
 import com.egemmerce.hc.user.service.UserService;
@@ -49,6 +56,8 @@ public class ItemSellController {
 	private UserAddressService userAddressService;
 	@Autowired
 	private UserCreditService userCreditService;
+	@Autowired
+	private ImageUploadService imageUploadService;
 
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "is_user_no,is_auction_price, is_category_main, is_cool_price, is_name, is_orgin_price, is_start_date, is_end_date")
@@ -225,10 +234,15 @@ public class ItemSellController {
 	/* R :: 내가 올린 상품 */
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
-	public ResponseEntity<?> selectMyItem(int uNo) {
+	public ResponseEntity<?> selectMyItem(int uNo) throws Exception {
 		List<ItemSell> items = itemSellService.selectMyItemByuNo(uNo);
+		List<ItemPhotoSet>itemsphoto=new ArrayList<>();
+		for (ItemSell is : items) {
+			
+			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo())) );
+		}
 		if (items != null) {
-			return new ResponseEntity<List<ItemSell>>(items, HttpStatus.OK);
+			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}

@@ -165,7 +165,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 		}else {
 			is.setIsDealPrice(beforeAP.getApBid());
 			is.setIsDealAddress(beforeAP.getApAddress());
-			is.setIsUserNo(beforeAP.getApNo());
+			is.setIsDealUserNo(beforeAP.getApUserNo());
 			itemSellRepository.save(is);
 			ItemDelivery itemDelivery=ItemDelivery.builder().idSendUserNo(is.getIsUserNo()).idReceiveUserNo(is.getIsDealUserNo()).idItemNo(is.getIsItemNo()).build();
 			itemDeliveryRepository.save(itemDelivery);

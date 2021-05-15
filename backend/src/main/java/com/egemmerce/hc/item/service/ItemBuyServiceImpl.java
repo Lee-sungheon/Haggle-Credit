@@ -63,4 +63,9 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 		itemBuy.setIbAuctionPrice(ibAuctionPrice);
 		return itemBuyRepository.save(itemBuy);
 	}
+
+	@Override
+	public List<ItemBuy> selectMyItemByuNo(int uNo) {
+		return itemBuyRepository.findByibUserNo(uNo);
+	}
 }
