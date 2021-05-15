@@ -95,4 +95,11 @@ where is_category_main = #{ctgrMain}) a
 inner join (select is_category_sub, ifnull(count(*), 0) as cnt_sub from item_sell where is_category_main like concat(concat("%",substring(#{ctgrMain},-3)),"%") group by is_category_sub) b
 where is_category_sub like concat(concat("%", #{ctgrSub}),"%");
 </select>
+
+<!-- 아이템 이미지들 조회 -->
+<select id="selectItemImages" parameterType="int" resultType="ItemPhoto">
+select *
+  from item_photo
+ where ip_item_no = #{ipItemNo}
+</select>
 </mapper>

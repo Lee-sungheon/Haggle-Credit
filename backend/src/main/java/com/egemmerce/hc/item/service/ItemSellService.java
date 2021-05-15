@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
+import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
@@ -29,6 +30,7 @@ public interface ItemSellService {
 	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
+	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
 
