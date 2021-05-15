@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { useHistory } from "react-router";
+import { CATEGORYCNT } from "styled-components";
 
 interface CategoryListProps {
   category: string;
   categoryList: string[];
+  categoryCnt: CATEGORYCNT[];
 }
 
 const Container = styled.div`
@@ -49,7 +51,7 @@ const CountText = styled.div`
   flex-shrink: 0;
 `;
 
-const CategoryList = ({ category, categoryList }: CategoryListProps) => {
+const CategoryList = ({ category, categoryList, categoryCnt }: CategoryListProps) => {
   const history = useHistory();
   return(
     <Container>
@@ -74,7 +76,7 @@ const CategoryList = ({ category, categoryList }: CategoryListProps) => {
               });
             }}>
             {item.split('-')[0]}
-            <CountText>17만+</CountText>
+            {categoryCnt.length > 0 && categoryCnt[idx] !== undefined && <CountText>{categoryCnt[idx].cntSub}</CountText>}
           </ItemArea>
         ))}
       </CategoryListContainer>

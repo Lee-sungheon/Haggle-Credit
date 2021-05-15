@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import ProductList from '../../components/home/PruductList';
 import { RouteComponentProps } from 'react-router-dom';
@@ -84,14 +84,32 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
   const [buy, setBuy] = useState(true);
   const [filterIdx, setFilterIdx] = useState(0);
   const [search, setSearch] = useState(location.search.split('=')[1]);
+  const [itemNum, setItemNum] = useState(5);
   const dispatch = useDispatch();
+  const ConfirmWidth = useCallback(()=>{
+    const windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth > 1280) {
+      setItemNum(5);
+    } else if (windowInnerWidth > 1023) {
+      setItemNum(4);
+    } else if (windowInnerWidth > 700) {
+      setItemNum(3);
+    } else if (windowInnerWidth > 410) {
+      setItemNum(2);
+    } else {
+      setItemNum(1);
+    }
+  }, []);
   
   useEffect(()=> {
     dispatch(commonActions.setIsSearch(true));
+    ConfirmWidth();
+    window.addEventListener('resize', ConfirmWidth);
     return () => {
       dispatch(commonActions.setIsSearch(false));
+      window.removeEventListener('resize', ConfirmWidth);
     };
-  }, [dispatch])
+  }, [ConfirmWidth, dispatch])
   useEffect(()=>{
     setSearch(decodeURI(decodeURIComponent(location.search.split('&')[0].split('=')[1])));
   }, [location])
@@ -116,7 +134,7 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
             <LastItem style={filterIdx === 2 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(2)}>고가순</LastItem>
           </Filter>
         </FilterArea>
-        <ProductList buy={buy} products={[]}/>
+        <ProductList buy={buy} products={[]} itemNum={itemNum}/>
       </ProductArea>
     </Container>
   )

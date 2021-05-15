@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState, useEffect, useCallback } from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +8,7 @@ import { ITEM } from "styled-components";
 interface PruductListProps {
   buy: boolean;
   products: ITEM[];
+  itemNum: number;
 }
 
 const useStyles = makeStyles(() => ({
@@ -35,31 +35,8 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
-const ProductList = ({buy, products}: PruductListProps) => {
+const ProductList = ({buy, products, itemNum}: PruductListProps) => {
   const classes = useStyles();
-  const [itemNum, setItemNum] = useState(5);
-  const ConfirmWidth = useCallback(()=>{
-    const windowInnerWidth = window.innerWidth;
-    if (windowInnerWidth > 1280) {
-      setItemNum(5);
-    } else if (windowInnerWidth > 1023) {
-      setItemNum(4);
-    } else if (windowInnerWidth > 700) {
-      setItemNum(3);
-    } else if (windowInnerWidth > 410) {
-      setItemNum(2);
-    } else {
-      setItemNum(1);
-    }
-  }, []);
-
-  useEffect(()=>{
-    ConfirmWidth();
-    window.addEventListener('resize', ConfirmWidth);
-    return () => {
-      window.removeEventListener('resize', ConfirmWidth);
-    }
-  });
   
   return (
     <>

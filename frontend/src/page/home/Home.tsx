@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Banner from '../../components/home/Banner';
 import ProductList from '../../components/home/PruductList';
@@ -20,16 +20,38 @@ const ProductArea = styled.div`
 const Home = () => {
   const dispatch = useDispatch();
   const SellLists = useSelector((state: RootState) => state.home.sellLists);
+  const [itemNum, setItemNum] = useState(5);
+  const ConfirmWidth = useCallback(()=>{
+    const windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth > 1280) {
+      setItemNum(5);
+    } else if (windowInnerWidth > 1023) {
+      setItemNum(4);
+    } else if (windowInnerWidth > 700) {
+      setItemNum(3);
+    } else if (windowInnerWidth > 410) {
+      setItemNum(2);
+    } else {
+      setItemNum(1);
+    }
+  }, []);
+
   useEffect(()=>{
     window.scrollTo(0, 0);
+    ConfirmWidth();
+    window.addEventListener('resize', ConfirmWidth);
     dispatch(homeActions.requestSellList('1'));
-  }, [dispatch])
+    return () => {
+      window.removeEventListener('resize', ConfirmWidth);
+    }
+  }, [ConfirmWidth, dispatch])
+
   return (
     <Container>
       <Banner/>
       <ProductArea>
         <h2>최근 올라온 상품</h2>
-        <ProductList buy={true} products={SellLists}/>
+        <ProductList buy={true} products={SellLists} itemNum={itemNum}/>
       </ProductArea>
     </Container>
   );

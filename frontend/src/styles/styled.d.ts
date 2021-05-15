@@ -10,6 +10,12 @@ declare module "styled-components" {
       input_text: string;
     };
   }
+  export interface CATEGORYCNT {
+    isCategoryMain: string;
+    cntMain: number;
+    isCategorySub: string;
+    cntSub: number;
+  }
   export interface ITEM {
     ipItemNo: number;
     ipValue: string;
