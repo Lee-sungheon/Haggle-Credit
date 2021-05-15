@@ -90,6 +90,11 @@
   <a href="https://www.typescriptlang.org/">
   <img src="https://img.shields.io/badge/TypeScript-4.2-blue?style=plastic&logo=typescript">
   </a>
+   <a href="https://styled-components.com/">
+  <img src="https://img.shields.io/badge/styled--components-v.5.3.0-purple?style=plastic&logo=styled-components">
+   <a href="https://redux-saga.js.org/">
+  <img src="https://img.shields.io/badge/redux--saga-API-darkgreen?style=plastic&logo=redux-saga">
+  </a>
  </p>
  <p align="center">
   <a href="https://spring.io/">
