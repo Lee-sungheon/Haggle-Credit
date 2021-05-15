@@ -1,4 +1,8 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { callApiGetZzim } from '../../api/ProductApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
 
 const Container = styled.div`
   position: fixed;
@@ -33,10 +37,22 @@ const LikeArea = styled.div`
 `;
 
 const LikeBox = () => {
+  const [zzim, setZzim] = useState(0);
+  const isLike = useSelector((state: RootState) => state.common.isLike);
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+
+  useEffect(()=>{
+    const fetchData = async() => {
+      const data = await callApiGetZzim(userNo);
+      setZzim(() => {return data});
+    };
+    fetchData();
+  }, [isLike, userNo])
+  
   return (
     <Container>
       <Title>찜한 상품</Title>
-      <LikeArea>♥ 1</LikeArea>
+      <LikeArea>♥ {zzim}</LikeArea>
     </Container>
   );
 }

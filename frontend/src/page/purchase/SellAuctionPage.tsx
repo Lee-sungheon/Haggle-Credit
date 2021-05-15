@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import ItemDescription from '../../components/purchase/ItemDescription';
 import SellAuction from '../../components/purchase/SellAuction';
+import Destination from '../../components/purchase/Destination';
 import { RouteComponentProps } from 'react-router-dom';
 
 interface MatchParams {
@@ -16,6 +17,11 @@ interface LocationParams {
 
 interface HistoryParams {
 }
+
+interface Dest {
+  [key: string]: string
+}
+
 
 const Container = styled.div`
   min-width: 320px;
@@ -58,7 +64,10 @@ const MainArea = styled.div`
 `;
 
 const SellAuctionPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
+  let isModal: boolean = false;
   const dispatch = useDispatch();
+  const destination: Dest[] = [{address: "경상북도 구미시 구미대로 174 (광평동) ㅁ (39347)", title: "우리집", name: "이성헌", phone: "01012345678", request: "경비실"}]
+  location.state === undefined ? isModal = false : isModal = true
 
   useEffect(() => {
     dispatch(commonActions.setIsIndex(true));
@@ -77,6 +86,7 @@ const SellAuctionPage = ({match, location}: RouteComponentProps<MatchParams, His
       </Header>
       <MainArea>
         <ItemDescription />
+        <Destination isModal={isModal} destination={destination}/>
         <SellAuction />
       </MainArea>
     </Container>

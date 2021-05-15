@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import Rating from '@material-ui/lab/Rating';
-import { ITEM } from "styled-components";
+import { ITEM, STOREINFO, STOREREVIEW, USERINFO } from "styled-components";
 import { callConnetChat } from '../../api/ChatApi';
+import { callApiStoreInfo, callApiGetStoreReview, callApiGetStoreReviewCnt, callApiUserInfo } from '../../api/ProductApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 
@@ -91,6 +93,7 @@ const MoreArea = styled.div`
   justify-content: center;
   border-bottom: 1px solid rgb(238, 238, 238);
   cursor: pointer;
+  position: relative;
 `;
 
 const MoreText = styled.div`
@@ -140,18 +143,18 @@ const ReviewItemContent = styled.div`
 
 const ButtonArea = styled.div`
   position: absolute;
-  bottom: 0px;
+  bottom: -120px;
   left: 0px;
   display: flex;
   justify-content: center;
   width: 100%;
+  padding: 30px 0;
 `;
 
 const StyledButton = styled.div`
   color: rgb(255, 255, 255);
   flex: 1;
   display: flex;
-  margin-left: 15px;
   justify-content: center;
   height: 56px;
   font-size: 18px;
@@ -161,7 +164,30 @@ const StyledButton = styled.div`
 `;
 
 const StoreInfo = ({item}: Props) => {
+  const [ storeInfoList, setStoreInfo ] = useState<STOREINFO[]>([]);
+  const [ reviewList, setReviewList ] = useState<STOREREVIEW[]>([]);
+  const [ reviewCnt, setReviewCnt ] = useState(0);
+  const [ userInfo, setUserInfo ] = useState<USERINFO>({});
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  useEffect(()=>{
+    const fetchData = async() => {
+      const data = await callApiStoreInfo(item.isUserNo);
+      setStoreInfo(data);
+    }
+    const fetchData2 = async() => {
+      const data2 = await callApiGetStoreReview(userNo);
+      const cnt = await callApiGetStoreReviewCnt(userNo);
+      setReviewList(data2);
+      setReviewCnt(cnt);
+    }
+    const fetchData3 = async() => {
+      const data3 = await callApiUserInfo(item.isUserNo);
+      setUserInfo(data3);
+    }
+    fetchData();
+    fetchData2();
+    fetchData3();
+  }, [item.isUserNo, userNo])
   const goChat = async() => {
     const body = {
       crItemNo: item.ipItemNo,
@@ -181,7 +207,7 @@ const StoreInfo = ({item}: Props) => {
         <StoreDesc>
           <Avatar>
             <img 
-              src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
+              src={userInfo.uImage} 
               alt="" 
               width="48" 
               height="48"
@@ -189,132 +215,79 @@ const StoreInfo = ({item}: Props) => {
             />
           </Avatar>
           <div style={{fontSize: "15px", margin: '4px 0px 11px'}}>
-            싸피4기취업못함엄마미안해
+            {userInfo.uName}
             <div style={{display: "flex"}}>
-              <StoreDescItem>상품 16</StoreDescItem>
+              <StoreDescItem>상품 {storeInfoList.length}</StoreDescItem>
             </div>
           </div>
         </StoreDesc>
         <ProductArea>
-          <ProductInfo>
-            <img 
-              src="https://xenosium.com/wp-content/uploads/1/4212118951.jpg" 
-              alt=""
-              width="100%"
-              height="100%"
-            />
-            <PriceInfo>13,000원</PriceInfo>
-          </ProductInfo>
-          <ProductInfo>
-            <img 
-              src="http://www.tallykumc.org/xe/files/attach/images/185/869/019/6b03a88b5f273a505efec55236eae5b8.jpg" 
-              alt=""
-              width="100%"
-              height="100%"
-            />
-            <PriceInfo>13,000원</PriceInfo>
-          </ProductInfo>
+          {storeInfoList.length > 0 && storeInfoList.slice(0, 2).map((item, idx)=>(
+            <ProductInfo key={idx}>
+              <img 
+                src={item.itemPhotoes[0].ipValue}
+                alt=""
+                width="100%"
+                height="100%"
+              />
+              <PriceInfo>{item.itemSell.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</PriceInfo>
+            </ProductInfo>
+          ))}
         </ProductArea>
         <MoreArea>
           <MoreText>
-            <span style={{ color: theme.color.main, marginRight: "5px" }}>14개</span>상품 더보기
+            <span style={{ color: theme.color.main, marginRight: "5px" }}>
+              {storeInfoList.length >= 2 ? storeInfoList.length - 2 : storeInfoList.length}개
+            </span>상품 더보기
             <ChevronRightOutlinedIcon style={{ fontSize: "18px", paddingTop: "3px" }}/>
             </MoreText>
         </MoreArea>
         <ReviewTitle>
-          상점후기 <span style={{ color: theme.color.main }}>1</span>
+          상점후기 <span style={{ color: theme.color.main }}>{reviewCnt}</span>
         </ReviewTitle>
-        <ReviewArea>
-          <ReviewItem>
-            <Avatar>
-              <img 
-                src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
-                alt="" 
-                width="32" 
-                height="32"
-                style={{borderRadius: "50%"}}
-              />
-            </Avatar>
-            <ReviewBox>
-              <ReviewItemTitle>
-                <div>싸피4기취업못함</div>
-                <div style={{fontSize: "11px"}}>10달 전</div>
-              </ReviewItemTitle>
-              <ReviewItemContent>
-                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly size="small" />
-              </ReviewItemContent>
-              <ReviewItemContent>
-                가격이 새상품보다 8만원 더 비싼 중고!!! 심지어 거짓말까지 .. 이런...
-              </ReviewItemContent>
-            </ReviewBox>
-          </ReviewItem>
-        </ReviewArea>
-        <ReviewArea>
-          <ReviewItem>
-            <Avatar>
-              <img 
-                src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
-                alt="" 
-                width="32" 
-                height="32"
-                style={{borderRadius: "50%"}}
-              />
-            </Avatar>
-            <ReviewBox>
-              <ReviewItemTitle>
-                <div>싸피4기취업못함</div>
-                <div style={{fontSize: "11px"}}>10달 전</div>
-              </ReviewItemTitle>
-              <ReviewItemContent>
-                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly size="small" />
-              </ReviewItemContent>
-              <ReviewItemContent>
-                가격이 새상품보다 8만원 더 비싼 중고!!! 심지어 거짓말까지 .. 이런...
-              </ReviewItemContent>
-            </ReviewBox>
-          </ReviewItem>
-        </ReviewArea>
-        <ReviewArea>
-          <ReviewItem>
-            <Avatar>
-              <img 
-                src="https://blog.kakaocdn.net/dn/baEtCH/btqZP2YQRdV/LrutxTVFJfRSb1KN9zIbdk/img.jpg" 
-                alt="" 
-                width="32" 
-                height="32"
-                style={{borderRadius: "50%"}}
-              />
-            </Avatar>
-            <ReviewBox>
-              <ReviewItemTitle>
-                <div>싸피4기취업못함</div>
-                <div style={{fontSize: "11px"}}>10달 전</div>
-              </ReviewItemTitle>
-              <ReviewItemContent>
-                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly size="small" />
-              </ReviewItemContent>
-              <ReviewItemContent>
-                가격이 새상품보다 8만원 더 비싼 중고!!! 심지어 거짓말까지 .. 이런...
-              </ReviewItemContent>
-            </ReviewBox>
-          </ReviewItem>
-        </ReviewArea>
+        {reviewList.map((review, idx)=>(
+          <ReviewArea key={idx}>
+            <ReviewItem>
+              <Avatar>
+                <img 
+                  src={review.u_image} 
+                  alt="" 
+                  width="32" 
+                  height="32"
+                  style={{borderRadius: "50%"}}
+                />
+              </Avatar>
+              <ReviewBox>
+                <ReviewItemTitle>
+                  <div>{review.u_name}</div>
+                  <div style={{fontSize: "11px"}}>{review.ur_write_date.slice(0,10)}</div>
+                </ReviewItemTitle>
+                <ReviewItemContent>
+                  <Rating name="half-rating-read" defaultValue={review.ur_score} precision={0.5} readOnly size="small" />
+                </ReviewItemContent>
+                <ReviewItemContent>
+                  {review.ur_content}
+                </ReviewItemContent>
+              </ReviewBox>
+            </ReviewItem>
+          </ReviewArea>
+        ))}
         <MoreArea>
           <MoreText>
             상점후기 더보기
             <ChevronRightOutlinedIcon style={{ fontSize: "18px", paddingTop: "3px" }}/>
           </MoreText>
+          <ButtonArea>
+            <StyledButton 
+              style={{ background: 'rgb(255, 164, 37)', marginRight: '5px'}}
+              onClick={goChat}
+              >연락하기</StyledButton>
+            <StyledButton 
+              style={{ background: theme.color.main, marginLeft: '5px' }}
+              onClick={() => window.open(`../auction/buy/${1}`, '_blank')}
+            >입찰하기</StyledButton>
+          </ButtonArea>
         </MoreArea>
-        <ButtonArea>
-          <StyledButton 
-            style={{ background: 'rgb(255, 164, 37)'}}
-            onClick={goChat}
-            >연락하기</StyledButton>
-          <StyledButton 
-            style={{ background: theme.color.main, marginRight: '15px' }}
-            onClick={() => window.open(`../auction/buy/${1}`, '_blank')}
-          >입찰하기</StyledButton>
-        </ButtonArea>
       </StoreArea>
     </StoreContainer>
   );
