@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { useHistory } from "react-router";
-import { CATEGORYCNT } from "styled-components";
+import CategoryListItem from "./CategoryListItem";
 
 interface CategoryListProps {
   category: string;
   categoryList: string[];
-  categoryCnt: CATEGORYCNT[];
 }
 
 const Container = styled.div`
@@ -45,14 +44,8 @@ const ItemArea = styled.div`
   }
 `;
 
-const CountText = styled.div`
-  color: rgb(204, 204, 204);
-  margin-left: 5px;
-  flex-shrink: 0;
-`;
-
-const CategoryList = ({ category, categoryList, categoryCnt }: CategoryListProps) => {
-  const history = useHistory();
+const CategoryList = ({ category, categoryList }: CategoryListProps) => {
+  const history = useHistory(); 
   return(
     <Container>
       <CategoryListContainer>
@@ -67,17 +60,8 @@ const CategoryList = ({ category, categoryList, categoryCnt }: CategoryListProps
           전체보기
           <ChevronRightIcon />
         </ItemArea>
-        {categoryList !== undefined && categoryList.map((item, idx)=>(
-          <ItemArea 
-            key={idx}
-            onClick={() => {
-              history.push({
-                pathname: `/category/${item}`,
-              });
-            }}>
-            {item.split('-')[0]}
-            {categoryCnt.length > 0 && categoryCnt[idx] !== undefined && <CountText>{categoryCnt[idx].cntSub}</CountText>}
-          </ItemArea>
+        {categoryList !== undefined && categoryList.map((subCategory, idx)=>(
+          <CategoryListItem key={idx} category={category} subCategory={subCategory}/>
         ))}
       </CategoryListContainer>
     </Container>

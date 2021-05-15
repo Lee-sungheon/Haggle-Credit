@@ -7,7 +7,7 @@ import CategoryList from '../../components/category/CategoryList';
 import LoadingList from '../../components/common/LoadingList';
 import Category from '../../components/category/Category';
 import { callApiCategoryProductList, callApiCategoryCount } from '../../api/ProductApi';
-import { ITEM, CATEGORYCNT } from "styled-components";
+import { ITEM } from "styled-components";
 import Pagination from '@material-ui/lab/Pagination';
 
 interface MatchParams {
@@ -86,8 +86,7 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pageNum, setPageNum] = useState(1);
   const [itemNum, setItemNum] = useState(5);
-  const [categoryList, setCategoryList] = useState<CATEGORYCNT[]>([]);
-  const [subIdx, setSubIdx] = useState(0);
+  const [categoryCnt, setCategoryCnt] = useState(0);
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -116,11 +115,8 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
         const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_auction_ing_price');
         setProducts(result);
       }
-      const categotyCnt =  await callApiCategoryCount(category);
-      // for (let cnt of categotyCnt){
-      //   if (cnt.cntSub)
-      // }
-      setCategoryList(categotyCnt);
+      const cnt =  await callApiCategoryCount(category, subCategory);
+      setCategoryCnt(cnt);
       setIsLoading(false);
     }
     setProducts([]);
@@ -152,7 +148,7 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
     <Container>
       <ProductArea>
         <Category category={category} subCategory={subCategory} />
-        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} categoryCnt={categoryList}/>}
+        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} />}
         <TitleArea>
           <TitleText>
             {subCategory === '' ? category.split('-')[0] : subCategory.split('-')[0]} 상품 추천
@@ -174,17 +170,10 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
           <ProductList buy={buy} products={products} itemNum={itemNum}/>
         }
         <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>
-          {categoryList.length > 0 && subCategory === '' && 
+          {categoryCnt > 0 && 
             <Pagination 
-            count={parseInt(String(categoryList[0].cntMain/100))} 
+            count={parseInt(String(categoryCnt/100))+1} 
             variant="outlined" 
-            shape="rounded" 
-            color="secondary" 
-            onChange={(e, page)=>setPageNum(page)}/>}
-          {categoryList.length > 0 && subCategory !== '' && 
-            <Pagination 
-            count={parseInt(String(categoryList[subIdx].cntSub/100))} 
-            variant="outlined"
             shape="rounded" 
             color="secondary" 
             onChange={(e, page)=>setPageNum(page)}/>}
