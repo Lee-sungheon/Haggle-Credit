@@ -15,6 +15,7 @@ import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
+import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
@@ -100,7 +101,14 @@ public class ItemSellServiceImpl implements ItemSellService {
 			return null;
 		return itemSellMapper.selectCountByCtgrSub(itemCtgrSearch);
 	}
-	
+	@Override
+	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception {
+		List<ItemPhoto> result = null;
+		result = itemSellMapper.selectItemImages(ipItemNo);
+		if(result != null)
+			return result;
+		return null;
+	}
 
 	/* D :: 상품 삭제 */
 	@Override
