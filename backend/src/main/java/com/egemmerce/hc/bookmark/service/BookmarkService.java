@@ -25,4 +25,7 @@ public interface BookmarkService {
 	
 	/* D :: 북마크 삭제 */
 	int deleteBookmark(int bNo) throws Exception;
+	
+	/* R :: 좋아요 상태 조회 */
+	public Bookmark selectBookmarkStatus(Bookmark bookmark) throws Exception;
 }
