@@ -92,7 +92,7 @@ const ChatList = ({roomLists, userNo}: Props) => {
               <img src={room.crUserOneProfile} alt="" width="48," height="48" style={{borderRadius: '50%'}}/>
             }
             </ChannelAvatar>
-            <ItemContentBox onClick={() => window.open(`../chat/${room.crUserNoOne}/${room.crNo}`, '_blank', "width=387,height=667")}>
+            <ItemContentBox onClick={() => window.open(`../chat/${userNo}/${room.crNo}`, '_blank', "width=387,height=667")}>
               {parseInt(userNo) === room.crUserNoOne ? 
                 <ItemTitle>{room.crUserTwoName}</ItemTitle>:
                 <ItemTitle>{room.crUserOneName}</ItemTitle>

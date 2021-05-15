@@ -30,3 +30,16 @@ export function callApiCategoryProductList(ud:string, main:string, sub:string, p
       return [];
     });
 }
+
+export function callApiCategoryCount(main: string) {
+  let url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/cgtrCnt?ctgrMain=${main}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}

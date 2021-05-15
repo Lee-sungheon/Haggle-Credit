@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import ProductList from '../../components/home/PruductList';
 import { RouteComponentProps } from 'react-router-dom';
@@ -6,8 +6,8 @@ import { CATEGORYS, IDXTOCATEGORY } from '../../common/data';
 import CategoryList from '../../components/category/CategoryList';
 import LoadingList from '../../components/common/LoadingList';
 import Category from '../../components/category/Category';
-import { callApiCategoryProductList } from '../../api/ProductApi';
-import { ITEM } from "styled-components";
+import { callApiCategoryProductList, callApiCategoryCount } from '../../api/ProductApi';
+import { ITEM, CATEGORYCNT } from "styled-components";
 import Pagination from '@material-ui/lab/Pagination';
 
 interface MatchParams {
@@ -85,6 +85,23 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   const [products, setProducts] = useState<ITEM[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pageNum, setPageNum] = useState(1);
+  const [itemNum, setItemNum] = useState(5);
+  const [categoryList, setCategoryList] = useState<CATEGORYCNT[]>([]);
+  const [subIdx, setSubIdx] = useState(0);
+  const ConfirmWidth = useCallback(()=>{
+    const windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth > 1280) {
+      setItemNum(5);
+    } else if (windowInnerWidth > 1023) {
+      setItemNum(4);
+    } else if (windowInnerWidth > 700) {
+      setItemNum(3);
+    } else if (windowInnerWidth > 410) {
+      setItemNum(2);
+    } else {
+      setItemNum(1);
+    }
+  }, []);
 
   useEffect(()=>{
     const fetchData = async() => {
@@ -99,6 +116,11 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
         const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_auction_ing_price');
         setProducts(result);
       }
+      const categotyCnt =  await callApiCategoryCount(category);
+      // for (let cnt of categotyCnt){
+      //   if (cnt.cntSub)
+      // }
+      setCategoryList(categotyCnt);
       setIsLoading(false);
     }
     setProducts([]);
@@ -107,6 +129,8 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
 
   useEffect(()=>{
     window.scrollTo(0, 0);
+    ConfirmWidth();
+    window.addEventListener('resize', ConfirmWidth);
     const idx: number = parseInt(match.params.name.split('-')[1]);
       if (idx <= 1200) {
         setCategory(match.params.name);
@@ -119,13 +143,16 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
         }
         setSubCategory(match.params.name);
       }
-  }, [match.params.name])
+      return () => {
+        window.removeEventListener('resize', ConfirmWidth);
+      }
+  }, [ConfirmWidth, match.params.name])
 
   return (
     <Container>
       <ProductArea>
         <Category category={category} subCategory={subCategory} />
-        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} />}
+        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} categoryCnt={categoryList}/>}
         <TitleArea>
           <TitleText>
             {subCategory === '' ? category.split('-')[0] : subCategory.split('-')[0]} 상품 추천
@@ -143,11 +170,24 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
           </Filter>
         </FilterArea>
         {isLoading ? 
-          <LoadingList /> :
-          <ProductList buy={buy} products={products}/>
+          <LoadingList itemNum={itemNum}/> :
+          <ProductList buy={buy} products={products} itemNum={itemNum}/>
         }
         <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>
-          <Pagination count={10} variant="outlined" shape="rounded" color="secondary" onChange={(e, page)=>setPageNum(page)}/>
+          {categoryList.length > 0 && subCategory === '' && 
+            <Pagination 
+            count={parseInt(String(categoryList[0].cntMain/100))} 
+            variant="outlined" 
+            shape="rounded" 
+            color="secondary" 
+            onChange={(e, page)=>setPageNum(page)}/>}
+          {categoryList.length > 0 && subCategory !== '' && 
+            <Pagination 
+            count={parseInt(String(categoryList[subIdx].cntSub/100))} 
+            variant="outlined"
+            shape="rounded" 
+            color="secondary" 
+            onChange={(e, page)=>setPageNum(page)}/>}
         </div>
       </ProductArea>
     </Container>

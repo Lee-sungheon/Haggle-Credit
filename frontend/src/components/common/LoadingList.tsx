@@ -1,8 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { makeStyles } from "@material-ui/core/styles";
 import LoadingItem from './LoadingItem';
+
+interface Props {
+  itemNum: number;
+}
 
 const useStyles = makeStyles(() => ({
   gridList: {
@@ -10,34 +13,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const LoadingList = () => {
+const LoadingList = ({itemNum}: Props) => {
   const classes = useStyles();
-  const [itemNum, setItemNum] = useState(5);
-  const ConfirmWidth = useCallback(()=>{
-    const windowInnerWidth = window.innerWidth;
-    if (windowInnerWidth > 1280) {
-      setItemNum(5);
-    } else if (windowInnerWidth > 1023) {
-      setItemNum(4);
-    } else if (windowInnerWidth > 700) {
-      setItemNum(3);
-    } else if (windowInnerWidth > 410) {
-      setItemNum(2);
-    } else {
-      setItemNum(1);
-    }
-  }, []);
-
-  useEffect(()=>{
-    ConfirmWidth();
-    window.addEventListener('resize', ConfirmWidth);
-    return () => {
-      window.removeEventListener('resize', ConfirmWidth);
-    }
-  });
   
   return (
-    <>
     <GridList
     cellHeight={"auto"}
     className={classes.gridList}
@@ -50,7 +29,6 @@ const LoadingList = () => {
         </GridListTile>
       ))}
     </GridList>
-    </>
   );
 }
 
