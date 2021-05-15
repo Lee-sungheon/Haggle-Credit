@@ -102,4 +102,11 @@ select *
   from item_photo
  where ip_item_no = #{ipItemNo}
 </select>
+
+<!-- 판매상품 상세 조회 -->
+<select id="selectItemOne" parameterType="int" resultType="itemSell">
+select *
+  from item_sell
+ where is_no = #{isNo}
+</select>
 </mapper>

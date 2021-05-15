@@ -208,4 +208,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 	public List<ItemSell> selectMyItemByuNo(int uNo) {
 		return itemSellRepository.findByisUserNo(uNo);
 	}
+	
+	@Override
+	public ItemSell selectItemOne(int isNo) throws Exception {
+		return itemSellMapper.selectItemOne(isNo);
+	}
 }
