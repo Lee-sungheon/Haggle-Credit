@@ -22,7 +22,7 @@ public interface ItemSellMapper {
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
-	public ItemSell selectItemOne(int isNo) throws Exception;
+	public ItemSell selectItemOne(int isItemNo) throws Exception;
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int moreCnt, int moreCnt2) throws Exception;
 	public int selectCountItemSell(int isUserNo) throws Exception;
 }

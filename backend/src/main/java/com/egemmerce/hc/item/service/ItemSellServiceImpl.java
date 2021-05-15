@@ -211,8 +211,8 @@ public class ItemSellServiceImpl implements ItemSellService {
 	}
 	
 	@Override
-	public ItemSell selectItemOne(int isNo) throws Exception {
-		return itemSellMapper.selectItemOne(isNo);
+	public ItemSell selectItemOne(int isItemNo) throws Exception {
+		return itemSellMapper.selectItemOne(isItemNo);
 	}
 	
 	@Override

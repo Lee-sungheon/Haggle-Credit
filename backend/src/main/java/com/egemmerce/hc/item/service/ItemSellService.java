@@ -54,7 +54,7 @@ public interface ItemSellService {
 	List<ItemSell> selectMyItemByuNo(int uNo);
 
 
-	public ItemSell selectItemOne(int isNo) throws Exception;
+	public ItemSell selectItemOne(int isItemNo) throws Exception;
 	
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int moreCnt, int moreCnt2) throws Exception;
 	public int selectCountItemSell(int isUserNo) throws Exception;

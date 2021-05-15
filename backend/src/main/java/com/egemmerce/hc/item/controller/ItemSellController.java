@@ -298,8 +298,8 @@ public class ItemSellController {
 	
 	@ApiOperation(value = "아이템 상세 조회 정보")
 	@GetMapping("/detail/inform")
-	public ResponseEntity<ItemSell> selectItemOne(int isNo) throws Exception {
-		return new ResponseEntity<ItemSell>(itemSellService.selectItemOne(isNo), HttpStatus.OK);
+	public ResponseEntity<ItemSell> selectItemOne(int isItemNo) throws Exception {
+		return new ResponseEntity<ItemSell>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
 	}
 	
 }
