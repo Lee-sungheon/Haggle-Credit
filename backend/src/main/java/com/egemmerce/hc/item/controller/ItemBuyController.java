@@ -20,6 +20,7 @@ import com.egemmerce.hc.item.service.ItemBuyService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 
 import io.swagger.annotations.ApiOperation;
@@ -100,5 +101,15 @@ public class ItemBuyController {
 			return new ResponseEntity<String>("역경매가 업데이트 성공.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("역경매가 업데이트 실패.", HttpStatus.OK);
+	}
+	/* R :: 내가 올린 상품 */
+	@ApiOperation(value = "내가 올린 상품 Restful API")
+	@GetMapping("/myitem")
+	public ResponseEntity<?> selectMyItem(int uNo) {
+		List<ItemBuy> items = itemBuyService.selectMyItemByuNo(uNo);
+		if (items != null) {
+			return new ResponseEntity<List<ItemBuy>>(items, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}
 }
