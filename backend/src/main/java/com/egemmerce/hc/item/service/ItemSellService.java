@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
@@ -54,7 +53,7 @@ public interface ItemSellService {
 	List<ItemSell> selectMyItemByuNo(int uNo);
 
 
-
+	public ItemSell selectItemOne(int isNo) throws Exception;
 
 
 

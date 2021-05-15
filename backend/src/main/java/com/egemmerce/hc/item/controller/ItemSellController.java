@@ -280,4 +280,10 @@ public class ItemSellController {
 		}
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}
+	
+	@ApiOperation(value = "아이템 상세 조회 정보")
+	@GetMapping("/detail/inform")
+	public ResponseEntity<ItemSell> selectItemOne(int isNo) throws Exception {
+		return new ResponseEntity<ItemSell>(itemSellService.selectItemOne(isNo), HttpStatus.OK);
+	}
 }

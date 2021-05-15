@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 
@@ -21,4 +22,5 @@ public interface ItemSellMapper {
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
+	public ItemSell selectItemOne(int isNo) throws Exception;
 }
