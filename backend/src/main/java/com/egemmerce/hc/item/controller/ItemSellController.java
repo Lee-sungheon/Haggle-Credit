@@ -142,7 +142,7 @@ public class ItemSellController {
 		if(ctgrSub == null) { // 이건 무조건 상위임..
 			ctgrSub = "-";
 			result = itemSellService.selectCountByCtgrSub(new ItemCtgrSearch(ctgrMain, ctgrSub));
-			if(result == null) {
+			if(result.size() == 0) {
 				System.out.println("상위만 입력되었지만, 결과반환되는게 없음..(이름안맞거나, 존재하는게 없을때");
 				return new ResponseEntity<Integer>(0, HttpStatus.OK);
 			}
