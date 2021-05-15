@@ -35,4 +35,7 @@ public interface UserReviewService {
 	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */
 	public List<UserReview> selectOtherReviews(int uNo) throws Exception;
 
+	/* R :: 내 상점 전체 리뷰 수 */
+	public Integer countUserReviews(int urUserNo);
+
 }

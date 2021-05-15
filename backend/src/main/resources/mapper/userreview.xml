@@ -37,4 +37,9 @@
 		where ur_user_no = #{uNo}
 		order by ur_no desc
 	</select>
+	
+	<!-- R :: 내 상점 전체 리뷰 수 -->
+	<select id="countUserReviews" parameterType="int" resultType="int">
+		select count(*) from user_review where ur_user_no = #{urUserNo};
+	</select> 
 </mapper>
