@@ -65,6 +65,6 @@ public class BookmarkController {
 			System.out.println("찜한 상태");
 			return new ResponseEntity<String>("찜된 상태입니다.", HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("찜되지 않은 상태입니다.", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>("찜되지 않은 상태입니다.", HttpStatus.OK);
 	}
 }
