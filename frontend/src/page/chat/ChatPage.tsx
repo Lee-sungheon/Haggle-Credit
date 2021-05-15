@@ -9,6 +9,7 @@ import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 import { callApiRoomInfo, callApiChat } from '../../api/ChatApi';
 import { ROOMINFO, CHAT } from 'styled-components';
+import moment from 'moment';
 
 interface MatchParams {
   id: string;
@@ -132,12 +133,14 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
           stompClient.subscribe("/send", res => {
             console.log('구독으로 받은 메시지 입니다.', JSON.parse(res.body));
             if (String(JSON.parse(res.body).icCrNo) === crNo){
+              let date = JSON.parse(res.body).icDate.slice(0,10) + ' ' + JSON.parse(res.body).icDate.slice(11,19);
+              date = moment(date, "YYYY-MM-DD HH:mm:ss").add(9, 'h').format("YYYY-MM-DD HH:mm:ss");
               const message = {
                 icNo: JSON.parse(res.body).icNo,
                 icCrNo: JSON.parse(res.body).icCrNo,
                 icUserNo: JSON.parse(res.body).icUserNo,
                 icChatContent: JSON.parse(res.body).icChatContent,
-                icDate: JSON.parse(res.body).icDate,
+                icDate: date,
               }
               setFeeds((feeds) => [...feeds, message])
             }
@@ -203,7 +206,7 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
           </ItemContentArea>
         </ItemBox>
       </ItemArea>
-      <Chat feeds={feeds} crNo={crNo} userNo={userNo} roomInfo={roomInfo[0]} userOrder={userOrder}/>
+      <Chat feeds={feeds} userNo={userNo} roomInfo={roomInfo[0]} userOrder={userOrder}/>
       <ChatInput value={value} setValue={setValue} send={send}/>
     </Container>
   )

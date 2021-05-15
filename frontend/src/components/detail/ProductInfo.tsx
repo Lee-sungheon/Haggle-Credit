@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import ImageSlider from './ImageSlider';
 import moment from 'moment';
 import { ITEM } from "styled-components";
+import { callApiCheckedStatus, callApiCreateZzim, callApiDeleteZzim } from '../../api/ProductApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+import { useDispatch } from 'react-redux';
+import { commonActions } from "../../state/common";
+
 
 interface ProductInfoProps {
   item: ITEM;
@@ -113,9 +119,11 @@ const StyledButton = styled.div`
 const ProductInfo = ({item, buy}: ProductInfoProps) => {
   const [ isLike, setIsLike ] = useState(false);
   const [ time, setTime ] = useState('');
-  const endDate = item.isEndDate;
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  const like = useSelector((state: RootState) => state.common.isLike);
+  const dispatch = useDispatch();
   const CalTime = useCallback(()=> {
-    let t1 = moment(endDate);
+    let t1 = moment(item.isEndDate);
     let t2 = moment();
     const duTime = moment.duration(t1.diff(t2)).asSeconds();
     if (duTime < 0) {
@@ -128,17 +136,26 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
     const second = parseInt(String((duTime % 60)));
     const text = day + '일 ' + hour + '시간 ' + minute + '분 ' + second + '초';
     setTime(text);
-  }, [endDate])
+  }, [item.isEndDate])
   
   useEffect(()=>{
     const countdown = setInterval(CalTime, 1000);
+    const fetchData = async() => {
+      const is = await callApiCheckedStatus(item.ipItemNo, userNo);
+      if (is === "찜된 상태입니다."){
+        setIsLike(true);
+      } else {
+        setIsLike(false);
+      }
+    }
+    fetchData();
     return () => clearInterval(countdown);
-  }, [CalTime])
+  }, [CalTime, item.ipItemNo, userNo])
   
   return (
     <Container>
       <ImgBox>
-        <ImageSlider images={[item.ipValue]}/>
+        <ImageSlider itemNo={item.ipItemNo}/>
       </ImgBox>
       <ProductInfoBox>
         <InfoArea>
@@ -164,7 +181,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             <ItemTitle>· 입찰수</ItemTitle><ItemContent>{item.joinerCnt}회</ItemContent>
           </DetailItem>
           <DetailItem>
-            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} (종료: {item.isEndDate.slice(5,)} 24:00)</ItemContent>
+            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} <br />(종료: {item.isEndDate.slice(5,)} 24:00)</ItemContent>
           </DetailItem>
         </DetailBox>
         <DetailBox>
@@ -179,13 +196,26 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
           </DetailItem>
         </DetailBox>
         <ButtonBox>
-          <StyledButton onClick={() => setIsLike(!isLike)}>
+          <StyledButton onClick={async() => {
+            if (isLike){
+              await callApiDeleteZzim(item.ipItemNo, userNo);
+              setIsLike(false);
+            } else{
+              const data = {
+                bItemNo: item.ipItemNo,
+                bUserNo: userNo
+              }
+              await callApiCreateZzim(data);
+              setIsLike(true);
+            }
+            await dispatch(commonActions.setIsLike(!like));
+          }}>
             <span style={
               isLike? 
               {color: "red", marginRight: "4px", paddingBottom: "2px"} : 
               {color: "white", marginRight: "4px", paddingBottom: "2px"}}
             >♥</span> 
-            찜 {isLike ? 0+1 : 0}
+            {isLike ? '찜완료' : '찜하기'}
           </StyledButton>
           <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../auction/sell/${1}`, '_blank')}>
             입찰하기

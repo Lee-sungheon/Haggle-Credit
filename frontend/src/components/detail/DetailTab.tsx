@@ -26,7 +26,7 @@ const TabArea = styled.div`
 `;
 
 const ActTab = styled.div`
-cursor: pointer;
+  cursor: pointer;
   flex: 1 1 0%;
   align-items: center;
   justify-content: center;
@@ -61,14 +61,12 @@ const DetailTab = ({item}: Props) => {
   const clickDetailHandler = (id: number) => {
     setTabId(id);
     if(null !== detailRef.current){
-      console.log(detailRef);
       window.scrollTo(0, detailRef.current.offsetTop - 140);
     }
   };
   const clickQuestionHandler = (id: number) => {
     setTabId(id);
     if(null !== questionRef.current){
-      console.log(questionRef);
       window.scrollTo(0, questionRef.current.offsetTop - 140);
     }
   };
@@ -99,7 +97,7 @@ const DetailTab = ({item}: Props) => {
           <ProductDetail item={item}/>
         </div>
         <div ref={questionRef}>
-          <ProductQuestion/>
+          <ProductQuestion itemNo={item.ipItemNo}/>
         </div>
       </TabContianer>
       <StoreInfo item={item}/>
