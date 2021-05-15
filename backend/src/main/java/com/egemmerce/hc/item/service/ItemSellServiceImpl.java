@@ -15,6 +15,7 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
+import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
@@ -212,5 +213,10 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Override
 	public ItemSell selectItemOne(int isNo) throws Exception {
 		return itemSellMapper.selectItemOne(isNo);
+	}
+	
+	@Override
+	public List<ItemSell> selectItemListIndexing(int isUserNo, int moreCnt, int moreCnt2) throws Exception {
+		return itemSellMapper.selectItemListIndexing(isUserNo, moreCnt, moreCnt2);
 	}
 }
