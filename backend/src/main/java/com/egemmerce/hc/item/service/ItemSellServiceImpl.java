@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -210,8 +211,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 		return itemSellRepository.findByisUserNo(uNo);
 	}
 	
+	/* 상품 상세 조회 */
 	@Override
-	public ItemSell selectItemOne(int isItemNo) throws Exception {
+	public Map<String, Object> selectItemOne(int isItemNo) throws Exception {
 		return itemSellMapper.selectItemOne(isItemNo);
 	}
 	
