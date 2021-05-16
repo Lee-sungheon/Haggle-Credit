@@ -7,9 +7,6 @@
 
 <!-- 상품등록 -->
 
-
-
-
 <!-- 상품 전체 조회 -->
 <select id="selectItemNoSubRvsSort" parameterType="SortProcess" resultType="ItemSellSet">
 select * 
@@ -110,7 +107,7 @@ select *
 select itemsell.*, ip.ip_value
   from item_sell as itemsell join item_photo as ip
     on itemsell.is_no = ip.ip_no
-   and itemsell.is_no = #{isItemNo}
+   and itemsell.is_item_no = #{isItemNo}
 </select>
 
 <!-- 판매상품의 입찰자 수 조회 -->
