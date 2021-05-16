@@ -33,4 +33,7 @@ public interface BookmarkService {
 	/* R :: 좋아요 상태 조회 */
 	public Bookmark selectBookmarkStatus(Bookmark bookmark) throws Exception;
 
+	/* R :: 북마크한 수 조회 */
+	int selectBookmarkCount(int uNo);
+
 }

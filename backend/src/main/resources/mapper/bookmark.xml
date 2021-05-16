@@ -5,7 +5,7 @@
 <mapper
 	namespace="com.egemmerce.hc.repository.mapper.BookmarkMapper">
 
-	<!-- 팝니다 북마크한거 조회 -->
+	<!-- R :: 팝니다 북마크한거 조회 -->
 	<select id="selectBookmarkAndItemSell" resultType="map">
 		select distinct
 		bm.*, isell.* from bookmark as bm join item as item on b_user_no = #{uNo}
@@ -13,12 +13,19 @@
 		left join item_sell as isell on item.i_type = 'sell' and b_item_no = isell.is_item_no;
 	</select>
 
-	<!-- 삽니다 북마크한거 조회 -->
+	<!-- R :: 삽니다 북마크한거 조회 -->
 	<select id="selectBookmarkAndItemBuy" resultType="map">
 		select distinct
 		bm.*, ibuy.* from bookmark as bm join item as item on b_user_no = #{uNo}
 		and b_item_no = item.i_no and item.i_type = 'buy'
 		left join item_buy as ibuy on item.i_type = 'buy' and b_item_no = ibuy.ib_item_no;
+	</select>
+	
+	<!-- R :: 북마크 한 수 조회 -->
+	<select id="selectBookmarkCount" resultType="int">
+		select count(*)
+		  from bookmark
+		 where b_user_no = #{uNo}
 	</select>
 
 	<select id="selectBookmarkStatus" parameterType="Bookmark"

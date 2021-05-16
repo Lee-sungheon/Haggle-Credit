@@ -52,6 +52,12 @@ public class BookmarkController {
 			return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectBuyBookmark(uNo), HttpStatus.OK);
 		return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectSellBookmark(uNo), HttpStatus.OK);
 	}
+	
+	/* R :: 북마크한 수 조회 */
+	@GetMapping("/count")
+	public ResponseEntity<Integer> selectBookmarkCount(@RequestParam int uNo) throws Exception {
+		return new ResponseEntity<Integer>(bookmarkService.selectBookmarkCount(uNo), HttpStatus.OK);
+	}
 
 	/* D :: 북마크 삭제 */
 	@DeleteMapping("/delete")

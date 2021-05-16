@@ -18,5 +18,8 @@ public interface BookmarkMapper {
 	
 	/* R :: 팝니다 북마크 조회 */
 	public List<Map<String, Object>> selectBookmarkAndItemSell(int uNo);
+
+	/* R :: 북마크한 수 조회 */
+	public int selectBookmarkCount(int uNo);
 	
 }

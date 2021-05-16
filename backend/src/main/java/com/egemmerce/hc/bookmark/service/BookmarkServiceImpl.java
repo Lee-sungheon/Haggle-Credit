@@ -63,4 +63,10 @@ public class BookmarkServiceImpl implements BookmarkService {
 		return bookmarkMapper.selectBookmarkStatus(bookmark);
 	}
 
+	/* R :: 북마크한 수 조회 */
+	@Override
+	public int selectBookmarkCount(int uNo) {
+		return bookmarkMapper.selectBookmarkCount(uNo);
+	}
+
 }
