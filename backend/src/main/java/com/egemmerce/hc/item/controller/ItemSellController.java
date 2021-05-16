@@ -2,6 +2,7 @@ package com.egemmerce.hc.item.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,8 +64,8 @@ public class ItemSellController {
 	public ResponseEntity<?> createItem(@RequestBody ItemSell itemSell) throws Exception {
 		Item item = itemService.insert(Item.builder().iType("Sell").build());
 		itemSell.setIsItemNo(item.getiNo());
-		ItemSell check=itemSellService.insertItemSell(itemSell);
-		if ( check!= null)
+		ItemSell check = itemSellService.insertItemSell(itemSell);
+		if (check != null)
 			return new ResponseEntity<ItemSell>(check, HttpStatus.OK);
 		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
 	}
@@ -72,38 +73,43 @@ public class ItemSellController {
 	/* R :: 상품 전체조회 */
 	@GetMapping("/all")
 	public ResponseEntity<Page<ItemSell>> selectItemAll(Pageable pageable) throws Exception {
-		Page<ItemSell> itemSell=itemSellService.selectItemSellAll(pageable);
+		Page<ItemSell> itemSell = itemSellService.selectItemSellAll(pageable);
 		System.out.println(itemSell.getSize());
 		return new ResponseEntity<Page<ItemSell>>(itemSell, HttpStatus.OK);
 	}
-	
+
 //	=============================
-	
+
 	/* R :: 임시임.. 상품 전체 조회 */
 	@GetMapping("views")
-	public ResponseEntity<List<ItemSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName, String UD) throws Exception {
+	public ResponseEntity<List<ItemSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
+			String UD) throws Exception {
 		List<ItemSet> itemSellSet = null;
-		SortProcess sp = new SortProcess((int)(pageNo-1)*100, ctgrMain, ctgrSub, sortName);
-		
-		if(UD.equals("up")) { // 오름차순
-			if(sp.getCtgrSub() == null) {
+		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
+
+		if (UD.equals("up")) { // 오름차순
+			if (sp.getCtgrSub() == null) {
 				sp.setCtgrSub("");
-				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(),
+						sp.getSortName());
 				itemSellSet = itemSellService.selectItemNoSub(sortProcess);
 				System.out.println("하위카데고리선택하지않음");
 			} else {
-				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(),
+						sp.getSortName());
 				itemSellSet = itemSellService.selectItemYesSub(sortProcess);
 				System.out.println("하위까지 카테고리선택함");
 			}
-		} else {	// 내림차순
-			if(sp.getCtgrSub() == null) {
+		} else { // 내림차순
+			if (sp.getCtgrSub() == null) {
 				sp.setCtgrSub("");
-				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(),
+						sp.getSortName());
 				itemSellSet = itemSellService.selectItemNoSubRvsSort(sortProcess);
 				System.out.println("하위카데고리선택하지않음");
 			} else {
-				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(), sp.getSortName());
+				SortProcess sortProcess = new SortProcess(sp.getPageNo(), sp.getCtgrMain(), sp.getCtgrSub(),
+						sp.getSortName());
 				itemSellSet = itemSellService.selectItemYesSubRvsSort(sortProcess);
 				System.out.println("하위까지 카테고리선택함");
 			}
@@ -111,67 +117,70 @@ public class ItemSellController {
 
 		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("viewHome")
-	public ResponseEntity<List<ItemSet>> selectItemAllHome(@RequestParam(defaultValue="1")int pageNo, String sortName, String UD) throws Exception {
+	public ResponseEntity<List<ItemSet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
+			String sortName, String UD) throws Exception {
 		List<ItemSet> itemSellSet = null;
-		SortProcess sp = new SortProcess((pageNo-1)*100, "", "", sortName);
-		if(UD.equals("up")) {
+		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
+		if (UD.equals("up")) {
 			itemSellSet = itemSellService.selectItemAllHomeUp(sp);
-		}else {
+		} else {
 			itemSellSet = itemSellService.selectItemAllHomeDown(sp);
 		}
 		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("cgtrCnt")
 	public ResponseEntity<List<ItemCtgrCnt>> select(String ctgrMain, String ctgrSub) throws Exception {
-		if(ctgrSub == null) {
+		if (ctgrSub == null) {
 			int idx = ctgrMain.length();
-			ctgrSub = ctgrMain.substring(idx-3);
-			return new ResponseEntity<List<ItemCtgrCnt>>(itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
+			ctgrSub = ctgrMain.substring(idx - 3);
+			return new ResponseEntity<List<ItemCtgrCnt>>(
+					itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
 		}
-		return new ResponseEntity<List<ItemCtgrCnt>>(itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
+		return new ResponseEntity<List<ItemCtgrCnt>>(
+				itemSellService.selectCountByCtgr(new ItemCtgrSearch(ctgrMain, ctgrSub)), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("categoryCount")
 	public ResponseEntity<Integer> selectCategoryCount(String ctgrMain, String ctgrSub) throws Exception {
 		List<ItemCtgrCnt> result = null;
-		if(ctgrSub == null) { // 이건 무조건 상위임..
+		if (ctgrSub == null) { // 이건 무조건 상위임..
 			ctgrSub = "-";
 			result = itemSellService.selectCountByCtgrSub(new ItemCtgrSearch(ctgrMain, ctgrSub));
-			if(result.size() == 0) {
+			if (result.size() == 0) {
 				System.out.println("상위만 입력되었지만, 결과반환되는게 없음..(이름안맞거나, 존재하는게 없을때");
 				return new ResponseEntity<Integer>(0, HttpStatus.OK);
 			}
-			if(result.get(0).getCntMain() == 0) {
+			if (result.get(0).getCntMain() == 0) {
 				System.out.println("상위만 입력되었지만, 상위카테고리의 아이템 개수 0일때?");
 				return new ResponseEntity<Integer>(0, HttpStatus.OK);
 			}
 			return new ResponseEntity<Integer>(result.get(0).getCntMain(), HttpStatus.OK);
 		} else {
 			result = itemSellService.selectCountByCtgrSub(new ItemCtgrSearch(ctgrMain, ctgrSub));
-			if(result.size() == 0) {
+			if (result.size() == 0) {
 				System.out.println("반환이 되는게 없을 때 null!!");
 				return new ResponseEntity<Integer>(0, HttpStatus.OK);
 			}
 //			System.out.println("출력하려는 하위 카테고리=" + result.get(0).getIsCategorySub() + ", 출력할 개수="+result.get(0).getCntSub());
-			if(result.get(0).getCntSub() == 0) {
+			if (result.get(0).getCntSub() == 0) {
 				System.out.println("하위카테고리인데, 해당 아이템 없을 때");
 				return new ResponseEntity<Integer>(0, HttpStatus.OK);
 			}
 			return new ResponseEntity<Integer>(result.get(0).getCntSub(), HttpStatus.OK);
 		}
-		
+
 	}
-	
+
 	/* R :: 상세 조회(이미지 따로 부르기) */
 	@GetMapping("detail/images")
 	public ResponseEntity<List<ItemPhoto>> selectItemImages(int ipItemNo) throws Exception {
 		return new ResponseEntity<List<ItemPhoto>>(itemSellService.selectItemImages(ipItemNo), HttpStatus.OK);
 	}
 //	===============
-	
+
 	/* R :: 상품명 조회 */
 	@GetMapping("/name")
 	public ResponseEntity<Page<ItemSell>> selectItemByiName(String isName, Pageable pageable) throws Exception {
@@ -182,27 +191,28 @@ public class ItemSellController {
 	/* U :: 상품 업데이트(쿨거래) */
 	@ApiOperation(value = "거래완료 변경(쿨거래)")
 	@PutMapping("/updateDealCompleted")
-	public ResponseEntity<String> updateItembyCool(int isItemNo,int uNo,int uaNo) throws Exception {
+	public ResponseEntity<String> updateItembyCool(int isItemNo, int uNo, int uaNo) throws Exception {
 		if (itemService.updateItemDealCompleted(isItemNo) != null) {
-			itemSellService.updateItembyCool(isItemNo,uNo,uaNo);
+			itemSellService.updateItembyCool(isItemNo, uNo, uaNo);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 
 		}
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
 	}
+
 	/* U :: 상품 업데이트(경매 종료) */
 	@ApiOperation(value = "거래완료 변경(경매 기간 종료)")
 	@PutMapping("/endAuction")
 	public ResponseEntity<String> endAuction() throws Exception {
-		
-		List<ItemSell> endItemSell=itemSellService.selectOverEndDate();
-		if(endItemSell.size()==0) {
-			return new ResponseEntity<String>("종료된 경매가 없습니다.",HttpStatus.ACCEPTED);
-		}else {
+
+		List<ItemSell> endItemSell = itemSellService.selectOverEndDate();
+		if (endItemSell.size() == 0) {
+			return new ResponseEntity<String>("종료된 경매가 없습니다.", HttpStatus.ACCEPTED);
+		} else {
 			for (ItemSell is : endItemSell) {
 				itemService.updateItemDealCompleted(is.getIsItemNo());
 				itemSellService.updateItembyAuction(is);
-				
+
 			}
 			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
 		}
@@ -235,13 +245,13 @@ public class ItemSellController {
 			return new ResponseEntity<String>("기존 경매가보다 작습니다.", HttpStatus.OK);
 		}
 		// 아이템 정보 변경
-		if (itemSellService.updateAuctionPrice(isItemNo,isAuctionPrice) != null) {
+		if (itemSellService.updateAuctionPrice(isItemNo, isAuctionPrice) != null) {
 			User user = userService.selectUserByuNo(isUserNo);
 
 			// 유저 배송지 가져오기
 			UserAddress userAddress = userAddressService.selectDefaultAddress(user.getuNo());
-			
-			if(userAddress==null) {
+
+			if (userAddress == null) {
 				return new ResponseEntity<String>("배송지가 없습니다.", HttpStatus.OK);
 			}
 //			// 이전에 경매에 참여한 사람 크래딧 환불
@@ -249,7 +259,7 @@ public class ItemSellController {
 //			if(beforeAP!=null) {
 //				userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
 //			}
-			userService.updateBeforeAndNew(isUserNo,isItemNo,isAuctionPrice);
+			userService.updateBeforeAndNew(isUserNo, isItemNo, isAuctionPrice);
 //
 			// 새로 입찰한 사람
 			AuctionParticipant auctionParticipant = AuctionParticipant.builder().apItemNo(isItemNo).apUserNo(isUserNo)
@@ -259,47 +269,51 @@ public class ItemSellController {
 //
 //			// 새로 입찰한 유저 포인트 출금
 //			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);
-			
-			//이전에 경매에 참여한 사람 크래딧 환불 새로 입찰한 사람 크래딧 회수
+
+			// 이전에 경매에 참여한 사람 크래딧 환불 새로 입찰한 사람 크래딧 회수
 
 			return new ResponseEntity<String>("경매가 업데이트 성공.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("경매가 업데이트 실패.", HttpStatus.OK);
 	}
+
 	/* R :: 내가 올린 상품 */
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
 	public ResponseEntity<?> selectMyItem(int uNo) throws Exception {
 		List<ItemSell> items = itemSellService.selectMyItemByuNo(uNo);
-		List<ItemPhotoSet>itemsphoto=new ArrayList<>();
+		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
 		for (ItemSell is : items) {
-			
-			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), items.size()) );
+
+			itemsphoto
+					.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), items.size()));
 		}
 		if (items != null) {
 			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}
+
 	@ApiOperation(value = "더보기 활용한 인덱싱 처리(내판매상품)")
 	@GetMapping("/myItemIndexing")
-	public ResponseEntity<?> selectItemListIndexing(int isUserNo, @RequestParam(defaultValue="0")int page) throws Exception {
-		List<ItemSell> items = itemSellService.selectItemListIndexing(isUserNo, (page-1)*100);
+	public ResponseEntity<?> selectItemListIndexing(int isUserNo, @RequestParam(defaultValue = "0") int page)
+			throws Exception {
+		List<ItemSell> items = itemSellService.selectItemListIndexing(isUserNo, (page - 1) * 100);
 		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
 		int itemValue = itemSellService.selectCountItemSell(isUserNo);
-		for(ItemSell is : items) {
-			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), itemValue) );
+		for (ItemSell is : items) {
+			itemsphoto.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()), itemValue));
 		}
-		if(items != null) {
+		if (items != null) {
 			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("상품 없음", HttpStatus.NO_CONTENT);
 	}
-	
+
 	@ApiOperation(value = "아이템 상세 조회 정보")
 	@GetMapping("/detail/inform")
-	public ResponseEntity<ItemSell> selectItemOne(int isItemNo) throws Exception {
-		return new ResponseEntity<ItemSell>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
+	public ResponseEntity<Map<String, Object>> selectItemOne(int isItemNo) throws Exception {
+		return new ResponseEntity<Map<String, Object>>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
 	}
-	
+
 }
