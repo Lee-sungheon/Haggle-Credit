@@ -33,7 +33,6 @@ public class ItemBuy {
 	private String ibCategoryMain;
 	@ColumnDefault("기타")
 	private String ibCategorySub;
-	private String ibTitle;
 	private String ibContent;
 	private LocalDateTime ibStartDate;
 	private Date ibEndDate;
@@ -41,8 +40,6 @@ public class ItemBuy {
 	private int ibAuctionInitPrice;
 	private int ibAuctionIngPrice;
 	private LocalDateTime ibRegDate;
-	@ColumnDefault("0")
-	private int ibOriginPrice;
 	@ColumnDefault("0")
 	private int ibDealUserNo;
 	@ColumnDefault("0")
@@ -94,14 +91,6 @@ public class ItemBuy {
 		this.ibCategorySub = ibCategorySub;
 	}
 
-	public String getIbTitle() {
-		return ibTitle;
-	}
-
-	public void setIbTitle(String ibTitle) {
-		this.ibTitle = ibTitle;
-	}
-
 	public String getIbContent() {
 		return ibContent;
 	}
@@ -132,14 +121,6 @@ public class ItemBuy {
 
 	public void setIbRegDate(LocalDateTime ibRegDate) {
 		this.ibRegDate = ibRegDate;
-	}
-
-	public int getIbOriginPrice() {
-		return ibOriginPrice;
-	}
-
-	public void setIbOriginPrice(int ibOriginPrice) {
-		this.ibOriginPrice = ibOriginPrice;
 	}
 
 	public int getIbDealPrice() {

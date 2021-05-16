@@ -28,7 +28,7 @@ import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
-import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
@@ -81,9 +81,9 @@ public class ItemSellController {
 
 	/* R :: 임시임.. 상품 전체 조회 */
 	@GetMapping("views")
-	public ResponseEntity<List<ItemSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
+	public ResponseEntity<List<ItemSellSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
 			String UD) throws Exception {
-		List<ItemSet> itemSellSet = null;
+		List<ItemSellSet> itemSellSet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
 		if (UD.equals("up")) { // 오름차순
@@ -114,20 +114,20 @@ public class ItemSellController {
 			}
 		}
 
-		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+		return new ResponseEntity<List<ItemSellSet>>(itemSellSet, HttpStatus.OK);
 	}
 
 	@GetMapping("viewHome")
-	public ResponseEntity<List<ItemSet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
+	public ResponseEntity<List<ItemSellSet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
 			String sortName, String UD) throws Exception {
-		List<ItemSet> itemSellSet = null;
+		List<ItemSellSet> itemSellSet = null;
 		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
 		if (UD.equals("up")) {
 			itemSellSet = itemSellService.selectItemAllHomeUp(sp);
 		} else {
 			itemSellSet = itemSellService.selectItemAllHomeDown(sp);
 		}
-		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+		return new ResponseEntity<List<ItemSellSet>>(itemSellSet, HttpStatus.OK);
 	}
 
 	@GetMapping("cgtrCnt")
@@ -328,8 +328,8 @@ public class ItemSellController {
 
 	@ApiOperation(value = "아이템 상세 조회 정보")
 	@GetMapping("/detail/inform")
-	public ResponseEntity<ItemSet> selectItemOne(int isItemNo) throws Exception {
-		return new ResponseEntity<ItemSet>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
+	public ResponseEntity<ItemSellSet> selectItemOne(int isItemNo) throws Exception {
+		return new ResponseEntity<ItemSellSet>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
 	}
 
 }

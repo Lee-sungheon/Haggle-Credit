@@ -11,7 +11,7 @@
 
 
 <!-- 상품 전체 조회 -->
-<select id="selectItemNoSubRvsSort" parameterType="SortProcess" resultType="ItemSet">
+<select id="selectItemNoSubRvsSort" parameterType="SortProcess" resultType="ItemSellSet">
 select * 
 from (select * 
 from item_sell inner join 
@@ -23,7 +23,7 @@ order by ${sortName} desc
 limit #{pageNo}, 100;
 </select>
 
-<select id="selectItemYesSubRvsSort" parameterType="SortProcess" resultType="ItemSet">
+<select id="selectItemYesSubRvsSort" parameterType="SortProcess" resultType="ItemSellSet">
 select * from (select * from item_sell
    inner join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
@@ -34,7 +34,7 @@ order by ${sortName} desc
 limit #{pageNo}, 100;
 </select>
 
-<select id="selectItemNoSub" parameterType="SortProcess" resultType="ItemSet">
+<select id="selectItemNoSub" parameterType="SortProcess" resultType="ItemSellSet">
 select * from (select * from item_sell
    inner join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
@@ -45,7 +45,7 @@ order by ${sortName}
 limit #{pageNo}, 100;
 </select>
 
-<select id="selectItemYesSub" parameterType="SortProcess" resultType="ItemSet">
+<select id="selectItemYesSub" parameterType="SortProcess" resultType="ItemSellSet">
 select * from (select * from item_sell
    inner join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
@@ -56,7 +56,7 @@ order by ${sortName}
 limit #{pageNo}, 100;
 </select>
 
-<select id="selectItemAllHomeUp" parameterType="SortProcess" resultType="ItemSet">
+<select id="selectItemAllHomeUp" parameterType="SortProcess" resultType="ItemSellSet">
 select * from (select * from item_sell
    inner join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
@@ -67,7 +67,7 @@ order by ${sortName}
 limit #{pageNo}, 100;
 </select>
 
-<select id="selectItemAllHomeDown" parameterType="SortProcess" resultType="ItemSet">
+<select id="selectItemAllHomeDown" parameterType="SortProcess" resultType="ItemSellSet">
 select * from (select * from item_sell
    inner join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
@@ -106,7 +106,7 @@ select *
 </select>
 
 <!-- 판매상품 상세 조회 -->
-<select id="selectItemOne" parameterType="int" resultType="ItemSet">
+<select id="selectItemOne" parameterType="int" resultType="ItemSellSet">
 select itemsell.*, ip.ip_value
   from item_sell as itemsell join item_photo as ip
     on itemsell.is_no = ip.ip_no
