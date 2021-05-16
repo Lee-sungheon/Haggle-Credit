@@ -3,12 +3,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
-import {
-  callApiStoreInfo,
-  callApiGetStoreReview,
-  callApiGetStoreReviewCnt,
-  callApiUserInfo,
-} from '../../../api/ProductApi';
+
 import Rating from '@material-ui/lab/Rating';
 
 const Container = styled.div``;
@@ -36,15 +31,7 @@ const ReviewTab2 = styled.div`
     cursor: pointer;
   }
 `;
-interface ReviewList {
-  urContent: string;
-  urItemNo: number;
-  urNo: number;
-  urScore: number;
-  urUserNo: number;
-  urWriteDate: string;
-  urWriteUserNo: number;
-}
+
 interface ReviewList {
   u_name: string;
   u_image: string;

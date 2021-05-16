@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +15,8 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
-import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
-import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
@@ -60,37 +58,37 @@ public class ItemSellServiceImpl implements ItemSellService {
 
 	/* R :: 임시임... 아무튼 상품 전체조회 */
 	@Override
-	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception {
+	public List<ItemSellSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception {
 		System.out.println("##" + sortProcess.toString());
 		return itemSellMapper.selectItemNoSubRvsSort(sortProcess);
 	}
 
 	@Override
-	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception {
+	public List<ItemSellSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception {
 		System.out.println("###" + sortProcess.toString());
 		return itemSellMapper.selectItemYesSubRvsSort(sortProcess);
 	}
 
 	@Override
-	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception {
+	public List<ItemSellSet> selectItemNoSub(SortProcess sortProcess) throws Exception {
 		System.out.println("##" + sortProcess.toString());
 		return itemSellMapper.selectItemNoSub(sortProcess);
 	}
 
 	@Override
-	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception {
+	public List<ItemSellSet> selectItemYesSub(SortProcess sortProcess) throws Exception {
 		System.out.println("###" + sortProcess.toString());
 		return itemSellMapper.selectItemYesSub(sortProcess);
 	}
 
 	@Override
-	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception {
+	public List<ItemSellSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception {
 		System.out.println("###" + sortProcess.toString());
 		return itemSellMapper.selectItemAllHomeUp(sortProcess);
 	}
 
 	@Override
-	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception {
+	public List<ItemSellSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception {
 		System.out.println("###" + sortProcess.toString());
 		return itemSellMapper.selectItemAllHomeDown(sortProcess);
 	}
@@ -213,8 +211,12 @@ public class ItemSellServiceImpl implements ItemSellService {
 	
 	/* 상품 상세 조회 */
 	@Override
-	public ItemSet selectItemOne(int isItemNo) throws Exception {
+	public ItemSellSet selectItemOne(int isItemNo) throws Exception {
 		return itemSellMapper.selectItemOne(isItemNo);
+	}
+	@Override
+	public int selectItemCntAP(int isItemNo) throws Exception {
+		return itemSellMapper.selectItemCntAP(isItemNo);
 	}
 	
 	@Override

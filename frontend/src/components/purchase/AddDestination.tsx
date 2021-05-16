@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Requests from './Requests';
 import Address from './Address';
+import { callApiAddAddress } from '../../api/UserApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+import { useHistory } from "react-router";
 
 const Container = styled.div`
   padding-top: 5px;
@@ -110,9 +114,10 @@ const AddDestination = () => {
   const [detail, setDetail] = useState('');
   const [detailError, setDetailError] = useState('');
   const [request, setReqeust] = useState('');
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  const history = useHistory();
 
-  const validationForm = () => {
-    console.log(title);
+  const validationForm = async() => {
     if (title === '') {
       setTitleError("배송지 이름을 입력해주세요.");
     }
@@ -134,7 +139,23 @@ const AddDestination = () => {
     }
     
     if (!titleError && !nameError && !phoneError && !addressError && !detailError) {
-      console.log("완료")
+      if (userNo !== undefined) {
+        const result = await callApiAddAddress(
+          String(isBasic),
+          address + '/' + detail,
+          title,
+          name,
+          phone,
+          request,
+          userNo
+        );
+        if (result === '배송지 추가 완료') {
+          alert("배송지 추가가 완료됐습니다.");
+          history.goBack();
+        } else {
+          alert("다시 시도해주세요.");
+        }
+      }
     }
   }
 

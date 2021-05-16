@@ -108,10 +108,7 @@ const UploadImg = () => {
     <>
       <ImageUploading value={images} onChange={onChange} maxNumber={maxNumber}>
         {({
-          imageList,
           onImageUpload,
-          onImageUpdate,
-          onImageRemove,
           isDragging,
           dragProps,
         }) => (

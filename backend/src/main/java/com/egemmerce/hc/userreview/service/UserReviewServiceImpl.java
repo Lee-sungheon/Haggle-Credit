@@ -59,8 +59,8 @@ public class UserReviewServiceImpl implements UserReviewService {
 
 	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
 	@Override
-	public List<UserReview> selectMyWrittenReviews(int uNo) throws Exception {
-		return userReviewMapper.selectMyWrittenReviews(uNo);
+	public List<Map<String, Object>> selectMyWrittenReviews(int uNo, int page) throws Exception {
+		return userReviewMapper.selectMyWrittenReviews(uNo, page);
 	}
 
 	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */

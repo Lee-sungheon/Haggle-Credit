@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Category from '../../components/category/Category';
 import DetailTab from '../../components/detail/DetailTab';
 import ProductInfo from '../../components/detail/ProductInfo';
 import { RouteComponentProps } from 'react-router-dom';
 import { ITEM } from "styled-components";
+import { callApiItemDetail} from '../../api/ProductApi';
 
 interface MatchParams {
   id: string;
@@ -31,11 +32,25 @@ const CategoryBox = styled.div`
 `;
 
 const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
-  const item = location.state.item;
-  const buy = location.state.buy;
+  let buy;
+  location.state !== undefined ? buy = location.state.buy : buy = true
+  const [item, setItem] = useState<ITEM>({});
   useEffect(() => {
+    const fetchData = async() => { 
+      const data: ITEM = await callApiItemDetail(parseInt(location.pathname.split('/')[2]));
+      setItem(data);
+    }
     window.scrollTo(0, 0);
-  }, [location])
+    fetchData();
+    function listener(event: StorageEvent) {
+      if (event.storageArea !== localStorage) return;
+      fetchData();
+    }
+    window.addEventListener('storage', listener);
+    return () => {
+      window.removeEventListener('storage', listener);
+    }
+  }, [location.pathname])
   return (
     <Container>
       <CategoryBox>

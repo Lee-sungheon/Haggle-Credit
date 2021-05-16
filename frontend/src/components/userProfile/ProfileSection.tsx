@@ -8,12 +8,14 @@ const Container = styled.div`
   height: 20vw;
   display: flex;
 `;
-
-const ProfileSection = () => {
+interface ProfileSectionProps {
+  userData: USERDATA;
+}
+const ProfileSection = ({ userData }: ProfileSectionProps) => {
   return (
     <Container>
-      <UploadImg />
-      <ProfileSub />
+      <UploadImg userData={userData} />
+      <ProfileSub userData={userData} />
     </Container>
   );
 };

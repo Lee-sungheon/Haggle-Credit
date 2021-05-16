@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import { callApiQnaList, callApiWriteQna, callApiDeleteQna } from '../../api/ProductApi';
+import {
+  callApiQnaList,
+  callApiWriteQna,
+  callApiDeleteQna,
+} from '../../api/ProductApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
-  itemNo: number| undefined;
+  itemNo: number | undefined;
 }
 
 interface QNA {
@@ -98,6 +103,7 @@ const QuestionArea = styled.div`
 const Avatar = styled.div`
   display: block;
   margin-right: 15px;
+  cursor: pointer;
 `;
 
 const QuestionItem = styled.div`
@@ -137,85 +143,119 @@ const QuestionButtonArea = styled.div`
   cursor: pointer;
 `;
 
-const ProductQuestion = ({itemNo}: Props) => {
-  const [ qnaList, setQnaList ] = useState<QNA[]>([]);
-  const [ value, setValue ] = useState('');
+const ProductQuestion = ({ itemNo }: Props) => {
+  const [qnaList, setQnaList] = useState<QNA[]>([]);
+  const [value, setValue] = useState('');
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
-  
-  useEffect(()=>{
-    const fetchData = async() => {
-      const result = await callApiQnaList(itemNo);
-      setQnaList(result.reverse());
-    }
-    fetchData();
-  }, [itemNo])
-  
-  const submitQna = async() => {
-    if (!userNo){
-      alert("qna를 남기려면 로그인 해주세요.");
-    } else {
-      const data = {
-        iqContent: value,
-        iqItemNo: itemNo,
-        iqUserNo: userNo
+  const history = useHistory();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (itemNo !== undefined) {
+        const result = await callApiQnaList(itemNo);
+        setQnaList(result.reverse());
       }
-      await callApiWriteQna(data);
-      const result = await callApiQnaList(itemNo);
-      setQnaList(result.reverse());
+    };
+    fetchData();
+  }, [itemNo]);
+
+  const submitQna = async () => {
+    if (!userNo) {
+      alert('qna를 남기려면 로그인 해주세요.');
+    } else {
+      if (itemNo !== undefined) {
+        const data = {
+          iqContent: value,
+          iqItemNo: itemNo,
+          iqUserNo: userNo,
+        };
+        await callApiWriteQna(data);
+        const result = await callApiQnaList(itemNo);
+        setQnaList(result.reverse());
+      }
       setValue('');
     }
-  }
+  };
 
-  const deleteQna = async(qnaNo: number) => {
+  const deleteQna = async (qnaNo: number) => {
     await callApiDeleteQna(qnaNo);
-    const result = await callApiQnaList(itemNo);
-    setQnaList(result.reverse());
-  }
+    if (itemNo !== undefined) {
+      const result = await callApiQnaList(itemNo);
+      setQnaList(result.reverse());
+    }
+  };
 
-  const recommentQna = async(userName: string) => {
-    setValue(`@${userName} `+value)
-  }
+  const recommentQna = async (userName: string) => {
+    setValue(`@${userName} ` + value);
+  };
 
   return (
     <Container>
       <QuestionTitle>
-        상품문의 <span style={{color: 'red'}}>{qnaList.length}</span>
+        상품문의 <span style={{ color: 'red' }}>{qnaList.length}</span>
       </QuestionTitle>
       <InputContainer>
         <MainInputArea>
-          <MainInput placeholder="상품문의 입력" value={value} onChange={(e)=>setValue(e.target.value)} maxLength={100}/>
+          <MainInput
+            placeholder="상품문의 입력"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            maxLength={100}
+          />
         </MainInputArea>
         <SubInputArea>
           <SubInput>{value.length} / 100</SubInput>
-          <InputButton onClick={submitQna}><CreateOutlinedIcon style={{ fontSize: '20px' }}/>등록</InputButton>
+          <InputButton onClick={submitQna}>
+            <CreateOutlinedIcon style={{ fontSize: '20px' }} />
+            등록
+          </InputButton>
         </SubInputArea>
       </InputContainer>
       <QuestionContainer>
-        {qnaList.map((qna, idx)=>(
+        {qnaList.map((qna, idx) => (
           <QuestionArea key={idx}>
-            <Avatar>
-              <img 
+            <Avatar
+              onClick={() => {
+                history.push({
+                  pathname: `/userprofile/${qna.iqUserNo}`,
+                });
+              }}
+            >
+              <img
                 src={qna.u_image}
-                alt="" 
-                width="48" 
+                alt=""
+                width="48"
                 height="48"
-                style={{borderRadius: "50%"}}
+                style={{ borderRadius: '50%' }}
               />
             </Avatar>
             <QuestionItem>
               <QuestionHeader>
-                <div>{qna.u_name}</div>
-                <div style={{fontSize: '13px', color: 'rgb(204, 204, 204)'}}>{qna.iqDate}</div>
+                <div
+                  onClick={() => {
+                    history.push({
+                      pathname: `/userprofile/${qna.iqUserNo}`,
+                    });
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {qna.u_name}
+                </div>
+                <div style={{ fontSize: '13px', color: 'rgb(204, 204, 204)' }}>
+                  {qna.iqDate}
+                </div>
               </QuestionHeader>
-              <QuestionContent>
-                {qna.iqContent}
-              </QuestionContent>
+              <QuestionContent>{qna.iqContent}</QuestionContent>
               <QuestionFooter>
                 <QuestionButtonArea onClick={() => recommentQna(qna.u_name)}>
-                  <InsertCommentOutlinedIcon style={{fontSize: "20px", marginRight: "5px"}}/> 댓글달기
+                  <InsertCommentOutlinedIcon
+                    style={{ fontSize: '20px', marginRight: '5px' }}
+                  />{' '}
+                  댓글달기
                 </QuestionButtonArea>
                 <QuestionButtonArea onClick={() => deleteQna(qna.iqNo)}>
-                  <CloseIcon style={{fontSize: "20px", marginRight: "3px"}}/>{qna.iqUserNo === userNo && '삭제하기'}
+                  <CloseIcon style={{ fontSize: '20px', marginRight: '3px' }} />
+                  {qna.iqUserNo === userNo && '삭제하기'}
                 </QuestionButtonArea>
               </QuestionFooter>
             </QuestionItem>
@@ -223,7 +263,7 @@ const ProductQuestion = ({itemNo}: Props) => {
         ))}
       </QuestionContainer>
     </Container>
-  )
-}
+  );
+};
 
 export default ProductQuestion;

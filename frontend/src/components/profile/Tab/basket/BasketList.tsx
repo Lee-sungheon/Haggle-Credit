@@ -4,22 +4,12 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { makeStyles } from '@material-ui/core/styles';
 import BasketItem from './BasketItem';
-import { ITEM } from 'styled-components';
-
-interface PruductListProps {
+interface BasketListProps {
   buy: boolean;
   products: BookMarkList[];
-}
-interface Products {
-  itemSell: ITEM;
-  itemPhotoes: ItemPhotoes[];
+  deleteBookMark: (item: any) => void;
 }
 
-interface ItemPhotoes {
-  ipNo: number;
-  ipItemNo: number;
-  ipValue: string;
-}
 interface BookMarkList {
   b_item_no: number;
   b_no: number;
@@ -56,6 +46,7 @@ interface BookMarkList {
   ib_deal_address: string;
   ib_end_date: string;
   ib_category_main: string;
+  ip_value: string;
 }
 const useStyles = makeStyles(() => ({
   gridList: {
@@ -81,7 +72,7 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
-const BasketList = ({ buy, products }: PruductListProps) => {
+const BasketList = ({ buy, products, deleteBookMark }: BasketListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
   const ConfirmWidth = useCallback(() => {
@@ -118,11 +109,12 @@ const BasketList = ({ buy, products }: PruductListProps) => {
         {products.length > 0 &&
           products.map((item, idx) => (
             <GridListTile key={idx}>
-              {/* <BasketItem
-                item={item.itemSell}
-                image={item.itemPhotoes}
+              <BasketItem
+                item={item}
+                image={item.ip_value}
                 buy={buy}
-              /> */}
+                deleteBookMark={deleteBookMark}
+              />
             </GridListTile>
           ))}
       </GridList>

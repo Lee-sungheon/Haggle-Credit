@@ -98,7 +98,7 @@ const DetailTab = ({item, buy}: Props) => {
           <ProductDetail item={item}/>
         </div>
         <div ref={questionRef}>
-          <ProductQuestion itemNo={item.ipItemNo}/>
+          <ProductQuestion itemNo={item.isItemNo}/>
         </div>
       </TabContianer>
       <StoreInfo item={item} buy={buy}/>

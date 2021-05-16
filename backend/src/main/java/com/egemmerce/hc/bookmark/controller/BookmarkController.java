@@ -1,6 +1,7 @@
 package com.egemmerce.hc.bookmark.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,22 +47,31 @@ public class BookmarkController {
 
 	/* R :: 북마크 조회 */
 	@GetMapping("/read")
-	public ResponseEntity<List<Bookmark>> selectBookmark(@RequestParam int uNo) throws Exception {
-		return new ResponseEntity<List<Bookmark>>(bookmarkService.selectBookmark(uNo), HttpStatus.OK);
+	public ResponseEntity<List<Map<String, Object>>> selectBookmark(@RequestParam int uNo, @RequestParam String type) throws Exception {
+		if (type.equals("buy"))
+			return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectBuyBookmark(uNo), HttpStatus.OK);
+		return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectSellBookmark(uNo), HttpStatus.OK);
+	}
+	
+	/* R :: 북마크한 수 조회 */
+	@GetMapping("/count")
+	public ResponseEntity<Integer> selectBookmarkCount(@RequestParam int uNo) throws Exception {
+		return new ResponseEntity<Integer>(bookmarkService.selectBookmarkCount(uNo), HttpStatus.OK);
 	}
 
 	/* D :: 북마크 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<Boolean> deleteBookmark(@RequestParam int bItemNo, @RequestParam int bUserNo) throws Exception {
+	public ResponseEntity<Boolean> deleteBookmark(@RequestParam int bItemNo, @RequestParam int bUserNo)
+			throws Exception {
 		if (bookmarkService.deleteBookmark(bItemNo, bUserNo) > 0) {
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
 	}
-	
+
 	@GetMapping("/checkedStatus")
 	public ResponseEntity<String> selectBookmarkStatus(Bookmark bookmark) throws Exception {
-		if(bookmarkService.selectBookmarkStatus(bookmark) != null) {
+		if (bookmarkService.selectBookmarkStatus(bookmark) != null) {
 			System.out.println("찜한 상태");
 			return new ResponseEntity<String>("찜된 상태입니다.", HttpStatus.OK);
 		}

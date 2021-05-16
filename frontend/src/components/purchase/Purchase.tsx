@@ -1,5 +1,16 @@
-import styled from 'styled-components';
+import styled, { ITEM } from 'styled-components';
 import { theme } from '../../styles/theme';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+import { callApiUpdateAuction, callApiDealCompleted } from '../../api/ProductApi';
+import { useDispatch } from 'react-redux';
+import { userActions } from "../../state/user";
+import { totalActions } from "../../state/common/common";
+
+interface Props {
+  desc: ITEM;
+  uaNo: number;
+}
 
 const ItemTitle = styled.div`
 position: relative;
@@ -91,15 +102,40 @@ font-weight: bold;
 text-align: center;
 `;
 
-const Purchase = () => {
-  const credit = "120000 C";
+const Purchase = ({desc, uaNo}: Props) => {
+  let credit;
+  desc.isCoolPrice !== undefined ? credit = desc.isCoolPrice : credit = 0;
+  const userData = useSelector((state: RootState) => state.user.userData);
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
+  const dispatch = useDispatch();
+
+  const submitPurchase = async() => {
+    if (desc.isCoolPrice !== undefined && desc.isItemNo !== undefined && userData.uNo !== undefined && uaNo !== -1){
+      const result = await callApiUpdateAuction(desc.isCoolPrice, desc.isItemNo, userData.uNo, uaNo);
+      if (result >= 0 ){
+        await callApiDealCompleted(desc.isItemNo, userData.uNo, uaNo);
+        alert('구매가 완료되었습니다.');
+        const data = Object.assign({}, userData);
+        data.uCredit = result;
+        dispatch(userActions.changeCredit(data));
+        dispatch(totalActions.setIsUpdate(!isUpdate));
+
+      } else {
+        alert('오류가 발생했습니다.');
+      }
+      window.close();
+    }
+  }
+  
   return (
     <>
       <PurchaseArea>
         <PurchaseTitle>구매하기</PurchaseTitle>
         <PurchaseItem>
           <ItemTitle>즉구가</ItemTitle>
-          <ItemContent style={{fontSize: "18px"}}><span style={{color: theme.color.main, fontWeight: 'bold'}}>{'120000'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+          <ItemContent style={{fontSize: "18px"}}><span style={{color: theme.color.main, fontWeight: 'bold'}}>
+            {desc.isCoolPrice !== undefined && desc.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          </span>
           원</ItemContent>
         </PurchaseItem>
         <PurchaseItem style={{flexDirection: 'column'}}>
@@ -115,11 +151,13 @@ const Purchase = () => {
                 <ChargingButton>충전하기</ChargingButton>
               </PurchaseInputArea>
             </ItemContent>
-            <AvailablePoint>사용 가능한 크레딧 <span style={{fontWeight: 'bold'}}>0 C</span></AvailablePoint>
+            <AvailablePoint>사용 가능한 크레딧 <span style={{fontWeight: 'bold'}}>
+              {userData.uCredit !== undefined && userData.uCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</span>
+            </AvailablePoint>
           </div>
         </PurchaseItem>
       </PurchaseArea>
-      <PurchaseButton>구매하기</PurchaseButton>
+      <PurchaseButton onClick={submitPurchase}>구매하기</PurchaseButton>
     </>
   )
 }

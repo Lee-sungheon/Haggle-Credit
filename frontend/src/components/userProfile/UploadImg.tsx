@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   width: 30%;
@@ -18,10 +19,10 @@ const ImageList = styled.div`
   text-align: center;
   position: inline-block;
 `;
-
-const UploadImg = () => {
-  const userData = useSelector((state: RootState) => state.user.joinUserData);
-
+interface ProfileSectionProps {
+  userData: USERDATA;
+}
+const UploadImg = ({ userData }: ProfileSectionProps) => {
   return (
     <>
       {userData.uImage ? (

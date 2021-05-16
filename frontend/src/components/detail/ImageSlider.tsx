@@ -21,8 +21,10 @@ const ImageSlider = ({itemNo}: Props) => {
   const [imageList, setImageList] = useState<IMAGES[]>([]);
   useEffect(()=>{
     const fetchData = async() => {
-      const result = await callApiImageList(itemNo);
-      setImageList(result);
+      if (itemNo !== undefined){
+        const result = await callApiImageList(itemNo);
+        setImageList(result);
+      }
     };
     fetchData();
   }, [itemNo])

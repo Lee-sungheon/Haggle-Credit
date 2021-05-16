@@ -15,11 +15,9 @@
 	</insert>
 
 	<!-- R :: (나의프로필에서) 내가 쓴 리뷰 보기 -->
-	<select id="selectMyWrittenReviews" resultType="UserReview">
-		select *
-		from user_review
-		where ur_write_user_no = #{uNo}
-		order by ur_no desc
+	<select id="selectMyWrittenReviews" resultType="map">
+		select ur.*, u.u_name, u.u_image FROM user_review AS ur JOIN user AS u ON
+		ur.ur_write_user_no = u.u_no WHERE ur_write_user_no = #{uNo} order by ur_no desc limit #{page}, 10
 	</select>
 
 	<!-- R :: 내 상점 리뷰 보기 -->

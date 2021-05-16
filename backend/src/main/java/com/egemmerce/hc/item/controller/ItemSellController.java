@@ -28,7 +28,7 @@ import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
-import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAddress;
@@ -81,9 +81,9 @@ public class ItemSellController {
 
 	/* R :: 임시임.. 상품 전체 조회 */
 	@GetMapping("views")
-	public ResponseEntity<List<ItemSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
+	public ResponseEntity<List<ItemSellSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
 			String UD) throws Exception {
-		List<ItemSet> itemSellSet = null;
+		List<ItemSellSet> itemSellSet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
 		if (UD.equals("up")) { // 오름차순
@@ -114,20 +114,20 @@ public class ItemSellController {
 			}
 		}
 
-		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+		return new ResponseEntity<List<ItemSellSet>>(itemSellSet, HttpStatus.OK);
 	}
 
 	@GetMapping("viewHome")
-	public ResponseEntity<List<ItemSet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
+	public ResponseEntity<List<ItemSellSet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
 			String sortName, String UD) throws Exception {
-		List<ItemSet> itemSellSet = null;
+		List<ItemSellSet> itemSellSet = null;
 		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
 		if (UD.equals("up")) {
 			itemSellSet = itemSellService.selectItemAllHomeUp(sp);
 		} else {
 			itemSellSet = itemSellService.selectItemAllHomeDown(sp);
 		}
-		return new ResponseEntity<List<ItemSet>>(itemSellSet, HttpStatus.OK);
+		return new ResponseEntity<List<ItemSellSet>>(itemSellSet, HttpStatus.OK);
 	}
 
 	@GetMapping("cgtrCnt")
@@ -246,12 +246,12 @@ public class ItemSellController {
 
 	/* 경매 입찰 */
 	@PutMapping("/auction")
-	public ResponseEntity<String> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice, int uaNo) throws Exception {
+	public ResponseEntity<?> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice, int uaNo) throws Exception {
 		// 입찰에 참여한 물건 정도
 		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
 
 		// 현 입찰가보다 작을 경유
-		if (itemSell.getIsAuctionIngPrice() > isAuctionPrice) {
+		if (itemSell.getIsAuctionIngPrice() >= isAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 작습니다.", HttpStatus.OK);
 		}
 		// 아이템 정보 변경
@@ -280,15 +280,17 @@ public class ItemSellController {
 					.apBid(isAuctionPrice).apAddress(userAddress.getUaNo()).build();
 			auctionParticipant.generateapDate();
 			auctionParticipantService.insert(auctionParticipant);
+			
+			User newUser=userService.selectUserByuNo(isUserNo);
 //
 //			// 새로 입찰한 유저 포인트 출금
 //			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);
 
 			// 이전에 경매에 참여한 사람 크래딧 환불 새로 입찰한 사람 크래딧 회수
 
-			return new ResponseEntity<String>("경매가 업데이트 성공.", HttpStatus.OK);
+			return new ResponseEntity<Integer>(newUser.getuCredit(), HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("경매가 업데이트 실패.", HttpStatus.OK);
+		return new ResponseEntity<String>("-1", HttpStatus.OK);
 	}
 
 	/* R :: 내가 올린 상품 */
@@ -326,8 +328,10 @@ public class ItemSellController {
 
 	@ApiOperation(value = "아이템 상세 조회 정보")
 	@GetMapping("/detail/inform")
-	public ResponseEntity<ItemSet> selectItemOne(int isItemNo) throws Exception {
-		return new ResponseEntity<ItemSet>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
+	public ResponseEntity<ItemSellSet> selectItemOne(int isItemNo) throws Exception {
+		ItemSellSet result = itemSellService.selectItemOne(isItemNo);
+		result.setJoinerCnt(itemSellService.selectItemCntAP(isItemNo));
+		return new ResponseEntity<ItemSellSet>(result, HttpStatus.OK);
 	}
 
 }

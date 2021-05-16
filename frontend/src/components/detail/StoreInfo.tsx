@@ -179,30 +179,34 @@ const StoreInfo = ({ item, buy }: Props) => {
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await callApiStoreInfo(item.isUserNo);
-      setStoreInfo(data);
+      if (item.isUserNo !== undefined) {
+        const data = await callApiStoreInfo(item.isUserNo);
+        setStoreInfo(data);
+      }
     };
     const fetchData2 = async () => {
-      const data2 = await callApiUserInfo(item.isUserNo);
-      setUserInfo(data2);
+      if (item.isUserNo !== undefined) {
+        const data2 = await callApiUserInfo(item.isUserNo);
+        setUserInfo(data2);
+      }
     };
     fetchData();
     fetchData2();
   }, [item.isUserNo]);
   useEffect(() => {
     const fetchData = async () => {
-      if (userNo !== undefined) {
-        const data = await callApiGetStoreReview(userNo);
-        const cnt = await callApiGetStoreReviewCnt(userNo);
+      if (userInfo.uNo !== undefined) {
+        const data = await callApiGetStoreReview(userInfo.uNo);
+        const cnt = await callApiGetStoreReviewCnt(userInfo.uNo);
         setReviewCnt(cnt);
         setReviewList(data);
       }
     };
     fetchData();
-  }, [userNo]);
+  }, [userInfo]);
   const goChat = async () => {
     const body = {
-      crItemNo: item.ipItemNo,
+      crItemNo: item.isItemNo,
       crUserNoOne: userNo,
       crUserNoTwo: item.isUserNo,
     };
@@ -228,7 +232,7 @@ const StoreInfo = ({ item, buy }: Props) => {
               style={{ borderRadius: '50%' }}
               onClick={() => {
                 history.push({
-                  pathname: `/userprofile/32`,
+                  pathname: `/userprofile/${userInfo.uNo}`,
                 });
               }}
             />
@@ -259,7 +263,13 @@ const StoreInfo = ({ item, buy }: Props) => {
               </ProductInfo>
             ))}
         </ProductArea>
-        <MoreArea>
+        <MoreArea
+          onClick={() => {
+            history.push({
+              pathname: `/userprofile/${userInfo.uNo}`,
+            });
+          }}
+        >
           <MoreText>
             <span style={{ color: theme.color.main, marginRight: '5px' }}>
               {storeInfoList.length >= 2
@@ -279,7 +289,13 @@ const StoreInfo = ({ item, buy }: Props) => {
         {reviewList.map((review, idx) => (
           <ReviewArea key={idx}>
             <ReviewItem>
-              <Avatar>
+              <Avatar
+                onClick={() => {
+                  history.push({
+                    pathname: `/userprofile/${review.ur_write_user_no}`,
+                  });
+                }}
+              >
                 <img
                   src={review.u_image}
                   alt=""
@@ -290,7 +306,18 @@ const StoreInfo = ({ item, buy }: Props) => {
               </Avatar>
               <ReviewBox>
                 <ReviewItemTitle>
-                  <div>{review.u_name}</div>
+                  <div
+                    onClick={() => {
+                      history.push({
+                        pathname: `/userprofile/${review.ur_write_user_no}`,
+                      });
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {review.u_name}
+                  </div>
                   <div style={{ fontSize: '11px' }}>
                     {review.ur_write_date.slice(0, 10)}
                   </div>
@@ -309,7 +336,13 @@ const StoreInfo = ({ item, buy }: Props) => {
             </ReviewItem>
           </ReviewArea>
         ))}
-        <MoreArea>
+        <MoreArea
+          onClick={() => {
+            history.push({
+              pathname: `/userprofile/${userInfo.uNo}/transactionreview`,
+            });
+          }}
+        >
           <MoreText>
             상점후기 더보기
             <ChevronRightOutlinedIcon
@@ -327,7 +360,7 @@ const StoreInfo = ({ item, buy }: Props) => {
               <StyledButton
                 style={{ background: theme.color.main, marginLeft: '5px' }}
                 onClick={() =>
-                  window.open(`../auction/buy/${item.ipItemNo}`, '_blank')
+                  window.open(`../auction/buy/${item.isItemNo}`, '_blank')
                 }
               >
                 입찰하기
@@ -336,7 +369,7 @@ const StoreInfo = ({ item, buy }: Props) => {
               <StyledButton
                 style={{ background: theme.color.main, marginLeft: '5px' }}
                 onClick={() =>
-                  window.open(`../auction/sell/${item.ipItemNo}`, '_blank')
+                  window.open(`../auction/sell/${item.isItemNo}`, '_blank')
                 }
               >
                 입찰하기

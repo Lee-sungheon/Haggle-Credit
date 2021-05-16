@@ -1,18 +1,16 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import styled, {DEST, USERDATA} from 'styled-components';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import { useHistory } from "react-router";
 import DestinationItem from "./DestinationItem";
+import { callApiGetAddress } from "../../api/UserApi";
 
 interface DestinationProps {
   isModal: boolean;
-  destination: Dest[];
-}
-
-interface Dest {
-  [key: string]: string
+  userData: USERDATA;
+  setUaNo: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -170,11 +168,33 @@ const RequestBox = styled.div`
   align-items: center;
 `;
 
-const Destination = ({isModal, destination}: DestinationProps) => {
+const Destination = ({isModal, userData, setUaNo}: DestinationProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(isModal);
+  const [destList, setDestList] = useState<DEST[]>([]);
+  const [refresh, setRefresh] = useState(false);
+  const [destination, setDestination] = useState<DEST>({});
   const history = useHistory();
 
+  useEffect(()=>{
+    const fetchData = async() => {
+      if (userData.uNo !== undefined){
+        const data = await callApiGetAddress(userData.uNo);
+        setDestList(data);
+        if (data.length > 0 && data[0].uaDefaultSetting === "true") {
+          setUaNo(data[0].uaNo);
+        }
+      }
+    }
+    fetchData();
+  }, [userData.uNo, refresh, setUaNo])
+
+  useEffect(()=>{
+    if (Object.keys(destination).length > 0){
+      setUaNo(destination.uaNo);
+      setOpen(false);
+    }
+  }, [destination, setUaNo])
   const handleOpen = () => {
     setOpen(true);
   };
@@ -190,17 +210,34 @@ const Destination = ({isModal, destination}: DestinationProps) => {
         <DestinationButton onClick={handleOpen}>
           <StyledIcon />
         </DestinationButton>
-        <DestinationItemArea style={{border: 'none', padding: 0, paddingBottom: 20}}>
-          <AddressBox>
-            <p>{destination[0]['address']}</p>
-          </AddressBox>
-          <ContentBox>
-          {destination[0]['title']} ・ {destination[0]['name']} ・ {destination[0]['phone']}
-          </ContentBox>
-          <RequestBox>
-            <span>요청사항 | {destination[0]['request']}</span>
-          </RequestBox>
-        </DestinationItemArea>
+        {
+          Object.keys(destination).length === 0 && destList.length > 0 && destList[0].uaDefaultSetting === "true" &&
+          <DestinationItemArea style={{border: 'none', padding: 0, paddingBottom: 20}}>
+            <AddressBox>
+              <p>{destList[0].uaLnmAddress}</p>
+            </AddressBox>
+            <ContentBox>
+            {destList[0].uaName} ・ {destList[0].uaRecvUserName} ・ {destList[0].uaRecvUserPhone}
+            </ContentBox>
+            <RequestBox>
+              <span>요청사항 | {destList[0].uaRequest}</span>
+            </RequestBox>
+          </DestinationItemArea>
+        }
+        {
+          Object.keys(destination).length > 0 &&
+          <DestinationItemArea style={{border: 'none', padding: 0, paddingBottom: 20}}>
+            <AddressBox>
+              <p>{destination.uaLnmAddress}</p>
+            </AddressBox>
+            <ContentBox>
+            {destination.uaName} ・ {destination.uaRecvUserName} ・ {destination.uaRecvUserPhone}
+            </ContentBox>
+            <RequestBox>
+              <span>요청사항 | {destination.uaRequest}</span>
+            </RequestBox>
+          </DestinationItemArea>
+        }
       </DestinationArea>
 
       <Modal
@@ -221,7 +258,7 @@ const Destination = ({isModal, destination}: DestinationProps) => {
               <DestinationCloseButton onClick={handleClose}/>
             </DestinationTitle>
             <DestinationBox>
-              {destination.length === 0 ?
+              {destList.length === 0 ?
                 <DestinationContent>
                   <div>
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSI1NiIgdmlld0JveD0iMCAwIDU2IDU2Ij4KICAgIDxwYXRoIGZpbGw9IiNEQ0RCRTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTQ5LjU4IDEyLjAyYy41MjYuNTI1LjgyIDEuMjM3LjgyIDEuOTh2MzkuMmMwIDEuNTQ2LTEuMjU0IDIuOC0yLjggMi44SDguNGMtMS41NDYgMC0yLjgtMS4yNTQtMi44LTIuOFYyLjhDNS42IDEuMjU0IDYuODU0IDAgOC40IDBoMjhjLjc0MyAwIDEuNDU1LjI5NCAxLjk4LjgybDExLjIgMTEuMnpNNDQuOCA1MC40VjE1LjE2TDM1LjI0IDUuNkgxMS4ydjQ0LjhoMzMuNnptLTUuNi0xMS4yYzAgMS41NDYtMS4yNTQgMi44LTIuOCAyLjhIMTkuNmMtMS41NDYgMC0yLjgtMS4yNTQtMi44LTIuOCAwLTEuNTQ2IDEuMjU0LTIuOCAyLjgtMi44aDE2LjhjMS41NDYgMCAyLjggMS4yNTQgMi44IDIuOHptLTE5LjYtMTRoMTYuOGMxLjU0NiAwIDIuOCAxLjI1NCAyLjggMi44IDAgMS41NDYtMS4yNTQgMi44LTIuOCAyLjhIMTkuNmMtMS41NDYgMC0yLjgtMS4yNTQtMi44LTIuOCAwLTEuNTQ2IDEuMjU0LTIuOCAyLjgtMi44em04LjQtNS42aC04LjRjLTEuNTQ2IDAtMi44LTEuMjU0LTIuOC0yLjggMC0xLjU0NiAxLjI1NC0yLjggMi44LTIuOEgyOGMxLjU0NiAwIDIuOCAxLjI1NCAyLjggMi44IDAgMS41NDYtMS4yNTQgMi44LTIuOCAyLjh6Ii8+Cjwvc3ZnPgo=" alt=""/>
@@ -239,7 +276,16 @@ const Destination = ({isModal, destination}: DestinationProps) => {
                 </DestinationContent>
               :
                 <DestinationList>
-                  <DestinationItem destination={destination}/>
+                  {destList.map((destination, idx)=>(
+                    <DestinationItem 
+                      key={idx}
+                      destination={destination} 
+                      userData={userData} 
+                      setRefresh={setRefresh} 
+                      refresh={refresh}
+                      setDestination={setDestination}
+                      />
+                  ))}
                 </DestinationList>
               }
             </DestinationBox>

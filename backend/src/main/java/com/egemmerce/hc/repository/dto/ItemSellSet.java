@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ItemSet {
+public class ItemSellSet {
 	private int isNo;
 	private int isItemNo;
 	private int isUserNo;
@@ -30,11 +30,11 @@ public class ItemSet {
 	private String ipValue;
 	private int apItemNo;
 	private int joinerCnt;
-	public ItemSet() {
+	public ItemSellSet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ItemSet(int isNo, int isItemNo, int isUserNo, String isItemName, String isCategoryMain, String isCategorySub,
+	public ItemSellSet(int isNo, int isItemNo, int isUserNo, String isItemName, String isCategoryMain, String isCategorySub,
 			String isContent, String isUsedStatus, int isCoolPrice, int isAuctionInitPrice, int isDealPrice,
 			int isDealUserNo, int isDealAddress, String isStartDate, String isEndDate, String isEventAgree,
 			int isAuctionIngPrice, int ipNo, int ipItemNo, String ipValue, int apItemNo, int joinerCnt) {

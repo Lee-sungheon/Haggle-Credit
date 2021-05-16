@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-// import { RootState } from '../../common/store';
 import { useEffect, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
-import ProductItem from './product/ProductItem';
 import ProductList from './product/ProductList';
 import axios from 'axios';
 
@@ -107,9 +105,8 @@ const ProductTab = () => {
             >
               등록된 구매글이 없습니다.
             </div>
-          ) : (
-            <ProductList buy={true} products={buyItemList} />
-          )}
+          ) : // <ProductList buy={true} products={buyItemList} />
+          null}
         </>
       )}
     </>

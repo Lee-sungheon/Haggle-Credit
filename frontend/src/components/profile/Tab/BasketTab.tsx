@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
 import BasketList from './basket/BasketList';
 
-const Container = styled.div``;
 const Body = styled.div`
   margin-top: 30px;
   padding-left: 30px;
@@ -60,8 +59,8 @@ interface BookMarkList {
   ib_deal_address: string;
   ib_end_date: string;
   ib_category_main: string;
+  ip_value: string;
 }
-interface BuyBookMarkList {}
 const BasketTab = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const [reviewTab, setReviewTab] = useState(1);
@@ -97,6 +96,41 @@ const BasketTab = () => {
         console.log(err);
       });
   }, []);
+  const deleteBookMark = (item: any) => {
+    console.log(item);
+    axios
+      .delete(
+        `https://k4d107.p.ssafy.io/haggle-credit/bookmark/delete?bItemNo=${item.b_item_no}&bUserNo=${item.b_user_no}`
+      )
+      .then((res) => {
+        console.log(res);
+        axios
+          .get(
+            `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=sell&uNo=${userData.uNo}`
+          )
+          .then((res) => {
+            setSellBookMarkList(res.data);
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        axios
+          .get(
+            `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=buy&uNo=${userData.uNo}`
+          )
+          .then((res) => {
+            setBuyBookMarkList(res.data);
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const onReviewTab1 = () => {
     setReviewTab(1);
   };
@@ -147,10 +181,15 @@ const BasketTab = () => {
                 paddingTop: '30px',
               }}
             >
-              등록된 판매글이 없습니다.
+              등록된 찜목록이 없습니다.
             </div>
-          ) : // <BasketList buy={true} products={sellBookMarkList} />
-          null}
+          ) : (
+            <BasketList
+              buy={true}
+              products={sellBookMarkList}
+              deleteBookMark={deleteBookMark}
+            />
+          )}
         </>
       ) : (
         <>
@@ -169,9 +208,9 @@ const BasketTab = () => {
                 paddingTop: '30px',
               }}
             >
-              등록된 구매글이 없습니다.
+              등록된 찜목록이 없습니다.
             </div>
-          ) : // <BasketList buy={true} products={buyBookMarkList} />
+          ) : // <BasketList buy={false} products={buyBookMarkList} />
           null}
         </>
       )}

@@ -71,9 +71,10 @@ public class UserReviewController {
 	}
 
 	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
-	@GetMapping("myWritten")
-	public ResponseEntity<List<UserReview>> SelectMyWrittenReviews(int uNo) throws Exception {
-		return new ResponseEntity<List<UserReview>>(userReviewService.selectMyWrittenReviews(uNo), HttpStatus.OK);
+	@GetMapping("/myWritten")
+	public ResponseEntity<List<Map<String, Object>>> SelectMyWrittenReviews(int uNo, int page) throws Exception {
+		page = (page - 1) * 10;
+		return new ResponseEntity<List<Map<String, Object>>>(userReviewService.selectMyWrittenReviews(uNo, page), HttpStatus.OK);
 	}
 
 	/* R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 */

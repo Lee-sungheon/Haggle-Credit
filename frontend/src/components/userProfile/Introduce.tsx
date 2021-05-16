@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../common/store';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   height: 11.5vw;
@@ -11,11 +10,10 @@ const Title = styled.p`
   text-align: left;
 `;
 
-
-
-const Introduce = () => {
-  const userData = useSelector((state: RootState) => state.user.joinUserData);
-
+interface IntroduceProps {
+  userData: USERDATA;
+}
+const Introduce = ({ userData }: IntroduceProps) => {
   return (
     <Container>
       <Title>소개</Title>

@@ -9,22 +9,22 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemSell;
-import com.egemmerce.hc.repository.dto.ItemSet;
+import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 
 @Mapper
 public interface ItemSellMapper {
-	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception;
+	public List<ItemSellSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception;
 
-	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
+	public List<ItemSellSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
 
-	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
+	public List<ItemSellSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
 
-	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
+	public List<ItemSellSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
 
-	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
+	public List<ItemSellSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
 
-	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
+	public List<ItemSellSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
 
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
 
@@ -32,7 +32,9 @@ public interface ItemSellMapper {
 
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
 
-	public ItemSet selectItemOne(int isNo) throws Exception;
+	public ItemSellSet selectItemOne(int isNo) throws Exception;
+	
+	public int selectItemCntAP(int isItemNo) throws Exception;
 
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
 

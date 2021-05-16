@@ -55,8 +55,8 @@ const UserProfile = ({ match, location }: RouteComponentProps<MatchParams>) => {
   return (
     <Container>
       <Body>
-        <ProfileSection />
-        {userData && <ProfileTab />}
+        <ProfileSection userData={userData} />
+        {userData && <ProfileTab userData={userData} />}
       </Body>
     </Container>
   );

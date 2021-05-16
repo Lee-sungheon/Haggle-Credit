@@ -59,3 +59,60 @@ export function changeProfileImageAPI(body: any) {
     },
   });
 }
+
+export function callApiGetAddress(uNo: number) {
+  const url:string = `https://k4d107.p.ssafy.io/haggle-credit/user/address?uNo=${uNo}`
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}
+
+export function callApiAddAddress(uaDefaultSetting: string, uaLnmAddress: string, uaName: string, uaRecvUserName: string, uaRecvUserPhone: string, uaReqeust: string, uaUserNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/address/add?uaDefaultSetting=${uaDefaultSetting}&uaLnmAddress=${uaLnmAddress}&uaName=${uaName}&uaRecvUserName=${uaRecvUserName}&uaRecvUserPhone=${uaRecvUserPhone}&uaRequest=${uaReqeust}&uaUserNo=${uaUserNo}`;
+  return axios
+    .post(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+  });
+}
+
+export function callApiChangeDefaultAddress(uNo: number, uaNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/address/change/defaultAddress?uNo=${uNo}&uaNo=${uaNo}`;
+  return axios
+    .put(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+  });
+}
+
+export function callApiDeleteAddress(uaNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/address/delete?uaNo=${uaNo}`;
+  return axios
+    .delete(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+  });
+}
