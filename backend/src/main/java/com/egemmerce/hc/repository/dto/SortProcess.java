@@ -14,9 +14,18 @@ public class SortProcess {
 	private String ctgrMain;
 	private String ctgrSub;
 	private String sortName;
+	private String word;
 	public SortProcess() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	public SortProcess(int pageNo, String ctgrMain, String ctgrSub, String sortName, String word) {
+		super();
+		this.pageNo = pageNo;
+		this.ctgrMain = ctgrMain;
+		this.ctgrSub = ctgrSub;
+		this.sortName = sortName;
+		this.word = word;
 	}
 	public SortProcess(int pageNo, String ctgrMain, String ctgrSub, String sortName) {
 		super();
@@ -24,7 +33,9 @@ public class SortProcess {
 		this.ctgrMain = ctgrMain;
 		this.ctgrSub = ctgrSub;
 		this.sortName = sortName;
+		this.word = "";
 	}
+	
 	public int getPageNo() {
 		return pageNo;
 	}
@@ -49,5 +60,10 @@ public class SortProcess {
 	public void setSortName(String sortName) {
 		this.sortName = sortName;
 	}
-	
+	public String getWord() {
+		return word;
+	}
+	public void setWord(String word) {
+		this.word = word;
+	}
 }
