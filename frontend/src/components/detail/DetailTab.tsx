@@ -7,6 +7,7 @@ import { ITEM } from "styled-components";
 
 interface Props {
   item: ITEM;
+  buy: boolean;
 }
 const Container = styled.div`
   text-align: center;
@@ -54,7 +55,7 @@ const Tab = styled.div`
   font-weight: 600;
 `;
 
-const DetailTab = ({item}: Props) => {
+const DetailTab = ({item, buy}: Props) => {
   const [tabId, setTabId] = useState(0);
   const detailRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLDivElement>(null);
@@ -100,7 +101,7 @@ const DetailTab = ({item}: Props) => {
           <ProductQuestion itemNo={item.ipItemNo}/>
         </div>
       </TabContianer>
-      <StoreInfo item={item}/>
+      <StoreInfo item={item} buy={buy}/>
     </Container>
   );
 };

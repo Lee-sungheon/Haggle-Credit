@@ -1,11 +1,12 @@
 import { all } from '@redux-saga/core/effects';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { persistReducer } from 'redux-persist';
-import storageSession from 'redux-persist/lib/storage/session';
+import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import HomeReducer from '../state/home';
 import HomeSaga from '../state/home/saga';
 import CommonReducer from '../state/common';
+// import TotalReducer from '../state/common/common';
 import UserReducer from '../state/user';
 
 declare global {
@@ -16,14 +17,15 @@ declare global {
 
 const persistConfig = {
   key: 'root',
-  storage: storageSession,
-  whitelist: ['common', 'user'],
+  storage: storage,
+  whitelist: ['user'],
 };
 
 const reducer = combineReducers({
   home: HomeReducer,
   common: CommonReducer,
   user: UserReducer,
+  // total: TotalReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

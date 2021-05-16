@@ -1,5 +1,5 @@
-import { ImageType } from 'react-images-uploading';
 import { createReducer } from '../../common/createReducer';
+import { ITEM } from "styled-components";
 
 export const types = {
   USER_LOGIN: 'user/USER_LOGIN',
@@ -9,6 +9,8 @@ export const types = {
   CHANGE_PROFILE_IMAGE: 'user/CHANGE_PROFILE_IMAGE',
   CHANGE_INTRODUCE: 'user/CHANGE_INTRODUCE',
   JOIN_USER_DATA: 'user/JOIN_USER_DATA',
+  ADD_RECENTLY: "user/ADD_RECENTLY",
+  DELETE_RECENTLY: "user/DELETE_RECENTLY",
 };
 
 export const userActions = {
@@ -28,6 +30,8 @@ export const userActions = {
     type: types.JOIN_USER_DATA,
     joinUserData,
   }),
+  addRecently: (data: ITEM) => ({ type: types.ADD_RECENTLY, data }),
+  deleteRecently: (data: ITEM) => ({ type: types.DELETE_RECENTLY, data }),
 };
 
 type userLogin = ReturnType<typeof userActions.userLogin>;
@@ -37,11 +41,14 @@ type changeCredit = ReturnType<typeof userActions.changeCredit>;
 type changeProfileImage = ReturnType<typeof userActions.changeProfileImage>;
 type changeIntroduce = ReturnType<typeof userActions.changeIntroduce>;
 type joinUserData = ReturnType<typeof userActions.joinUserData>;
+type AddRecently = ReturnType<typeof userActions.addRecently>;
+type DeleteRecently = ReturnType<typeof userActions.deleteRecently>;
 
 export interface userState {
   userData: UserData;
   isLogin: boolean;
   joinUserData: UserData;
+  recentlyItems: ITEM[];
 }
 
 interface UserData {
@@ -69,6 +76,7 @@ const INITIAL_STATE: userState = {
   userData: {},
   joinUserData: {},
   isLogin: false,
+  recentlyItems: [],
 };
 
 const reducer = createReducer<userState>(INITIAL_STATE, {
@@ -115,6 +123,34 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
     return {
       ...state,
       userData: action.userData,
+    };
+  },
+  [types.ADD_RECENTLY]: (state, action: AddRecently) => {
+    let isExist: boolean = false;
+    for(let i = 0; i < state.recentlyItems.length; i++) {
+      if(state.recentlyItems[i].ipItemNo === action.data.ipItemNo)  {
+        isExist = true;
+        break;
+      }
+    }
+    if (!isExist) {
+      state.recentlyItems.push(action.data)
+    }
+    state.recentlyItems = [...state.recentlyItems];
+    return {
+      ...state,
+    };
+  },
+  [types.DELETE_RECENTLY]: (state, action: DeleteRecently) => {
+    for(let i = 0; i < state.recentlyItems.length; i++) {
+      if(state.recentlyItems[i].ipItemNo === action.data.ipItemNo)  {
+        state.recentlyItems.splice(i, 1);
+        break;
+      }
+    }
+    state.recentlyItems = [...state.recentlyItems];
+    return {
+      ...state,
     };
   },
 });

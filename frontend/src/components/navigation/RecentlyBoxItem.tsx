@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { commonActions } from "../../state/common";
+import { userActions } from "../../state/user";
 import { useHistory } from "react-router";
 import { ITEM } from "styled-components";
 
@@ -81,7 +81,7 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
     }
   }
   const deleteItem = () => {
-    dispatch(commonActions.deleteRecently(item));
+    dispatch(userActions.deleteRecently(item));
   }
 
   return (
@@ -92,7 +92,8 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
     >
       <ItemDesBox ref={ItemRef}>
         <DesTitle>{item.isItemName}</DesTitle>
-        <DesTitle style={{fontWeight: 900}}>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</DesTitle>
+        <DesTitle style={{fontWeight: 900}}>
+          {item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</DesTitle>
         <DeleteButton onClick={deleteItem}>X</DeleteButton>
       </ItemDesBox>
       <ItemImg src={item.ipValue} alt={item.isItemName} 

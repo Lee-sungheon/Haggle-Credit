@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, {ITEM} from 'styled-components';
+
+interface Props {
+  desc: ITEM;
+}
 
 const ProductTitle = styled.div`
   position: relative;
@@ -39,21 +43,21 @@ const ItemContent = styled.div`
   display: flex;
 `;  
 
-const ItemDescription = () => {
+const ItemDescription = ({desc}: Props) => {
   return (
     <ProductTitle>
-      <img src="https://seoul-p-studio.bunjang.net/product/153198314_1_1620022165_w100.jpg" alt="" 
+      <img src={desc.ipValue} alt="" 
       style={{width: '150px', height: '150px', borderRadius: '2px'}}/>
       <ProductSummaryArea>
-        <ProductName>디지털 도어록</ProductName>
+        <ProductName>{desc.isItemName}</ProductName>
         <DetailItem>
-          <ItemTitle>· 판매마감</ItemTitle><ItemContent>{'2021-05-21 23:59'}</ItemContent>
+          <ItemTitle>· 판매마감</ItemTitle><ItemContent>{desc.isEndDate} 24:00</ItemContent>
         </DetailItem>
         <DetailItem>
-          <ItemTitle>· 상품상태</ItemTitle><ItemContent>{'중고'}</ItemContent>
+          <ItemTitle>· 상품상태</ItemTitle><ItemContent>{desc.isUsedStatus}</ItemContent>
         </DetailItem>
         <DetailItem>
-          <ItemTitle>· 교환여부</ItemTitle><ItemContent>{'교환불가능'}</ItemContent>
+          <ItemTitle>· 환불여부</ItemTitle><ItemContent>{'환불불가능'}</ItemContent>
         </DetailItem>
         <DetailItem>
           <ItemTitle>· 배송비</ItemTitle><ItemContent>{'별도'}</ItemContent>

@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
-import { commonActions } from '../../../../state/common';
+import { userActions } from '../../../../state/user';
 import { useHistory } from 'react-router';
 import { ITEM } from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -81,7 +81,7 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    dispatch(commonActions.addRecently(item));
+    dispatch(userActions.addRecently(item));
     history.push({
       pathname: `/detail/${item.ipItemNo}`,
       state: { item, buy },
@@ -107,7 +107,7 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory>
             <span>
-              {item.isAuctionIngPrice
+              {item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             </span>
@@ -118,7 +118,7 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <>
                 <ItemCategory>즉구가</ItemCategory>
                 <span>
-                  {item.isCoolPrice
+                  {item.isCoolPrice !== undefined && item.isCoolPrice
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
@@ -127,7 +127,7 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <>
                 <ItemCategory>시작가</ItemCategory>
                 <span>
-                  {item.isAuctionInitPrice
+                  {item.isAuctionInitPrice !== undefined && item.isAuctionInitPrice
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>

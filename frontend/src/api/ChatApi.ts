@@ -46,9 +46,9 @@ export function callApiChat(crNo: string) {
 }
 
 interface CONNECTBODY {
-  crItemNo: number;
+  crItemNo: number| undefined;
   crUserNoOne: number | undefined;
-  crUserNoTwo: number;
+  crUserNoTwo: number| undefined;
 }
 
 export function callConnetChat(body: CONNECTBODY) {
