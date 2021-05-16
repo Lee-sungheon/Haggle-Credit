@@ -134,4 +134,17 @@ declare module 'styled-components' {
     uAuthKeyGeneratedAt?: string;
     uContent?: string;
   }
+  export interface DEST {
+    uaNo?: number;
+    uaName?: string;
+    uaUserNo?: number;
+    uaLnmAddress?: string;
+    uaRnAddress?: string;
+    uaZipCode?: string;
+    uaDefaultSetting?: string;
+    uaRecvUserNo?: null;
+    uaRecvUserName?: string;
+    uaRecvUserPhone?: string;
+    uaRequest?: string;
+  }
 }

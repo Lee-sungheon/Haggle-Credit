@@ -10,15 +10,15 @@ export const totalActions = {
 
 type SetIsUpdate = ReturnType<typeof totalActions.setIsUpdate>;
 
-export interface CommonState {
+export interface TotalState {
   isUpdate: boolean;
 }
 
-const INITIAL_STATE: CommonState = {
+const INITIAL_STATE: TotalState = {
   isUpdate: false,
 };
 
-const reducer = createReducer<CommonState>(INITIAL_STATE, {
+const reducer = createReducer<TotalState>(INITIAL_STATE, {
   [types.SET_ISUPDATE]: (state, action: SetIsUpdate) => {
     return {
       ...state,

@@ -9,6 +9,8 @@ import Category from '../../components/category/Category';
 import { callApiCategoryProductList, callApiCategoryCount } from '../../api/ProductApi';
 import { ITEM } from "styled-components";
 import Pagination from '@material-ui/lab/Pagination';
+import { RootState } from '../../common/store';
+import { useSelector } from 'react-redux';
 
 interface MatchParams {
   name: string;
@@ -87,6 +89,7 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   const [pageNum, setPageNum] = useState(1);
   const [itemNum, setItemNum] = useState(5);
   const [categoryCnt, setCategoryCnt] = useState(0);
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -121,7 +124,7 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
     }
     setProducts([]);
     fetchData();
-  }, [category, subCategory, filterIdx, pageNum])
+  }, [category, subCategory, filterIdx, pageNum, isUpdate])
 
   useEffect(()=>{
     window.scrollTo(0, 0);

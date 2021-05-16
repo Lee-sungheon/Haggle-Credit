@@ -107,7 +107,7 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemTime>
-            <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
+            <ItemCategory>입찰수</ItemCategory> {item.joinerCnt}
             <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{item.isEndDate}
           </ItemTime>
         </CardContent>
