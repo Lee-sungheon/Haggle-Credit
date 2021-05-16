@@ -24,7 +24,7 @@
 	<select id="selectMyReviews" parameterType="int"
 		resultType="map">
 		SELECT ur.*, u.u_name, u.u_image FROM user_review AS ur JOIN user AS u ON
-		ur.ur_user_no = u.u_no WHERE ur_user_no = #{uNo} order by ur_no desc limit #{page}, 10
+		ur.ur_write_user_no = u.u_no WHERE ur_user_no = #{uNo} order by ur_no desc limit #{page}, 10
 	</select>
 
 	<!-- R :: (남의프로필에서) 해당 유저에게 달린 리뷰 보기 -->
