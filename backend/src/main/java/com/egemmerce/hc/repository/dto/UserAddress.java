@@ -29,6 +29,8 @@ public class UserAddress {
 	private String uaRnAddress;
 	private String uaZipCode;
 	private String uaDefaultSetting;
+	private String uaRecvUserNo;
+	private String uaRecvUserPhone;
 
 	public int getUaNo() {
 		return uaNo;
@@ -92,5 +94,21 @@ public class UserAddress {
 
 	public void setUaUserNo(int uaUserNo) {
 		this.uaUserNo = uaUserNo;
+	}
+
+	public String getUaRecvUserNo() {
+		return uaRecvUserNo;
+	}
+
+	public void setUaRecvUserNo(String uaRecvUserNo) {
+		this.uaRecvUserNo = uaRecvUserNo;
+	}
+
+	public String getUaRecvUserPhone() {
+		return uaRecvUserPhone;
+	}
+
+	public void setUaRecvUserPhone(String uaRecvUserPhone) {
+		this.uaRecvUserPhone = uaRecvUserPhone;
 	}
 }
