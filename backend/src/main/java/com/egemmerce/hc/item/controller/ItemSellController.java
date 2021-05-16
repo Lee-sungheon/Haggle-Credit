@@ -246,12 +246,12 @@ public class ItemSellController {
 
 	/* 경매 입찰 */
 	@PutMapping("/auction")
-	public ResponseEntity<String> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice, int uaNo) throws Exception {
+	public ResponseEntity<?> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice, int uaNo) throws Exception {
 		// 입찰에 참여한 물건 정도
 		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
 
 		// 현 입찰가보다 작을 경유
-		if (itemSell.getIsAuctionIngPrice() > isAuctionPrice) {
+		if (itemSell.getIsAuctionIngPrice() >= isAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 작습니다.", HttpStatus.OK);
 		}
 		// 아이템 정보 변경
@@ -280,15 +280,17 @@ public class ItemSellController {
 					.apBid(isAuctionPrice).apAddress(userAddress.getUaNo()).build();
 			auctionParticipant.generateapDate();
 			auctionParticipantService.insert(auctionParticipant);
+			
+			User newUser=userService.selectUserByuNo(isUserNo);
 //
 //			// 새로 입찰한 유저 포인트 출금
 //			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);
 
 			// 이전에 경매에 참여한 사람 크래딧 환불 새로 입찰한 사람 크래딧 회수
 
-			return new ResponseEntity<String>("경매가 업데이트 성공.", HttpStatus.OK);
+			return new ResponseEntity<Integer>(newUser.getuCredit(), HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("경매가 업데이트 실패.", HttpStatus.OK);
+		return new ResponseEntity<String>("-1", HttpStatus.OK);
 	}
 
 	/* R :: 내가 올린 상품 */
