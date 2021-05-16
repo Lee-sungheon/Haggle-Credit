@@ -14,7 +14,7 @@ public interface UserReviewMapper {
 	public int insertReview(UserReview userReview) throws Exception;
 
 	/* R :: (나의프로필에서) 내가 쓴 리뷰 보기 */
-	public List<UserReview> selectMyWrittenReviews(int uNo) throws Exception;
+	public List<Map<String, Object>> selectMyWrittenReviews(int uNo, int page) throws Exception;
 
 	/* R :: 내 상점 리뷰 보기 */
 	public List<Map<String, Object>> selectMyReviews(int uNo, int page) throws Exception;
