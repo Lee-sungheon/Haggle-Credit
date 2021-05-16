@@ -33,6 +33,7 @@ public class UserAddress {
 	private String uaRecvUserName;
 	private String uaRecvUserNo;
 	private String uaRecvUserPhone;
+	private String uaRequest;
 
 	public int getUaNo() {
 		return uaNo;
@@ -112,5 +113,13 @@ public class UserAddress {
 
 	public void setUaRecvUserName(String uaRecvUserName) {
 		this.uaRecvUserName = uaRecvUserName;
+	}
+
+	public String getUaRequest() {
+		return uaRequest;
+	}
+
+	public void setUaRequest(String uaRequest) {
+		this.uaRequest = uaRequest;
 	}
 }
