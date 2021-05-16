@@ -3,6 +3,7 @@ package com.egemmerce.hc.repository.dto;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -27,6 +28,7 @@ public class UserAddress {
 	private String uaLnmAddress;
 	private String uaRnAddress;
 	private String uaZipCode;
+	@ColumnDefault(value = "false")
 	private String uaDefaultSetting;
 	private String uaRecvUserNo;
 	private String uaRecvUserPhone;
