@@ -30,6 +30,7 @@ public class UserAddress {
 	private String uaZipCode;
 	@ColumnDefault(value = "false")
 	private String uaDefaultSetting;
+	private String uaRecvUserName;
 	private String uaRecvUserNo;
 	private String uaRecvUserPhone;
 
@@ -103,5 +104,13 @@ public class UserAddress {
 
 	public void setUaRecvUserPhone(String uaRecvUserPhone) {
 		this.uaRecvUserPhone = uaRecvUserPhone;
+	}
+
+	public String getUaRecvUserName() {
+		return uaRecvUserName;
+	}
+
+	public void setUaRecvUserName(String uaRecvUserName) {
+		this.uaRecvUserName = uaRecvUserName;
 	}
 }
