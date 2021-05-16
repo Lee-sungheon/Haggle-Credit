@@ -63,6 +63,8 @@ public interface ItemSellService {
 	List<ItemSell> selectMyItemByuNo(int uNo);
 
 	public ItemSellSet selectItemOne(int isItemNo) throws Exception;
+	
+	public int selectItemCntAP(int isItemNo) throws Exception;
 
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
 

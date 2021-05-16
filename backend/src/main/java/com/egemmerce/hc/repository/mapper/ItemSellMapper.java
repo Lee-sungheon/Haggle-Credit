@@ -33,6 +33,8 @@ public interface ItemSellMapper {
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
 
 	public ItemSellSet selectItemOne(int isNo) throws Exception;
+	
+	public int selectItemCntAP(int isItemNo) throws Exception;
 
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
 

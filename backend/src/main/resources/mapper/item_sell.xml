@@ -113,6 +113,11 @@ select itemsell.*, ip.ip_value
    and itemsell.is_no = #{isItemNo}
 </select>
 
+<!-- 판매상품의 입찰자 수 조회 -->
+<select id="selectItemCntAP" parameterType="int" resultType="int">
+select count(*) from auction_participant where ap_item_no = #{isItemNo};
+</select>
+
 <!-- 인덱싱 처리해서 100개 단위로만 내상품 보여주기 -->
 <select id="selectItemListIndexing" parameterType="int" resultType="ItemSell">
 select *
