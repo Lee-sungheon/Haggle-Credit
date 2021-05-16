@@ -42,8 +42,9 @@ public class UserAddressController {
 	
 	@ApiOperation(value = "기본 배송지 변경 (ua_no,ua_default_setting)")
 	@PutMapping("/change/defaultAddress")
-	public ResponseEntity<String> updateDefaultUserAddress(@RequestBody UserAddress userAddress) throws Exception {
-		if(userAddressService.updateDefaultAddress(userAddress))
+	public ResponseEntity<String> updateDefaultUserAddress(int uNo, int uaNo) throws Exception {
+		userAddressService.updateDefaultFalse(uNo);
+		if(userAddressService.updateDefaultTrue(uaNo))
 			return new ResponseEntity<String>("기본배송지변경 완료", HttpStatus.OK);
 		return new 	ResponseEntity<String>("기본배송지변경 실패", HttpStatus.NO_CONTENT);
 	}

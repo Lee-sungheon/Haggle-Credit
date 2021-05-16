@@ -16,4 +16,10 @@ public interface UserAddressRepository extends JpaRepository<UserAddress, Long> 
 
 	UserAddress findByuaNo(int uaNo);
 
+	List<UserAddress> findAllByuaUserNo(int uNo);
+
+	List<UserAddress> findByuaUserNoOrderByUaDefaultSetting(int uNo);
+
+	List<UserAddress> findByuaUserNoOrderByUaDefaultSettingDesc(int uNo);
+
 }
