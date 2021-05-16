@@ -62,4 +62,9 @@ public class UserAddressServiceImpl implements UserAddressService {
 		}
 		return userAddress.get(0);
 	}
+
+	@Override
+	public UserAddress selectAddressByuaNo(int uaNo) {
+		return userAddressRepository.findByuaNo(uaNo);
+	}
 }

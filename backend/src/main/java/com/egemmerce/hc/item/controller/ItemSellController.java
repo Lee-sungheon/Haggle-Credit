@@ -246,7 +246,7 @@ public class ItemSellController {
 
 	/* 경매 입찰 */
 	@PutMapping("/auction")
-	public ResponseEntity<String> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice) throws Exception {
+	public ResponseEntity<String> updateAuction(int isUserNo, int isItemNo, int isAuctionPrice, int uaNo) throws Exception {
 		// 입찰에 참여한 물건 정도
 		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
 
@@ -259,10 +259,14 @@ public class ItemSellController {
 			User user = userService.selectUserByuNo(isUserNo);
 
 			// 유저 배송지 가져오기
-			UserAddress userAddress = userAddressService.selectDefaultAddress(user.getuNo());
-
-			if (userAddress == null) {
-				return new ResponseEntity<String>("배송지가 없습니다.", HttpStatus.OK);
+			UserAddress userAddress=null;
+			if(uaNo>0) {
+				userAddress=userAddressService.selectAddressByuaNo(uaNo);
+			}else {
+				userAddress = userAddressService.selectDefaultAddress(user.getuNo());
+				if (userAddress == null) {
+					return new ResponseEntity<String>("배송지가 없습니다.", HttpStatus.OK);
+				}
 			}
 //			// 이전에 경매에 참여한 사람 크래딧 환불
 //			AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
