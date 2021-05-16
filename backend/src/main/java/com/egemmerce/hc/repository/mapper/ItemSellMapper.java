@@ -1,6 +1,7 @@
 package com.egemmerce.hc.repository.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -31,7 +32,7 @@ public interface ItemSellMapper {
 
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
 
-	public ItemSell selectItemOne(int isNo) throws Exception;
+	public ItemSet selectItemOne(int isNo) throws Exception;
 
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
 

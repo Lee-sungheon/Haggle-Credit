@@ -3,6 +3,7 @@ package com.egemmerce.hc.repository.dto;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -24,11 +25,13 @@ public class UserAddress {
 	private int uaNo;
 	private String uaName;
 	private int uaUserNo;
-	private int uaAlias;
 	private String uaLnmAddress;
 	private String uaRnAddress;
 	private String uaZipCode;
+	@ColumnDefault(value = "false")
 	private String uaDefaultSetting;
+	private String uaRecvUserNo;
+	private String uaRecvUserPhone;
 
 	public int getUaNo() {
 		return uaNo;
@@ -44,14 +47,6 @@ public class UserAddress {
 
 	public void setUaName(String uaName) {
 		this.uaName = uaName;
-	}
-
-	public int getUaAlias() {
-		return uaAlias;
-	}
-
-	public void setUaAlias(int uaAlias) {
-		this.uaAlias = uaAlias;
 	}
 
 	public String getUaLnmAddress() {
@@ -92,5 +87,21 @@ public class UserAddress {
 
 	public void setUaUserNo(int uaUserNo) {
 		this.uaUserNo = uaUserNo;
+	}
+
+	public String getUaRecvUserNo() {
+		return uaRecvUserNo;
+	}
+
+	public void setUaRecvUserNo(String uaRecvUserNo) {
+		this.uaRecvUserNo = uaRecvUserNo;
+	}
+
+	public String getUaRecvUserPhone() {
+		return uaRecvUserPhone;
+	}
+
+	public void setUaRecvUserPhone(String uaRecvUserPhone) {
+		this.uaRecvUserPhone = uaRecvUserPhone;
 	}
 }

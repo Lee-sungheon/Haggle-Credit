@@ -1,6 +1,7 @@
 package com.egemmerce.hc.item.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,25 +24,33 @@ public interface ItemSellService {
 
 	/* R :: 임시임.. 상품 전체 조회 */
 	public List<ItemSet> selectItemNoSubRvsSort(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemYesSubRvsSort(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemNoSub(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemYesSub(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemAllHomeUp(SortProcess sortProcess) throws Exception;
+
 	public List<ItemSet> selectItemAllHomeDown(SortProcess sortProcess) throws Exception;
+
 	public List<ItemCtgrCnt> selectCountByCtgr(ItemCtgrSearch itemCtgrSearch) throws Exception;
+
 	public List<ItemCtgrCnt> selectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception;
+
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
+
 	/* D :: 상품 삭제 */
 	boolean deleteItemSell(int isItemNo);
 
 	Page<ItemSell> selectItemSellByisItemName(String isItemName, Pageable pageable);
 
-	/*상품 업데이트*/
+	/* 상품 업데이트 */
 	ItemSell updateItemSell(ItemSell itemSell);
 
-	/*itemsell 조회*/
+	/* itemsell 조회 */
 	ItemSell selectItemSellbyisItemNo(int isItemNo);
-
 
 	void updateItembyCool(int isItemNo, int uNo, int uaNo);
 
@@ -53,12 +62,12 @@ public interface ItemSellService {
 
 	List<ItemSell> selectMyItemByuNo(int uNo);
 
+	public ItemSet selectItemOne(int isItemNo) throws Exception;
 
-	public ItemSell selectItemOne(int isItemNo) throws Exception;
-	
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
+
 	public int selectCountItemSell(int isUserNo) throws Exception;
 
-
+	List<ItemSell> selectoneImageItemSellByisItemName(String isName);
 
 }

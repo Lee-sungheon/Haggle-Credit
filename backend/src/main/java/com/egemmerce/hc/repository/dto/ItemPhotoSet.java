@@ -15,4 +15,20 @@ public class ItemPhotoSet {
 	private ItemSell itemSell;
 	private List<ItemPhoto> itemPhotoes;
 	private int itemCnt;
+	private ItemPhoto itemPhoto;
+	
+	public ItemPhotoSet(ItemSell itemSell, ItemPhoto itemPhoto) {
+		super();
+		this.itemSell = itemSell;
+		this.itemPhoto = itemPhoto;
+	}
+
+	public ItemPhotoSet(ItemSell itemSell, List<ItemPhoto> itemPhotoes, int itemCnt) {
+		super();
+		this.itemSell = itemSell;
+		this.itemPhotoes = itemPhotoes;
+		this.itemCnt = itemCnt;
+	}
+	
+	
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.egemmerce.hc.repository.mapper.BookmarkMapper">
+
+	<select id="selectBookmarkStatus" parameterType="Bookmark" resultType="Bookmark">
+		select *
+		from bookmark
+		where b_item_no = #{bItemNo} and b_user_no = #{bUserNo};
+	</select>
+
+	<delete id="deleteBybItemNoAndBUserNo" parameterType="int">
+		delete from bookmark where b_item_no = #{bItemNo} and b_user_no = #{bUserNo};
+	</delete>
+
+</mapper>

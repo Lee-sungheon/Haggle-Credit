@@ -23,4 +23,6 @@ public interface UserAddressService {
 
 	UserAddress selectDefaultAddress(int getuNo);
 
+	UserAddress selectAddressByuaNo(int uaNo);
+
 }
