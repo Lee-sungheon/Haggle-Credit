@@ -2,14 +2,13 @@ package com.egemmerce.hc.item.service;
 
 import java.util.List;
 
-import com.egemmerce.hc.repository.dto.ItemSearchResult;
+import com.egemmerce.hc.repository.dto.ItemSellSet;
+import com.egemmerce.hc.repository.dto.SortProcess;
 
 public interface ItemSearchService {
 
-	/* 상품으로 분류되어 판매상품 검색 */
-	List<ItemSearchResult> SelectSellSearching(String word) throws Exception;
+	List<ItemSellSet> searchingSellDown(SortProcess sp) throws Exception;
 
-	/* 상품으로 분류되어 구매상품 검색 */
-	List<ItemSearchResult> SelectBuySearching(String word) throws Exception;
+	List<ItemSellSet> searchingSellUp(SortProcess sp) throws Exception;
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.ItemSearchMapper">
+<!-- 카테고리 검색 -->
+<select id="selectCategorySearching" parameterType="string" resultType="ItemSearchResult">
+select distinct * from (select * from item) as A
+inner join (select * from item_sell 
+			where is_category_main like concat(concat("%",#{word}),"%") 
+            or is_category_sub like concat(concat("%",#{word}),"%")) as B on A.i_no = B.is_item_no
+inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.i_no = C.ip_item_no
+order by A.i_no desc; 
+</select>
+
+<!-- 판매상품 검색 -->
+<select id="selectSellSearching" parameterType="string" resultType="ItemSearchResult">
+select distinct * from (select * from item) as A
+inner join (select * from item_sell WHERE is_item_name like concat(concat("%",#{word}),"%")) as B on A.i_no = B.is_item_no
+inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.i_no = C.ip_item_no
+where B.is_item_no in (select i_no from item where i_completed = "false")
+order by A.i_no desc;
+</select>
+
+<!-- 구매상품 검색 -->
+<select id="selectBuySearching" parameterType="string" resultType="ItemSearchResult">
+select distinct * from (select * from item) as A
+inner join (select * from item_buy WHERE ib_name like concat(concat("%",#{word}),"%")) as B on A.i_no = B.ib_item_no
+inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.i_no = C.ip_item_no
+where B.ib_item_no in (select i_no from item where i_completed = "false")
+order by A.i_no desc;
+</select>
+</mapper>

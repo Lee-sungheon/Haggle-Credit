@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper	namespace="com.egemmerce.hc.repository.mapper.UserBreakdownMapper">
+
+<!-- 입찰 내역(거래진행중인 상품 한해서) -->
+<select id="selectBidBreakdown" parameterType="int" resultType="BreakdownBid">
+select * from auction_participant as A
+inner join (select * from item where i_completed = "false") AS B on A.ap_item_no = B.i_no
+inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.ap_item_no = C.ip_item_no
+where ap_user_no = #{uNo};
+</select>
+
+<!-- 거래 내역1 - (판매 상품 한정) -->
+<select id="selectSellMine" parameterType="int" resultType="ItemSellSet">
+select * 
+from item_sell as A
+inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as B on A.is_item_no = B.ip_item_no
+where is_deal_user_no = #{uNo};
+</select>
+
+<!-- 거래 내역2 - (구매 상품 한정) -->
+<select id="selectBuyMine" parameterType="int" resultType="ItemBuySet">
+select *
+from item_buy as A
+inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as B on A.ib_item_no = B.ip_item_no
+where ib_user_no = #{uNo} and ib_item_no in (select i_no from item where i_completed = "true");
+</select>
+</mapper>
