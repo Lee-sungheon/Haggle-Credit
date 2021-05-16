@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +15,6 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
-import com.egemmerce.hc.repository.dto.ItemPhotoSet;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
@@ -215,6 +213,10 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Override
 	public ItemSellSet selectItemOne(int isItemNo) throws Exception {
 		return itemSellMapper.selectItemOne(isItemNo);
+	}
+	@Override
+	public int selectItemCntAP(int isItemNo) throws Exception {
+		return itemSellMapper.selectItemCntAP(isItemNo);
 	}
 	
 	@Override
