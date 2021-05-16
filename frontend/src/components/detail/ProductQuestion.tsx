@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 
 interface Props {
-  itemNo: number;
+  itemNo: number| undefined;
 }
 
 interface QNA {

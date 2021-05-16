@@ -1,7 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { ITEM } from 'styled-components';
 import moment from 'moment';
 import { theme } from '../../styles/theme';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+
+interface Props {
+  desc: ITEM;
+}
 
 const ItemTitle = styled.div`
   position: relative;
@@ -103,10 +109,11 @@ const AuctionButton = styled.p`
   text-align: center;
 `;
 
-const Auction = () => {
+const Auction = ({desc}: Props) => {
   const [ credit, setCredit ] = useState("");
   const [ time, setTime ] = useState('');
-  const endDate = '2021-05-10 23:00';
+  const userData = useSelector((state: RootState) => state.user.userData);
+  const endDate = desc.isEndDate;
   const CalTime = useCallback(()=> {
     let t1 = moment(endDate);
     let t2 = moment();
@@ -121,19 +128,25 @@ const Auction = () => {
     const second = parseInt(String((duTime % 60)));
     const text = day + '일 ' + hour + '시간 ' + minute + '분 ' + second + '초';
     setTime(text);
-  }, [])
+  }, [endDate])
 
   useEffect(() => {
     const countdown = setInterval(CalTime, 1000);
     return () => {
       clearInterval(countdown);
     };
-  }, [CalTime]);
+  }, [CalTime, userData]);
 
   const confirmValue = () => {
-    if (parseInt(credit) % 100 !== 0) {
-      alert('크레딧은 100 단위로 입력해주세요.');
-      setCredit("");
+    if (desc.isAuctionIngPrice !== undefined){
+      if (credit !== "0" ) {
+        if (parseInt(credit) % 100 !== 0){
+          alert('크레딧은 100 단위로 입력해주세요.');
+          setCredit("");
+        } else if (parseInt(credit) < desc.isAuctionIngPrice + 100){
+          alert('입찰금액은 현재가보다 100원 이상이어야 합니다.');
+        }
+      }
     }
   }
 
@@ -143,11 +156,13 @@ const Auction = () => {
         <AuctionTitle>입찰하기</AuctionTitle>
         <AuctionItem>
           <ItemTitle>현재가</ItemTitle>
-          <ItemContent style={{fontSize: "18px"}}><span style={{color: theme.color.main, fontWeight: 'bold'}}>{'120000'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+          <ItemContent style={{fontSize: "18px"}}><span style={{color: theme.color.main, fontWeight: 'bold'}}>
+            {desc.isAuctionIngPrice !== undefined && desc.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
           원</ItemContent>
         </AuctionItem>
         <AuctionItem>
-          <ItemTitle>즉구가</ItemTitle><ItemContent style={{fontSize: "16px"}}>{'120000'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</ItemContent>
+          <ItemTitle>즉구가</ItemTitle><ItemContent style={{fontSize: "16px"}}>
+            {desc.isCoolPrice !== undefined && desc.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</ItemContent>
         </AuctionItem>
         <AuctionItem>
           <ItemTitle>남은시간</ItemTitle><ItemContent style={{fontSize: "16px"}}>{time}</ItemContent>
@@ -157,7 +172,7 @@ const Auction = () => {
           <div style={{paddingLeft: "100px"}}>
             <InputDescription style={{margin: 0, color: 'black', fontSize: '14px', paddingTop: '20px'}}>
               현재 <span style={{color: theme.color.main, fontWeight: 'bold'}}>
-                {'120000'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+                {desc.isAuctionIngPrice !== undefined && (desc.isAuctionIngPrice+100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
               </span>부터 입찰하실 수 있습니다.
             </InputDescription>
             <ItemContent>
@@ -165,18 +180,34 @@ const Auction = () => {
                 <StyledInput 
                   type="text" 
                   placeholder="입찰금액 입력" 
-                  onChange={(e) => setCredit(e.target.value.replace(/[^\d]+/g, ''))}
+                  onChange={async(e) => {
+                    if (userData.uCredit !== undefined && parseInt(e.target.value.replace(/[^\d]+/g, '')) >= userData.uCredit) {
+                      setCredit(String(userData.uCredit));
+                    } else {
+                      setCredit(e.target.value.replace(/[^\d]+/g, ''))
+                    }
+                  }}
                   value={credit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   onBlur={confirmValue}/>
-                <ChargingButton>충전하기</ChargingButton>
+                <ChargingButton 
+                  onClick={() => window.open(`../../profile/${userData.uNo}`, '_blank')}
+                >충전하기</ChargingButton>
               </AuctionInputArea>
             </ItemContent>
-            <AvailablePoint>사용 가능한 크레딧 <span style={{fontWeight: 'bold'}}>0 C</span></AvailablePoint>
+            <AvailablePoint>사용 가능한 크레딧 
+              <span style={{fontWeight: 'bold', paddingLeft: '5px'}}>
+                {credit !== '' ?
+                (userData.uCredit !== undefined && userData.uCredit - parseInt(credit)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                : userData.uCredit !== undefined && userData.uCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C
+              </span>
+              </AvailablePoint>
             <InputDescription>크레딧은 숫자로 콤마(",") 없이 100원 단위로 입력 가능합니다.</InputDescription>
           </div>
         </AuctionItem>
       </AuctionArea>
-      <AuctionButton>입찰하기</AuctionButton>
+      <AuctionButton
+        // onClick={submitAuction}
+      >입찰하기</AuctionButton>
     </>
   )
 }

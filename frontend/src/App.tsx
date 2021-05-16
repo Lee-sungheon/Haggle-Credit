@@ -50,9 +50,9 @@ const App = () => {
           <Route path="/search" component={SearchPage} />
           <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
-          <Route path="/auction/buy/:id" component={AuctionPage} />
-          <Route path="/auction/sell/:id" component={SellAuctionPage} />
-          <Route path="/purchase/:id" component={PurchasePage} />
+          <Route path="/auction/buy/:itemNo" component={AuctionPage} />
+          <Route path="/auction/sell/:itemNo" component={SellAuctionPage} />
+          <Route path="/purchase/:itemNo" component={PurchasePage} />
           <Route path="/add_destination" component={AddDestinationPage} />
           <Route path="/chat/:id/:roomNo" component={ChatPage} />
           <Route path="/chatlist/:id" component={ChatListPage} />

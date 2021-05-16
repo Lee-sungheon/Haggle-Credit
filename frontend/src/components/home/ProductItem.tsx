@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from 'react-redux';
-import { commonActions } from "../../state/common";
+import { userActions } from "../../state/user";
 import { useHistory } from "react-router";
 import { ITEM } from "styled-components";
 
@@ -73,7 +73,7 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    dispatch(commonActions.addRecently(item));
+    dispatch(userActions.addRecently(item));
     history.push({
       pathname: `/detail/${item.ipItemNo}`,
       state: {item, buy}
@@ -94,15 +94,15 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
           <ItemTitle>{item.isItemName}</ItemTitle>
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory> 
-            <span>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+            <span>{item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemPrice>
           {buy ? <><ItemCategory>즉구가</ItemCategory> 
-            <span>{item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            <span>{item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
             :
             <><ItemCategory>시작가</ItemCategory> 
-            <span>{item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            <span>{item.isAuctionInitPrice !== undefined && item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
             }
             <ItemCategory>원</ItemCategory>
           </ItemPrice>

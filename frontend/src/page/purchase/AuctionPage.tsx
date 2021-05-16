@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import styled, { ITEM } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 import ItemDescription from '../../components/purchase/ItemDescription';
 import Auction from '../../components/purchase/Auction';
 import Destination from '../../components/purchase/Destination';
 import { RouteComponentProps } from 'react-router-dom';
+import { callApiItemDetail } from '../../api/ProductApi';
 
 interface MatchParams {
   id: string;
@@ -65,17 +66,25 @@ const MainArea = styled.div`
 const AuctionPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
   let isModal: boolean = false;
   const destination: Dest[] = [{address: "경상북도 구미시 구미대로 174 (광평동) ㅁ (39347)", title: "우리집", name: "이성헌", phone: "01012345678", request: "경비실"}]
+  const [desc, setDesc] = useState<ITEM>({});
   const dispatch = useDispatch();
-  location.state === undefined ? isModal = false : isModal = true
+  const itemNo = parseInt(location.pathname.split('/')[3]);
+  location.state === undefined ? isModal = false : isModal = true;
 
   useEffect(() => {
+    const fetchData = async() => {
+      const data = await callApiItemDetail(itemNo);
+      setDesc(data);
+      console.log(data);
+    }
+    fetchData();
     dispatch(commonActions.setIsIndex(true));
     dispatch(commonActions.setIsPurchase(true));
     return () => {
       dispatch(commonActions.setIsIndex(false));
       dispatch(commonActions.setIsPurchase(false));
     };
-  }, [dispatch]);
+  }, [dispatch, itemNo]);
 
   return (
     <Container>
@@ -84,9 +93,9 @@ const AuctionPage = ({match, location}: RouteComponentProps<MatchParams, History
         <CloseButton onClick={() => window.close()}/>
       </Header>
       <MainArea>
-        <ItemDescription />
+        <ItemDescription desc={desc}/>
         <Destination isModal={isModal} destination={destination}/>
-        <Auction />
+        <Auction desc={desc}/>
       </MainArea>
     </Container>
   );

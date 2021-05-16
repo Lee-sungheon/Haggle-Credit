@@ -11,26 +11,26 @@ declare module 'styled-components' {
     };
   }
   export interface ITEM {
-    ipItemNo: number;
-    ipValue: string;
-    isAuctionInitPrice: number;
-    isAuctionIngPrice: number;
-    isCategoryMain: string;
-    isCategorySub: string;
-    isContent: string;
-    isCoolPrice: number;
-    isDealAddress: number;
-    isDealPrice: number;
-    isDealUserNo: number;
-    isEndDate: string;
-    isEventAgree: string;
-    isItemName: string;
-    isItemNo: number;
-    isNo: number;
-    isStartDate: any;
-    isUsedStatus: string;
-    isUserNo: number;
-    joinerCnt: number;
+    ipItemNo?: number;
+    ipValue?: string;
+    isAuctionInitPrice?: number;
+    isAuctionIngPrice?: number;
+    isCategoryMain?: string;
+    isCategorySub?: string;
+    isContent?: string;
+    isCoolPrice?: number;
+    isDealAddress?: number;
+    isDealPrice?: number;
+    isDealUserNo?: number;
+    isEndDate?: string;
+    isEventAgree?: string;
+    isItemName?: string;
+    isItemNo?: number;
+    isNo?: number;
+    isStartDate?: any;
+    isUsedStatus?: string;
+    isUserNo?: number;
+    joinerCnt?: number;
   }
   export interface ROOMINFO {
     crItemNo: number;

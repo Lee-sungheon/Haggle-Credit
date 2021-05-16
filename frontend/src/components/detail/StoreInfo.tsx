@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 
 interface Props {
   item: ITEM;
+  buy: boolean;
 }
 
 const StoreContainer = styled.div`
@@ -164,7 +165,7 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-const StoreInfo = ({item}: Props) => {
+const StoreInfo = ({item, buy}: Props) => {
   const history = useHistory();
   const [ storeInfoList, setStoreInfo ] = useState<STOREINFO[]>([]);
   const [ reviewList, setReviewList ] = useState<STOREREVIEW[]>([]);
@@ -177,19 +178,23 @@ const StoreInfo = ({item}: Props) => {
       setStoreInfo(data);
     }
     const fetchData2 = async() => {
-      const data2 = await callApiGetStoreReview(userNo);
-      const cnt = await callApiGetStoreReviewCnt(userNo);
-      setReviewList(data2);
-      setReviewCnt(cnt);
-    }
-    const fetchData3 = async() => {
-      const data3 = await callApiUserInfo(item.isUserNo);
-      setUserInfo(data3);
+      const data2 = await callApiUserInfo(item.isUserNo);
+      setUserInfo(data2);
     }
     fetchData();
     fetchData2();
-    fetchData3();
-  }, [item.isUserNo, userNo])
+  }, [item.isUserNo])
+  useEffect(()=>{
+    const fetchData = async() => {
+      if (userNo !== undefined){
+        const data = await callApiGetStoreReview(userNo);
+        const cnt = await callApiGetStoreReviewCnt(userNo);
+        setReviewCnt(cnt);
+        setReviewList(data);
+      }
+    }
+    fetchData();
+  }, [userNo])
   const goChat = async() => {
     const body = {
       crItemNo: item.ipItemNo,
@@ -293,10 +298,16 @@ const StoreInfo = ({item}: Props) => {
               style={{ background: 'rgb(255, 164, 37)', marginRight: '5px'}}
               onClick={goChat}
               >연락하기</StyledButton>
+            {buy ? <StyledButton 
+              style={{ background: theme.color.main, marginLeft: '5px' }}
+              onClick={() => window.open(`../auction/buy/${item.ipItemNo}`, '_blank')}
+            >입찰하기</StyledButton>
+            :
             <StyledButton 
               style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/buy/${1}`, '_blank')}
+              onClick={() => window.open(`../auction/sell/${item.ipItemNo}`, '_blank')}
             >입찰하기</StyledButton>
+            }
           </ButtonArea>
         </MoreArea>
       </StoreArea>

@@ -43,8 +43,10 @@ const LikeBox = () => {
 
   useEffect(()=>{
     const fetchData = async() => {
-      const data = await callApiGetZzim(userNo);
-      setZzim(() => {return data});
+      if (userNo !== undefined){
+        const data = await callApiGetZzim(userNo);
+        setZzim(() => {return data});
+      }
     };
     fetchData();
   }, [isLike, userNo])

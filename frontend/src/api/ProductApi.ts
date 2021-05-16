@@ -49,7 +49,7 @@ export function callApiCategoryCount(main:string, sub:string) {
     });
 }
 
-export function callApiImageList(itemNo: number) {
+export function callApiImageList(itemNo: number | undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/image/getItemPhotoList?ipItemNo=${itemNo}`;
   return axios
     .get(url)
@@ -62,7 +62,7 @@ export function callApiImageList(itemNo: number) {
     });
 }
 
-export function callApiQnaList(itemNo: number) {
+export function callApiQnaList(itemNo: number|undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/item/qna?iqItemNo=${itemNo}`;
   return axios
     .get(url)
@@ -77,8 +77,8 @@ export function callApiQnaList(itemNo: number) {
 
 interface QNA{
   iqContent: string;
-  iqItemNo: number;
-  iqUserNo: number;
+  iqItemNo: number|undefined;
+  iqUserNo: number|undefined;
 }
 export function callApiWriteQna(body: QNA) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/item/qna/write`;
@@ -96,7 +96,7 @@ export function callApiWriteQna(body: QNA) {
   });
 }
 
-export function callApiDeleteQna(QnaNo: number) {
+export function callApiDeleteQna(QnaNo: number|undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/item/qna/delete?iqNo=${QnaNo}`
   return axios
     .delete(url)
@@ -108,7 +108,7 @@ export function callApiDeleteQna(QnaNo: number) {
   });
 }
 
-export function callApiUserInfo(userNo: number) {
+export function callApiUserInfo(userNo: number|undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/myinfo?uNo=${userNo}`;
   return axios
     .get(url)
@@ -121,7 +121,7 @@ export function callApiUserInfo(userNo: number) {
     });
 }
 
-export function callApiStoreInfo(userNo: number) {
+export function callApiStoreInfo(userNo: number|undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/myitem?uNo=${userNo}`;
   return axios
     .get(url)
@@ -134,7 +134,7 @@ export function callApiStoreInfo(userNo: number) {
     });
 }
 
-export function callApiCheckedStatus(itemNo: number, userNo: number|undefined) {
+export function callApiCheckedStatus(itemNo: number| undefined, userNo: number|undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/checkedStatus?bItemNo=${itemNo}&bUserNo=${userNo}`;
   return axios
     .get(url)
@@ -148,7 +148,7 @@ export function callApiCheckedStatus(itemNo: number, userNo: number|undefined) {
 }
 
 interface ZZiM {
-  bItemNo: number;
+  bItemNo: number|undefined;
   bUserNo: number|undefined;
 }
 export function callApiCreateZzim(body: ZZiM) {
@@ -167,7 +167,7 @@ export function callApiCreateZzim(body: ZZiM) {
   });
 }
 
-export function callApiDeleteZzim(itemNo: number, userNo: number|undefined) {
+export function callApiDeleteZzim(itemNo: number|undefined, userNo: number|undefined) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/delete?bItemNo=${itemNo}&bUserNo=${userNo}`
   return axios
     .delete(url)
@@ -215,5 +215,20 @@ export function callApiGetStoreReviewCnt(userNo: number|undefined) {
     .catch((Error) => {
       console.log(Error);
       return 0;
+    });
+}
+
+
+
+export function callApiItemDetail(itemNo: number|undefined) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/detail/inform?isItemNo=${itemNo}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return {};
     });
 }
