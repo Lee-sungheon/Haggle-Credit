@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.item.service.ItemSearchService;
+import com.egemmerce.hc.repository.dto.CtgrCountSet;
 import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 
@@ -45,6 +46,11 @@ public class ItemSearchController {
 		else {
 			return new ResponseEntity<List<ItemSellSet>>(itemSearchService.searchingSellUp(sp), HttpStatus.OK);
 		}
+	}
+	
+	@GetMapping("ctgrCnt")
+	public ResponseEntity<List<CtgrCountSet>> searchingCtgrCount(String word) throws Exception {
+		return new ResponseEntity<List<CtgrCountSet>>(itemSearchService.searchingCount(word),HttpStatus.OK);
 	}
 
 }
