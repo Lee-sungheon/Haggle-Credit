@@ -18,6 +18,7 @@ order by i_no desc;
 select distinct * from (select * from item) as A
 inner join (select * from item_sell WHERE is_item_name like concat(concat("%",#{word}),"%")) as B on A.i_no = B.is_item_no
 inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.i_no = C.ip_item_no
+where is_item_no in (select i_no from item where i_completed = "false")
 order by i_no desc;
 </select>
 
@@ -26,6 +27,7 @@ order by i_no desc;
 select distinct * from (select * from item) as A
 inner join (select * from item_buy WHERE ib_name like concat(concat("%",#{word}),"%")) as B on A.i_no = B.ib_item_no
 inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.i_no = C.ip_item_no
+where is_item_no in (select i_no from item where i_completed = "false")
 order by i_no desc;
 </select>
 </mapper>
