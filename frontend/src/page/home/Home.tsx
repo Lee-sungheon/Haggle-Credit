@@ -21,7 +21,6 @@ const ProductArea = styled.div`
 const Home = () => {
   const dispatch = useDispatch();
   const SellLists = useSelector((state: RootState) => state.home.sellLists);
-  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
   const [itemNum, setItemNum] = useState(5);
   const [pageNum, setPageNum] = useState(1);
   const ConfirmWidth = useCallback(()=>{

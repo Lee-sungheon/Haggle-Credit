@@ -75,7 +75,7 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
   const goDetail = () => {
     dispatch(userActions.addRecently(item));
     history.push({
-      pathname: `/detail/${item.ipItemNo}`,
+      pathname: `/detail/${item.isItemNo}`,
       state: {item, buy}
     });
   };

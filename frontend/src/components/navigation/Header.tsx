@@ -117,7 +117,7 @@ const Header = () => {
     return () => {
       window.removeEventListener('scroll', myFunction);
     };
-  }, [navRef, isIndex]);
+  }, [navRef, isIndex, myFunction]);
 
   return (
     <Container

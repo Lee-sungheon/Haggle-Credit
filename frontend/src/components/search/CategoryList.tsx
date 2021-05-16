@@ -2,13 +2,21 @@ import styled from 'styled-components';
 import { useHistory } from "react-router";
 
 interface CategoryListProps {
-  categoryList: string[];
+  categoryList: CATEGORY[];
   search: string;
+  setCategory: Function;
+  itemNum: number;
+  setCategoryCnt: Function;
 }
 
-const Container = styled.div`
+interface CATEGORY {
+  isCategoryMain: string;
+  cnt: number;
+}
+
+const Container = styled.div<{ len: number }>`
   margin-top: 20px;
-  height: 186px;
+  height: ${({len}) => len * 48}px;
   width: 100%;
   overflow: hidden;
 `;
@@ -61,22 +69,33 @@ const CountText = styled.div`
   flex-shrink: 0;
 `;
 
-const CategoryList = ({ categoryList, search }: CategoryListProps) => {
+const CategoryList = ({ categoryList, search, setCategory, itemNum, setCategoryCnt }: CategoryListProps) => {
   const history = useHistory();
+  const list = [];
+  for (let i=0 ; i<5-categoryList.length % 5 ; i++){
+    list.push(i);
+  }
   return(
-    <Container>
+    <Container len={categoryList.length / itemNum + 1}>
       <CategoryListContainer>
         <CategoryTitle>카테고리</CategoryTitle>
         {categoryList !== undefined && categoryList.map((item, idx)=>(
           <ItemArea 
             key={idx}
             onClick={() => {
-              history.push(`/search?q=${search}&category=${item.split('-')[1]}`)
-            }}>
-            {item.split('-')[0]}
-            <CountText>17만+</CountText>
+              history.push(`/search?q=${search}&category=${item.isCategoryMain}`);
+              setCategory(item.isCategoryMain);
+              setCategoryCnt(item.cnt);
+            }}
+            >
+            {item.isCategoryMain.split('-')[0]}
+            <CountText>{item.cnt}</CountText>
           </ItemArea>
         ))}
+        {categoryList.length < 5 && list.map((item) => (
+        <>
+          <ItemArea key={item}/>
+        </>))}
       </CategoryListContainer>
     </Container>
   );

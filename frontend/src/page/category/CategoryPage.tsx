@@ -154,7 +154,8 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
         {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} />}
         <TitleArea>
           <TitleText>
-            {subCategory === '' ? category.split('-')[0] : subCategory.split('-')[0]} 상품 추천
+            <span style={{color:"red", marginRight:"5px"}}>
+              {subCategory === '' ? category.split('-')[0] : subCategory.split('-')[0]}</span> 상품 추천
           </TitleText>
         </TitleArea>
         <FilterArea>

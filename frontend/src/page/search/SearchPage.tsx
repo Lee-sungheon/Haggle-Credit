@@ -2,10 +2,18 @@ import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import ProductList from '../../components/home/PruductList';
 import { RouteComponentProps } from 'react-router-dom';
-import { CATEGORYS } from '../../common/data';
 import CategoryList from '../../components/search/CategoryList';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
+import { callApiSearchProductList, callApiSearchCount } from '../../api/ProductApi';
+import LoadingList from '../../components/common/LoadingList';
+import { ITEM } from "styled-components";
+import Pagination from '@material-ui/lab/Pagination';
+
+interface CATEGORY {
+  isCategoryMain: string;
+  cnt: number;
+}
 
 interface MatchParams {
   id: string;
@@ -81,10 +89,16 @@ const LastItem = styled.div`
 `;
 
 const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
+  const [category, setCategory] = useState('');
   const [buy, setBuy] = useState(true);
   const [filterIdx, setFilterIdx] = useState(0);
   const [search, setSearch] = useState(location.search.split('=')[1]);
   const [itemNum, setItemNum] = useState(5);
+  const [products, setProducts] = useState<ITEM[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
+  const [categoryCnt, setCategoryCnt] = useState(0);
+  const [categoryList, setCategoryList] = useState<CATEGORY[]>([]);
   const dispatch = useDispatch();
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
@@ -110,17 +124,44 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
       window.removeEventListener('resize', ConfirmWidth);
     };
   }, [ConfirmWidth, dispatch])
+
   useEffect(()=>{
     setSearch(decodeURI(decodeURIComponent(location.search.split('&')[0].split('=')[1])));
-  }, [location])
+    setProducts([]);
+    const fetchData = async() => {
+      setIsLoading(true);
+      if (location.search.split('&')[1] !== undefined) {
+        setCategory(decodeURI(decodeURIComponent(location.search.split('&')[1].split('=')[1])));
+      }
+      if(filterIdx === 0){
+        const result = await callApiSearchProductList('down', category, String(pageNum), 'is_no', search);
+        setProducts(result);
+      } else if(filterIdx === 1){
+        const result = await callApiSearchProductList('up', category, String(pageNum), 'is_auction_ing_price', search);
+        setProducts(result);
+      } else if(filterIdx === 2){
+        const result = await callApiSearchProductList('down', category, String(pageNum), 'is_auction_ing_price', search);
+        setProducts(result);
+      }
+      const result = await callApiSearchCount(search);
+      setCategoryList(result);
+      let cnt = 0;
+      for (let cate of result){
+        cnt += cate.cnt;
+      }
+      setCategoryCnt(cnt);
+      setIsLoading(false);
+    }
+    fetchData();
+  }, [category, filterIdx, location, pageNum, search])
   
   return (
     <Container>
       <ProductArea>
-        <CategoryList search={search} categoryList={Object.keys(CATEGORYS)} />
+        <CategoryList search={search} categoryList={categoryList} setCategory={setCategory} itemNum={itemNum} setCategoryCnt={setCategoryCnt}/>
         <TitleArea>
           <TitleText>
-            {decodeURI(decodeURIComponent(search))} 검색결과
+            <span style={{color: "red", paddingRight: "5px"}}>{decodeURI(decodeURIComponent(search))}</span> 검색결과
           </TitleText>
         </TitleArea>
         <FilterArea>
@@ -134,7 +175,20 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
             <LastItem style={filterIdx === 2 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(2)}>고가순</LastItem>
           </Filter>
         </FilterArea>
-        <ProductList buy={buy} products={[]} itemNum={itemNum}/>
+        {isLoading ? 
+          <LoadingList itemNum={itemNum}/> :
+          <ProductList buy={buy} products={products} itemNum={itemNum}/>
+        }
+        {category!=="" &&
+        <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>
+            <Pagination 
+            count={parseInt(String(categoryCnt/100)+1)} 
+            variant="outlined" 
+            shape="rounded" 
+            color="secondary" 
+            onChange={(e, page)=>setPageNum(page)}/>
+        </div>
+        }
       </ProductArea>
     </Container>
   )

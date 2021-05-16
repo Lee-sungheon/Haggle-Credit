@@ -320,7 +320,7 @@ const NavBar = () => {
             alt=""
             style={{ width: 26, height: 26, marginRight: '5px' }}
           />
-          <p style={{ margin: 0 }}>이벤트 경매</p>
+          <p style={{ margin: 0 }}>기부</p>
         </StyledMenuItemLink>
       </MenuBox>
     </Container>

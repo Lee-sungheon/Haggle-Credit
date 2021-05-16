@@ -10,6 +10,9 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import { useDispatch, useSelector } from 'react-redux';
+import { homeActions } from "../../state/home";
+import { RootState } from '../../common/store';
 
 const useStyles = makeStyles({
   root: {
@@ -65,10 +68,13 @@ const ItemCategory = styled.span`
 const SwiperSlider: React.FC = () => { 
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(6);
+  const dispatch = useDispatch();
+  const SellLists = useSelector((state: RootState) => state.home.sellLists);
   
   useEffect(()=>{
     ConfirmWidth();
     window.addEventListener('resize', ConfirmWidth);
+    dispatch(homeActions.requestSellList(1));
     return () => {
       window.removeEventListener('resize', ConfirmWidth);
     }
@@ -95,7 +101,7 @@ const SwiperSlider: React.FC = () => {
       slidesPerView={itemNum} 
       autoplay={true}
       > 
-      {ITEMS.map((item, idx: number) => (
+      {SellLists.length > 0 && SellLists.map((item, idx: number) => (
         <SwiperSlide key={idx}>
           <Card className={classes.root}>
             <CardActionArea>
@@ -103,24 +109,24 @@ const SwiperSlider: React.FC = () => {
                 <CardMedia
                   component="img"
                   className={classes.cardMedia}
-                  image={item.url}
+                  image={item.ipValue}
                 />
               </ImgBox>
               <CardContent style={{ padding : 0 }}>
-                <ItemTitle>{item.title}</ItemTitle>
+                <ItemTitle>{item.isItemName}</ItemTitle>
                 <ItemPrice>
                   <ItemCategory>현재가</ItemCategory> 
-                  <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                  <span>{item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
                   <ItemCategory>원</ItemCategory>
                 </ItemPrice>
                 <ItemPrice>
                 <ItemCategory>즉구가</ItemCategory> 
-                  <span>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
-                  <ItemCategory>원</ItemCategory>
+                <span>{item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                <ItemCategory>원</ItemCategory>
                 </ItemPrice>
                 <ItemTime>
-                  <ItemCategory>입찰자</ItemCategory> 0 
-                  <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{'05.21 23:59'}
+                  <ItemCategory>입찰수</ItemCategory> {item.joinerCnt}
+                  <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{item.isEndDate}
                 </ItemTime>
               </CardContent>
             </CardActionArea>
@@ -132,67 +138,3 @@ const SwiperSlider: React.FC = () => {
 };
 
 export default SwiperSlider;
-
-interface ITEM {
-  id: string;
-  url: string;
-  title: string;
-  price: number;
-}
-
-const ITEMS: ITEM[] = [
-  {
-    id: '1',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item1',
-    price: 50000,
-  },
-  {
-    id: '2',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item2',
-    price: 50000,
-  },
-  {
-    id: '3',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item3',
-    price: 50000,
-  },
-  {
-    id: '4',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item4',
-    price: 50000,
-  },
-  {
-    id: '5',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item5',
-    price: 50000,
-  },
-  {
-    id: '6',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item6',
-    price: 50000,
-  },
-  {
-    id: '7',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item7',
-    price: 50000,
-  },
-  {
-    id: '8',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item8',
-    price: 50000,
-  },
-  {
-    id: '9',
-    url: 'https://www.itworld.co.kr/files/itworld/2020/11_01/iphone-12-versus-11-100864213-large.jpg',
-    title: 'Item9',
-    price: 50000,
-  }
-]
