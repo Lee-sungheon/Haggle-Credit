@@ -36,7 +36,7 @@ public class ItemSearchController {
 		 * sortName : 정렬 기준(default는 최신이기에, is_no)
 		 * UD : up, down 정렬방식... (default는 down으로 내림차순..)
 		*/
-		SortProcess sp = new SortProcess(pageNo, ctgrMain, ctgrSub, sortName, word);
+		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName, word);
 		
 		//내림차순
 		if(UD.equals("down")) {
