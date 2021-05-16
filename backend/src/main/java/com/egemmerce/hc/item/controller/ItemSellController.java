@@ -2,7 +2,6 @@ package com.egemmerce.hc.item.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -186,6 +185,17 @@ public class ItemSellController {
 	public ResponseEntity<Page<ItemSell>> selectItemByiName(String isName, Pageable pageable) throws Exception {
 		return new ResponseEntity<Page<ItemSell>>(itemSellService.selectItemSellByisItemName(isName, pageable),
 				HttpStatus.OK);
+	}
+
+	/* R :: 상품명 조회 */
+	@GetMapping("/nameone")
+	public ResponseEntity<?> selectoneImageItemByiName(String isName) throws Exception {
+		List<ItemSell> itemSell = itemSellService.selectoneImageItemSellByisItemName(isName);
+		List<ItemPhotoSet> imageItemSell = new ArrayList<>();
+		for (ItemSell is : itemSell) {
+			imageItemSell.add(new ItemPhotoSet(is, imageUploadService.selectItemPhotoList(is.getIsItemNo()).get(0)));
+		}
+		return new ResponseEntity<List<ItemPhotoSet>>(imageItemSell, HttpStatus.OK);
 	}
 
 	/* U :: 상품 업데이트(쿨거래) */

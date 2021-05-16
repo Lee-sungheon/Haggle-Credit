@@ -24,7 +24,6 @@ public class UserAddress {
 	private int uaNo;
 	private String uaName;
 	private int uaUserNo;
-	private int uaAlias;
 	private String uaLnmAddress;
 	private String uaRnAddress;
 	private String uaZipCode;
@@ -46,14 +45,6 @@ public class UserAddress {
 
 	public void setUaName(String uaName) {
 		this.uaName = uaName;
-	}
-
-	public int getUaAlias() {
-		return uaAlias;
-	}
-
-	public void setUaAlias(int uaAlias) {
-		this.uaAlias = uaAlias;
 	}
 
 	public String getUaLnmAddress() {

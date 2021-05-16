@@ -68,4 +68,6 @@ public interface ItemSellService {
 
 	public int selectCountItemSell(int isUserNo) throws Exception;
 
+	List<ItemSell> selectoneImageItemSellByisItemName(String isName);
+
 }

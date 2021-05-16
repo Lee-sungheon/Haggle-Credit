@@ -226,4 +226,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 	public int selectCountItemSell(int isUserNo) throws Exception {
 		return itemSellMapper.selectCountItemSell(isUserNo);
 	}
+
+	@Override
+	public List<ItemSell> selectoneImageItemSellByisItemName(String isName) {
+		return itemSellRepository.findByisItemNameContaining(isName);
+	}
 }

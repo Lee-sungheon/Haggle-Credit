@@ -14,11 +14,15 @@ import com.egemmerce.hc.repository.dto.ItemSell;
 public interface ItemSellRepository extends JpaRepository<ItemSell, Long> {
 
 	Page<ItemSell> findByisItemNameContaining(String isItemName, Pageable pageable);
+
 	Page<ItemSell> findAll(Pageable pageable);
 
 	ItemSell findByisItemNo(int isItemNo);
 
 	List<ItemSell> findByisDealUserNo(int isDealUserNo);
+
 	List<ItemSell> findByisUserNo(int uNo);
+
+	List<ItemSell> findByisItemNameContaining(String isName);
 
 }
