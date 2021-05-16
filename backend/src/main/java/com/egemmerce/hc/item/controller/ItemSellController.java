@@ -312,8 +312,8 @@ public class ItemSellController {
 
 	@ApiOperation(value = "아이템 상세 조회 정보")
 	@GetMapping("/detail/inform")
-	public ResponseEntity<Map<String, Object>> selectItemOne(int isItemNo) throws Exception {
-		return new ResponseEntity<Map<String, Object>>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
+	public ResponseEntity<ItemSet> selectItemOne(int isItemNo) throws Exception {
+		return new ResponseEntity<ItemSet>(itemSellService.selectItemOne(isItemNo), HttpStatus.OK);
 	}
 
 }

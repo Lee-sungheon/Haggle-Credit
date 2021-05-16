@@ -213,7 +213,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 	
 	/* 상품 상세 조회 */
 	@Override
-	public Map<String, Object> selectItemOne(int isItemNo) throws Exception {
+	public ItemSet selectItemOne(int isItemNo) throws Exception {
 		return itemSellMapper.selectItemOne(isItemNo);
 	}
 	

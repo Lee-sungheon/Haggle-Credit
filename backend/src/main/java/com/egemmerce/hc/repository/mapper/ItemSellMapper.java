@@ -32,7 +32,7 @@ public interface ItemSellMapper {
 
 	public List<ItemPhoto> selectItemImages(int ipItemNo) throws Exception;
 
-	public Map<String, Object> selectItemOne(int isNo) throws Exception;
+	public ItemSet selectItemOne(int isNo) throws Exception;
 
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
 

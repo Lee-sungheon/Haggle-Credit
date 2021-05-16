@@ -62,7 +62,7 @@ public interface ItemSellService {
 
 	List<ItemSell> selectMyItemByuNo(int uNo);
 
-	public Map<String, Object> selectItemOne(int isItemNo) throws Exception;
+	public ItemSet selectItemOne(int isItemNo) throws Exception;
 
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception;
 

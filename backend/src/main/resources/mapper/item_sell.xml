@@ -104,7 +104,7 @@ select *
 </select>
 
 <!-- 판매상품 상세 조회 -->
-<select id="selectItemOne" parameterType="int" resultType="map">
+<select id="selectItemOne" parameterType="int" resultType="ItemSet">
 select itemsell.*, ip.ip_value
   from item_sell as itemsell join item_photo as ip
     on itemsell.is_no = ip.ip_no
