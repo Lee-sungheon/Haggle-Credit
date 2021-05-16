@@ -16,7 +16,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
+`;
 interface ProductPriceProps {
   onIsCoolPrice: (name: any) => void;
   onIsAuctionPrice: (name: any) => void;
@@ -80,24 +85,25 @@ const ProductPrice = ({
   };
   return (
     <>
-      <div
-        id="address"
-        style={{
-          display: 'flex',
-          padding: '25px 0',
-          paddingBottom: '10px',
-        }}
-      >
+      <Container id="address">
         <div
           style={{
-            width: '180px',
+            width: '20%',
             fontSize: '17px',
             fontWeight: 'bolder',
+            minWidth: '120px',
           }}
         >
           즉시구매가격<span style={{ color: 'red' }}>* </span>
         </div>
-        <div>
+        <div
+          style={{
+            width: '80%',
+            paddingLeft: '20px',
+            minWidth: '650px',
+            textAlign: 'left',
+          }}
+        >
           <div>
             <div>
               <input
@@ -119,26 +125,26 @@ const ProductPrice = ({
             ex{')'}123123원 -{'>'} 123100원
           </div>
         </div>
-      </div>
-      <div
-        id="address"
-        style={{
-          display: 'flex',
-          padding: '25px 0',
-          paddingBottom: '10px',
-          paddingTop: '0',
-        }}
-      >
+      </Container>
+      <Container id="address">
         <div
           style={{
-            width: '180px',
+            width: '20%',
             fontSize: '17px',
             fontWeight: 'bolder',
+            minWidth: '120px',
           }}
         >
           경매시작가격<span style={{ color: 'red' }}>* </span>
         </div>
-        <div>
+        <div
+          style={{
+            width: '80%',
+            paddingLeft: '20px',
+            minWidth: '650px',
+            textAlign: 'left',
+          }}
+        >
           <div>
             <div>
               <input
@@ -160,26 +166,26 @@ const ProductPrice = ({
             ex{')'}123123원 -{'>'} 123100원
           </div>
         </div>
-      </div>
-      <div
-        id="address"
-        style={{
-          display: 'flex',
-          padding: '25px 0',
-          paddingTop: '0',
-          borderBottom: '1px solid gray',
-        }}
-      >
+      </Container>
+      <Container id="address">
         <div
           style={{
-            width: '180px',
+            width: '20%',
             fontSize: '17px',
             fontWeight: 'bolder',
+            minWidth: '120px',
           }}
         >
           경매종료시간<span style={{ color: 'red' }}>* </span>
         </div>
-        <div>
+        <div
+          style={{
+            width: '80%',
+            paddingLeft: '20px',
+            minWidth: '650px',
+            textAlign: 'left',
+          }}
+        >
           <div>
             <div>
               <form className={classes.container} noValidate>
@@ -198,7 +204,7 @@ const ProductPrice = ({
           </div>
           <div></div>
         </div>
-      </div>
+      </Container>
     </>
   );
 };

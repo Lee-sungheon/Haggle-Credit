@@ -170,11 +170,7 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-<<<<<<< HEAD
 const StoreInfo = ({ item, buy }: Props) => {
-=======
-const StoreInfo = ({item, buy}: Props) => {
->>>>>>> df25d0ff501647a50ac3c67c4135ba775ffbfc66
   const history = useHistory();
   const [storeInfoList, setStoreInfo] = useState<STOREINFO[]>([]);
   const [reviewList, setReviewList] = useState<STOREREVIEW[]>([]);
@@ -185,7 +181,6 @@ const StoreInfo = ({item, buy}: Props) => {
     const fetchData = async () => {
       const data = await callApiStoreInfo(item.isUserNo);
       setStoreInfo(data);
-<<<<<<< HEAD
     };
     const fetchData2 = async () => {
       const data2 = await callApiUserInfo(item.isUserNo);
@@ -197,35 +192,15 @@ const StoreInfo = ({item, buy}: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       if (userNo !== undefined) {
-=======
-    }
-    const fetchData2 = async() => {
-      const data2 = await callApiUserInfo(item.isUserNo);
-      setUserInfo(data2);
-    }
-    fetchData();
-    fetchData2();
-  }, [item.isUserNo])
-  useEffect(()=>{
-    const fetchData = async() => {
-      if (userNo !== undefined){
->>>>>>> df25d0ff501647a50ac3c67c4135ba775ffbfc66
         const data = await callApiGetStoreReview(userNo);
         const cnt = await callApiGetStoreReviewCnt(userNo);
         setReviewCnt(cnt);
         setReviewList(data);
       }
-<<<<<<< HEAD
     };
     fetchData();
   }, [userNo]);
   const goChat = async () => {
-=======
-    }
-    fetchData();
-  }, [userNo])
-  const goChat = async() => {
->>>>>>> df25d0ff501647a50ac3c67c4135ba775ffbfc66
     const body = {
       crItemNo: item.ipItemNo,
       crUserNoOne: userNo,
@@ -345,7 +320,6 @@ const StoreInfo = ({item, buy}: Props) => {
             <StyledButton
               style={{ background: 'rgb(255, 164, 37)', marginRight: '5px' }}
               onClick={goChat}
-<<<<<<< HEAD
             >
               연락하기
             </StyledButton>
@@ -368,19 +342,6 @@ const StoreInfo = ({item, buy}: Props) => {
                 입찰하기
               </StyledButton>
             )}
-=======
-              >연락하기</StyledButton>
-            {buy ? <StyledButton 
-              style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/buy/${item.ipItemNo}`, '_blank')}
-            >입찰하기</StyledButton>
-            :
-            <StyledButton 
-              style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/sell/${item.ipItemNo}`, '_blank')}
-            >입찰하기</StyledButton>
-            }
->>>>>>> df25d0ff501647a50ac3c67c4135ba775ffbfc66
           </ButtonArea>
         </MoreArea>
       </StoreArea>

@@ -13,14 +13,15 @@ import { RootState } from '../../common/store';
 
 const Container = styled.div`
   text-align: center;
+  padding: 196px 200px 0 200px;
+  @media (max-width: 1024px) {
+    padding: 196px 40px 0 40px;
+  }
 `;
 
 const Body = styled.div`
-  width: 1000px;
-  height: 600px;
-  margin: auto;
-  padding-top: 196px;
-  font-size: 18px;
+  margin: 0;
+  font-size: 1vw;
   font-family: Bazzi;
 `;
 interface MatchParams {

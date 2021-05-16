@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 
 interface ProductNameProps {
   onIsNameHandler: (name: any) => void;
 }
-
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
+`;
 const ProductName = ({ onIsNameHandler }: ProductNameProps) => {
   const [inputName, setInputName] = useState('');
   const onInputTitleHandler = (e: any) => {
@@ -13,28 +19,29 @@ const ProductName = ({ onIsNameHandler }: ProductNameProps) => {
     onIsNameHandler(name);
   };
   return (
-    <div
-      id="titleSection"
-      style={{
-        display: 'flex',
-        borderBottom: '1px solid gray',
-        padding: '25px 0',
-      }}
-    >
+    <Container id="titleSection">
       <div
         style={{
-          width: '180px',
+          width: '20%',
           fontSize: '17px',
           fontWeight: 'bolder',
+          minWidth: '130px',
         }}
       >
         상품이름<span style={{ color: 'red' }}>* </span>
       </div>
-      <div>
+      <div
+        style={{
+          width: '80%',
+          paddingLeft: '20px',
+          minWidth: '650px',
+          textAlign: 'left',
+        }}
+      >
         <input
           style={{
             height: '40px',
-            width: '50vw',
+            width: '80%',
             maxWidth: '800px',
             border: '1px solid #FF6600',
             marginRight: '25px',
@@ -45,7 +52,7 @@ const ProductName = ({ onIsNameHandler }: ProductNameProps) => {
         ></input>
         <span>({inputName.length}/40)</span>
       </div>
-    </div>
+    </Container>
   );
 };
 

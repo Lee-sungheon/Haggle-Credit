@@ -11,6 +11,12 @@ const IntroduceTextArea = styled.textarea`
   padding: 8px;
   resize: none;
 `;
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
+`;
 interface ProductDescriptionProps {
   onIsContent: (name: any) => void;
 }
@@ -21,24 +27,24 @@ const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
     onIsContent(e.target.value);
   };
   return (
-    <div
-      id="address"
-      style={{
-        display: 'flex',
-        padding: '25px 0',
-        marginBottom: '100px',
-      }}
-    >
+    <Container id="address">
       <div
         style={{
-          width: '180px',
+          width: '20%',
           fontSize: '17px',
           fontWeight: 'bolder',
+          minWidth: '130px',
         }}
       >
         <p>내용</p>
       </div>
-      <div>
+      <div
+        style={{
+          width: '80%',
+          paddingLeft: '20px',
+          textAlign: 'left',
+        }}
+      >
         <div>
           <IntroduceTextArea
             value={introduce}
@@ -49,7 +55,7 @@ const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
           <p style={{ textAlign: 'right', marginTop: '-2px' }}>0/2000</p>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

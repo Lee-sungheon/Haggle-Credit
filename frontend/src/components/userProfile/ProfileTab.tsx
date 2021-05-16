@@ -5,7 +5,6 @@ import TransactionReviewTab from './Tab/TransactionReviewTab';
 import BasketTab from './Tab/BasketTab';
 import TenderListTab from './Tab/TenderListTab';
 import { Route } from 'react-router-dom';
-import { USERDATA } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useEffect, useState } from 'react';
@@ -24,8 +23,8 @@ const Body = styled.div`
 `;
 
 const ActTab = styled.div`
-  height: 50px;
-  width: 160px;
+  height: 3vw;
+  width: 13vw;
   border: 1px solid black;
   border-bottom: none;
   :hover {
@@ -34,8 +33,8 @@ const ActTab = styled.div`
 `;
 
 const Tab = styled.div`
-  height: 50px;
-  width: 160px;
+  height: 3vw;
+  width: 13vw;
   border: 1px solid #e0e0e0;
   background-color: #f5f5f5;
   color: #bdbdbd;
@@ -99,7 +98,7 @@ const ProfileTab2 = () => {
                 <p>거래 리뷰</p>
               </Tab>
             )}
-            {window.location.pathname ===
+            {/* {window.location.pathname ===
             `/userProfile/${userData.uNo}/basket` ? (
               <ActTab
                 onClick={() =>
@@ -134,7 +133,7 @@ const ProfileTab2 = () => {
               >
                 <p>입찰내역</p>
               </Tab>
-            )}
+            )} */}
           </Body>
           <Route exact path="/userProfile/:id" component={ProductTab}></Route>
           <Route

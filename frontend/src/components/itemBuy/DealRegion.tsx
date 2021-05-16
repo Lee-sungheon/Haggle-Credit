@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 
 interface DealRegionProps {
   onIsRegionHandler: (name: any) => void;
 }
-
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
+`;
 const DealRegion = ({ onIsRegionHandler }: DealRegionProps) => {
   const [inputAddress, setInputAddress] = useState('');
   const onInputAddressHandler = (e: any) => {
@@ -13,28 +19,29 @@ const DealRegion = ({ onIsRegionHandler }: DealRegionProps) => {
     onIsRegionHandler(name);
   };
   return (
-    <div
-      id="titleSection"
-      style={{
-        display: 'flex',
-        borderBottom: '1px solid gray',
-        padding: '25px 0',
-      }}
-    >
+    <Container id="titleSection">
       <div
         style={{
-          width: '180px',
+          width: '20%',
           fontSize: '17px',
           fontWeight: 'bolder',
+          minWidth: '130px',
         }}
       >
         거래지역<span style={{ color: 'red' }}>* </span>
       </div>
-      <div>
+      <div
+        style={{
+          width: '80%',
+          paddingLeft: '20px',
+          minWidth: '650px',
+          textAlign: 'left',
+        }}
+      >
         <input
           style={{
             height: '40px',
-            width: '50vw',
+            width: '80%',
             maxWidth: '800px',
             border: '1px solid #FF6600',
             marginRight: '25px',
@@ -45,7 +52,7 @@ const DealRegion = ({ onIsRegionHandler }: DealRegionProps) => {
         ></input>
         <span>({inputAddress.length}/20)</span>
       </div>
-    </div>
+    </Container>
   );
 };
 

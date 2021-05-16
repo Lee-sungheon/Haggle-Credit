@@ -13,6 +13,15 @@ import axios from 'axios';
 import { ImageListType } from 'react-images-uploading';
 import { useHistory } from 'react-router-dom';
 
+const Container = styled.div`
+  text-align: center;
+  padding: 196px 200px 0 200px;
+  margin-bottom: 100px;
+  @media (max-width: 1024px) {
+    padding: 196px 40px 0 40px;
+  }
+`;
+
 const RegistButton = styled.button`
   height: 50px;
   width: 200px;
@@ -159,55 +168,50 @@ const ProductRegistration = () => {
     }
   };
   return (
-    <div
-      style={{
-        // padding: '0 300px',
-        margin: 'auto',
-        width: '80vw',
-        maxWidth: '1200px',
-        paddingTop: '196px',
-      }}
-    >
-      <div>
-        <div
-          id="header"
-          style={{
-            height: '90px',
-            display: 'flex',
-            borderBottom: '2px solid black',
-          }}
-        >
-          <div style={{ fontSize: '25px', width: '150px', fontWeight: 500 }}>
-            <p>판매글</p>
-          </div>
+    <>
+      <Container>
+        <div>
           <div
+            id="header"
             style={{
-              position: 'relative',
-              fontWeight: 500,
-              marginTop: '15px',
+              height: '4.5vw',
+              display: 'flex',
+              borderBottom: '0.1vw solid black',
             }}
           >
-            <p style={{ color: 'red', fontSize: '15px' }}>
-              <span>*</span>필수항목
-            </p>
+            <div
+              style={{ fontSize: '1.25vw', width: '7.5vw', fontWeight: 500 }}
+            >
+              <p>판매글</p>
+            </div>
+            <div
+              style={{
+                position: 'relative',
+                fontWeight: 500,
+                marginTop: '0.75vw',
+              }}
+            >
+              <p style={{ color: 'red', fontSize: '0.75vw' }}>
+                <span>*</span>필수항목
+              </p>
+            </div>
           </div>
-        </div>
-        <ProductImage onisProductPhoto={onisProductPhoto} />
-        <ProductName onIsNameHandler={onIsNameHandler} />
-        <ProductCategory
-          onIsCategoryMain={onIsCategoryMain}
-          onIsCategorySub={onIsCategorySub}
-        />
-        {/* <DealRegion /> */}
-        <ProductState onIsUsedStatus={onIsUsedStatus} />
-        <ProductPrice
-          onIsCoolPrice={onIsCoolPrice}
-          onIsAuctionPrice={onIsAuctionPrice}
-          onIsEndDate={onIsEndDate}
-        />
-        <ProductDescription onIsContent={onIsContent} />
+          <ProductImage onisProductPhoto={onisProductPhoto} />
+          <ProductName onIsNameHandler={onIsNameHandler} />
+          <ProductCategory
+            onIsCategoryMain={onIsCategoryMain}
+            onIsCategorySub={onIsCategorySub}
+          />
+          {/* <DealRegion /> */}
+          <ProductState onIsUsedStatus={onIsUsedStatus} />
+          <ProductPrice
+            onIsCoolPrice={onIsCoolPrice}
+            onIsAuctionPrice={onIsAuctionPrice}
+            onIsEndDate={onIsEndDate}
+          />
+          <ProductDescription onIsContent={onIsContent} />
 
-        {/* <div
+          {/* <div
           id="address"
           style={{
             display: 'flex',
@@ -259,7 +263,7 @@ const ProductRegistration = () => {
           </div>
         </div> */}
 
-        {/* <div
+          {/* <div
           id="address"
           style={{
             display: 'flex',
@@ -309,7 +313,7 @@ const ProductRegistration = () => {
             </div>
           </div>
         </div> */}
-        {/* <div
+          {/* <div
           id="address"
           style={{
             display: 'flex',
@@ -338,22 +342,22 @@ const ProductRegistration = () => {
             개
           </div>
         </div> */}
-      </div>
+        </div>
+      </Container>
       <div
         style={{
-          width: '80vw',
-          maxWidth: '1200px',
+          width: '100%',
           textAlign: 'center',
           padding: '10px 0',
           // backgroundColor: 'rgb(250, 250, 253)',
-          backgroundColor: 'white',
           position: 'fixed',
+          backgroundColor: 'white',
           bottom: '10px',
         }}
       >
         <RegistButton onClick={onRegist}>등록하기</RegistButton>
       </div>
-    </div>
+    </>
   );
 };
 

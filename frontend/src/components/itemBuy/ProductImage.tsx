@@ -8,9 +8,16 @@ import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { changeProfileImageAPI } from '../../api/UserApi';
 
 const ImgSection = styled.div`
+  width: 100%;
   text-align: center;
   position: relative;
   top: -50%;
+`;
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
 `;
 const ImgSection2 = styled.div``;
 const RemoveButton = styled.img`
@@ -21,16 +28,6 @@ const RemoveButton = styled.img`
   }
 `;
 const ImgInputButton = styled.button`
-  padding: 6px 25px;
-  border: none;
-  background-color: #ff6600;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-`;
-
-const ImgRemoveButton = styled.button`
-  position: relative;
   padding: 6px 25px;
   border: none;
   background-color: #ff6600;
@@ -127,19 +124,13 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
         }) => (
           // write your building UI
           <>
-            <div
-              id="imgSection"
-              style={{
-                display: 'flex',
-                borderBottom: '1px solid gray',
-                padding: '25px 0',
-              }}
-            >
+            <Container id="imgSection">
               <div
                 style={{
-                  width: '180px',
+                  width: '20%',
                   fontSize: '17px',
                   fontWeight: 'bolder',
+                  minWidth: '130px',
                 }}
               >
                 상품이미지<span style={{ color: 'red' }}>* </span>
@@ -149,16 +140,17 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
               </div>
               <div
                 style={{
-                  width: '50vw',
+                  width: '80%',
+                  paddingLeft: '20px',
                   minWidth: '650px',
                 }}
               >
                 <div>
-                  <div style={{ height: '200px', display: 'flex' }}>
+                  <div style={{ height: '15vw', display: 'flex' }}>
                     <div>
                       <div
                         style={{
-                          width: '200px',
+                          width: '15vw',
                           backgroundColor: '#eeeeee',
                           height: '100%',
                         }}
@@ -175,10 +167,12 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
                     </div>
                     <div
                       style={{
-                        marginTop: '40px',
-                        marginLeft: '40px',
+                        marginTop: '3vw',
                         color: '#29b6f6',
-                        fontSize: '14px',
+                        fontSize: '1vw',
+                        width: '100%',
+                        textAlign: 'left',
+                        paddingLeft: '3vw',
                       }}
                     >
                       <span style={{ fontWeight: 'bolder' }}>
@@ -251,7 +245,7 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Container>
           </>
         )}
       </ImageUploading>

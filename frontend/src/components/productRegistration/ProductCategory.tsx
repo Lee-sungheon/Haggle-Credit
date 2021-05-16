@@ -2,7 +2,12 @@ import { useRef, useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 import { CATEGORYS } from '../../common/data';
-
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
+`;
 const CategoryList = styled.ul`
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -85,24 +90,24 @@ const ProductCategory = ({
     }
   };
   return (
-    <div
-      id="categorySection"
-      style={{
-        display: 'flex',
-        padding: '25px 0',
-        borderBottom: '1px solid gray',
-      }}
-    >
+    <Container id="categorySection">
       <div
         style={{
-          width: '180px',
+          width: '20%',
           fontSize: '17px',
           fontWeight: 'bolder',
+          minWidth: '120px',
         }}
       >
         카테고리<span style={{ color: 'red' }}>* </span>
       </div>
-      <div>
+      <div
+        style={{
+          width: '80%',
+          paddingLeft: '20px',
+          minWidth: '650px',
+        }}
+      >
         <div>
           <div style={{ display: 'flex' }}>
             <div>
@@ -149,7 +154,7 @@ const ProductCategory = ({
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
