@@ -94,7 +94,7 @@ const SellAuctionPage = ({match, location}: RouteComponentProps<MatchParams, His
       </Header>
       <MainArea>
         <ItemDescription desc={desc}/>
-        <Destination isModal={isModal} destination={destination}/>
+        {/* <Destination isModal={isModal} destination={destination}/> */}
         <SellAuction />
       </MainArea>
     </Container>

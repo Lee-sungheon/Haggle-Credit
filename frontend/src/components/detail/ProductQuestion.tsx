@@ -144,8 +144,10 @@ const ProductQuestion = ({itemNo}: Props) => {
   
   useEffect(()=>{
     const fetchData = async() => {
-      const result = await callApiQnaList(itemNo);
-      setQnaList(result.reverse());
+      if (itemNo !== undefined){
+        const result = await callApiQnaList(itemNo);
+        setQnaList(result.reverse());
+      }
     }
     fetchData();
   }, [itemNo])
@@ -154,22 +156,26 @@ const ProductQuestion = ({itemNo}: Props) => {
     if (!userNo){
       alert("qna를 남기려면 로그인 해주세요.");
     } else {
-      const data = {
-        iqContent: value,
-        iqItemNo: itemNo,
-        iqUserNo: userNo
+      if (itemNo !== undefined){
+        const data = {
+          iqContent: value,
+          iqItemNo: itemNo,
+          iqUserNo: userNo
+        }
+        await callApiWriteQna(data);
+        const result = await callApiQnaList(itemNo);
+        setQnaList(result.reverse());
       }
-      await callApiWriteQna(data);
-      const result = await callApiQnaList(itemNo);
-      setQnaList(result.reverse());
       setValue('');
     }
   }
 
   const deleteQna = async(qnaNo: number) => {
     await callApiDeleteQna(qnaNo);
-    const result = await callApiQnaList(itemNo);
-    setQnaList(result.reverse());
+    if (itemNo !== undefined){
+      const result = await callApiQnaList(itemNo);
+      setQnaList(result.reverse());
+    }
   }
 
   const recommentQna = async(userName: string) => {

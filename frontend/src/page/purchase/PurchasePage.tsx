@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled, { ITEM } from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { commonActions } from "../../state/common";
 import ItemDescription from '../../components/purchase/ItemDescription';
 import Purchase from '../../components/purchase/Purchase';
 import Destination from '../../components/purchase/Destination';
 import { RouteComponentProps } from 'react-router-dom';
 import { callApiItemDetail } from '../../api/ProductApi';
+import { RootState } from '../../common/store';
 
 interface MatchParams {
   id: string;
@@ -17,10 +18,6 @@ interface LocationParams {
 }
 
 interface HistoryParams {
-}
-
-interface Dest {
-  [key: string]: string
 }
 
 const Container = styled.div`
@@ -65,8 +62,9 @@ const MainArea = styled.div`
 
 const PurchasePage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
   let isModal: boolean = false;
-  const destination: Dest[] = [{address: "경상북도 구미시 구미대로 174 (광평동) ㅁ (39347)", title: "우리집", name: "이성헌", phone: "01012345678", request: "경비실"}];
   const [desc, setDesc] = useState<ITEM>({});
+  const [uaNo, setUaNo] = useState(-1);
+  const userData = useSelector((state: RootState) => state.user.userData);
   const dispatch = useDispatch();
   const itemNo = parseInt(location.pathname.split('/')[3]);
   location.state === undefined ? isModal = false : isModal = true;
@@ -93,8 +91,8 @@ const PurchasePage = ({match, location}: RouteComponentProps<MatchParams, Histor
       </Header>
       <MainArea>
         <ItemDescription desc={desc}/>
-        <Destination isModal={isModal} destination={destination}/>
-        <Purchase />
+        <Destination isModal={isModal} userData={userData} setUaNo={setUaNo}/>
+        <Purchase desc={desc} uaNo={uaNo}/>
       </MainArea>
     </Container>
   );

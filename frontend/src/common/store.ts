@@ -5,8 +5,8 @@ import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import HomeReducer from '../state/home';
 import HomeSaga from '../state/home/saga';
-import CommonReducer from '../state/common';
-// import TotalReducer from '../state/common/common';
+import CommonReducer from '../state/common/index';
+import TotalReducer from '../state/common/common';
 import UserReducer from '../state/user';
 
 declare global {
@@ -18,14 +18,14 @@ declare global {
 const persistConfig = {
   key: 'root',
   storage: storage,
-  whitelist: ['user'],
+  whitelist: ['user', 'total'],
 };
 
 const reducer = combineReducers({
   home: HomeReducer,
   common: CommonReducer,
   user: UserReducer,
-  // total: TotalReducer,
+  total: TotalReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

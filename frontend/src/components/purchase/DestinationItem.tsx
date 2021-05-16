@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { DEST, USERDATA } from 'styled-components';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import { callApiChangeDefaultAddress, callApiDeleteAddress } from '../../api/UserApi';
 
 interface DestinationItemProps {
-  destination: Dest[];
-}
-
-interface Dest {
-  [key: string]: string
+  destination: DEST;
+  userData: USERDATA;
+  setRefresh: Function;
+  refresh: boolean;
+  setDestination: Function;
 }
 
 const MoreButton = styled.div`
@@ -65,7 +66,7 @@ const BasicDestination = styled.span`
   border: 1px solid rgb(255, 80, 88);
 `;
 
-const DestinationItem = ({destination}: DestinationItemProps) => {
+const DestinationItem = ({destination, userData, setRefresh, refresh, setDestination}: DestinationItemProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   
@@ -77,7 +78,6 @@ const DestinationItem = ({destination}: DestinationItemProps) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
       return;
     }
-
     setMenuOpen(false);
   };
 
@@ -97,17 +97,34 @@ const DestinationItem = ({destination}: DestinationItemProps) => {
     prevOpen.current = menuOpen;
   }, [menuOpen]);
 
+  const changeDefault = async() => {
+    if (userData.uNo !== undefined && destination.uaNo !== undefined) {
+      await callApiChangeDefaultAddress(userData.uNo, destination.uaNo);
+      setRefresh(!refresh);
+    }
+  }
+
+  const deleteAddress = async() => {
+    if (destination.uaNo !== undefined){
+      const result = await callApiDeleteAddress(destination.uaNo);
+      if (result === '배송지 삭제 완료'){
+        alert('배송지가 삭제되었습니다.')
+      }
+      setRefresh(!refresh);
+    }
+  }
+
   return (
-    <DestinationItemArea>
+    <DestinationItemArea onClick={() => setDestination(destination)}>
       <AddressBox>
-        <p>{destination[0]['address']}</p>
-        <BasicDestination>기본 배송지</BasicDestination>
+        <p>{destination.uaLnmAddress}</p>
+        {destination.uaDefaultSetting === "true" && <BasicDestination>기본 배송지</BasicDestination>}
       </AddressBox>
       <ContentBox>
-      {destination[0]['title']} ・ {destination[0]['name']} ・ {destination[0]['phone']}
+      {destination.uaName} ・ {destination.uaRecvUserName} ・ {destination.uaRecvUserPhone}
       </ContentBox>
       <RequestBox>
-        <span>요청사항 | {destination[0]['request']}</span>
+        <span>요청사항 | {destination.uaRequest}</span>
         <MoreButton
           ref={anchorRef}
           aria-controls={menuOpen ? 'menu-list-grow' : undefined}
@@ -123,8 +140,8 @@ const DestinationItem = ({destination}: DestinationItemProps) => {
               <Paper style={{fontSize: '14px'}}>
                 <ClickAwayListener onClickAway={menuHandleClose}>
                   <MenuList autoFocusItem={menuOpen} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={menuHandleClose} style={{fontSize: '14px'}}>기본 배송지로 설정하기</MenuItem>
-                    <MenuItem onClick={menuHandleClose} style={{fontSize: '14px'}}>삭제하기</MenuItem>
+                    <MenuItem onClick={(e) => {changeDefault(); menuHandleClose(e);}} style={{fontSize: '14px'}}>기본 배송지로 설정하기</MenuItem>
+                    <MenuItem onClick={(e) => {deleteAddress(); menuHandleClose(e);}} style={{fontSize: '14px'}}>삭제하기</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

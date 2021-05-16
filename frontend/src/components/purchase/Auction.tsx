@@ -4,9 +4,14 @@ import moment from 'moment';
 import { theme } from '../../styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { callApiUpdateAuction } from '../../api/ProductApi';
+import { useDispatch } from 'react-redux';
+import { userActions } from "../../state/user";
+import { totalActions } from "../../state/common/common";
 
 interface Props {
   desc: ITEM;
+  uaNo: number;
 }
 
 const ItemTitle = styled.div`
@@ -109,10 +114,12 @@ const AuctionButton = styled.p`
   text-align: center;
 `;
 
-const Auction = ({desc}: Props) => {
+const Auction = ({desc, uaNo}: Props) => {
   const [ credit, setCredit ] = useState("");
   const [ time, setTime ] = useState('');
   const userData = useSelector((state: RootState) => state.user.userData);
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
+  const dispatch = useDispatch();
   const endDate = desc.isEndDate;
   const CalTime = useCallback(()=> {
     let t1 = moment(endDate);
@@ -139,7 +146,7 @@ const Auction = ({desc}: Props) => {
 
   const confirmValue = () => {
     if (desc.isAuctionIngPrice !== undefined){
-      if (credit !== "0" ) {
+      if (credit !== "" ) {
         if (parseInt(credit) % 100 !== 0){
           alert('크레딧은 100 단위로 입력해주세요.');
           setCredit("");
@@ -147,6 +154,22 @@ const Auction = ({desc}: Props) => {
           alert('입찰금액은 현재가보다 100원 이상이어야 합니다.');
         }
       }
+    }
+  }
+
+  const submitAuction = async() => {
+    if (credit !== "" && desc.isItemNo !== undefined && userData.uNo !== undefined && uaNo !== -1){
+      const result = await callApiUpdateAuction(parseInt(credit), desc.isItemNo, userData.uNo, uaNo);
+      if (result >= 0 ){
+        alert('입찰이 완료되었습니다.');
+        const data = Object.assign({}, userData);
+        data.uCredit = result;
+        dispatch(userActions.changeCredit(data));
+        dispatch(totalActions.setIsUpdate(!isUpdate));
+      } else {
+        alert('오류가 발생했습니다.');
+      }
+      window.close();
     }
   }
 
@@ -206,7 +229,7 @@ const Auction = ({desc}: Props) => {
         </AuctionItem>
       </AuctionArea>
       <AuctionButton
-        // onClick={submitAuction}
+        onClick={submitAuction}
       >입찰하기</AuctionButton>
     </>
   )

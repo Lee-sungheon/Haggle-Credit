@@ -10,7 +10,6 @@ import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
 
-
 interface ProductInfoProps {
   item: ITEM;
   buy: boolean;
@@ -145,8 +144,8 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   }, [CalTime])
   useEffect(()=>{
     const fetchData = async() => {
-      if (userNo !== undefined){
-        const is = await callApiCheckedStatus(item.ipItemNo, userNo);
+      if (userNo !== undefined && item.isItemNo !== undefined){
+        const is = await callApiCheckedStatus(item.isItemNo, userNo);
         if (is === "찜된 상태입니다."){
           setIsLike(true);
         } else {
@@ -155,7 +154,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
       }
     }
     fetchData();
-  }, [item.ipItemNo, userNo])
+  }, [item.isItemNo, userNo])
   
   const goChat = async() => {
     const body = {
@@ -174,7 +173,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   return (
     <Container>
       <ImgBox>
-        <ImageSlider itemNo={item.ipItemNo}/>
+        <ImageSlider itemNo={item.isItemNo}/>
       </ImgBox>
       <ProductInfoBox>
         <InfoArea>
@@ -206,7 +205,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
         </DetailBox>
         <DetailBox>
           <DetailItem>
-            <ItemTitle>· 상품상태</ItemTitle><ItemContent>중고</ItemContent>
+            <ItemTitle>· 상품상태</ItemTitle><ItemContent>{item.isUsedStatus}</ItemContent>
           </DetailItem>
           <DetailItem>
             <ItemTitle>· 환불여부</ItemTitle><ItemContent>환불불가능</ItemContent>
@@ -217,13 +216,13 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
         </DetailBox>
         <ButtonBox>
           <StyledButton onClick={async() => {
-            if (userNo !== undefined) {
+            if (userNo !== undefined && item.isItemNo !== undefined) {
               if (isLike){
-                await callApiDeleteZzim(item.ipItemNo, userNo);
+                await callApiDeleteZzim(item.isItemNo, userNo);
                 setIsLike(false);
               } else{
                 const data = {
-                  bItemNo: item.ipItemNo,
+                  bItemNo: item.isItemNo,
                   bUserNo: userNo
                 }
                 await callApiCreateZzim(data);
@@ -240,13 +239,13 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             {isLike ? '찜완료' : '찜하기'}
           </StyledButton>
           <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={
-            buy ? () => window.open(`../auction/buy/${item.ipItemNo}`, '_blank') : 
-            () => window.open(`../auction/sell/${item.ipItemNo}`, '_blank')}
+            buy ? () => window.open(`../auction/buy/${item.isItemNo}`, '_blank') : 
+            () => window.open(`../auction/sell/${item.isItemNo}`, '_blank')}
             >
             입찰하기
           </StyledButton>
           <StyledButton style={buy ? { backgroundColor: 'red' }:{ backgroundColor: 'orange'}} 
-            onClick={buy ? () => window.open(`../purchase/buy/${item.ipItemNo}`, '_blank') : goChat}>
+            onClick={buy ? () => window.open(`../purchase/buy/${item.isItemNo}`, '_blank') : goChat}>
             {buy ? '바로구매' : '연락하기'}
           </StyledButton>
         </ButtonBox>

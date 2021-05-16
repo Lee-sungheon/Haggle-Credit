@@ -55,10 +55,7 @@ const AddDestinationPage = () => {
       <Header>
         <h3 style={{ margin: '0' }}>배송지 추가</h3>
         <BackButton 
-        onClick={() => history.push({
-          pathname: `/purchase/1`,
-          state: {isModal: true}
-        })} />
+        onClick={() => history.goBack()} />
       </Header>
       <AddDestination />
     </Container>

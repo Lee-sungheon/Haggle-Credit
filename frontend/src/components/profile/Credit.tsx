@@ -70,9 +70,11 @@ const Credit = () => {
   const [payment, setPayment] = useState(false);
   const [inputCredit, setInputCredit] = useState(0);
   const userData = useSelector((state: RootState) => state.user.userData);
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const [credit, setCredit] = useState('0');
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("render")
     if (userData.uCredit) {
       let set_credit = userData.uCredit.toString();
       if (userData.uCredit > 99999999) {
@@ -80,7 +82,7 @@ const Credit = () => {
       }
       setCredit(set_credit.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'));
     }
-  }, [userData]);
+  }, [userData, isUpdate]);
   const togglePayment = () => {
     setPayment(!payment);
   };

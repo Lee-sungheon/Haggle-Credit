@@ -174,12 +174,16 @@ const StoreInfo = ({item, buy}: Props) => {
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   useEffect(()=>{
     const fetchData = async() => {
-      const data = await callApiStoreInfo(item.isUserNo);
-      setStoreInfo(data);
+      if (item.isUserNo !== undefined){
+        const data = await callApiStoreInfo(item.isUserNo);
+        setStoreInfo(data);
+      }
     }
     const fetchData2 = async() => {
-      const data2 = await callApiUserInfo(item.isUserNo);
-      setUserInfo(data2);
+      if (item.isUserNo !== undefined){
+        const data2 = await callApiUserInfo(item.isUserNo);
+        setUserInfo(data2);
+      }
     }
     fetchData();
     fetchData2();
@@ -197,7 +201,7 @@ const StoreInfo = ({item, buy}: Props) => {
   }, [userNo])
   const goChat = async() => {
     const body = {
-      crItemNo: item.ipItemNo,
+      crItemNo: item.isItemNo,
       crUserNoOne: userNo,
       crUserNoTwo: item.isUserNo,
     };
@@ -300,12 +304,12 @@ const StoreInfo = ({item, buy}: Props) => {
               >연락하기</StyledButton>
             {buy ? <StyledButton 
               style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/buy/${item.ipItemNo}`, '_blank')}
+              onClick={() => window.open(`../auction/buy/${item.isItemNo}`, '_blank')}
             >입찰하기</StyledButton>
             :
             <StyledButton 
               style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/sell/${item.ipItemNo}`, '_blank')}
+              onClick={() => window.open(`../auction/sell/${item.isItemNo}`, '_blank')}
             >입찰하기</StyledButton>
             }
           </ButtonArea>
