@@ -24,7 +24,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 	/* R :: 나의 배송지 조회 */
 	@Override
 	public List<UserAddress> selectAddressMine(int uNo) throws Exception {
-		return userAddressRepository.findByuaUserNo(uNo);
+		return userAddressRepository.findByuaUserNoOrderByUaDefaultSettingDesc(uNo);
 	}
 
 	/* U :: 기본 배송지 변경 */
@@ -66,5 +66,24 @@ public class UserAddressServiceImpl implements UserAddressService {
 	@Override
 	public UserAddress selectAddressByuaNo(int uaNo) {
 		return userAddressRepository.findByuaNo(uaNo);
+	}
+
+	@Override
+	public void updateDefaultFalse(int uNo) {
+		List<UserAddress> ua=userAddressRepository.findAllByuaUserNo(uNo);
+		for (UserAddress userAddress : ua) {
+			userAddress.setUaDefaultSetting("false");
+			userAddressRepository.save(userAddress);
+		}
+	}
+
+	@Override
+	public boolean updateDefaultTrue(int uaNo) {
+		UserAddress ua=userAddressRepository.findByuaNo(uaNo);
+		ua.setUaDefaultSetting("true");
+		if(userAddressRepository.save(ua)!=null) {
+			return true;
+		}
+		return false;
 	}
 }

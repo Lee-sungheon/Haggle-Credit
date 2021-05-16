@@ -8,7 +8,7 @@ import 'swiper/components/pagination/pagination.scss';
 import './ImageSlider.css';
 
 interface Props {
-  itemNo: number;
+  itemNo: number| undefined;
 }
 
 interface IMAGES {

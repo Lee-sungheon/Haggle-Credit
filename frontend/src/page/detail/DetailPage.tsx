@@ -39,10 +39,10 @@ const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
   return (
     <Container>
       <CategoryBox>
-        <Category category={item.isCategoryMain} subCategory={item.isCategorySub} />
+        {item.isCategoryMain !== undefined && item.isCategorySub !== undefined && <Category category={item.isCategoryMain} subCategory={item.isCategorySub} />}
       </CategoryBox>
       <ProductInfo item={item} buy={buy}/>
-      <DetailTab item={item}/>
+      <DetailTab item={item} buy={buy}/>
     </Container>
   )
 }

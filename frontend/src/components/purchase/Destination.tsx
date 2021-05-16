@@ -240,8 +240,6 @@ const Destination = ({isModal, destination}: DestinationProps) => {
               :
                 <DestinationList>
                   <DestinationItem destination={destination}/>
-                  <DestinationItem destination={destination}/>
-                  <DestinationItem destination={destination}/>
                 </DestinationList>
               }
             </DestinationBox>

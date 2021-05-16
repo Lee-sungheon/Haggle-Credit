@@ -4,6 +4,7 @@ import ImageSlider from './ImageSlider';
 import moment from 'moment';
 import { ITEM } from "styled-components";
 import { callApiCheckedStatus, callApiCreateZzim, callApiDeleteZzim } from '../../api/ProductApi';
+import { callConnetChat } from '../../api/ChatApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
@@ -140,18 +141,36 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   
   useEffect(()=>{
     const countdown = setInterval(CalTime, 1000);
+    return () => clearInterval(countdown);
+  }, [CalTime])
+  useEffect(()=>{
     const fetchData = async() => {
-      const is = await callApiCheckedStatus(item.ipItemNo, userNo);
-      if (is === "찜된 상태입니다."){
-        setIsLike(true);
-      } else {
-        setIsLike(false);
+      if (userNo !== undefined){
+        const is = await callApiCheckedStatus(item.ipItemNo, userNo);
+        if (is === "찜된 상태입니다."){
+          setIsLike(true);
+        } else {
+          setIsLike(false);
+        }
       }
     }
     fetchData();
-    return () => clearInterval(countdown);
-  }, [CalTime, item.ipItemNo, userNo])
+  }, [item.ipItemNo, userNo])
   
+  const goChat = async() => {
+    const body = {
+      crItemNo: item.ipItemNo,
+      crUserNoOne: userNo,
+      crUserNoTwo: item.isUserNo,
+    };
+    const RoomNo = await callConnetChat(body);
+    await window.open(
+      `../chat/${userNo}/${RoomNo}`,
+      '_blank',
+      'width=387,height=667'
+    );
+  };
+
   return (
     <Container>
       <ImgBox>
@@ -165,14 +184,15 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             </InfoTitle>
             <InfoPrice>
               <InfoText>현재가 : </InfoText>
-              <span style={{ color: 'red' }}>{item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span> 
+              <span style={{ color: 'red' }}>
+                {item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span> 
               <InfoText>원</InfoText>
             </InfoPrice>
             <InfoPrice>
               <InfoText>{buy ? "즉구가 : " : "시작가 : "}</InfoText>
-              <span>{item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              <span>{item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               <InfoText>원</InfoText></span>
-              {buy ? <InfoSubText>(시작가 : {item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>:<></>}
+              {buy ? <InfoSubText>(시작가 : {item.isAuctionInitPrice !== undefined && item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>:<></>}
             </InfoPrice>
           </InfoTitlePrice>
         </InfoArea>
@@ -181,7 +201,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             <ItemTitle>· 입찰수</ItemTitle><ItemContent>{item.joinerCnt}회</ItemContent>
           </DetailItem>
           <DetailItem>
-            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} <br />(종료: {item.isEndDate.slice(5,)} 24:00)</ItemContent>
+            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} <br />(종료: {item.isEndDate !== undefined && item.isEndDate.slice(5,)} 24:00)</ItemContent>
           </DetailItem>
         </DetailBox>
         <DetailBox>
@@ -197,18 +217,20 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
         </DetailBox>
         <ButtonBox>
           <StyledButton onClick={async() => {
-            if (isLike){
-              await callApiDeleteZzim(item.ipItemNo, userNo);
-              setIsLike(false);
-            } else{
-              const data = {
-                bItemNo: item.ipItemNo,
-                bUserNo: userNo
+            if (userNo !== undefined) {
+              if (isLike){
+                await callApiDeleteZzim(item.ipItemNo, userNo);
+                setIsLike(false);
+              } else{
+                const data = {
+                  bItemNo: item.ipItemNo,
+                  bUserNo: userNo
+                }
+                await callApiCreateZzim(data);
+                setIsLike(true);
               }
-              await callApiCreateZzim(data);
-              setIsLike(true);
+              await dispatch(commonActions.setIsLike(!like));
             }
-            await dispatch(commonActions.setIsLike(!like));
           }}>
             <span style={
               isLike? 
@@ -217,12 +239,14 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             >♥</span> 
             {isLike ? '찜완료' : '찜하기'}
           </StyledButton>
-          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={() => window.open(`../auction/sell/${1}`, '_blank')}>
+          <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={
+            buy ? () => window.open(`../auction/buy/${item.ipItemNo}`, '_blank') : 
+            () => window.open(`../auction/sell/${item.ipItemNo}`, '_blank')}
+            >
             입찰하기
           </StyledButton>
           <StyledButton style={buy ? { backgroundColor: 'red' }:{ backgroundColor: 'orange'}} 
-            onClick={buy ? () => window.open(`../purchase/buy/${1}`, '_blank') : 
-            () =>  window.open(`../purchase/sell/${1}`, '_blank')}>
+            onClick={buy ? () => window.open(`../purchase/buy/${item.ipItemNo}`, '_blank') : goChat}>
             {buy ? '바로구매' : '연락하기'}
           </StyledButton>
         </ButtonBox>

@@ -4,8 +4,8 @@ import MainCategory from './MainCategory';
 import { CATEGORYS } from '../../common/data';
 
 interface CategoryProps {
-  category: string,
-  subCategory: string,
+  category: string;
+  subCategory: string;
 }
 
 const CategoryContainer = styled.div`

@@ -87,7 +87,7 @@ const TopBox = styled.div`
 
 const RecentlyBox = () => {
   const [pageNum, setPageNum] = useState(0);
-  const recentlyItems = useSelector((state: RootState) => state.common.recentlyItems);
+  const recentlyItems = useSelector((state: RootState) => state.user.recentlyItems);
   useEffect(()=>{
     const tmpNum: number = parseInt(String((recentlyItems.length-1)/3))
     if (pageNum > tmpNum){
