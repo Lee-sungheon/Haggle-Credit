@@ -8,8 +8,8 @@ import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { changeProfileImageAPI } from '../../api/UserApi';
 
 const Container = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 30%;
+  height: 20vw;
   background-color: #f5f5f5;
 `;
 
@@ -19,7 +19,7 @@ const ImgSection = styled.div`
 `;
 const ImgSection2 = styled.div`
   position: relative;
-  margin-top: -200px;
+  top: -14vw;
 `;
 
 const ImgInputButton = styled.button`
@@ -32,16 +32,18 @@ const ImgInputButton = styled.button`
 `;
 const RemoveButton = styled.img`
   position: relative;
-  top: -290px;
-  right: -120px;
-  width: 40px;
+  top: -20vw;
+  left: 8.5vw;
+  width: 2vw;
   :hover {
     cursor: pointer;
   }
 `;
 
 const ImageList = styled.div`
+  width: 20vw;
   text-align: center;
+  position: inline-block;
   ${ImgSection2} {
     visibility: hidden;
   }
@@ -122,8 +124,8 @@ const UploadImg = () => {
                     src={userData.uImage}
                     id="img"
                     style={{
-                      width: '300px',
-                      height: '300px',
+                      width: '20vw',
+                      height: '20vw',
                       position: 'relative',
                     }}
                   ></img>
@@ -131,14 +133,6 @@ const UploadImg = () => {
                     src={'../images/removeButton.png'}
                     onClick={() => onRemoveImage()}
                   ></RemoveButton>
-                  {/* <ImgInputButton
-                    onClick={() => onRemoveImage()}
-                    style={{
-                      position: 'relative',
-                      top: '-300px',
-                      right: '-100px',
-                    }}
-                  ></ImgInputButton> */}
                   <ImgSection2>
                     <ImgInputButton
                       style={isDragging ? { color: 'red' } : undefined}

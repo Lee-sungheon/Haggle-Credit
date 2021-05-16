@@ -11,10 +11,11 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-  margin: 0;
-  padding: 0 200px;
+  width: 1000px;
+  height: 600px;
+  margin: auto;
   padding-top: 196px;
-  font-size: 1vw;
+  font-size: 18px;
   font-family: Bazzi;
 `;
 const Profile = () => {

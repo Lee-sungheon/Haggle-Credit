@@ -5,13 +5,13 @@ import Account from './Account';
 import Introduce from './Introduce';
 
 const Container = styled.div`
-  width: 700px;
-  height: 300px;
+  width: 70%;
+  margin-left: 2.5vw;
+  height: 20vw;
 `;
 
 const Section = styled.div`
-  width: 700px;
-  height: 70px;
+  height: 3.5vw;
   display: flex;
 `;
 

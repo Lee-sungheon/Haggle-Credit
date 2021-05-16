@@ -8,22 +8,22 @@ import { changeCredit } from '../../api/UserApi';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 const Container = styled.div`
-  width: 450px;
+  width: 45%;
   height: auto;
-  text-align: left;
 `;
 
 const TagP = styled.div`
   margin: 0;
   position: relative;
-  padding-left: 20px;
+  padding-left: 1vw;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 20px;
+  font-size: 1.3vw;
   display: flex;
 `;
 
 const TogglePaymentButton = styled.button`
+  min-width: 60px;
   font-size: 10px;
   margin-left: 5px;
   background-color: white;
@@ -37,21 +37,21 @@ const TogglePaymentButton = styled.button`
 `;
 
 const CreditName = styled.div`
-  height: 30px;
-  line-height: 30px;
+  height: 1.5vw;
+  line-height: 1.5vw;
 `;
 
 const CreditDiv = styled.div`
-  min-width: 50px;
-  height: 30px;
-  line-height: 30px;
-  margin-left: 20px;
+  min-width: 5vw;
+  height: 1.5vw;
+  line-height: 1.5vw;
+  margin-left: 1vw;
   display: flex;
 `;
 
 const CreditPaymentDiv = styled.div`
-  height: 30px;
-  line-height: 30px;
+  height: 1.5vw;
+  line-height: 1.5vw;
 `;
 
 // interface Iamport {
@@ -140,7 +140,7 @@ const Credit = () => {
           <CreditPaymentDiv>
             <input
               type="number"
-              style={{ width: '100px', marginLeft: '10px' }}
+              style={{ width: '5vw', marginLeft: '.5vw' }}
               value={inputCredit}
               onChange={onInputCredit}
             ></input>
