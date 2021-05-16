@@ -21,7 +21,11 @@ const SwiperSlider: React.FC = () => {
       > 
       {ITEMS.map((item, idx: number) => (
         <SwiperSlide key={idx}>
-          <img src={item} alt="" style={{width: '100%'}}/>
+          <img 
+            src={item} 
+            alt="" 
+            style={{width: '100%', cursor: 'pointer'}} 
+            onClick={() => window.open('https://cyberbureau.police.go.kr/prevention/sub7.jsp?mid=020600', '_black')}/>
         </SwiperSlide>
       ))}
     </Swiper> 

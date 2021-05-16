@@ -264,3 +264,34 @@ export function callApiDealCompleted(itemNo: number, uNo: number, uaNo: number){
       console.log(Error);
   });
 }
+
+export function callApiSearchProductList(ud:string, main:string, pageNo: string, sortName: string, word: string) {
+  let url: string = ''
+  if (main !=="") {
+    url = `https://k4d107.p.ssafy.io/haggle-credit/searching?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}&word=${word}`;
+  } else {
+    url = `https://k4d107.p.ssafy.io/haggle-credit/searching?UD=${ud}&pageNo=${pageNo}&sortName=${sortName}&word=${word}`;
+  }
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}
+
+export function callApiSearchCount(word: string) {
+  let url: string = `https://k4d107.p.ssafy.io/haggle-credit/searching/ctgrCnt?word=${word}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}

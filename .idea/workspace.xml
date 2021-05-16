@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2c8d8425-e7e2-4aca-8039-d3d2d528f303" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/SwiperSlider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/SwiperSlider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/home/Banner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/home/Banner.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/page/home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/page/home/Home.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1scwcgkvdZicjEO2L0svQuWfeYd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2c8d8425-e7e2-4aca-8039-d3d2d528f303" name="Default Changelist" comment="" />
+      <created>1621185268045</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621185268045</updated>
+    </task>
+    <servers />
+  </component>
+</project>

@@ -1,13 +1,20 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import ProductList from '../../components/event/PruductList';
-import { ITEM } from "styled-components";
+// import ProductList from '../../components/event/PruductList';
+// import { ITEM } from "styled-components";
 
 const Container = styled.div`
-  padding: 145px 200px 0 200px;
+  padding: 125px 200px 0 200px;
   @media (max-width: 1024px) {
-    padding: 145px 40px 0 40px;
+    padding: 125px 40px 0 40px;
   }
+`;
+
+const IntroContainer = styled.div`
+  height: 170px;
+  background-color: #fff;
+  background-image: url('//beautifulfund.org/wp-content/themes/beautifulfund/img/aboutus/submain05_bg.png');
+  background-size: 100%;
 `;
 
 const ProductArea = styled.div`
@@ -22,7 +29,10 @@ const EventPage = () => {
   return (
     <Container>
       <ProductArea>
-        <h2>이벤트 상품</h2>
+        <h2>이벤트 기부</h2>
+        <IntroContainer>
+
+        </IntroContainer>
         {/* <ProductList buy={true}/> */}
       </ProductArea>
     </Container>
