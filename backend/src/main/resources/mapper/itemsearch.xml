@@ -42,7 +42,17 @@ order by ${sortName}
 limit #{pageNo}, 100;
 </select>
 
+<!-- 검색 (카테고리 개수 띄우기) -->
+<select id="searchingCount" parameterType="string" resultType="CtgrCountSet">
+select is_category_main, count(*) as cnt
+  from item_sell
+where is_item_name like concat(concat("%",#{word}), "%")
+group by is_category_main
+order by substring(is_category_main, -3);
+</select>
 
 
-<!-- 검색 (구매상품 기준) -->
+
+
+
 </mapper>
