@@ -1,6 +1,7 @@
 package com.egemmerce.hc.bookmark.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
-	
+
 	private final BookmarkRepository bookmarkRepository;
-	
+
 	@Autowired
 	private BookmarkMapper bookmarkMapper;
 
@@ -38,10 +39,16 @@ public class BookmarkServiceImpl implements BookmarkService {
 		return bookmarkRepository.save(bookmark);
 	}
 
-	/* R :: 북마크 조회 */
+	/* R :: 삽니다 북마크 조회 */
 	@Override
-	public List<Bookmark> selectBookmark(int uNo) throws Exception {
-		return bookmarkRepository.findAllBybUserNo(uNo);
+	public List<Map<String, Object>> selectBuyBookmark(int uNo) throws Exception {
+		return bookmarkMapper.selectBookmarkAndItemBuy(uNo);
+	}
+	
+	/* R :: 팝니다 북마크 조회 */
+	@Override
+	public List<Map<String, Object>> selectSellBookmark(int uNo) throws Exception {
+		return bookmarkMapper.selectBookmarkAndItemSell(uNo);
 	}
 
 	/* D :: 북마크 삭제 */
@@ -49,7 +56,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public int deleteBookmark(int bItemNo, int bUserNo) throws Exception {
 		return bookmarkMapper.deleteBybItemNoAndBUserNo(bItemNo, bUserNo);
 	}
-	
+
 	/* R :: 찜 목록 상태 조회 */
 	@Override
 	public Bookmark selectBookmarkStatus(Bookmark bookmark) throws Exception {

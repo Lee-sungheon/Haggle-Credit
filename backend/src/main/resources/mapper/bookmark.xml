@@ -5,14 +5,33 @@
 <mapper
 	namespace="com.egemmerce.hc.repository.mapper.BookmarkMapper">
 
-	<select id="selectBookmarkStatus" parameterType="Bookmark" resultType="Bookmark">
+	<!-- 팝니다 북마크한거 조회 -->
+	<select id="selectBookmarkAndItemSell" resultType="map">
+		select distinct
+		bm.*, isell.* from bookmark as bm join item as item on b_user_no = #{uNo}
+		and b_item_no = item.i_no and item.i_type = 'sell'
+		left join item_sell as isell on item.i_type = 'sell' and b_item_no = isell.is_item_no;
+	</select>
+
+	<!-- 삽니다 북마크한거 조회 -->
+	<select id="selectBookmarkAndItemBuy" resultType="map">
+		select distinct
+		bm.*, ibuy.* from bookmark as bm join item as item on b_user_no = #{uNo}
+		and b_item_no = item.i_no and item.i_type = 'buy'
+		left join item_buy as ibuy on item.i_type = 'buy' and b_item_no = ibuy.ib_item_no;
+	</select>
+
+	<select id="selectBookmarkStatus" parameterType="Bookmark"
+		resultType="Bookmark">
 		select *
 		from bookmark
-		where b_item_no = #{bItemNo} and b_user_no = #{bUserNo};
+		where b_item_no = #{bItemNo} and
+		b_user_no = #{bUserNo};
 	</select>
 
 	<delete id="deleteBybItemNoAndBUserNo" parameterType="int">
-		delete from bookmark where b_item_no = #{bItemNo} and b_user_no = #{bUserNo};
+		delete from
+		bookmark where b_item_no = #{bItemNo} and b_user_no = #{bUserNo};
 	</delete>
 
 </mapper>
