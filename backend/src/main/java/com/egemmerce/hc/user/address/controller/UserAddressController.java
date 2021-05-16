@@ -22,46 +22,49 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/user/address")
 public class UserAddressController {
-	
+
 	@Autowired
 	private UserAddressService userAddressService;
-	
+
 	/* C :: 배송지 추가 */
 	@PostMapping("/add")
 	public ResponseEntity<String> createUserAddress(UserAddress userAddress) throws Exception {
-		if(userAddressService.insertAddress(userAddress) != null)
+		if (userAddress.getUaDefaultSetting().equals("true")) {
+			userAddressService.updateDefaultFalse(userAddress.getUaUserNo());
+		}
+		if (userAddressService.insertAddress(userAddress) != null)
 			return new ResponseEntity<String>("배송지 추가 완료", HttpStatus.OK);
 		return new ResponseEntity<String>("배송지 추가 실패", HttpStatus.NO_CONTENT);
 	}
-	
+
 	/* R :: 배송지 조회 */
 	@GetMapping("")
 	public ResponseEntity<List<UserAddress>> readUserAddress(int uNo) throws Exception {
 		return new ResponseEntity<List<UserAddress>>(userAddressService.selectAddressMine(uNo), HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "기본 배송지 변경 (ua_no,ua_default_setting)")
 	@PutMapping("/change/defaultAddress")
 	public ResponseEntity<String> updateDefaultUserAddress(int uNo, int uaNo) throws Exception {
 		userAddressService.updateDefaultFalse(uNo);
-		if(userAddressService.updateDefaultTrue(uaNo))
+		if (userAddressService.updateDefaultTrue(uaNo))
 			return new ResponseEntity<String>("기본배송지변경 완료", HttpStatus.OK);
-		return new 	ResponseEntity<String>("기본배송지변경 실패", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>("기본배송지변경 실패", HttpStatus.NO_CONTENT);
 	}
-	
+
 	/* U :: 배송지 정보 변경 */
 	@ApiOperation(value = "배송 정보 변경")
 	@PutMapping("/edit")
 	public ResponseEntity<String> updateUserAddress(@RequestBody UserAddress userAddress) throws Exception {
-		if(userAddressService.updateUserAddressEdit(userAddress))
+		if (userAddressService.updateUserAddressEdit(userAddress))
 			return new ResponseEntity<String>("배송지 정보 변경 성공", HttpStatus.OK);
 		return new ResponseEntity<String>("배송지 정보 변경 실패", HttpStatus.NO_CONTENT);
 	}
-	
+
 	/* D :: 배송지 삭제 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteUserAddress(int uaNo) throws Exception {
-		if(userAddressService.deleteAddress(uaNo))
+		if (userAddressService.deleteAddress(uaNo))
 			return new ResponseEntity<String>("배송지 삭제 완료", HttpStatus.OK);
 		return new ResponseEntity<String>("배송지 삭제 실패", HttpStatus.NO_CONTENT);
 	}
