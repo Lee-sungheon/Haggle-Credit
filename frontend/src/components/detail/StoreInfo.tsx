@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import Rating from '@material-ui/lab/Rating';
-import { ITEM, STOREINFO, STOREREVIEW, USERINFO } from "styled-components";
+import { ITEM, STOREINFO, STOREREVIEW, USERINFO } from 'styled-components';
 import { callConnetChat } from '../../api/ChatApi';
-import { callApiStoreInfo, callApiGetStoreReview, callApiGetStoreReviewCnt, callApiUserInfo } from '../../api/ProductApi';
+import {
+  callApiStoreInfo,
+  callApiGetStoreReview,
+  callApiGetStoreReviewCnt,
+  callApiUserInfo,
+} from '../../api/ProductApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useHistory } from 'react-router-dom';
@@ -165,41 +170,41 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-const StoreInfo = ({item, buy}: Props) => {
+const StoreInfo = ({ item, buy }: Props) => {
   const history = useHistory();
-  const [ storeInfoList, setStoreInfo ] = useState<STOREINFO[]>([]);
-  const [ reviewList, setReviewList ] = useState<STOREREVIEW[]>([]);
-  const [ reviewCnt, setReviewCnt ] = useState(0);
-  const [ userInfo, setUserInfo ] = useState<USERINFO>({});
+  const [storeInfoList, setStoreInfo] = useState<STOREINFO[]>([]);
+  const [reviewList, setReviewList] = useState<STOREREVIEW[]>([]);
+  const [reviewCnt, setReviewCnt] = useState(0);
+  const [userInfo, setUserInfo] = useState<USERINFO>({});
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
-  useEffect(()=>{
-    const fetchData = async() => {
-      if (item.isUserNo !== undefined){
+  useEffect(() => {
+    const fetchData = async () => {
+      if (item.isUserNo !== undefined) {
         const data = await callApiStoreInfo(item.isUserNo);
         setStoreInfo(data);
       }
-    }
-    const fetchData2 = async() => {
-      if (item.isUserNo !== undefined){
+    };
+    const fetchData2 = async () => {
+      if (item.isUserNo !== undefined) {
         const data2 = await callApiUserInfo(item.isUserNo);
         setUserInfo(data2);
       }
-    }
+    };
     fetchData();
     fetchData2();
-  }, [item.isUserNo])
-  useEffect(()=>{
-    const fetchData = async() => {
-      if (userNo !== undefined){
-        const data = await callApiGetStoreReview(userNo);
-        const cnt = await callApiGetStoreReviewCnt(userNo);
+  }, [item.isUserNo]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userInfo.uNo !== undefined) {
+        const data = await callApiGetStoreReview(userInfo.uNo);
+        const cnt = await callApiGetStoreReviewCnt(userInfo.uNo);
         setReviewCnt(cnt);
         setReviewList(data);
       }
-    }
+    };
     fetchData();
-  }, [userNo])
-  const goChat = async() => {
+  }, [userInfo]);
+  const goChat = async () => {
     const body = {
       crItemNo: item.isItemNo,
       crUserNoOne: userNo,
@@ -219,78 +224,125 @@ const StoreInfo = ({item, buy}: Props) => {
         <StoreTitle>상점정보</StoreTitle>
         <StoreDesc>
           <Avatar>
-            <img 
-              src={userInfo.uImage} 
-              alt="" 
-              width="48" 
+            <img
+              src={userInfo.uImage}
+              alt=""
+              width="48"
               height="48"
               style={{ borderRadius: '50%' }}
               onClick={() => {
                 history.push({
-                  pathname: `/userprofile/32`,
+                  pathname: `/userprofile/${userInfo.uNo}`,
                 });
               }}
             />
           </Avatar>
-          <div style={{fontSize: "15px", margin: '4px 0px 11px'}}>
+          <div style={{ fontSize: '15px', margin: '4px 0px 11px' }}>
             {userInfo.uName}
-            <div style={{display: "flex"}}>
+            <div style={{ display: 'flex' }}>
               <StoreDescItem>상품 {storeInfoList.length}</StoreDescItem>
             </div>
           </div>
         </StoreDesc>
         <ProductArea>
-          {storeInfoList.length > 0 && storeInfoList.slice(0, 2).map((item, idx)=>(
-            <ProductInfo key={idx}>
-              <img 
-                src={item.itemPhotoes[0].ipValue}
-                alt=""
-                width="100%"
-                height="100%"
-              />
-              <PriceInfo>{item.itemSell.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</PriceInfo>
-            </ProductInfo>
-          ))}
+          {storeInfoList.length > 0 &&
+            storeInfoList.slice(0, 2).map((item, idx) => (
+              <ProductInfo key={idx}>
+                <img
+                  src={item.itemPhotoes[0].ipValue}
+                  alt=""
+                  width="100%"
+                  height="100%"
+                />
+                <PriceInfo>
+                  {item.itemSell.isAuctionIngPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  원
+                </PriceInfo>
+              </ProductInfo>
+            ))}
         </ProductArea>
-        <MoreArea>
+        <MoreArea
+          onClick={() => {
+            history.push({
+              pathname: `/userprofile/${userInfo.uNo}`,
+            });
+          }}
+        >
           <MoreText>
-            <span style={{ color: theme.color.main, marginRight: "5px" }}>
-              {storeInfoList.length >= 2 ? storeInfoList.length - 2 : storeInfoList.length}개
-            </span>상품 더보기
-            <ChevronRightOutlinedIcon style={{ fontSize: "18px", paddingTop: "3px" }}/>
-            </MoreText>
+            <span style={{ color: theme.color.main, marginRight: '5px' }}>
+              {storeInfoList.length >= 2
+                ? storeInfoList.length - 2
+                : storeInfoList.length}
+              개
+            </span>
+            상품 더보기
+            <ChevronRightOutlinedIcon
+              style={{ fontSize: '18px', paddingTop: '3px' }}
+            />
+          </MoreText>
         </MoreArea>
         <ReviewTitle>
           상점후기 <span style={{ color: theme.color.main }}>{reviewCnt}</span>
         </ReviewTitle>
-        {reviewList.map((review, idx)=>(
+        {reviewList.map((review, idx) => (
           <ReviewArea key={idx}>
             <ReviewItem>
-              <Avatar>
-                <img 
-                  src={review.u_image} 
-                  alt="" 
-                  width="32" 
+              <Avatar
+                onClick={() => {
+                  history.push({
+                    pathname: `/userprofile/${review.ur_write_user_no}`,
+                  });
+                }}
+              >
+                <img
+                  src={review.u_image}
+                  alt=""
+                  width="32"
                   height="32"
-                  style={{borderRadius: "50%"}}
+                  style={{ borderRadius: '50%' }}
                 />
               </Avatar>
               <ReviewBox>
                 <ReviewItemTitle>
-                  <div>{review.u_name}</div>
-                  <div style={{fontSize: "11px"}}>{review.ur_write_date.slice(0,10)}</div>
+                  <div
+                    onClick={() => {
+                      history.push({
+                        pathname: `/userprofile/${review.ur_write_user_no}`,
+                      });
+                    }}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {review.u_name}
+                  </div>
+                  <div style={{ fontSize: '11px' }}>
+                    {review.ur_write_date.slice(0, 10)}
+                  </div>
                 </ReviewItemTitle>
                 <ReviewItemContent>
-                  <Rating name="half-rating-read" defaultValue={review.ur_score} precision={0.5} readOnly size="small" />
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={review.ur_score}
+                    precision={0.5}
+                    readOnly
+                    size="small"
+                  />
                 </ReviewItemContent>
-                <ReviewItemContent>
-                  {review.ur_content}
-                </ReviewItemContent>
+                <ReviewItemContent>{review.ur_content}</ReviewItemContent>
               </ReviewBox>
             </ReviewItem>
           </ReviewArea>
         ))}
-        <MoreArea>
+        <MoreArea
+          onClick={() => {
+            history.push({
+              pathname: `/userprofile/${userInfo.uNo}/transactionreview`,
+            });
+          }}
+        >
           <MoreText>
             상점후기 더보기
             <ChevronRightOutlinedIcon
@@ -298,20 +350,31 @@ const StoreInfo = ({item, buy}: Props) => {
             />
           </MoreText>
           <ButtonArea>
-            <StyledButton 
-              style={{ background: 'rgb(255, 164, 37)', marginRight: '5px'}}
+            <StyledButton
+              style={{ background: 'rgb(255, 164, 37)', marginRight: '5px' }}
               onClick={goChat}
-              >연락하기</StyledButton>
-            {buy ? <StyledButton 
-              style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/buy/${item.isItemNo}`, '_blank')}
-            >입찰하기</StyledButton>
-            :
-            <StyledButton 
-              style={{ background: theme.color.main, marginLeft: '5px' }}
-              onClick={() => window.open(`../auction/sell/${item.isItemNo}`, '_blank')}
-            >입찰하기</StyledButton>
-            }
+            >
+              연락하기
+            </StyledButton>
+            {buy ? (
+              <StyledButton
+                style={{ background: theme.color.main, marginLeft: '5px' }}
+                onClick={() =>
+                  window.open(`../auction/buy/${item.isItemNo}`, '_blank')
+                }
+              >
+                입찰하기
+              </StyledButton>
+            ) : (
+              <StyledButton
+                style={{ background: theme.color.main, marginLeft: '5px' }}
+                onClick={() =>
+                  window.open(`../auction/sell/${item.isItemNo}`, '_blank')
+                }
+              >
+                입찰하기
+              </StyledButton>
+            )}
           </ButtonArea>
         </MoreArea>
       </StoreArea>

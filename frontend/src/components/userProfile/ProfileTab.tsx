@@ -5,10 +5,8 @@ import TransactionReviewTab from './Tab/TransactionReviewTab';
 import BasketTab from './Tab/BasketTab';
 import TenderListTab from './Tab/TenderListTab';
 import { Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import { USERDATA } from 'styled-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../common/store';
-import { useEffect, useState } from 'react';
 
 const Container = styled.div`
   text-align: center;
@@ -24,8 +22,8 @@ const Body = styled.div`
 `;
 
 const ActTab = styled.div`
-  height: 50px;
-  width: 160px;
+  height: 3vw;
+  width: 13vw;
   border: 1px solid black;
   border-bottom: none;
   :hover {
@@ -34,8 +32,8 @@ const ActTab = styled.div`
 `;
 
 const Tab = styled.div`
-  height: 50px;
-  width: 160px;
+  height: 3vw;
+  width: 13vw;
   border: 1px solid #e0e0e0;
   background-color: #f5f5f5;
   color: #bdbdbd;
@@ -47,45 +45,49 @@ const Tab = styled.div`
     font-weight: bolder;
   }
 `;
-
-const ProfileTab2 = () => {
+interface ProfileTabProps {
+  userData: USERDATA;
+}
+const ProfileTab = ({ userData }: ProfileTabProps) => {
   const history = useHistory();
-  const userData = useSelector((state: RootState) => state.user.joinUserData);
-  const [pathname, setPathName] = useState();
   const clickHandler = (url: string) => {
     history.push({
       pathname: url,
     });
   };
+  // useEffect(() => {
+  //   history.push({
+  //     pathname: `/userProfile/${userData.uNo}`,
+  //   });
+  // }, [userData]);
   useEffect(() => {
-    history.push({
-      pathname: `/userProfile/${userData.uNo}`,
-    });
+    console.log(window.location.pathname);
+    console.log(`/userProfile/${userData.uNo}`);
   }, [userData]);
   return (
     <Container>
-      {userData && (
+      {userData.uNo && (
         <>
           <Body>
-            {window.location.pathname === `/userProfile/${userData.uNo}` ? (
+            {window.location.pathname === `/userprofile/${userData.uNo}` ? (
               <ActTab
-                onClick={() => clickHandler(`/userProfile/${userData.uNo}`)}
+                onClick={() => clickHandler(`/userprofile/${userData.uNo}`)}
               >
                 <p>상품</p>
               </ActTab>
             ) : (
               <Tab
                 style={{}}
-                onClick={() => clickHandler(`/userProfile/${userData.uNo}`)}
+                onClick={() => clickHandler(`/userprofile/${userData.uNo}`)}
               >
                 <p>상품</p>
               </Tab>
             )}
             {window.location.pathname ===
-            `/userProfile/${userData.uNo}/transactionreview` ? (
+            `/userprofile/${userData.uNo}/transactionreview` ? (
               <ActTab
                 onClick={() =>
-                  clickHandler(`/userProfile/${userData.uNo}/transactionreview`)
+                  clickHandler(`/userprofile/${userData.uNo}/transactionreview`)
                 }
               >
                 <p>거래리뷰</p>
@@ -93,13 +95,13 @@ const ProfileTab2 = () => {
             ) : (
               <Tab
                 onClick={() =>
-                  clickHandler(`/userProfile/${userData.uNo}/transactionreview`)
+                  clickHandler(`/userprofile/${userData.uNo}/transactionreview`)
                 }
               >
                 <p>거래 리뷰</p>
               </Tab>
             )}
-            {window.location.pathname ===
+            {/* {window.location.pathname ===
             `/userProfile/${userData.uNo}/basket` ? (
               <ActTab
                 onClick={() =>
@@ -134,19 +136,19 @@ const ProfileTab2 = () => {
               >
                 <p>입찰내역</p>
               </Tab>
-            )}
+            )} */}
           </Body>
-          <Route exact path="/userProfile/:id" component={ProductTab}></Route>
+          <Route exact path="/userprofile/:id" component={ProductTab}></Route>
           <Route
-            path="/userProfile/:id/transactionreview"
+            path="/userprofile/:id/transactionreview"
             component={TransactionReviewTab}
           ></Route>
-          <Route path="/userProfile/:id/basket" component={BasketTab}></Route>
-          <Route path="/userProfile/:id/tenderlist" component={TenderListTab} />
+          <Route path="/userprofile/:id/basket" component={BasketTab}></Route>
+          <Route path="/userprofile/:id/tenderlist" component={TenderListTab} />
         </>
       )}
     </Container>
   );
 };
 
-export default ProfileTab2;
+export default ProfileTab;

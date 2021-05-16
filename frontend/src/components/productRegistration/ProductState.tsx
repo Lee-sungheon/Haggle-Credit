@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import Radio from '@material-ui/core/Radio';
 import { useState } from 'react';
-
+const Container = styled.div`
+  display: flex;
+  border-bottom: 1px solid gray;
+  padding: 25px 0;
+  width: 100%;
+`;
 const StateLabel = styled.label`
   :hover {
     cursor: pointer;
@@ -17,24 +22,25 @@ const ProductState = ({ onIsUsedStatus }: ProductStateProps) => {
     onIsUsedStatus(event.target.value);
   };
   return (
-    <div
-      id="address"
-      style={{
-        display: 'flex',
-        padding: '25px 0',
-        borderBottom: '1px solid gray',
-      }}
-    >
+    <Container id="address">
       <div
         style={{
-          width: '180px',
+          width: '20%',
           fontSize: '17px',
           fontWeight: 'bolder',
+          minWidth: '120px',
         }}
       >
         상태<span style={{ color: 'red' }}>* </span>
       </div>
-      <div>
+      <div
+        style={{
+          width: '80%',
+          paddingLeft: '20px',
+          minWidth: '650px',
+          textAlign: 'left',
+        }}
+      >
         <div>
           <div
             style={{
@@ -66,7 +72,7 @@ const ProductState = ({ onIsUsedStatus }: ProductStateProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

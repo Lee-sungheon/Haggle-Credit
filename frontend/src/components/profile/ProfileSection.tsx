@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import UploadImg from './UploadImg';
-import ProfileSub from './ProfileSub'
+import ProfileSub from './ProfileSub';
 const Container = styled.div`
-  width: 1000px;
-  height: 300px;
+  width: 100%;
+  height: 20vw;
   display: flex;
 `;
 
@@ -11,7 +11,7 @@ const ProfileSection = () => {
   return (
     <Container>
       <UploadImg />
-      <ProfileSub/>
+      <ProfileSub />
     </Container>
   );
 };

@@ -8,16 +8,14 @@ import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   text-align: center;
-  padding: 196px 200px 0 200px;
-
-  @media (max-width: 1024px) {
-    padding: 196px 40px 0 40px;
-  }
 `;
 
 const Body = styled.div`
-  margin: 0;
-  font-size: 1vw;
+  width: 1000px;
+  height: 600px;
+  margin: auto;
+  padding-top: 196px;
+  font-size: 18px;
   font-family: Bazzi;
 `;
 const Profile = () => {

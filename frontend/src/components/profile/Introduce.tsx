@@ -7,8 +7,8 @@ import { userActions } from '../../state/user/index';
 import { changeIntroduceAPI } from '../../api/UserApi';
 
 const Container = styled.div`
-  height: 230px;
-  margin-left: 20px;
+  height: 11.5vw;
+  margin-left: 1vw;
 `;
 
 const Title = styled.p`
@@ -18,7 +18,7 @@ const Title = styled.p`
 const EditSection = styled.div`
   margin: 0;
   text-align: right;
-  margin-top: -20px;
+  margin-top: -1vw;
   position: relative;
   zindex: 2;
 `;
@@ -26,8 +26,8 @@ const EditSection = styled.div`
 const EditButton = styled.button`
   font-size: 10px;
   margin: 0;
-  margin-right: 25px;
-  margin-bottom: 10px;
+  margin-right: 2.5vw;
+  margin-bottom: 1vw;
   background-color: white;
   color: rgb(136, 136, 136);
   font-weight: bold;
@@ -42,7 +42,7 @@ const EditButton = styled.button`
 const EditCompleteButton = styled.button`
   font-size: 10px;
   margin: 0;
-  margin-right: 25px;
+  margin-right: 2.5vw;
   margin-bottom: 10px;
   background-color: white;
   color: rgb(136, 136, 136);
@@ -56,6 +56,7 @@ const EditCompleteButton = styled.button`
 `;
 
 const IntroduceTextArea = styled.textarea`
+  font-size: 1vw;
   border: 2px solid black;
   width: 90%;
   height: 60%;
@@ -118,6 +119,7 @@ const Introduce = () => {
             textAlign: 'left',
             padding: '8px',
             resize: 'none',
+            fontSize: '1vw',
           }}
           spellCheck="false"
           value={userData.uContent}

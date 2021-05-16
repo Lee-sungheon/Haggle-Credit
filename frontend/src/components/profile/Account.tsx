@@ -7,15 +7,16 @@ import { userActions } from '../../state/user/index';
 import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
-  width: 400px;
-  height: auto;
+  width: 40%;
   text-align: right;
+  padding-right: 1vw;
 `;
 
 const TagP1 = styled.div`
   margin: 0;
   position: relative;
   padding-right: 5px;
+  margin-top: 1vw;
   // transform: translateY(60%);
 `;
 
@@ -23,7 +24,7 @@ const TagP2 = styled.div`
   margin: 0;
   position: relative;
   padding-right: 20px;
-  transform: translateY(65%);
+  // transform: translateY(65%);
   :hover {
     cursor: pointer;
   }
@@ -45,7 +46,8 @@ const EditButton = styled.button`
 `;
 
 const AccountDiv = styled.div`
-  margin-top: -20px;
+  // padding-lfex: 200px;
+  text-align: right;
 `;
 
 const Account = () => {
@@ -99,21 +101,26 @@ const Account = () => {
           <TagP2>
             {!isChangeAccount ? (
               <AccountDiv>
-                <div style={{ width: '240px', display: 'flex' }}>
-                  <div style={{ width: '100px' }}>은행이름 : </div>
-                  <input
-                    value={inputData.bankName}
-                    onChange={onBankNameHandler}
-                  ></input>
+                <div style={{ fontSize: '1vw' }}>
+                  <div style={{ fontSize: '1vw' }}>
+                    은행이름:
+                    <input
+                      value={inputData.bankName}
+                      onChange={onBankNameHandler}
+                      style={{ fontSize: '1vw', width: '7vw' }}
+                    ></input>
+                  </div>
+                  <div style={{ fontSize: '1vw' }}>
+                    계좌번호:
+                    <input
+                      value={inputData.bankNo}
+                      onChange={onBankNoHandler}
+                      style={{ fontSize: '1vw', width: '7vw' }}
+                    ></input>
+                  </div>
                 </div>
-                <div style={{ width: '240px', display: 'flex' }}>
-                  <div style={{ width: '100px' }}>계좌번호 : </div>
-                  <input
-                    value={inputData.bankNo}
-                    onChange={onBankNoHandler}
-                  ></input>
-                </div>
-                <div style={{ paddingRight: '5px' }}>
+
+                <div>
                   <EditButton onClick={onUpdateBank}>변경</EditButton>
                   <EditButton onClick={onchangeAccountToggle}>취소</EditButton>
                 </div>
@@ -133,19 +140,23 @@ const Account = () => {
           <TagP2>
             {!isChangeAccount ? (
               <AccountDiv>
-                <div style={{ width: '240px', display: 'flex' }}>
-                  <div style={{ width: '100px' }}>은행이름 : </div>
-                  <input
-                    value={inputData.bankName}
-                    onChange={onBankNameHandler}
-                  ></input>
+                <div style={{ width: '13vw', display: 'flex' }}>
+                  <div style={{ width: '5vw' }}>은행이름 : </div>
+                  <div>
+                    <input
+                      value={inputData.bankName}
+                      onChange={onBankNameHandler}
+                    ></input>
+                  </div>
                 </div>
-                <div style={{ width: '240px', display: 'flex' }}>
-                  <div style={{ width: '100px' }}>계좌번호 : </div>
-                  <input
-                    value={inputData.bankNo}
-                    onChange={onBankNoHandler}
-                  ></input>
+                <div style={{ width: '13vw', display: 'flex' }}>
+                  <div style={{ width: '5vw' }}>계좌번호 : </div>
+                  <div>
+                    <input
+                      value={inputData.bankNo}
+                      onChange={onBankNoHandler}
+                    ></input>
+                  </div>
                 </div>
                 <div>
                   <EditButton onClick={onUpdateBank}>연결</EditButton>
