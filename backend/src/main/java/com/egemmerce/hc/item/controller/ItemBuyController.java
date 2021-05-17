@@ -140,8 +140,8 @@ public class ItemBuyController {
 	/* R :: 임시임.. 상품 전체 조회 */
 	@ApiOperation(value="지현 : 상품전체조회")
 	@GetMapping("views")
-	public ResponseEntity<List<ItemBuySet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
-			String UD) throws Exception {
+	public ResponseEntity<List<ItemBuySet>> selectItemCtgr(@RequestParam(defaultValue="1")int pageNo, String ctgrMain, String ctgrSub, @RequestParam(defaultValue="ib_item_no")String sortName,
+			@RequestParam(defaultValue="down")String UD) throws Exception {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
@@ -179,7 +179,7 @@ public class ItemBuyController {
 	@ApiOperation(value="지현 : viewHome 상품전체조회")
 	@GetMapping("viewHome")
 	public ResponseEntity<List<ItemBuySet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
-			String sortName, String UD) throws Exception {
+			@RequestParam(defaultValue="ib_item_no")String sortName, @RequestParam(defaultValue="down")String UD) throws Exception {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
 		if (UD.equals("up")) {
