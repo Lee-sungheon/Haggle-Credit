@@ -260,6 +260,7 @@ public class ItemBuyController {
 	@GetMapping("/detail/inform")
 	public ResponseEntity<ItemBuySet> selectItemOne(int ibItemNo) throws Exception {
 		ItemBuySet result = itemBuyService.BselectItemOne(ibItemNo);
+		System.out.println(result.toString());
 		result.setJoinerCnt(itemBuyService.BselectItemCntAP(ibItemNo));
 		return new ResponseEntity<ItemBuySet>(result, HttpStatus.OK);
 	}
