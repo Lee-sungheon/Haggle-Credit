@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { makeStyles } from '@material-ui/core/styles';
-import ProductItem from './ProductItem2';
+import ProductItem from './ProductItem';
 import { ITEM } from 'styled-components';
 
 interface PruductListProps {
