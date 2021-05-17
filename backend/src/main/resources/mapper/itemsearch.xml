@@ -52,6 +52,54 @@ order by substring(is_category_main, -3);
 </select>
 
 
+<!-- -->
+<!-- 검색 (판매상품 기준) - 내림차순 -->
+<select id="searchingBuyDown" parameterType="SortProcess" resultType="ItemBuySet">
+select * 
+from (select * 
+		from item_buy left join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value 
+									from item_photo 
+                                    group by ip_item_no) tmp_table 
+						on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt 
+			from auction_participant 
+            group by ap_item_no) final_table2 
+on final_table1.ip_item_no = final_table2.ap_item_no
+where ib_category_main like concat(concat("%",#{ctgrMain}),"%") and ib_item_no in (select i_no from item where i_completed = "false")
+and ib_category_sub like concat(concat("%",#{ctgrSub}),"%")
+and ib_name like concat(concat("%", #{word}), "%")
+order by ${sortName} desc
+limit #{pageNo}, 100;
+</select>
+
+<!-- 검색 (판매상품 기준) - 오름차순 -->
+<select id="searchingBuyUp" parameterType="SortProcess" resultType="ItemBuySet">
+select * 
+from (select * 
+		from item_buy left join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value 
+									from item_photo 
+                                    group by ip_item_no) tmp_table 
+						on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt 
+			from auction_participant 
+            group by ap_item_no) final_table2 
+on final_table1.ip_item_no = final_table2.ap_item_no
+where ib_category_main like concat(concat("%",#{ctgrMain}),"%") and ib_item_no in (select i_no from item where i_completed = "false")
+and ib_category_sub like concat(concat("%",#{ctgrSub}),"%")
+and ib_name like concat(concat("%", #{word}), "%")
+order by ${sortName}
+limit #{pageNo}, 100;
+</select>
+
+<!-- 검색 (카테고리 개수 띄우기) -->
+<select id="searchingCount2" parameterType="string" resultType="CtgrCountSet">
+select ib_category_main, count(*) as cnt
+  from item_buy
+where ib_name like concat(concat("%",#{word}), "%")
+group by ib_category_main
+order by substring(ib_category_main, -3);
+</select>
+
 
 
 

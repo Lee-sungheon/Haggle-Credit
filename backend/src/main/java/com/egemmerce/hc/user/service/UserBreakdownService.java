@@ -13,5 +13,6 @@ public interface UserBreakdownService {
 	List<ItemSellSet> selectSellMine(int uNo) throws Exception;
 
 	List<ItemBuySet> selectBuyMine(int uNo) throws Exception;
-
+	ItemBuySet selectItemBuySet(int iNo) throws Exception;
+	ItemSellSet selectItemSellSet(int iNo) throws Exception;
 }

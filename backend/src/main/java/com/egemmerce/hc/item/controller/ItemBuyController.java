@@ -28,6 +28,7 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
@@ -83,7 +84,7 @@ public class ItemBuyController {
 	public ResponseEntity<String> updateItem(int ibItemNo, int uNo) throws Exception {
 		if (itemService.updateItemDealCompleted(ibItemNo) != null) {
 			itemBuyService.updateItemByCool(ibItemNo, uNo);
-			ItemBuy itemBuy=itemBuyService.selectItemBuybyibItemNo(ibItemNo);
+			ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(ibItemNo);
 			userService.updateUserCreditbyBuyCool(itemBuy.getIbUserNo(), itemBuy);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 
@@ -128,20 +129,32 @@ public class ItemBuyController {
 	/* R :: 내가 올린 상품 */
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
-	public ResponseEntity<?> selectMyItem(int uNo) {
-		List<ItemBuy> items = itemBuyService.selectMyItemByuNo(uNo);
+	public ResponseEntity<?> selectMyItem(int uNo) throws Exception {
+		List<ItemBuy> items = itemBuyService.BselectMyItemByuNo(uNo);
+		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
+		for (ItemBuy ib : items) {
+
+			itemsphoto
+					.add(new ItemPhotoSet(ib, imageUploadService.selectItemPhotoList(ib.getIbItemNo()), items.size()));
+		}
 		if (items != null) {
-			return new ResponseEntity<List<ItemBuy>>(items, HttpStatus.OK);
+			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "상품 수 조회")
+	@GetMapping("/count")
+	public ResponseEntity<Integer> countItemBuy() {
+		return new ResponseEntity<Integer>(itemBuyService.countItemBuy(), HttpStatus.OK);
 	}
 	
 	/////////////////////////
 	/* R :: 임시임.. 상품 전체 조회 */
 	@ApiOperation(value="지현 : 상품전체조회")
 	@GetMapping("views")
-	public ResponseEntity<List<ItemBuySet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
-			String UD) throws Exception {
+	public ResponseEntity<List<ItemBuySet>> selectItemCtgr(@RequestParam(defaultValue="1")int pageNo, String ctgrMain, String ctgrSub, @RequestParam(defaultValue="ib_item_no")String sortName,
+			@RequestParam(defaultValue="down")String UD) throws Exception {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
@@ -179,7 +192,7 @@ public class ItemBuyController {
 	@ApiOperation(value="지현 : viewHome 상품전체조회")
 	@GetMapping("viewHome")
 	public ResponseEntity<List<ItemBuySet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
-			String sortName, String UD) throws Exception {
+			@RequestParam(defaultValue="ib_item_no")String sortName, @RequestParam(defaultValue="down")String UD) throws Exception {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
 		if (UD.equals("up")) {

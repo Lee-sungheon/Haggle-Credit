@@ -233,4 +233,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 	public List<ItemSell> selectoneImageItemSellByisItemName(String isName) {
 		return itemSellRepository.findByisItemNameContaining(isName);
 	}
+
+	@Override
+	public int countIntemSell() {
+		return (int) itemSellRepository.count();
+	}
 }

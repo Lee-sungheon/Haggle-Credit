@@ -72,4 +72,6 @@ public interface ItemSellService {
 
 	List<ItemSell> selectoneImageItemSellByisItemName(String isName);
 
+	int countIntemSell();
+
 }

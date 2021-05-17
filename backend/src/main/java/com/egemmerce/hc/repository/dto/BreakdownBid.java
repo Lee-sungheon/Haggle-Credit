@@ -20,12 +20,15 @@ public class BreakdownBid {
 	private int ipNo;
 	private int ipItemNo;
 	private String ipValue;
+	private ItemSellSet itemSellSet;
+	private ItemBuySet itemBuySet;
 	public BreakdownBid() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public BreakdownBid(int apNo, int apBid, String apDate, int apAddress, int apItemNo, int apUserNo, int iNo,
-			String iType, String iCompleted, int ipNo, int ipItemNo, String ipValue) {
+			String iType, String iCompleted, int ipNo, int ipItemNo, String ipValue, ItemSellSet itemSellSet,
+			ItemBuySet itemBuySet) {
 		super();
 		this.apNo = apNo;
 		this.apBid = apBid;
@@ -39,6 +42,8 @@ public class BreakdownBid {
 		this.ipNo = ipNo;
 		this.ipItemNo = ipItemNo;
 		this.ipValue = ipValue;
+		this.itemSellSet = itemSellSet;
+		this.itemBuySet = itemBuySet;
 	}
 	public int getApNo() {
 		return apNo;
@@ -112,6 +117,16 @@ public class BreakdownBid {
 	public void setIpValue(String ipValue) {
 		this.ipValue = ipValue;
 	}
-	
-	
+	public ItemSellSet getItemSellSet() {
+		return itemSellSet;
+	}
+	public void setItemSellSet(ItemSellSet itemSellSet) {
+		this.itemSellSet = itemSellSet;
+	}
+	public ItemBuySet getItemBuySet() {
+		return itemBuySet;
+	}
+	public void setItemBuySet(ItemBuySet itemBuySet) {
+		this.itemBuySet = itemBuySet;
+	}
 }
