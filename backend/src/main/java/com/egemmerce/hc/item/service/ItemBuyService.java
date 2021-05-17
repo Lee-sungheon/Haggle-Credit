@@ -10,6 +10,7 @@ import com.egemmerce.hc.repository.dto.ItemBuySet;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.SortProcess;
 
 public interface ItemBuyService {
@@ -63,6 +64,8 @@ public interface ItemBuyService {
 
 	public int BselectCountItemBuy(int ibUserNo) throws Exception;
 
+
+	List<ItemBuy> BselectMyItemByuNo(int uNo);
 	Integer countItemBuy();
 
 }

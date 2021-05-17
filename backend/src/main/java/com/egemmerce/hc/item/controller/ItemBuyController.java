@@ -28,6 +28,7 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
@@ -128,10 +129,16 @@ public class ItemBuyController {
 	/* R :: 내가 올린 상품 */
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
-	public ResponseEntity<?> selectMyItem(int uNo) {
-		List<ItemBuy> items = itemBuyService.selectMyItemByuNo(uNo);
+	public ResponseEntity<?> selectMyItem(int uNo) throws Exception {
+		List<ItemBuy> items = itemBuyService.BselectMyItemByuNo(uNo);
+		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
+		for (ItemBuy ib : items) {
+
+			itemsphoto
+					.add(new ItemPhotoSet(ib, imageUploadService.selectItemPhotoList(ib.getIbItemNo()), items.size()));
+		}
 		if (items != null) {
-			return new ResponseEntity<List<ItemBuy>>(items, HttpStatus.OK);
+			return new ResponseEntity<List<ItemPhotoSet>>(itemsphoto, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}

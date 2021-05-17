@@ -14,6 +14,7 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
+import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.mapper.ItemBuyMapper;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
@@ -174,6 +175,11 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 		if (result != null)
 			return result;
 		return null;
+	}
+	
+	@Override
+	public List<ItemBuy> BselectMyItemByuNo(int uNo) {
+		return itemBuyRepository.findByibUserNo(uNo);
 	}
 	
 }
