@@ -8,22 +8,22 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CtgrCountSet {
-	private String isCategoryMain;
+	private String ibCategoryMain;
 	private int cnt;
 	public CtgrCountSet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CtgrCountSet(String isCategoryMain, int cnt) {
+	public CtgrCountSet(String ibCategoryMain, int cnt) {
 		super();
-		this.isCategoryMain = isCategoryMain;
+		this.ibCategoryMain = ibCategoryMain;
 		this.cnt = cnt;
 	}
 	public String getIsCategoryMain() {
-		return isCategoryMain;
+		return ibCategoryMain;
 	}
-	public void setIsCategoryMain(String isCategoryMain) {
-		this.isCategoryMain = isCategoryMain;
+	public void setIsCategoryMain(String ibCategoryMain) {
+		this.ibCategoryMain = ibCategoryMain;
 	}
 	public int getCnt() {
 		return cnt;

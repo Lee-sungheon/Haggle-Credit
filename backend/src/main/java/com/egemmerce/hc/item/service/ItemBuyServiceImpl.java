@@ -100,6 +100,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	/////////////////////////////// 아래는 mybatis 처리
 	@Override
 	public ItemBuySet BselectItemOne(int ibItemNo) throws Exception {
+		System.out.println(itemBuyMapper.BselectItemOne(ibItemNo));
 		return itemBuyMapper.BselectItemOne(ibItemNo);
 	}
 	

@@ -29,7 +29,7 @@ public interface ItemBuyMapper {
 
 	public List<ItemPhoto> BselectItemImages(int ipItemNo) throws Exception;
 
-	public ItemBuySet BselectItemOne(int ibNo) throws Exception;
+	public ItemBuySet BselectItemOne(int ibItemNo) throws Exception;
 	
 	public int BselectItemCntAP(int ibItemNo) throws Exception;
 

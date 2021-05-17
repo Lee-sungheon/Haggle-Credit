@@ -21,10 +21,10 @@ select *
 
 <!-- 구매상품 상세 조회 -->
 <select id="BselectItemOne" parameterType="int" resultType="ItemBuySet">
-select itembuy.*, ip.ip_value
-  from item_buy as itembuy join item_photo as ip
-    on itembuy.ib_no = ip.ip_no
-   and itembuy.ib_item_no = #{ibItemNo};
+select itembuy.*, ip.*
+  from item_buy as itembuy left join item_photo as ip
+    on itembuy.ib_item_no = ip.ip_item_no
+where itembuy.ib_item_no = #{ibItemNo};
 </select>
 
 <!-- 구매상품의 입찰자 수 조회 -->
@@ -66,7 +66,7 @@ limit #{pageNo}, 100;
 <select id="BselectItemNoSubRvsSort" parameterType="SortProcess" resultType="ItemBuySet">
 select * 
 from (select * 
-from item_buy inner join 
+from item_buy left join 
 (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
 tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
 left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
@@ -77,7 +77,7 @@ limit #{pageNo}, 100;
 
 <select id="BselectItemYesSubRvsSort" parameterType="SortProcess" resultType="ItemBuySet">
 select * from (select * from item_buy
-   inner join 
+   left join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
    tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
 left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
@@ -88,7 +88,7 @@ limit #{pageNo}, 100;
 
 <select id="BselectItemNoSub" parameterType="SortProcess" resultType="ItemBuySet">
 select * from (select * from item_buy
-   inner join 
+   left join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
    tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
 left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
@@ -99,7 +99,7 @@ limit #{pageNo}, 100;
 
 <select id="BselectItemYesSub" parameterType="SortProcess" resultType="ItemBuySet">
 select * from (select * from item_buy
-   inner join 
+   left join 
    (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
    tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
 left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
