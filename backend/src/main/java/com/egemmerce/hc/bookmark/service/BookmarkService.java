@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.egemmerce.hc.repository.dto.Bookmark;
+import com.egemmerce.hc.repository.dto.Item;
 
 /**
  * 
@@ -35,5 +36,7 @@ public interface BookmarkService {
 
 	/* R :: 북마크한 수 조회 */
 	int selectBookmarkCount(int uNo);
+
+	List<Item> temp(int uNo, String type);
 
 }

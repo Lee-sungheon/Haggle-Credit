@@ -1,5 +1,6 @@
 package com.egemmerce.hc.bookmark.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.Bookmark;
+import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.mapper.BookmarkMapper;
 import com.egemmerce.hc.repository.mapper.BookmarkRepository;
+import com.egemmerce.hc.repository.mapper.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class BookmarkServiceImpl implements BookmarkService {
 
 	private final BookmarkRepository bookmarkRepository;
+	private final ItemRepository itemRepository;
 
 	@Autowired
 	private BookmarkMapper bookmarkMapper;
@@ -44,7 +48,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	public List<Map<String, Object>> selectBuyBookmark(int uNo) throws Exception {
 		return bookmarkMapper.selectBookmarkAndItemBuy(uNo);
 	}
-	
+
 	/* R :: 팝니다 북마크 조회 */
 	@Override
 	public List<Map<String, Object>> selectSellBookmark(int uNo) throws Exception {
@@ -67,6 +71,20 @@ public class BookmarkServiceImpl implements BookmarkService {
 	@Override
 	public int selectBookmarkCount(int uNo) {
 		return bookmarkMapper.selectBookmarkCount(uNo);
+	}
+
+	@Override
+	public List<Item> temp(int uNo, String type) {
+		List<Bookmark> book = bookmarkRepository.findAllBybUserNo(uNo);
+		List<Item> items = new ArrayList<Item>();
+		for (Bookmark bk : book) {
+			Item item = itemRepository.findByiNo(bk.getbItemNo());
+			if (item.getiType().equals(type)) {
+				items.add(item);
+
+			}
+		}
+		return items;
 	}
 
 }

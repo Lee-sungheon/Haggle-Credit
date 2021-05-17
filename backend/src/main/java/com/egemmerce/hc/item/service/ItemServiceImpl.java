@@ -1,5 +1,7 @@
 package com.egemmerce.hc.item.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,12 @@ public class ItemServiceImpl implements ItemService{
 	@Override
 	public Item selectItem(int iNo) {
 		return itemRepository.findByiNo(iNo);
+	}
+
+
+	@Override
+	public List<Item> selectAll() {
+		return itemRepository.findAll();
 	}
 
 }
