@@ -32,4 +32,6 @@ public interface ItemBuyService {
 
 	void updateItemByCool(int isItemNo, int uNo);
 
+	Integer countItemBuy();
+
 }
