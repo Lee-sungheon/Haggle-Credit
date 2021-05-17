@@ -26,7 +26,17 @@ public class UserBreakdownController {
 	@ApiOperation(value="입찰 내역(거래 진행중인 상황(판매/구매 구분안함)")
 	@GetMapping("bid")
 	public ResponseEntity<List<BreakdownBid>> ReadMyBid(int uNo) throws Exception {
-		return new ResponseEntity<List<BreakdownBid>>(service.selectBidBreakdown(uNo), HttpStatus.OK);
+		List<BreakdownBid> result = service.selectBidBreakdown(uNo);
+		System.out.println("처리 : " + result.toString());
+		for(int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i));
+			if(result.get(i).getiType().equals("buy")) {
+				result.get(i).setItemBuySet(service.selectItemBuySet(result.get(i).getIpItemNo()));
+			} else {
+				result.get(i).setItemSellSet(service.selectItemSellSet(result.get(i).getIpItemNo()));
+			}
+		}
+		return new ResponseEntity<List<BreakdownBid>>(result, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="판매 상품 중 내가 산 아이템(즉 나의 구매 내역임)")

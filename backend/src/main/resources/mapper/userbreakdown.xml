@@ -9,7 +9,8 @@
 select * from auction_participant as A
 inner join (select * from item where i_completed = "false") AS B on A.ap_item_no = B.i_no
 inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as C on A.ap_item_no = C.ip_item_no
-where ap_user_no = #{uNo};
+where ap_user_no = #{uNo}
+order by ap_no desc;
 </select>
 
 <!-- 거래 내역1 - (판매 상품 한정) -->
@@ -17,7 +18,8 @@ where ap_user_no = #{uNo};
 select * 
 from item_sell as A
 inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as B on A.is_item_no = B.ip_item_no
-where is_deal_user_no = #{uNo};
+where is_deal_user_no = #{uNo}
+order by is_item_no desc;
 </select>
 
 <!-- 거래 내역2 - (구매 상품 한정) -->
@@ -25,6 +27,22 @@ where is_deal_user_no = #{uNo};
 select *
 from item_buy as A
 inner join (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as B on A.ib_item_no = B.ip_item_no
-where ib_user_no = #{uNo} and ib_item_no in (select i_no from item where i_completed = "true");
+where ib_user_no = #{uNo} and ib_item_no in (select i_no from item where i_completed = "true")
+order by ib_item_no desc;
+</select>
+
+
+<select id="selectItemSellSet" parameterType="int" resultType="ItemSellSet">
+select itemsell.*, ip.ip_value
+  from item_sell as itemsell join item_photo as ip
+    on itemsell.is_no = ip.ip_no
+   and itemsell.is_item_no = #{iNo};
+</select>
+
+<select id="selectItemBuySet" parameterType="int" resultType="ItemBuySet">
+select itembuy.*, ip.ip_value
+  from item_buy as itembuy join item_photo as ip
+    on itembuy.ib_no = ip.ip_no
+   and itembuy.ib_item_no = #{iNo};
 </select>
 </mapper>
