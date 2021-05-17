@@ -333,5 +333,11 @@ public class ItemSellController {
 		result.setJoinerCnt(itemSellService.selectItemCntAP(isItemNo));
 		return new ResponseEntity<ItemSellSet>(result, HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "아이템 수 조회")
+	@GetMapping("/count")
+	public ResponseEntity<Integer> countItemSell() throws Exception {
+		return new ResponseEntity<Integer>(itemSellService.countIntemSell(), HttpStatus.OK);
+	}
 
 }
