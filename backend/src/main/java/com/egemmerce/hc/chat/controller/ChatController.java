@@ -60,9 +60,6 @@ public class ChatController {
 	/* 해당 채팅방 채팅 불러오기 */
 	@GetMapping("/enter")
 	public List<ItemChatting> selectChatBycrNo(int crNo) throws Exception {
-		System.out.println(chatservice.selectChatByicCrNo(crNo).get(0).getIcDate());
-		Date now = new Date();
-		System.out.println(now);
 		return chatservice.selectChatByicCrNo(crNo);
 	}
 
@@ -113,10 +110,14 @@ public class ChatController {
 			chatRoom.setCrItemName(itemBuy.getIbName());
 			chatRoom.setCrItemPrice(itemBuy.getIbAuctionIngPrice());
 		}
-		chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
+		if (imageService.selectItemPhotoList(iNo).size() > 0)
+			chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
+		else
+			chatRoom.setCrItemImage(
+					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrJgwdOAjqaZGS7kn35IVm_ZN6E4XFuJ7V_g&usqp=CAU");
 
 		chatservice.createChatRoom(chatRoom);
-		
+
 		return chatservice.selectBycrName(crName).getCrNo();
 	}
 }
