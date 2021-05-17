@@ -2,10 +2,13 @@ package com.egemmerce.hc.repository.dto;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -35,6 +38,9 @@ public class User {
 	private String uContent;
 	private LocalDateTime uJoinDate;
 
+	@OneToMany
+	@JoinColumn(name = "ua_user_no")
+	private List<UserAddress> userAddress;
 	@ColumnDefault("client")
 	private String uAuthority;
 
@@ -203,6 +209,14 @@ public class User {
 
 	public void setuContent(String uContent) {
 		this.uContent = uContent;
+	}
+
+	public List<UserAddress> getUserAddress() {
+		return userAddress;
+	}
+
+	public void setUserAddress(List<UserAddress> userAddress) {
+		this.userAddress = userAddress;
 	}
 
 }

@@ -3,12 +3,19 @@ package com.egemmerce.hc.item.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemBuy;
+import com.egemmerce.hc.repository.dto.ItemBuySet;
+import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
+import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
+import com.egemmerce.hc.repository.dto.ItemPhoto;
+import com.egemmerce.hc.repository.dto.SortProcess;
+import com.egemmerce.hc.repository.mapper.ItemBuyMapper;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
 import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
@@ -22,6 +29,9 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	private final ItemBuyRepository itemBuyRepository;
 	private final ItemDeliveryRepository itemDeliveryRepository;
 	private final UserRepository userRepository;
+	
+	@Autowired
+	private ItemBuyMapper itemBuyMapper;
 
 	/* C :: 상품 등록 */
 	@Override
@@ -91,4 +101,79 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	public Integer countItemBuy() {
 		return (int) itemBuyRepository.count();
 	}
+	
+	/////////////////////////////// 아래는 mybatis 처리
+	@Override
+	public ItemBuySet BselectItemOne(int ibItemNo) throws Exception {
+		return itemBuyMapper.BselectItemOne(ibItemNo);
+	}
+	
+	@Override
+	public int BselectItemCntAP(int ibItemNo) throws Exception {
+		return itemBuyMapper.BselectItemCntAP(ibItemNo);
+	}
+	
+	@Override
+	public List<ItemBuy> BselectItemListIndexing(int ibUserNo, int page) throws Exception {
+		return itemBuyMapper.BselectItemListIndexing(ibUserNo, page);
+	}
+	
+	///
+	@Override
+	public List<ItemBuySet> BselectItemNoSubRvsSort(SortProcess sortProcess) throws Exception {
+		System.out.println("##" + sortProcess.toString());
+		return itemBuyMapper.BselectItemNoSubRvsSort(sortProcess);
+	}
+
+	@Override
+	public List<ItemBuySet> BselectItemYesSubRvsSort(SortProcess sortProcess) throws Exception {
+		System.out.println("###" + sortProcess.toString());
+		return itemBuyMapper.BselectItemYesSubRvsSort(sortProcess);
+	}
+
+	@Override
+	public List<ItemBuySet> BselectItemNoSub(SortProcess sortProcess) throws Exception {
+		System.out.println("##" + sortProcess.toString());
+		return itemBuyMapper.BselectItemNoSub(sortProcess);
+	}
+
+	@Override
+	public List<ItemBuySet> BselectItemYesSub(SortProcess sortProcess) throws Exception {
+		System.out.println("###" + sortProcess.toString());
+		return itemBuyMapper.BselectItemYesSub(sortProcess);
+	}
+
+	@Override
+	public List<ItemBuySet> BselectItemAllHomeUp(SortProcess sortProcess) throws Exception {
+		System.out.println("###" + sortProcess.toString());
+		return itemBuyMapper.BselectItemAllHomeUp(sortProcess);
+	}
+
+	@Override
+	public List<ItemBuySet> BselectItemAllHomeDown(SortProcess sortProcess) throws Exception {
+		System.out.println("###" + sortProcess.toString());
+		return itemBuyMapper.BselectItemAllHomeDown(sortProcess);
+	}
+
+	@Override
+	public List<ItemCtgrCnt> BselectCountByCtgrSub(ItemCtgrSearch itemCtgrSearch) throws Exception {
+		if (itemBuyMapper.BselectCountByCtgrSub(itemCtgrSearch) == null)
+			return null;
+		return itemBuyMapper.BselectCountByCtgrSub(itemCtgrSearch);
+	}
+	
+	@Override
+	public int BselectCountItemBuy(int ibUserNo) throws Exception {
+		return itemBuyMapper.BselectCountItemBuy(ibUserNo);
+	}
+
+	@Override
+	public List<ItemPhoto> BselectItemImages(int ipItemNo) throws Exception {
+		List<ItemPhoto> result = null;
+		result = itemBuyMapper.BselectItemImages(ipItemNo);
+		if (result != null)
+			return result;
+		return null;
+	}
+	
 }

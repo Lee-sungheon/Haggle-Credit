@@ -1,5 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -24,6 +25,7 @@ public class UserAddress {
 	@Id
 	private int uaNo;
 	private String uaName;
+	@Column(name="ua_user_no")
 	private int uaUserNo;
 	private String uaLnmAddress;
 	private String uaRnAddress;

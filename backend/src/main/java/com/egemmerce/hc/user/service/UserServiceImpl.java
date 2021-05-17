@@ -246,7 +246,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public User selectUserByuNo(int uNo) {
-		return userRepository.findByuNo(uNo);
+		User user = userRepository.findByuNo(uNo);
+		return user;
 	}
 	
 	/* 크레딧 충전 */

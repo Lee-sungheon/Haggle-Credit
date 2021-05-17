@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -28,12 +26,12 @@ public class ItemSell {
 
 	@Id
 	private int isItemNo;
-	
+
 	private int isNo;
-	
+
 	private int isUserNo;
 	private String isItemName;
-	
+
 	@ColumnDefault("기타")
 	private String isCategoryMain;
 	@ColumnDefault("기타")
@@ -53,7 +51,7 @@ public class ItemSell {
 	private Date isEndDate;
 	private String isEventAgree;
 	private int isAuctionIngPrice;
-	
+
 	public void generateStartDate() {
 		this.isStartDate = LocalDateTime.now();
 	}
@@ -61,103 +59,137 @@ public class ItemSell {
 	public int getIsNo() {
 		return isNo;
 	}
+
 	public void setIsNo(int isNo) {
 		this.isNo = isNo;
 	}
+
 	public int getIsItemNo() {
 		return isItemNo;
 	}
+
 	public void setIsItemNo(int isItemNo) {
 		this.isItemNo = isItemNo;
 	}
+
 	public int getIsUserNo() {
 		return isUserNo;
 	}
+
 	public void setIsUserNo(int isUserNo) {
 		this.isUserNo = isUserNo;
 	}
+
 	public String getIsItemName() {
 		return isItemName;
 	}
+
 	public void setIsItemName(String isItemName) {
 		this.isItemName = isItemName;
 	}
+
 	public String getIsCategoryMain() {
 		return isCategoryMain;
 	}
+
 	public void setIsCategoryMain(String isCategoryMain) {
 		this.isCategoryMain = isCategoryMain;
 	}
+
 	public String getIsCategorySub() {
 		return isCategorySub;
 	}
+
 	public void setIsCategorySub(String isCategorySub) {
 		this.isCategorySub = isCategorySub;
 	}
+
 	public String getIsUsedStatus() {
 		return isUsedStatus;
 	}
+
 	public void setIsUsedStatus(String isUsedStatus) {
 		this.isUsedStatus = isUsedStatus;
 	}
+
 	public String getIsContent() {
 		return isContent;
 	}
+
 	public void setIsContent(String isContent) {
 		this.isContent = isContent;
 	}
+
 	public int getIsCoolPrice() {
 		return isCoolPrice;
 	}
+
 	public void setIsCoolPrice(int isCoolPrice) {
 		this.isCoolPrice = isCoolPrice;
 	}
+
 	public int getIsAuctionInitPrice() {
 		return isAuctionInitPrice;
 	}
+
 	public void setIsAuctionInitPrice(int isAuctionInitPrice) {
 		this.isAuctionInitPrice = isAuctionInitPrice;
 	}
+
 	public int getIsDealAddress() {
 		return isDealAddress;
 	}
+
 	public void setIsDealAddress(int isDealAddress) {
 		this.isDealAddress = isDealAddress;
 	}
+
 	public int getIsDealPrice() {
 		return isDealPrice;
 	}
+
 	public void setIsDealPrice(int isDealPrice) {
 		this.isDealPrice = isDealPrice;
 	}
+
 	public int getIsDealUserNo() {
 		return isDealUserNo;
 	}
+
 	public void setIsDealUserNo(int isDealUserNo) {
 		this.isDealUserNo = isDealUserNo;
 	}
+
 	public LocalDateTime getIsStartDate() {
 		return isStartDate;
 	}
+
 	public void setIsStartDate(LocalDateTime isStartDate) {
 		this.isStartDate = isStartDate;
 	}
+
 	public Date getIsEndDate() {
 		return isEndDate;
 	}
+
 	public void setIsEndDate(Date isEndDate) {
 		this.isEndDate = isEndDate;
 	}
+
 	public String getIsEventAgree() {
 		return isEventAgree;
 	}
+
 	public void setIsEventAgree(String isEventAgree) {
 		this.isEventAgree = isEventAgree;
 	}
+
 	public int getIsAuctionIngPrice() {
 		return isAuctionIngPrice;
 	}
+
 	public void setIsAuctionIngPrice(int isAuctionIngPrice) {
 		this.isAuctionIngPrice = isAuctionIngPrice;
 	}
+
 }

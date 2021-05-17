@@ -3,6 +3,7 @@ package com.egemmerce.hc.repository.dto;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
 public class ItemBuy {
 
 	@Id
+	@Column(name = "ib_item_no")
 	private int ibItemNo;
 	private int ibNo;
 	private int ibUserNo;

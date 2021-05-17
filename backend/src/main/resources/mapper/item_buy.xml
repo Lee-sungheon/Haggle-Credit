@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.egemmerce.hc.repository.mapper.ItemBuyMapper">
+
+<!-- 카테고리별 구매상품 개수 -->
+<select id="BselectCountByCtgrSub" parameterType="ItemCtgrSearch" resultType="ItemCtgrCnt">
+select * from (select ib_category_main, count(*) as cnt_main from item_buy
+where ib_category_main = #{ctgrMain} and ib_item_no in (select i_no from item where i_completed="false")) a
+inner join (select ib_category_sub, ifnull(count(*), 0) as cnt_sub from item_buy where ib_category_main like concat(concat("%",substring(#{ctgrMain},-3)),"%") group by ib_category_sub) b
+where ib_category_sub like concat(concat("%", #{ctgrSub}),"%");
+</select>
+
+<!-- 구매 아이템 이미지 조회 -->
+<select id="BselectItemImages" parameterType="int" resultType="ItemPhoto">
+select *
+  from item_photo
+ where ip_item_no = #{ipItemNo} and ip_item_no in (select i_no from item where i_completed = "false");
+</select>
+
+<!-- 구매상품 상세 조회 -->
+<select id="BselectItemOne" parameterType="int" resultType="ItemBuySet">
+select itembuy.*, ip.ip_value
+  from item_buy as itembuy join item_photo as ip
+    on itembuy.ib_no = ip.ip_no
+   and itembuy.ib_item_no = #{ibItemNo};
+</select>
+
+<!-- 구매상품의 입찰자 수 조회 -->
+<select id="BselectItemCntAP" parameterType="int" resultType="int">
+select count(*) from reverse_auction_participant where rap_item_no = #{ibItemNo};
+</select>
+
+<!-- 인덱싱 처리해서 100개 단위로만 내상품 보여주기 -->
+<select id="BselectItemListIndexing" parameterType="int" resultType="ItemBuy">
+select *
+  from item_buy
+ where ib_user_no = #{ibUserNo}
+ order by ib_no desc limit #{page}, 100;
+</select>
+
+<select id="BselectItemAllHomeUp" parameterType="SortProcess" resultType="ItemBuySet">
+select * from (select * from item_buy
+   left join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
+where ib_item_no in (select i_no from item where i_completed = "false")
+order by ${sortName}
+limit #{pageNo}, 100;
+</select>
+
+<select id="BselectItemAllHomeDown" parameterType="SortProcess" resultType="ItemBuySet">
+select * from (select * from item_buy
+   left join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select ap_item_no, count(*) as joiner_cnt from auction_participant group by ap_item_no) final_table2 on final_table1.ip_item_no = final_table2.ap_item_no
+where ib_item_no in (select i_no from item where i_completed = "false")
+order by ${sortName} desc
+limit #{pageNo}, 100;
+</select>
+
+<!-- 상품 전체 조회 -->
+<select id="BselectItemNoSubRvsSort" parameterType="SortProcess" resultType="ItemBuySet">
+select * 
+from (select * 
+from item_buy inner join 
+(select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
+where ib_category_main=#{ctgrMain} and ib_item_no in (select i_no from item where i_completed = "false")
+order by ${sortName} desc
+limit #{pageNo}, 100;
+</select>
+
+<select id="BselectItemYesSubRvsSort" parameterType="SortProcess" resultType="ItemBuySet">
+select * from (select * from item_buy
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
+where ib_category_main=#{ctgrMain} and ib_category_sub=#{ctgrSub} and ib_item_no in (select i_no from item where i_completed = "false")
+order by ${sortName} desc
+limit #{pageNo}, 100;
+</select>
+
+<select id="BselectItemNoSub" parameterType="SortProcess" resultType="ItemBuySet">
+select * from (select * from item_buy
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
+where ib_category_main=#{ctgrMain} and ib_item_no in (select i_no from item where i_completed = "false")
+order by ${sortName}
+limit #{pageNo}, 100;
+</select>
+
+<select id="BselectItemYesSub" parameterType="SortProcess" resultType="ItemBuySet">
+select * from (select * from item_buy
+   inner join 
+   (select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no)
+   tmp_table on ib_item_no = tmp_table.ip_item_no) final_table1
+left join (select rap_item_no, count(*) as joiner_cnt from reverse_auction_participant group by rap_item_no) final_table2 on final_table1.ip_item_no = final_table2.rap_item_no
+where ib_category_main=#{ctgrMain} and ib_category_sub=#{ctgrSub} and ib_item_no in (select i_no from item where i_completed = "false")
+order by ${sortName}
+limit #{pageNo}, 100;
+</select>
+
+<select id="BselectCountItemBuy" parameterType="int" resultType="int">
+select count(*)
+  from item_buy
+ where ib_user_no = #{ibUserNo}
+</select>
+
+</mapper>

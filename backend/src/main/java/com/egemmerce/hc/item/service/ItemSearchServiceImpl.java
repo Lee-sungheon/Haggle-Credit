@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.CtgrCountSet;
+import com.egemmerce.hc.repository.dto.ItemBuySet;
 import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.mapper.ItemSearchMapper;
@@ -31,5 +32,20 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	@Override
 	public List<CtgrCountSet> searchingCount(String word) throws Exception {
 		return mapper.searchingCount(word);
+	}
+	
+	@Override
+	public List<ItemBuySet> searchingBuyDown(SortProcess sp) throws Exception {
+		return mapper.searchingBuyDown(sp);
+	}
+	
+	@Override
+	public List<ItemBuySet> searchingBuyUp(SortProcess sp) throws Exception {
+		return mapper.searchingBuyUp(sp);
+	}
+	
+	@Override
+	public List<CtgrCountSet> searchingCount2(String word) throws Exception {
+		return mapper.searchingCount2(word);
 	}
 }

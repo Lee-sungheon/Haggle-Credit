@@ -12,37 +12,43 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity @EqualsAndHashCode(of = "iNo")
-@Builder @AllArgsConstructor @NoArgsConstructor
+@Entity
+@EqualsAndHashCode(of = "iNo")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 public class Item {
-	
-    @Id
+
+	@Id
 	private int iNo;
-    private String iType;
+	private String iType;
 	@ColumnDefault("false")
-    private String iCompleted;
+	private String iCompleted;
+
 	public int getiNo() {
 		return iNo;
 	}
+
 	public void setiNo(int iNo) {
 		this.iNo = iNo;
 	}
-	
+
 	public String getiCompleted() {
 		return iCompleted;
 	}
+
 	public void setiCompleted(String iCompleted) {
 		this.iCompleted = iCompleted;
 	}
+
 	public String getiType() {
 		return iType;
 	}
+
 	public void setiType(String iType) {
 		this.iType = iType;
 	}
-    
-    
 
 }
