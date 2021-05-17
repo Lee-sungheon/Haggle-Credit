@@ -11,6 +11,7 @@ public class ItemBuySet {
 	int ibNo;
 	int ibItemNo;
 	int ibUserNo;
+	String ibName;
 	String ibCategoryMain;
 	String ibCategorySub;
 	String ibContent;
@@ -20,25 +21,27 @@ public class ItemBuySet {
 	String ibEndDate;
 	String ibStartDate;
 	int ibDealUserNo;
-	String ibName;
 	String ibRegDate;
 	int ibAuctionIngPrice;
 	int ibAuctionInitPrice;
 	int ipNo;
 	int ipItemNo;
 	String ipValue;
+	private int rapItemNo;
+	private int joinerCnt;
 	public ItemBuySet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ItemBuySet(int ibNo, int ibItemNo, int ibUserNo, String ibCategoryMain, String ibCategorySub,
+	public ItemBuySet(int ibNo, int ibItemNo, int ibUserNo, String ibName, String ibCategoryMain, String ibCategorySub,
 			String ibContent, int ibCoolPrice, String ibDealAddress, int ibDealPrice, String ibEndDate,
-			String ibStartDate, int ibDealUserNo, String ibName, String ibRegDate, int ibAuctionIngPrice,
-			int ibAuctionInitPrice, int ipNo, int ipItemNo, String ipValue) {
+			String ibStartDate, int ibDealUserNo, String ibRegDate, int ibAuctionIngPrice, int ibAuctionInitPrice,
+			int ipNo, int ipItemNo, String ipValue, int rapItemNo, int joinerCnt) {
 		super();
 		this.ibNo = ibNo;
 		this.ibItemNo = ibItemNo;
 		this.ibUserNo = ibUserNo;
+		this.ibName = ibName;
 		this.ibCategoryMain = ibCategoryMain;
 		this.ibCategorySub = ibCategorySub;
 		this.ibContent = ibContent;
@@ -48,13 +51,14 @@ public class ItemBuySet {
 		this.ibEndDate = ibEndDate;
 		this.ibStartDate = ibStartDate;
 		this.ibDealUserNo = ibDealUserNo;
-		this.ibName = ibName;
 		this.ibRegDate = ibRegDate;
 		this.ibAuctionIngPrice = ibAuctionIngPrice;
 		this.ibAuctionInitPrice = ibAuctionInitPrice;
 		this.ipNo = ipNo;
 		this.ipItemNo = ipItemNo;
 		this.ipValue = ipValue;
+		this.rapItemNo = rapItemNo;
+		this.joinerCnt = joinerCnt;
 	}
 	public int getIbNo() {
 		return ibNo;
@@ -73,6 +77,12 @@ public class ItemBuySet {
 	}
 	public void setIbUserNo(int ibUserNo) {
 		this.ibUserNo = ibUserNo;
+	}
+	public String getIbName() {
+		return ibName;
+	}
+	public void setIbName(String ibName) {
+		this.ibName = ibName;
 	}
 	public String getIbCategoryMain() {
 		return ibCategoryMain;
@@ -128,12 +138,6 @@ public class ItemBuySet {
 	public void setIbDealUserNo(int ibDealUserNo) {
 		this.ibDealUserNo = ibDealUserNo;
 	}
-	public String getIbName() {
-		return ibName;
-	}
-	public void setIbName(String ibName) {
-		this.ibName = ibName;
-	}
 	public String getIbRegDate() {
 		return ibRegDate;
 	}
@@ -170,4 +174,18 @@ public class ItemBuySet {
 	public void setIpValue(String ipValue) {
 		this.ipValue = ipValue;
 	}
+	public int getRapItemNo() {
+		return rapItemNo;
+	}
+	public void setRapItemNo(int rapItemNo) {
+		this.rapItemNo = rapItemNo;
+	}
+	public int getJoinerCnt() {
+		return joinerCnt;
+	}
+	public void setJoinerCnt(int joinerCnt) {
+		this.joinerCnt = joinerCnt;
+	}
+	
+	
 }

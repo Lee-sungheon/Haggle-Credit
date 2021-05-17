@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class ItemPhotoSet {
 	private ItemSell itemSell;
+	private ItemBuy itemBuy;
 	private List<ItemPhoto> itemPhotoes;
 	private int itemCnt;
 	private ItemPhoto itemPhoto;
@@ -26,6 +27,19 @@ public class ItemPhotoSet {
 	public ItemPhotoSet(ItemSell itemSell, List<ItemPhoto> itemPhotoes, int itemCnt) {
 		super();
 		this.itemSell = itemSell;
+		this.itemPhotoes = itemPhotoes;
+		this.itemCnt = itemCnt;
+	}
+
+	public ItemPhotoSet(ItemBuy itemBuy, ItemPhoto itemPhoto) {
+		super();
+		this.itemBuy = itemBuy;
+		this.itemPhoto = itemPhoto;
+	}
+
+	public ItemPhotoSet(ItemBuy itemBuy, List<ItemPhoto> itemPhotoes, int itemCnt) {
+		super();
+		this.itemBuy = itemBuy;
 		this.itemPhotoes = itemPhotoes;
 		this.itemCnt = itemCnt;
 	}
