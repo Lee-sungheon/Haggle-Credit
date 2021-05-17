@@ -2,6 +2,7 @@ package com.egemmerce.hc.repository.dto;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -21,6 +22,7 @@ public class AuctionParticipant {
 	
     @Id
 	private int apNo;
+    @Column(name="ap_item_no")
 	private int apItemNo;
 	private int apUserNo;
 	private int apBid;

@@ -259,10 +259,10 @@ public class ItemSellController {
 			User user = userService.selectUserByuNo(isUserNo);
 
 			// 유저 배송지 가져오기
-			UserAddress userAddress=null;
-			if(uaNo>0) {
-				userAddress=userAddressService.selectAddressByuaNo(uaNo);
-			}else {
+			UserAddress userAddress = null;
+			if (uaNo > 0) {
+				userAddress = userAddressService.selectAddressByuaNo(uaNo);
+			} else {
 				userAddress = userAddressService.selectDefaultAddress(user.getuNo());
 				if (userAddress == null) {
 					return new ResponseEntity<String>("배송지가 없습니다.", HttpStatus.OK);
@@ -280,8 +280,8 @@ public class ItemSellController {
 					.apBid(isAuctionPrice).apAddress(userAddress.getUaNo()).build();
 			auctionParticipant.generateapDate();
 			auctionParticipantService.insert(auctionParticipant);
-			
-			User newUser=userService.selectUserByuNo(isUserNo);
+
+			User newUser = userService.selectUserByuNo(isUserNo);
 //
 //			// 새로 입찰한 유저 포인트 출금
 //			userService.updateUserCreditbyAP(user, isAuctionPrice, isItemNo);

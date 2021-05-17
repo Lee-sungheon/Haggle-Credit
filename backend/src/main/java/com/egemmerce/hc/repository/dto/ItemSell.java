@@ -3,8 +3,11 @@ package com.egemmerce.hc.repository.dto;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +28,7 @@ import lombok.NoArgsConstructor;
 public class ItemSell {
 
 	@Id
+	@Column(name = "is_item_no")
 	private int isItemNo;
 
 	private int isNo;
@@ -51,6 +55,10 @@ public class ItemSell {
 	private Date isEndDate;
 	private String isEventAgree;
 	private int isAuctionIngPrice;
+
+//	@OneToOne
+//	@JoinColumn(name = "is_item_no")
+//	private Item item;
 
 	public void generateStartDate() {
 		this.isStartDate = LocalDateTime.now();

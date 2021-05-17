@@ -41,6 +41,7 @@ public class User {
 	@OneToMany
 	@JoinColumn(name = "ua_user_no")
 	private List<UserAddress> userAddress;
+	
 	@ColumnDefault("client")
 	private String uAuthority;
 

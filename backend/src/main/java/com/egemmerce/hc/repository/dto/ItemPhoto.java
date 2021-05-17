@@ -1,5 +1,6 @@
 package com.egemmerce.hc.repository.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -19,6 +20,7 @@ public class ItemPhoto {
 	
     @Id
 	private int ipNo;
+    @Column(name="ip_item_no")
 	private int ipItemNo;
 	private String ipValue;
 	public int getIpNo() {
