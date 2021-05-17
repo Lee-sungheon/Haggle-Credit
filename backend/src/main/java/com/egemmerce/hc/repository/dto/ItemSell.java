@@ -2,12 +2,9 @@ package com.egemmerce.hc.repository.dto;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -54,10 +51,6 @@ public class ItemSell {
 	private Date isEndDate;
 	private String isEventAgree;
 	private int isAuctionIngPrice;
-
-	@OneToMany
-	@JoinColumn(name="ip_item_no")
-	private List<ItemPhoto> itemPhoto;
 
 	public void generateStartDate() {
 		this.isStartDate = LocalDateTime.now();
@@ -197,14 +190,6 @@ public class ItemSell {
 
 	public void setIsAuctionIngPrice(int isAuctionIngPrice) {
 		this.isAuctionIngPrice = isAuctionIngPrice;
-	}
-
-	public List<ItemPhoto> getItemPhoto() {
-		return itemPhoto;
-	}
-
-	public void setItemPhoto(List<ItemPhoto> itemPhoto) {
-		this.itemPhoto = itemPhoto;
 	}
 
 }
