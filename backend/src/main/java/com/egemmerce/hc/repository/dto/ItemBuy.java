@@ -2,9 +2,13 @@ package com.egemmerce.hc.repository.dto;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class ItemBuy {
 
 	@Id
+	@Column(name = "ib_item_no")
 	private int ibItemNo;
 	private int ibNo;
 	private int ibUserNo;
@@ -45,6 +50,10 @@ public class ItemBuy {
 	@ColumnDefault("0")
 	private int ibDealPrice;
 	private String ibDealAddress;
+
+	@OneToMany
+	@JoinColumn(name = "ip_item_no")
+	private List<ItemPhoto> itemPhoto;
 
 	public void generateibRegDate() {
 		this.ibRegDate = LocalDateTime.now();
@@ -177,6 +186,14 @@ public class ItemBuy {
 
 	public void setIbAuctionIngPrice(int ibAuctionIngPrice) {
 		this.ibAuctionIngPrice = ibAuctionIngPrice;
+	}
+
+	public List<ItemPhoto> getItemPhoto() {
+		return itemPhoto;
+	}
+
+	public void setItemPhoto(List<ItemPhoto> itemPhoto) {
+		this.itemPhoto = itemPhoto;
 	}
 
 }
