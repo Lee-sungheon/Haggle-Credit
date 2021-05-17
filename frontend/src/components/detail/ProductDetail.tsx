@@ -3,6 +3,7 @@ import { ITEM } from "styled-components";
 
 interface Props {
   item: ITEM;
+  buy: boolean;
 }
 
 const Container = styled.div`
@@ -23,14 +24,14 @@ const ProductContent = styled.div`
   line-height: 1.5;
 `;
 
-const ProductDetail = ({item}: Props) => {
+const ProductDetail = ({item, buy}: Props) => {
   return (
     <Container>
       <ProductTitle>
         상품정보
       </ProductTitle>
       <ProductContent>
-        {item.isContent}
+        {buy ? item.isContent : item.ibContent}
       </ProductContent>
     </Container>
   )

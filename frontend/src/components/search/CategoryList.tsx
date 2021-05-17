@@ -16,7 +16,7 @@ interface CATEGORY {
 
 const Container = styled.div<{ len: number }>`
   margin-top: 20px;
-  height: ${({len}) => len * 48}px;
+  height: ${({len}) => (len+1) * 48}px;
   width: 100%;
   overflow: hidden;
 `;
@@ -72,7 +72,7 @@ const CountText = styled.div`
 const CategoryList = ({ categoryList, search, setCategory, itemNum, setCategoryCnt }: CategoryListProps) => {
   const history = useHistory();
   const list = [];
-  for (let i=0 ; i<5-categoryList.length % 5 ; i++){
+  for (let i=0 ; i<5-categoryList.length%5 - 1 ; i++){
     list.push(i);
   }
   return(

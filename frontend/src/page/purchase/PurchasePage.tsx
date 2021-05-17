@@ -90,7 +90,7 @@ const PurchasePage = ({match, location}: RouteComponentProps<MatchParams, Histor
         <CloseButton onClick={() => window.close()}/>
       </Header>
       <MainArea>
-        <ItemDescription desc={desc}/>
+        <ItemDescription desc={desc} buy={true}/>
         <Destination isModal={isModal} userData={userData} setUaNo={setUaNo}/>
         <Purchase desc={desc} uaNo={uaNo}/>
       </MainArea>

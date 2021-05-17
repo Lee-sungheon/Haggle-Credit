@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import CategoryList from '../../components/search/CategoryList';
 import { useDispatch } from 'react-redux';
 import { commonActions } from "../../state/common";
-import { callApiSearchProductList, callApiSearchCount } from '../../api/ProductApi';
+import { callApiSearchProductList, callApiSearchCount, callApiSearchSellProductList, callApiSearchSellCount } from '../../api/ProductApi';
 import LoadingList from '../../components/common/LoadingList';
 import { ITEM } from "styled-components";
 import Pagination from '@material-ui/lab/Pagination';
@@ -133,27 +133,47 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
       if (location.search.split('&')[1] !== undefined) {
         setCategory(decodeURI(decodeURIComponent(location.search.split('&')[1].split('=')[1])));
       }
-      if(filterIdx === 0){
-        const result = await callApiSearchProductList('down', category, String(pageNum), 'is_no', search);
-        setProducts(result);
-      } else if(filterIdx === 1){
-        const result = await callApiSearchProductList('up', category, String(pageNum), 'is_auction_ing_price', search);
-        setProducts(result);
-      } else if(filterIdx === 2){
-        const result = await callApiSearchProductList('down', category, String(pageNum), 'is_auction_ing_price', search);
-        setProducts(result);
+      if (buy){
+        if(filterIdx === 0){
+          const result = await callApiSearchProductList('down', category, String(pageNum), 'is_no', search);
+          setProducts(result);
+        } else if(filterIdx === 1){
+          const result = await callApiSearchProductList('up', category, String(pageNum), 'is_auction_ing_price', search);
+          setProducts(result);
+        } else if(filterIdx === 2){
+          const result = await callApiSearchProductList('down', category, String(pageNum), 'is_auction_ing_price', search);
+          setProducts(result);
+        }
+        const result = await callApiSearchCount(search);
+        setCategoryList(result);
+        let cnt = 0;
+        for (let cate of result){
+          cnt += cate.cnt;
+          setCategoryCnt(cnt);
+        }
+      } else {
+        if(filterIdx === 0){
+          const result = await callApiSearchSellProductList('down', category, String(pageNum), 'ib_no', search);
+          setProducts(result);
+        } else if(filterIdx === 1){
+          const result = await callApiSearchSellProductList('up', category, String(pageNum), 'ib_auction_ing_price', search);
+          setProducts(result);
+        } else if(filterIdx === 2){
+          const result = await callApiSearchSellProductList('down', category, String(pageNum), 'ib_auction_ing_price', search);
+          setProducts(result);
+        }
+        const result = await callApiSearchSellCount(search);
+        setCategoryList(result);
+        let cnt = 0;
+        for (let cate of result){
+          cnt += cate.cnt;
+          setCategoryCnt(cnt);
+        }
       }
-      const result = await callApiSearchCount(search);
-      setCategoryList(result);
-      let cnt = 0;
-      for (let cate of result){
-        cnt += cate.cnt;
-      }
-      setCategoryCnt(cnt);
       setIsLoading(false);
     }
     fetchData();
-  }, [category, filterIdx, location, pageNum, search])
+  }, [category, filterIdx, location, pageNum, buy, search])
   
   return (
     <Container>
@@ -181,12 +201,12 @@ const SearchPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
         }
         {category!=="" &&
         <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>
-            <Pagination 
-            count={parseInt(String(categoryCnt/100)+1)} 
-            variant="outlined" 
-            shape="rounded" 
-            color="secondary" 
-            onChange={(e, page)=>setPageNum(page)}/>
+          <Pagination 
+          count={parseInt(String(categoryCnt/100)+1)} 
+          variant="outlined" 
+          shape="rounded" 
+          color="secondary" 
+          onChange={(e, page)=>setPageNum(page)}/>
         </div>
         }
       </ProductArea>

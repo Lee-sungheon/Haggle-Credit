@@ -123,7 +123,8 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   const like = useSelector((state: RootState) => state.common.isLike);
   const dispatch = useDispatch();
   const CalTime = useCallback(()=> {
-    let t1 = moment(item.isEndDate);
+    let t1;
+    buy ? t1 = moment(item.isEndDate) : t1 = moment(item.ibEndDate)
     let t2 = moment();
     const duTime = moment.duration(t1.diff(t2)).asSeconds();
     if (duTime < 0) {
@@ -136,7 +137,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
     const second = parseInt(String((duTime % 60)));
     const text = day + '일 ' + hour + '시간 ' + minute + '분 ' + second + '초';
     setTime(text);
-  }, [item.isEndDate])
+  }, [buy, item.ibEndDate, item.isEndDate])
   
   useEffect(()=>{
     const countdown = setInterval(CalTime, 1000);
@@ -144,8 +145,10 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   }, [CalTime])
   useEffect(()=>{
     const fetchData = async() => {
-      if (userNo !== undefined && item.isItemNo !== undefined){
-        const is = await callApiCheckedStatus(item.isItemNo, userNo);
+      let itemNo;
+      buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
+      if (userNo !== undefined && itemNo !== undefined){
+        const is = await callApiCheckedStatus(itemNo, userNo);
         if (is === "찜된 상태입니다."){
           setIsLike(true);
         } else {
@@ -154,16 +157,20 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
       }
     }
     fetchData();
-  }, [item.isItemNo, userNo])
+  }, [buy, item.ibItemNo, item.isItemNo, userNo])
   
   const goChat = async() => {
+    let userNo2;
+    buy ? userNo2 = item.isUserNo : userNo2 = item.ibUserNo;
+    let itemNo;
+    buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
     const body = {
-      crItemNo: item.ipItemNo,
+      crItemNo: itemNo,
       crUserNoOne: userNo,
-      crUserNoTwo: item.isUserNo,
+      crUserNoTwo: userNo2,
     };
     const RoomNo = await callConnetChat(body);
-    await window.open(
+    window.open(
       `../chat/${userNo}/${RoomNo}`,
       '_blank',
       'width=387,height=667'
@@ -173,23 +180,28 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
   return (
     <Container>
       <ImgBox>
-        <ImageSlider itemNo={item.isItemNo}/>
+        <ImageSlider itemNo={buy ? item.isItemNo : item.ibItemNo}/>
       </ImgBox>
       <ProductInfoBox>
         <InfoArea>
           <InfoTitlePrice>
             <InfoTitle>
-              {item.isItemName}
+              {buy ? item.isItemName : item.ibName}
             </InfoTitle>
             <InfoPrice>
               <InfoText>현재가 : </InfoText>
               <span style={{ color: 'red' }}>
-                {item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span> 
+                {buy ? 
+                item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):
+                item.ibAuctionIngPrice !== undefined && item.ibAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                }</span> 
               <InfoText>원</InfoText>
             </InfoPrice>
             <InfoPrice>
               <InfoText>{buy ? "즉구가 : " : "시작가 : "}</InfoText>
-              <span>{item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              <span>{buy ? item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              : item.ibAuctionInitPrice !== undefined && item.ibAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              }
               <InfoText>원</InfoText></span>
               {buy ? <InfoSubText>(시작가 : {item.isAuctionInitPrice !== undefined && item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원)</InfoSubText>:<></>}
             </InfoPrice>
@@ -200,12 +212,14 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
             <ItemTitle>· 입찰수</ItemTitle><ItemContent>{item.joinerCnt}회</ItemContent>
           </DetailItem>
           <DetailItem>
-            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} <br />(종료: {item.isEndDate !== undefined && item.isEndDate.slice(5,)} 24:00)</ItemContent>
+            <ItemTitle>· 남은시간</ItemTitle><ItemContent>{time} <br />(종료: 
+            {buy ? item.isEndDate !== undefined && item.isEndDate.slice(5,) :
+            item.ibEndDate !== undefined && item.ibEndDate.slice(5,)} 24:00) </ItemContent>
           </DetailItem>
         </DetailBox>
         <DetailBox>
           <DetailItem>
-            <ItemTitle>· 상품상태</ItemTitle><ItemContent>{item.isUsedStatus}</ItemContent>
+            <ItemTitle>· 상품상태</ItemTitle><ItemContent>{buy ? item.isUsedStatus : '새제품'}</ItemContent>
           </DetailItem>
           <DetailItem>
             <ItemTitle>· 환불여부</ItemTitle><ItemContent>환불불가능</ItemContent>
@@ -216,13 +230,15 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
         </DetailBox>
         <ButtonBox>
           <StyledButton onClick={async() => {
-            if (userNo !== undefined && item.isItemNo !== undefined) {
+            let itemNo;
+            buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
+            if (userNo !== undefined && itemNo !== undefined) {
               if (isLike){
-                await callApiDeleteZzim(item.isItemNo, userNo);
+                await callApiDeleteZzim(itemNo, userNo);
                 setIsLike(false);
               } else{
                 const data = {
-                  bItemNo: item.isItemNo,
+                  bItemNo: itemNo,
                   bUserNo: userNo
                 }
                 await callApiCreateZzim(data);
@@ -240,7 +256,7 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
           </StyledButton>
           <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={
             buy ? () => window.open(`../auction/buy/${item.isItemNo}`, '_blank') : 
-            () => window.open(`../auction/sell/${item.isItemNo}`, '_blank')}
+            () => window.open(`../auction/sell/${item.ibItemNo}`, '_blank')}
             >
             입찰하기
           </StyledButton>

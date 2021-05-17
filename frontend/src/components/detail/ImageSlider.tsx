@@ -61,6 +61,27 @@ const ImageSlider = ({itemNo}: Props) => {
           }}/>
         </SwiperSlide>
       ))}
+      {imageList.length === 0 && 
+      <SwiperSlide>
+        <div style={{
+          width: '100%',
+          height: 0,
+          position: 'relative',
+          padding: '45% 0',
+          borderRadius: '3px'
+        }}>
+          
+        </div>
+        <img src={'../images/no_image.gif'} alt="" style={{
+          objectFit: 'cover',
+          position: 'absolute',
+          width: '100%',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}/>
+      </SwiperSlide>}
     </Swiper> 
   );
 };

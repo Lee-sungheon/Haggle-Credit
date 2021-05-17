@@ -6,6 +6,7 @@ import CategoryListItem from "./CategoryListItem";
 interface CategoryListProps {
   category: string;
   categoryList: string[];
+  buy: boolean;
 }
 
 const Container = styled.div`
@@ -44,8 +45,8 @@ const ItemArea = styled.div`
   }
 `;
 
-const CategoryList = ({ category, categoryList }: CategoryListProps) => {
-  const history = useHistory(); 
+const CategoryList = ({ category, categoryList, buy }: CategoryListProps) => {
+  const history = useHistory();
   return(
     <Container>
       <CategoryListContainer>
@@ -61,7 +62,7 @@ const CategoryList = ({ category, categoryList }: CategoryListProps) => {
           <ChevronRightIcon />
         </ItemArea>
         {categoryList !== undefined && categoryList.map((subCategory, idx)=>(
-          <CategoryListItem key={idx} category={category} subCategory={subCategory}/>
+          <CategoryListItem key={idx} category={category} subCategory={subCategory} buy={buy}/>
         ))}
       </CategoryListContainer>
     </Container>

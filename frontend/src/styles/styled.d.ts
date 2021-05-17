@@ -31,6 +31,24 @@ declare module 'styled-components' {
     isUsedStatus?: string;
     isUserNo?: number;
     joinerCnt?: number;
+    ibAuctionIngPrice?: number;
+    ibAuctionInitPrice?: number;
+    ibCategoryMain?: string;
+    ibCategorySub?: string;
+    ibContent?: string;
+    ibCoolPrice?: number;
+    ibDealAddress?: string;
+    ibDealPrice?: number;
+    ibDealUserNo?: number;
+    ibEndDate?: string;
+    ibItemNo?: number;
+    ibName?: string,
+    ibNo?: number;
+    ibRegDate?: string;
+    ibStartDate?: string;
+    ibUserNo?: number;
+    ipNo?: number;
+    rapItemNo?: number;
   }
   export interface ROOMINFO {
     crItemNo: number;

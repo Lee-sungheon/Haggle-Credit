@@ -90,7 +90,7 @@ const AuctionPage = ({match, location}: RouteComponentProps<MatchParams, History
         <CloseButton onClick={() => window.close()}/>
       </Header>
       <MainArea>
-        <ItemDescription desc={desc}/>
+        <ItemDescription desc={desc} buy={true}/>
         <Destination isModal={isModal} userData={userData} setUaNo={setUaNo}/>
         <Auction desc={desc} uaNo={uaNo}/>
       </MainArea>
