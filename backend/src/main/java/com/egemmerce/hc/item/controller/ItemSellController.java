@@ -81,8 +81,8 @@ public class ItemSellController {
 
 	/* R :: 임시임.. 상품 전체 조회 */
 	@GetMapping("views")
-	public ResponseEntity<List<ItemSellSet>> selectItemCtgr(int pageNo, String ctgrMain, String ctgrSub, String sortName,
-			String UD) throws Exception {
+	public ResponseEntity<List<ItemSellSet>> selectItemCtgr(@RequestParam(defaultValue="1")int pageNo, String ctgrMain, String ctgrSub, @RequestParam(defaultValue="ib_item_no")String sortName,
+			@RequestParam(defaultValue="down")String UD) throws Exception {
 		List<ItemSellSet> itemSellSet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
