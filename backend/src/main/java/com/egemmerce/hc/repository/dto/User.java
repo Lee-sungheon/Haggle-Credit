@@ -41,6 +41,9 @@ public class User {
 	@OneToMany
 	@JoinColumn(name = "ua_user_no")
 	private List<UserAddress> userAddress;
+	@OneToMany
+	@JoinColumn(name = "uc_user_no")
+	private List<UserCredit> userCredit;
 	
 	@ColumnDefault("client")
 	private String uAuthority;
@@ -218,6 +221,14 @@ public class User {
 
 	public void setUserAddress(List<UserAddress> userAddress) {
 		this.userAddress = userAddress;
+	}
+
+	public List<UserCredit> getUserCredit() {
+		return userCredit;
+	}
+
+	public void setUserCredit(List<UserCredit> userCredit) {
+		this.userCredit = userCredit;
 	}
 
 }

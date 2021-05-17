@@ -2,6 +2,7 @@ package com.egemmerce.hc.repository.dto;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -26,6 +27,7 @@ public class UserCredit {
 	private int ucNo;
 
 	private int ucApNo;
+	@Column(name = "uc_user_no")
 	private int ucUserNo;
 	private String ucClass;
 	private int ucCredit;

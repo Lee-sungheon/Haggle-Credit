@@ -1,5 +1,6 @@
 package com.egemmerce.hc.bookmark.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.bookmark.service.BookmarkService;
 import com.egemmerce.hc.repository.dto.Bookmark;
+import com.egemmerce.hc.repository.dto.Item;
 
 /**
  * 
@@ -45,14 +47,22 @@ public class BookmarkController {
 		return new ResponseEntity<String>("북마크 생성 실패ㅠ", HttpStatus.NO_CONTENT);
 	}
 
+//	/* R :: 북마크 조회 */
+//	@GetMapping("/read")
+//	public ResponseEntity<List<Map<String, Object>>> selectBookmark(@RequestParam int uNo, @RequestParam String type)
+//			throws Exception {
+//		if (type.equals("buy"))
+//			return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectBuyBookmark(uNo), HttpStatus.OK);
+//		return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectSellBookmark(uNo), HttpStatus.OK);
+//	}
+
 	/* R :: 북마크 조회 */
 	@GetMapping("/read")
-	public ResponseEntity<List<Map<String, Object>>> selectBookmark(@RequestParam int uNo, @RequestParam String type) throws Exception {
-		if (type.equals("buy"))
-			return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectBuyBookmark(uNo), HttpStatus.OK);
-		return new ResponseEntity<List<Map<String, Object>>>(bookmarkService.selectSellBookmark(uNo), HttpStatus.OK);
+	public ResponseEntity<?> selectBookmark(int uNo, String type) throws Exception {
+
+		return new ResponseEntity<List<Item>>(bookmarkService.temp(uNo,type), HttpStatus.OK);
 	}
-	
+
 	/* R :: 북마크한 수 조회 */
 	@GetMapping("/count")
 	public ResponseEntity<Integer> selectBookmarkCount(@RequestParam int uNo) throws Exception {
