@@ -77,6 +77,13 @@ public class ChatController {
 		return chatservice.selectChatRoomByuNo(uNo);
 	}
 
+//	/* 해당 채팅방의 채팅 생성 */
+//	@PostMapping("/create")
+//	public ItemChatting createChat(@RequestBody ItemChatting itemChatting) throws Exception {
+//		itemChatting.generateicDate();
+//		return chatservice.createItemChat(itemChatting);
+//	}
+
 	/* 채팅방 */
 	@PostMapping("/connect")
 	public int connectChatRoom(@RequestBody ChatRoom chatRoom) throws Exception {
@@ -103,10 +110,14 @@ public class ChatController {
 			chatRoom.setCrItemName(itemBuy.getIbName());
 			chatRoom.setCrItemPrice(itemBuy.getIbAuctionIngPrice());
 		}
-		chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
+		if (imageService.selectItemPhotoList(iNo).size() > 0)
+			chatRoom.setCrItemImage(imageService.selectItemPhotoList(iNo).get(0).getIpValue());
+		else
+			chatRoom.setCrItemImage(
+					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrJgwdOAjqaZGS7kn35IVm_ZN6E4XFuJ7V_g&usqp=CAU");
 
 		chatservice.createChatRoom(chatRoom);
-		
+
 		return chatservice.selectBycrName(crName).getCrNo();
 	}
 }
