@@ -64,5 +64,8 @@ public interface ItemBuyService {
 
 	public int BselectCountItemBuy(int ibUserNo) throws Exception;
 
+
 	List<ItemBuy> BselectMyItemByuNo(int uNo);
+	Integer countItemBuy();
+
 }

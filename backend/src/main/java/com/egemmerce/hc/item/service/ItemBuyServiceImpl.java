@@ -97,6 +97,11 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 				.idSendUserNo(uNo).idReceiveUserNo(itemBuy.getIbUserNo()).idItemNo(ibItemNo).build();
 		itemDeliveryRepository.save(itemDelivery);
 	}
+
+	@Override
+	public Integer countItemBuy() {
+		return (int) itemBuyRepository.count();
+	}
 	
 	/////////////////////////////// 아래는 mybatis 처리
 	@Override

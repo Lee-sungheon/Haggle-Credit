@@ -84,7 +84,7 @@ public class ItemBuyController {
 	public ResponseEntity<String> updateItem(int ibItemNo, int uNo) throws Exception {
 		if (itemService.updateItemDealCompleted(ibItemNo) != null) {
 			itemBuyService.updateItemByCool(ibItemNo, uNo);
-			ItemBuy itemBuy=itemBuyService.selectItemBuybyibItemNo(ibItemNo);
+			ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(ibItemNo);
 			userService.updateUserCreditbyBuyCool(itemBuy.getIbUserNo(), itemBuy);
 			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
 
@@ -143,6 +143,11 @@ public class ItemBuyController {
 		return new ResponseEntity<String>("내가 올린 상품이 없음", HttpStatus.NO_CONTENT);
 	}
 
+	@ApiOperation(value = "상품 수 조회")
+	@GetMapping("/count")
+	public ResponseEntity<Integer> countItemBuy() {
+		return new ResponseEntity<Integer>(itemBuyService.countItemBuy(), HttpStatus.OK);
+	}
 	
 	/////////////////////////
 	/* R :: 임시임.. 상품 전체 조회 */
