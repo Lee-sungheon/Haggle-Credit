@@ -60,10 +60,8 @@ public class ItemBuyController {
 		ItemBuy check = itemBuyService.insertItemBuy(itemBuy);
 		User user = userService.selectUserByuNo(check.getIbUserNo());
 		userService.updateUserCreditbyRegistBuy(user, check.getIbAuctionInitPrice(), check.getIbItemNo());
-		if (check != null) {
-			return new ResponseEntity<ItemBuy>(check, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>("상품 등록 실패", HttpStatus.NO_CONTENT);
+
+		return new ResponseEntity<ItemBuy>(check, HttpStatus.OK);
 	}
 
 	/* R :: 상품 전체조회 */
