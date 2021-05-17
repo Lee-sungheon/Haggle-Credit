@@ -45,15 +45,7 @@ public class ImageUploadController {
 	private ImageUploadService imageUploadService;
 
 	@PostMapping("/itemPhotoUpload")
-//	public String InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam("mrNo") int ipINo)
 	public String InsertItemPhoto(@RequestBody ItemPhoto itemPhoto) throws Exception {
-//		String ipValue = path + "/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
-//
-//		File dest = new File(ipValue);
-//		file.transferTo(dest);
-//
-//		ipValue = "https://k4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
-
 		ItemPhoto ip = new ItemPhoto();
 		ip.setIpItemNo(itemPhoto.getIpItemNo());
 		ip.setIpValue(itemPhoto.getIpValue());
@@ -73,26 +65,6 @@ public class ImageUploadController {
 			return new ResponseEntity<String>(imageUploadService.selectUserImage(uNo), HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(basicImg, HttpStatus.OK);
-	}
-
-	@PutMapping("/profileUpload")
-	public ResponseEntity<?> UpdateProfile(@RequestParam("File") MultipartFile file,
-			@RequestParam("UserEmail") String userEmail) throws Exception {
-		String uImage = path + "/" + userEmail + "-" + file.getOriginalFilename();
-
-		File dest = new File(uImage);
-		file.transferTo(dest);
-
-		uImage = "https://k4d107.p.ssafy.io/images/" + userEmail + "-" + file.getOriginalFilename();
-
-		User user = new User();
-		user.setuImage(uImage);
-		user.setuEmail(userEmail);
-
-		if (imageUploadService.UpdateProfile(user) != null)
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-
-		return new ResponseEntity<User>(user, HttpStatus.NO_CONTENT);
 	}
 
 }
