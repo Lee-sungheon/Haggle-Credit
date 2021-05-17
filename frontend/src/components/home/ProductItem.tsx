@@ -39,7 +39,7 @@ const ImgBox = styled.div`
 `;
 
 const ItemTitle = styled.div`
-  height: 52px;
+  height: 36px;
   font-size: 14px;
   margin: 0;
   padding: 5px;
@@ -73,9 +73,17 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    dispatch(userActions.addRecently(item));
+    if (buy){
+      dispatch(userActions.addRecently(item));
+    }
+    let pathname = ``
+    if (buy){
+      pathname = `/detail/${item.isItemNo}`
+    } else {
+      pathname = `/detail/${item.ibItemNo}`
+    }
     history.push({
-      pathname: `/detail/${item.isItemNo}`,
+      pathname: pathname,
       state: {item, buy}
     });
   };
@@ -84,17 +92,30 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
     <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>
         <ImgBox>
+          {item.ipValue !== null ?
           <CardMedia
             component="img"
             className={classes.cardMedia}
             image={item.ipValue}
           />
+          :
+          <CardMedia
+            component="img"
+            className={classes.cardMedia}
+            image={'../images/no_image.gif'}
+          />
+          }
         </ImgBox>
         <CardContent style={{ padding : 0 }}>
-          <ItemTitle>{item.isItemName}</ItemTitle>
+          <ItemTitle>{buy ? item.isItemName : item.ibName}</ItemTitle>
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory> 
-            <span>{item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+            <span>
+              {buy ? 
+                item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              : item.ibAuctionIngPrice !== undefined && item.ibAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              }
+            </span>
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemPrice>
@@ -102,13 +123,13 @@ const ProductList = ({ item, buy }: ProductItemProps) => {
             <span>{item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
             :
             <><ItemCategory>시작가</ItemCategory> 
-            <span>{item.isAuctionInitPrice !== undefined && item.isAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
+            <span>{item.ibAuctionInitPrice !== undefined && item.ibAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></>
             }
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
           <ItemTime>
             <ItemCategory>입찰수</ItemCategory> {item.joinerCnt}
-            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{item.isEndDate}
+            <span style={{ marginLeft: '6px', marginRight: '3px'}}>⏱</span>{buy ? item.isEndDate : item.ibEndDate}
           </ItemTime>
         </CardContent>
       </CardActionArea>

@@ -5,7 +5,7 @@ import DetailTab from '../../components/detail/DetailTab';
 import ProductInfo from '../../components/detail/ProductInfo';
 import { RouteComponentProps } from 'react-router-dom';
 import { ITEM } from "styled-components";
-import { callApiItemDetail} from '../../api/ProductApi';
+import { callApiItemDetail, callApiItemBuyDetail} from '../../api/ProductApi';
 
 interface MatchParams {
   id: string;
@@ -32,13 +32,18 @@ const CategoryBox = styled.div`
 `;
 
 const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
-  let buy;
+  let buy: boolean;
   location.state !== undefined ? buy = location.state.buy : buy = true
   const [item, setItem] = useState<ITEM>({});
   useEffect(() => {
-    const fetchData = async() => { 
-      const data: ITEM = await callApiItemDetail(parseInt(location.pathname.split('/')[2]));
-      setItem(data);
+    const fetchData = async() => {
+      if (buy) {
+        const data: ITEM = await callApiItemDetail(parseInt(location.pathname.split('/')[2]));
+        setItem(data);
+      } else {
+        const data: ITEM = await callApiItemBuyDetail(parseInt(location.pathname.split('/')[2]));
+        setItem(data);
+      }
     }
     window.scrollTo(0, 0);
     fetchData();
@@ -50,11 +55,14 @@ const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryP
     return () => {
       window.removeEventListener('storage', listener);
     }
-  }, [location.pathname])
+  }, [buy, location.pathname])
   return (
     <Container>
       <CategoryBox>
-        {item.isCategoryMain !== undefined && item.isCategorySub !== undefined && <Category category={item.isCategoryMain} subCategory={item.isCategorySub} />}
+        {buy ? 
+        item.isCategoryMain !== undefined && item.isCategorySub !== undefined && <Category category={item.isCategoryMain} subCategory={item.isCategorySub} />
+        : item.ibCategoryMain !== undefined && item.ibCategorySub !== undefined && <Category category={item.ibCategoryMain} subCategory={item.ibCategorySub} />
+        }
       </CategoryBox>
       <ProductInfo item={item} buy={buy}/>
       <DetailTab item={item} buy={buy}/>

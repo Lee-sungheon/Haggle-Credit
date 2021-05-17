@@ -95,10 +95,10 @@ const DetailTab = ({item, buy}: Props) => {
           )}
         </TabArea>
         <div ref={detailRef}>
-          <ProductDetail item={item}/>
+          <ProductDetail item={item} buy={buy}/>
         </div>
         <div ref={questionRef}>
-          <ProductQuestion itemNo={item.isItemNo}/>
+          <ProductQuestion itemNo={item.ibItemNo} />
         </div>
       </TabContianer>
       <StoreInfo item={item} buy={buy}/>

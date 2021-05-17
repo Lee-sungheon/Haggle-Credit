@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import Login from '../login/Login';
 import { useSelector } from 'react-redux';
@@ -90,7 +90,7 @@ const Header = () => {
   };
   const navRef = useRef<HTMLDivElement>(null);
 
-  function myFunction() {
+  const myFunction = useCallback(() => {
     if (isIndex) {
       if (null !== navRef.current) {
         if (window.pageYOffset > 0) {
@@ -101,8 +101,13 @@ const Header = () => {
           navRef.current.style.boxShadow = 'none';
         }
       }
+    } else {
+      if (null !== navRef.current) {
+        navRef.current.style.backgroundColor = 'white';
+        navRef.current.style.boxShadow = '0 4px 8px 0 rgb(0 0 0 / 4%)';
+      }
     }
-  }
+  }, [isIndex])
   const logOut = () => {
     dispatch(userActions.userLogout());
     history.push('/home');
@@ -125,7 +130,7 @@ const Header = () => {
       style={!isIndex ? { backgroundColor: 'white' } : {}}
       isPurchase={isPurchase}
     >
-      <HeaderContainer isIndex={isIndex}>
+      <HeaderContainer isIndex={isIndex} style={!isIndex ? { backgroundColor: 'white' } : {}}>
         <LogoBox>
           <Link to={'/home'}>
             <img

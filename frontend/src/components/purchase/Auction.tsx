@@ -118,7 +118,7 @@ const Auction = ({desc, uaNo}: Props) => {
   const [ credit, setCredit ] = useState("");
   const [ time, setTime ] = useState('');
   const userData = useSelector((state: RootState) => state.user.userData);
-  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const dispatch = useDispatch();
   const endDate = desc.isEndDate;
   const CalTime = useCallback(()=> {

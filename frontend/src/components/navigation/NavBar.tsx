@@ -302,7 +302,7 @@ const NavBar = () => {
           <img
             src="../images/navbar/sell.png"
             alt=""
-            style={{ width: 26, height: 26, marginRight: '5px' }}
+            style={{ width: 26, height: 26 }}
           />
           <p style={{ margin: 0 }}>팝니다</p>
         </StyledMenuItemLink>
@@ -310,7 +310,7 @@ const NavBar = () => {
           <img
             src="../images/navbar/buy.png"
             alt=""
-            style={{ width: 26, height: 26, marginRight: '5px' }}
+            style={{ width: 26, height: 26 }}
           />
           <p style={{ margin: 0 }}>삽니다</p>
         </StyledMenuItemLink>
@@ -318,7 +318,7 @@ const NavBar = () => {
           <img
             src="../images/navbar/event.png"
             alt=""
-            style={{ width: 26, height: 26, marginRight: '5px' }}
+            style={{ width: 26, height: 26 }}
           />
           <p style={{ margin: 0 }}>기부</p>
         </StyledMenuItemLink>

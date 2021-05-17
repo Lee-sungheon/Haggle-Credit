@@ -179,20 +179,24 @@ const StoreInfo = ({ item, buy }: Props) => {
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   useEffect(() => {
     const fetchData = async () => {
-      if (item.isUserNo !== undefined) {
-        const data = await callApiStoreInfo(item.isUserNo);
+      let itemUserNo;
+      buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+      if (itemUserNo !== undefined) {
+        const data = await callApiStoreInfo(itemUserNo);
         setStoreInfo(data);
       }
     };
     const fetchData2 = async () => {
-      if (item.isUserNo !== undefined) {
-        const data2 = await callApiUserInfo(item.isUserNo);
+      let itemUserNo;
+      buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+      if (itemUserNo !== undefined) {
+        const data2 = await callApiUserInfo(itemUserNo);
         setUserInfo(data2);
       }
     };
     fetchData();
     fetchData2();
-  }, [item.isUserNo]);
+  }, [buy, item.ibUserNo, item.isUserNo]);
   useEffect(() => {
     const fetchData = async () => {
       if (userInfo.uNo !== undefined) {
@@ -205,13 +209,18 @@ const StoreInfo = ({ item, buy }: Props) => {
     fetchData();
   }, [userInfo]);
   const goChat = async () => {
+    let userNo2;
+    buy ? userNo2 = item.isUserNo : userNo2 = item.ibUserNo;
+    let itemNo;
+    buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
+    console.log(itemNo, userNo, userNo2)
     const body = {
-      crItemNo: item.isItemNo,
+      crItemNo: itemNo,
       crUserNoOne: userNo,
-      crUserNoTwo: item.isUserNo,
+      crUserNoTwo: userNo2,
     };
     const RoomNo = await callConnetChat(body);
-    await window.open(
+    window.open(
       `../chat/${userNo}/${RoomNo}`,
       '_blank',
       'width=387,height=667'
@@ -248,12 +257,21 @@ const StoreInfo = ({ item, buy }: Props) => {
           {storeInfoList.length > 0 &&
             storeInfoList.slice(0, 2).map((item, idx) => (
               <ProductInfo key={idx}>
-                <img
-                  src={item.itemPhotoes[0].ipValue}
-                  alt=""
-                  width="100%"
-                  height="100%"
-                />
+                { item.itemPhotoes.length > 0 ?
+                  <img
+                    src={item.itemPhotoes[0].ipValue}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                  />
+                  :
+                  <img
+                    src={'../images/no_image.gif'}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                  />
+                }
                 <PriceInfo>
                   {item.itemSell.isAuctionIngPrice
                     .toString()
@@ -273,7 +291,7 @@ const StoreInfo = ({ item, buy }: Props) => {
           <MoreText>
             <span style={{ color: theme.color.main, marginRight: '5px' }}>
               {storeInfoList.length >= 2
-                ? storeInfoList.length - 2
+                ? storeInfoList.length-2
                 : storeInfoList.length}
               개
             </span>
@@ -337,13 +355,13 @@ const StoreInfo = ({ item, buy }: Props) => {
           </ReviewArea>
         ))}
         <MoreArea
-          onClick={() => {
-            history.push({
-              pathname: `/userprofile/${userInfo.uNo}/transactionreview`,
-            });
-          }}
         >
-          <MoreText>
+          <MoreText
+            onClick={() => {
+              history.push({
+                pathname: `/userprofile/${userInfo.uNo}/transactionreview`,
+              });
+            }}>
             상점후기 더보기
             <ChevronRightOutlinedIcon
               style={{ fontSize: '18px', paddingTop: '3px' }}
@@ -369,7 +387,7 @@ const StoreInfo = ({ item, buy }: Props) => {
               <StyledButton
                 style={{ background: theme.color.main, marginLeft: '5px' }}
                 onClick={() =>
-                  window.open(`../auction/sell/${item.isItemNo}`, '_blank')
+                  window.open(`../auction/sell/${item.ibItemNo}`, '_blank')
                 }
               >
                 입찰하기

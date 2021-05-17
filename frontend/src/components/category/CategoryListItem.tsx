@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router";
-import { callApiCategoryCount } from '../../api/ProductApi';
+import { callApiCategoryCount, callApiCategorySellCount } from '../../api/ProductApi';
 
 interface Props {
   category: string;
   subCategory: string;
+  buy: boolean;
 }
 
 const ItemArea = styled.div`
@@ -37,17 +38,22 @@ const CountText = styled.div`
   flex-shrink: 0;
 `;
 
-const CategoryListItem = ({category, subCategory}: Props) => {
+const CategoryListItem = ({category, subCategory, buy}: Props) => {
   const history = useHistory();
   const [cnt, setCnt] = useState(0);
   
   useEffect(()=>{
     const fetchData = async() => {
-      const result = await callApiCategoryCount(category, subCategory);
-      setCnt(result);
+      if (buy) {
+        const result = await callApiCategoryCount(category, subCategory);
+        setCnt(result);
+      } else {
+        const result = await callApiCategorySellCount(category, subCategory);
+        setCnt(result);
+      }
     }
     fetchData();
-  }, [category, subCategory]);
+  }, [buy, category, subCategory]);
 
   return (
     <ItemArea 

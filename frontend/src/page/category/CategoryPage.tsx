@@ -6,7 +6,7 @@ import { CATEGORYS, IDXTOCATEGORY } from '../../common/data';
 import CategoryList from '../../components/category/CategoryList';
 import LoadingList from '../../components/common/LoadingList';
 import Category from '../../components/category/Category';
-import { callApiCategoryProductList, callApiCategoryCount } from '../../api/ProductApi';
+import { callApiCategoryProductList, callApiCategoryCount, callApiCategorSellProductList, callApiCategorySellCount } from '../../api/ProductApi';
 import { ITEM } from "styled-components";
 import Pagination from '@material-ui/lab/Pagination';
 import { RootState } from '../../common/store';
@@ -89,7 +89,7 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   const [pageNum, setPageNum] = useState(1);
   const [itemNum, setItemNum] = useState(5);
   const [categoryCnt, setCategoryCnt] = useState(0);
-  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -107,24 +107,39 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
 
   useEffect(()=>{
     const fetchData = async() => {
+      setProducts([]);
       setIsLoading(true);
-      if(filterIdx === 0){
-        const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_no');
-        setProducts(result);
-      } else if(filterIdx === 1){
-        const result = await callApiCategoryProductList('up', category, subCategory, String(pageNum), 'is_auction_ing_price');
-        setProducts(result);
-      } else if(filterIdx === 2){
-        const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_auction_ing_price');
-        setProducts(result);
+      if (buy){
+        if(filterIdx === 0){
+          const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_no');
+          setProducts(result);
+        } else if(filterIdx === 1){
+          const result = await callApiCategoryProductList('up', category, subCategory, String(pageNum), 'is_auction_ing_price');
+          setProducts(result);
+        } else if(filterIdx === 2){
+          const result = await callApiCategoryProductList('down', category, subCategory, String(pageNum), 'is_auction_ing_price');
+          setProducts(result);
+        }
+        const cnt =  await callApiCategoryCount(category, subCategory);
+        setCategoryCnt(cnt);
+      } else {
+        if(filterIdx === 0){
+          const result = await callApiCategorSellProductList('down', category, subCategory, String(pageNum), 'ib_item_no');
+          setProducts(result);
+        } else if(filterIdx === 1){
+          const result = await callApiCategorSellProductList('up', category, subCategory, String(pageNum), 'ib_auction_ing_price');
+          setProducts(result);
+        } else if(filterIdx === 2){
+          const result = await callApiCategorSellProductList('down', category, subCategory, String(pageNum), 'ib_auction_ing_price');
+          setProducts(result);
+        }
+        const cnt =  await callApiCategorySellCount(category, subCategory);
+        setCategoryCnt(cnt);
       }
-      const cnt =  await callApiCategoryCount(category, subCategory);
-      setCategoryCnt(cnt);
       setIsLoading(false);
     }
-    setProducts([]);
     fetchData();
-  }, [category, subCategory, filterIdx, pageNum, isUpdate])
+  }, [category, subCategory, filterIdx, pageNum, isUpdate, buy])
 
   useEffect(()=>{
     window.scrollTo(0, 0);
@@ -150,8 +165,8 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
   return (
     <Container>
       <ProductArea>
-        <Category category={category} subCategory={subCategory} />
-        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} />}
+        <Category category={category} subCategory={subCategory}/>
+        {subCategory === '' && <CategoryList category={category} categoryList={CATEGORYS[category]} buy={buy}/>}
         <TitleArea>
           <TitleText>
             <span style={{color:"red", marginRight:"5px"}}>
@@ -160,8 +175,8 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
         </TitleArea>
         <FilterArea>
           <Filter>
-            <FilterItem style={buy ? {color: '#ffceae'}:{}} onClick={() => setBuy(true)}>팝니다</FilterItem>
-            <LastItem style={buy ? {}:{color: '#ffceae'}} onClick={() => setBuy(false)}>삽니다</LastItem>
+            <FilterItem style={buy ? {color: '#ffceae'}:{}} onClick={() => {setBuy(true); setPageNum(1);}}>팝니다</FilterItem>
+            <LastItem style={buy ? {}:{color: '#ffceae'}} onClick={() => {setBuy(false); setPageNum(1);}}>삽니다</LastItem>
           </Filter>
           <Filter>
             <FilterItem style={filterIdx === 0 ? {color: '#ffceae'}:{}} onClick={() => setFilterIdx(0)}>최신순</FilterItem>
@@ -171,6 +186,9 @@ const CategoryPage = ({match}: RouteComponentProps<MatchParams>) => {
         </FilterArea>
         {isLoading ? 
           <LoadingList itemNum={itemNum}/> :
+          buy ?
+          <ProductList buy={buy} products={products} itemNum={itemNum}/>
+          :
           <ProductList buy={buy} products={products} itemNum={itemNum}/>
         }
         <div style={{display: 'flex', justifyContent: 'center', padding: '20px 0'}}>

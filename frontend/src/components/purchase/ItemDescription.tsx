@@ -2,6 +2,7 @@ import styled, {ITEM} from 'styled-components';
 
 interface Props {
   desc: ITEM;
+  buy: boolean;
 }
 
 const ProductTitle = styled.div`
@@ -43,18 +44,19 @@ const ItemContent = styled.div`
   display: flex;
 `;  
 
-const ItemDescription = ({desc}: Props) => {
+const ItemDescription = ({desc, buy}: Props) => {
+  console.log(desc.ipValue)
   return (
     <ProductTitle>
-      <img src={desc.ipValue} alt="" 
+      <img src={desc.ipValue !== null ? desc.ipValue : '../../images/no_image.gif'} alt="" 
       style={{width: '150px', height: '150px', borderRadius: '2px'}}/>
       <ProductSummaryArea>
-        <ProductName>{desc.isItemName}</ProductName>
+        <ProductName>{buy ? desc.isItemName : desc.ibName}</ProductName>
         <DetailItem>
-          <ItemTitle>· 판매마감</ItemTitle><ItemContent>{desc.isEndDate} 24:00</ItemContent>
+          <ItemTitle>· 판매마감</ItemTitle><ItemContent>{buy ? desc.isEndDate : desc.ibEndDate} 24:00</ItemContent>
         </DetailItem>
         <DetailItem>
-          <ItemTitle>· 상품상태</ItemTitle><ItemContent>{desc.isUsedStatus}</ItemContent>
+          <ItemTitle>· 상품상태</ItemTitle><ItemContent>{buy ? desc.isUsedStatus : '새상품'}</ItemContent>
         </DetailItem>
         <DetailItem>
           <ItemTitle>· 환불여부</ItemTitle><ItemContent>{'환불불가능'}</ItemContent>
