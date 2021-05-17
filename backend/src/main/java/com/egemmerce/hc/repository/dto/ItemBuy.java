@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -48,6 +50,9 @@ public class ItemBuy {
 	private int ibDealPrice;
 	private String ibDealAddress;
 
+	@OneToOne
+	@JoinColumn(name = "ib_item_no")
+	private Item item;
 	public void generateibRegDate() {
 		this.ibRegDate = LocalDateTime.now();
 		this.ibStartDate = LocalDateTime.now();

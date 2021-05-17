@@ -1,7 +1,12 @@
 package com.egemmerce.hc.repository.dto;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -27,6 +32,21 @@ public class Item {
 	@ColumnDefault("false")
 	private String iCompleted;
 
+	@OneToMany
+	@JoinColumn(name = "ap_item_no")
+	private List<AuctionParticipant> auctionParticipant;
+	@OneToMany
+	@JoinColumn(name = "rap_item_no")
+	private List<ReverseAuctionParticipant> reverseAuctionParticipant;
+	@OneToMany
+	@JoinColumn(name = "ip_item_no")
+	private List<ItemPhoto> itemPhoto;
+
+	@OneToOne(mappedBy = "item")
+	private ItemBuy itemBuy;
+//	@OneToOne(mappedBy = "item")
+//	private ItemSell itemSell;
+
 	public int getiNo() {
 		return iNo;
 	}
@@ -50,5 +70,45 @@ public class Item {
 	public void setiType(String iType) {
 		this.iType = iType;
 	}
+
+	public List<AuctionParticipant> getAuctionParticipant() {
+		return auctionParticipant;
+	}
+
+	public void setAuctionParticipant(List<AuctionParticipant> auctionParticipant) {
+		this.auctionParticipant = auctionParticipant;
+	}
+
+	public List<ItemPhoto> getItemPhoto() {
+		return itemPhoto;
+	}
+
+	public void setItemPhoto(List<ItemPhoto> itemPhoto) {
+		this.itemPhoto = itemPhoto;
+	}
+
+	public List<ReverseAuctionParticipant> getReverseAuctionParticipant() {
+		return reverseAuctionParticipant;
+	}
+
+	public void setReverseAuctionParticipant(List<ReverseAuctionParticipant> reverseAuctionParticipant) {
+		this.reverseAuctionParticipant = reverseAuctionParticipant;
+	}
+
+	public ItemBuy getItemBuy() {
+		return itemBuy;
+	}
+
+	public void setItemBuy(ItemBuy itemBuy) {
+		this.itemBuy = itemBuy;
+	}
+
+//	public ItemSell getItemSell() {
+//		return itemSell;
+//	}
+//
+//	public void setItemSell(ItemSell itemSell) {
+//		this.itemSell = itemSell;
+//	}
 
 }

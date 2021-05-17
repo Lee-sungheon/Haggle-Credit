@@ -2,6 +2,7 @@ package com.egemmerce.hc.repository.dto;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -21,6 +22,7 @@ public class ReverseAuctionParticipant {
 	
     @Id
 	private int rapNo;
+    @Column(name = "rap_item_no")
 	private int rapItemNo;
 	private int rapUserNo;
 	private int rapBid;
