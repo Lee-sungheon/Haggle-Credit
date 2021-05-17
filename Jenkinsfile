@@ -59,6 +59,7 @@ docker rmi $(docker images -f "dangling=true" -q)'
                     --network haggle_creditnet \
                     latest_frontend:latest'
                 sh 'docker run -d --name latest_backend \
+                    -v /var/lib/haggle-credit-image:/haggle-credit-image \
                     --network haggle_creditnet \
                     latest_backend:latest'
             }
