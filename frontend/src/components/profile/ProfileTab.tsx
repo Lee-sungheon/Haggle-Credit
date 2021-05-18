@@ -1,11 +1,11 @@
 import { useHistory } from 'react-router-dom';
 
 import styled from 'styled-components';
-import ProductTab from './tabb/ProductTab';
-import TransactionReviewTab from './tabb/TransactionReviewTab';
-import TransactionListTab from './tabb/TransactionListTab';
-import BasketTab from './tabb/BasketTab';
-import TenderListTab from './tabb/TenderListTab';
+import ProductTab from './tab/ProductTab';
+import TransactionReviewTab from './tab/TransactionReviewTab';
+import TransactionListTab from './tab/TransactionListTab';
+import BasketTab from './tab/BasketTab';
+import TenderListTab from './tab/TenderListTab';
 import { Route } from 'react-router-dom';
 
 const Container = styled.div`

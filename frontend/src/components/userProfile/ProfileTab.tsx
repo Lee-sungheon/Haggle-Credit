@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import ProductTab from './tabb/ProductTab';
-import TransactionReviewTab from './tabb/TransactionReviewTab';
+import ProductTab from './tab/ProductTab';
+import TransactionReviewTab from './tab/TransactionReviewTab';
 import { Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { USERDATA } from 'styled-components';
