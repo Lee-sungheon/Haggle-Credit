@@ -84,13 +84,6 @@ const ChargingButton = styled.div`
   font-weight: 700;
 `;
 
-const AvailablePoint = styled.div`
-  margin-left: 10px;
-  font-size: 0.8125rem;
-  color: rgb(63, 62, 75);
-  padding: 5px 0;
-`;
-
 const InputDescription = styled.p`
   padding-left: 10px;
   position: relative;
@@ -213,14 +206,6 @@ const SellAuction = ({desc}: Props) => {
                 >충전하기</ChargingButton>
               </AuctionInputArea>
             </ItemContent>
-            <AvailablePoint>사용 가능한 크레딧 
-              <span style={{fontWeight: 'bold', paddingLeft: '5px'}}>
-                {credit !== '' ?
-                (userData.uCredit !== undefined && userData.uCredit - parseInt(credit)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                : userData.uCredit !== undefined && userData.uCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C
-              </span>
-            </AvailablePoint>
-            <InputDescription>크레딧은 숫자로 콤마(",") 없이 100원 단위로 입력 가능합니다.</InputDescription>
             <InputDescription>상품이 낙찰된 후 거래를 파기할 시 블랙리스트로 등록될 수 있습니다.</InputDescription>
           </div>
         </AuctionItem>

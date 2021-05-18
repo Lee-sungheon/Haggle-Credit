@@ -61,6 +61,7 @@ const DeleteButton = styled.div`
 const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
   const ItemRef = useRef<HTMLDivElement>(null);
   const [isHover, setIsHover] = useState(false);
+  const buy = true;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -98,8 +99,8 @@ const RecentlyBoxItem = ({ item }: RecentlyBoxItemProps) => {
       </ItemDesBox>
       <ItemImg src={item.ipValue} alt={item.isItemName} 
         onClick={() => history.push({
-        pathname: `/detail/${item.ipItemNo}`,
-        state: {item}
+        pathname: `/detail/${item.isItemNo}`,
+        state: {item, buy}
       })}/>
     </Item>
   )
