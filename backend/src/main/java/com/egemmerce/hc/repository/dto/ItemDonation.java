@@ -7,10 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +28,8 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 @DynamicUpdate
 public class ItemDonation {
-	@Id @GeneratedValue
 	private int idNo;
+	@Id
 	private int idItemNo;
 	private int idUserNo;
 	private int idEndPrice;
@@ -38,8 +41,12 @@ public class ItemDonation {
 	private int idEndUserAddress;
 	
 	@OneToMany
-	@JoinColumn(name = "dp_Item_donation_no")
+	@JoinColumn(name = "dp_item_no")
 	private List<DonationParticipant> donationParticipant;
+	
+	@OneToOne(mappedBy = "itemDonation")
+	@JsonManagedReference
+	private ItemSell itemSell;
 	
 	public int getIdNo() {
 		return idNo;
