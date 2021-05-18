@@ -11,6 +11,12 @@ public interface ItemDonationService {
 
 	List<ItemDonation> selectItemAll();
 
+	ItemDonation selectItemoneByiNo(int iNo);
+
+	ItemDonation updateItemBid(int iNo, int bid);
+
+	void update(ItemDonation itemDonation);
+
 
 
 }
