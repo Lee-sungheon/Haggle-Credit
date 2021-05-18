@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.auction.service.AuctionParticipantService;
 import com.egemmerce.hc.imageupload.service.ImageUploadService;
+import com.egemmerce.hc.item.service.ItemDonationService;
 import com.egemmerce.hc.item.service.ItemSellService;
 import com.egemmerce.hc.item.service.ItemService;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
@@ -56,6 +57,8 @@ public class ItemSellController {
 	private UserCreditService userCreditService;
 	@Autowired
 	private ImageUploadService imageUploadService;
+	@Autowired
+	private ItemDonationService itemDonationService;
 
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "is_user_no,is_auction_price, is_category_main, is_cool_price, is_name, is_orgin_price, is_start_date, is_end_date")
@@ -227,21 +230,21 @@ public class ItemSellController {
 			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
 		}
 	}
-	/* U :: 상품 업데이트(경매 종료) */
+	/* U :: 이벤트 기부 경매 등록 */
 	@ApiOperation(value = "이벤트 기부 경매 등록")
 	@PutMapping("/updatedonation")
 	public ResponseEntity<String> updateDonation() throws Exception {
 		
-		List<ItemSell> endItemSell = itemSellService.selectOverEndDateAndDonation();
-		if (endItemSell.size() == 0) {
-			return new ResponseEntity<String>("종료된 경매가 없습니다.", HttpStatus.ACCEPTED);
+		List<ItemSell> itemSellDonation = itemSellService.selectOverEndDateAndDonation();
+		if (itemSellDonation.size() == 0) {
+			return new ResponseEntity<String>("기부할 상품이 없습니다.", HttpStatus.ACCEPTED);
 		} else {
-			for (ItemSell is : endItemSell) {
-				itemService.updateItemDealCompleted(is.getIsItemNo());
-				itemSellService.updateItembyAuction(is);
+			for (ItemSell is : itemSellDonation) {
+				itemDonationService.add(is);
+				itemSellService.updateItembyDonation(is);
 				
 			}
-			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
+			return new ResponseEntity<String>("기부 상품 변경 완료", HttpStatus.ACCEPTED);
 		}
 	}
 

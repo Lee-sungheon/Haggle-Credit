@@ -12,4 +12,6 @@ public class ItemDonationController {
 
 	@Autowired
 	ItemDonationService itemDonationService;
+	
+	/*기부하는 전체 상품*/
 }
