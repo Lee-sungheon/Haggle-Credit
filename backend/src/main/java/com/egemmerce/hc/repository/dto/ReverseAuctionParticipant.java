@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -16,31 +15,24 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity
-@EqualsAndHashCode(of = "rapNo")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity @EqualsAndHashCode(of = "rapNo")
+@Builder @AllArgsConstructor @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 public class ReverseAuctionParticipant {
-
+	
+    @Id
 	private int rapNo;
-	@Id
-	@Column(name = "rap_item_no")
+    @Column(name = "rap_item_no")
 	private int rapItemNo;
-	@Column(name = "rap_user_no")
+    @Column(name = "rap_user_no")
 	private int rapUserNo;
 	private int rapBid;
 	private LocalDateTime rapDate;
 	private String rapAddress;
-
-//	@ManyToOne
-//	@JoinColumn(name = "rap_item_no", insertable = false, updatable = false)
-//	private ItemBuy itemBuy;
-
+	
 	public void generaterapDate() {
-		this.rapDate = LocalDateTime.now();
+		this.rapDate=LocalDateTime.now();
 	}
 
 	public int getRapNo() {
