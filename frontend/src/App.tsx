@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import Header from './components/navigation/Header';
 import NavBar from './components/navigation/NavBar';
 import LikeBox from './components/navigation/LikeBox';
+import Footer from './components/common/Footer';
 import Home from './page/home/Home';
 import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/chat/:id/:roomNo" component={ChatPage} />
           <Route path="/chatlist/:id" component={ChatListPage} />
         </Switch>
+        <Footer />
       </ThemeProvider>
     </BrowserRouter>
   );
