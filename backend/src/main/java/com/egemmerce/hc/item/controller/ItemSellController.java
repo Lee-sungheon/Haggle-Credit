@@ -227,6 +227,23 @@ public class ItemSellController {
 			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
 		}
 	}
+	/* U :: 상품 업데이트(경매 종료) */
+	@ApiOperation(value = "이벤트 기부 경매 등록")
+	@PutMapping("/updatedonation")
+	public ResponseEntity<String> updateDonation() throws Exception {
+		
+		List<ItemSell> endItemSell = itemSellService.selectOverEndDateAndDonation();
+		if (endItemSell.size() == 0) {
+			return new ResponseEntity<String>("종료된 경매가 없습니다.", HttpStatus.ACCEPTED);
+		} else {
+			for (ItemSell is : endItemSell) {
+				itemService.updateItemDealCompleted(is.getIsItemNo());
+				itemSellService.updateItembyAuction(is);
+				
+			}
+			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
+		}
+	}
 
 	/* U :: 상품 업데이트 */
 	@PutMapping("/update")

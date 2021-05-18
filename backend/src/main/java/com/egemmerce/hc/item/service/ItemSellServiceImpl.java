@@ -183,7 +183,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 		if (beforeAP == null) {
 			is.setIsDealPrice(0);
 			is.setIsDealAddress(0);
-			is.setIsUserNo(is.getIsUserNo());
+			is.setIsUserNo(-1);
 			itemSellRepository.save(is);
 		} else {
 			is.setIsDealPrice(beforeAP.getApBid());
@@ -237,5 +237,10 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Override
 	public int countIntemSell() {
 		return (int) itemSellRepository.count();
+	}
+
+	@Override
+	public List<ItemSell> selectOverEndDateAndDonation() {
+		return itemSellRepository.findByisEndDateLessThanAndIsEventAgreeAndIsDealUserNo(Date.valueOf(LocalDate.now()),"true",-1);
 	}
 }

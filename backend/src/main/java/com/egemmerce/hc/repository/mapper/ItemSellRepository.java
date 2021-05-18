@@ -1,5 +1,6 @@
 package com.egemmerce.hc.repository.mapper;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -24,5 +25,7 @@ public interface ItemSellRepository extends JpaRepository<ItemSell, Long> {
 	List<ItemSell> findByisUserNo(int uNo);
 
 	List<ItemSell> findByisItemNameContaining(String isName);
+
+	List<ItemSell> findByisEndDateLessThanAndIsEventAgreeAndIsDealUserNo(Date valueOf, String string, int i);
 
 }
