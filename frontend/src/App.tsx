@@ -7,9 +7,11 @@ import Home from './page/home/Home';
 import CategoryPage from './page/category/CategoryPage';
 import IndexPage from './page/home/IndexPage';
 import DetailPage from './page/detail/DetailPage';
+import DonationDetailPage from './page/donationdetail/DonationDetailPage';
 import AuctionPage from './page/purchase/AuctionPage';
 import SellAuctionPage from './page/purchase/SellAuctionPage';
 import PurchasePage from './page/purchase/PurchasePage';
+import DonationPage from './page/purchase/DonationPage';
 import SearchPage from './page/search/SearchPage';
 import EventPage from './page/event/EventPage';
 import ChatPage from './page/chat/ChatPage';
@@ -50,8 +52,10 @@ const App = () => {
           <Route path="/search" component={SearchPage} />
           <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
+          <Route path="/donation_detail/:id" component={DonationDetailPage} />
           <Route path="/auction/buy/:itemNo" component={AuctionPage} />
           <Route path="/auction/sell/:itemNo" component={SellAuctionPage} />
+          <Route path="/donation/:itemNo" component={DonationPage} />
           <Route path="/purchase/:itemNo" component={PurchasePage} />
           <Route path="/add_destination" component={AddDestinationPage} />
           <Route path="/chat/:id/:roomNo" component={ChatPage} />

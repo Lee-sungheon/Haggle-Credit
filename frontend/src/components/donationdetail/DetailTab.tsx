@@ -1,13 +1,12 @@
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import ProductDetail from './ProductDetail';
-import ProductQuestion from './ProductQuestion';
+import ProductDetail from '../detail/ProductDetail';
+import ProductQuestion from '../detail/ProductQuestion';
 import StoreInfo from './StoreInfo';
 import { ITEM } from "styled-components";
 
 interface Props {
   item: ITEM;
-  buy: boolean;
 }
 const Container = styled.div`
   text-align: center;
@@ -55,7 +54,7 @@ const Tab = styled.div`
   font-weight: 600;
 `;
 
-const DetailTab = ({item, buy}: Props) => {
+const DetailTab = ({item}: Props) => {
   const [tabId, setTabId] = useState(0);
   const detailRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLDivElement>(null);
@@ -95,13 +94,13 @@ const DetailTab = ({item, buy}: Props) => {
           )}
         </TabArea>
         <div ref={detailRef}>
-          <ProductDetail item={item} buy={buy}/>
+          <ProductDetail item={item} buy={true}/>
         </div>
         <div ref={questionRef}>
-          <ProductQuestion itemNo={buy ? item.isItemNo : item.ibItemNo} />
+          <ProductQuestion itemNo={item.isItemNo} />
         </div>
       </TabContianer>
-      <StoreInfo item={item} buy={buy}/>
+      <StoreInfo item={item}/>
     </Container>
   );
 };

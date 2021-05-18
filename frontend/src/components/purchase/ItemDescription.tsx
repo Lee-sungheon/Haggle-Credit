@@ -45,10 +45,9 @@ const ItemContent = styled.div`
 `;  
 
 const ItemDescription = ({desc, buy}: Props) => {
-  console.log(desc.ipValue)
   return (
     <ProductTitle>
-      <img src={desc.ipValue !== null ? desc.ipValue : '../../images/no_image.gif'} alt="" 
+      <img src={desc.ipValue !== undefined ? desc.ipValue : '../../images/no_image.gif'} alt="" 
       style={{width: '150px', height: '150px', borderRadius: '2px'}}/>
       <ProductSummaryArea>
         <ProductName>{buy ? desc.isItemName : desc.ibName}</ProductName>
