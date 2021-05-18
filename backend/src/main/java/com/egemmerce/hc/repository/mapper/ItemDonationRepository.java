@@ -8,4 +8,6 @@ import com.egemmerce.hc.repository.dto.ItemDonation;
 @Transactional
 public interface ItemDonationRepository extends JpaRepository<ItemDonation, Long>{
 
+	ItemDonation findByidItemNo(int iNo);
+
 }

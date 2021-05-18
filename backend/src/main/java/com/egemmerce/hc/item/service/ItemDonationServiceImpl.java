@@ -27,4 +27,22 @@ public class ItemDonationServiceImpl implements ItemDonationService {
 		return itemDonationRepository.findAll();
 	}
 
+	@Override
+	public ItemDonation selectItemoneByiNo(int iNo) {
+		return itemDonationRepository.findByidItemNo(iNo);
+	}
+
+	@Override
+	public ItemDonation updateItemBid(int iNo, int bid) {
+		ItemDonation itemDonation=itemDonationRepository.findByidItemNo(iNo);
+		itemDonation.setIdIngPrice(itemDonation.getIdIngPrice()+bid);
+		return itemDonationRepository.save(itemDonation);
+	}
+
+	@Override
+	public void update(ItemDonation itemDonation) {
+		itemDonationRepository.save(itemDonation);
+	}
+	
+
 }
