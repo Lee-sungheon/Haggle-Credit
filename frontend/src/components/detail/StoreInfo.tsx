@@ -213,7 +213,10 @@ const StoreInfo = ({ item, buy }: Props) => {
     buy ? userNo2 = item.isUserNo : userNo2 = item.ibUserNo;
     let itemNo;
     buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
-    console.log(itemNo, userNo, userNo2)
+    if (userNo === userNo2){
+      alert('자기와 대화는 불가능합니다.');
+      return;
+    }
     const body = {
       crItemNo: itemNo,
       crUserNoOne: userNo,
@@ -377,8 +380,15 @@ const StoreInfo = ({ item, buy }: Props) => {
             {buy ? (
               <StyledButton
                 style={{ background: theme.color.main, marginLeft: '5px' }}
-                onClick={() =>
-                  window.open(`../auction/buy/${item.isItemNo}`, '_blank')
+                onClick={() =>{
+                  let itemUserNo;
+                  buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+                  if (userNo === itemUserNo){
+                    alert('자기 상품은 구매 및 경매할 수 없습니다.');
+                    return;
+                  }
+                  window.open(`../auction/buy/${item.isItemNo}`, '_blank');
+                  }
                 }
               >
                 입찰하기
@@ -386,8 +396,15 @@ const StoreInfo = ({ item, buy }: Props) => {
             ) : (
               <StyledButton
                 style={{ background: theme.color.main, marginLeft: '5px' }}
-                onClick={() =>
-                  window.open(`../auction/sell/${item.ibItemNo}`, '_blank')
+                onClick={() => {
+                  let itemUserNo;
+                  buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+                  if (userNo === itemUserNo){
+                    alert('자기 상품은 구매 및 경매할 수 없습니다.');
+                    return;
+                  }
+                  window.open(`../auction/sell/${item.ibItemNo}`, '_blank');
+                  }
                 }
               >
                 입찰하기
