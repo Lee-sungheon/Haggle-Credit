@@ -74,4 +74,8 @@ public interface ItemSellService {
 
 	int countIntemSell();
 
+	List<ItemSell> selectOverEndDateAndDonation();
+
+	void updateItembyDonation(ItemSell is);
+
 }

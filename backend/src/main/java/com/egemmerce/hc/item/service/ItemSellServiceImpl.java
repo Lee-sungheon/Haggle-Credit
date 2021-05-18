@@ -166,29 +166,22 @@ public class ItemSellServiceImpl implements ItemSellService {
 
 	@Override
 	public List<ItemSell> selectOverEndDate() {
-		List<ItemSell> itemSelltemp = itemSellRepository.findByisDealUserNo(0);
-		List<ItemSell> itemSell = new ArrayList<>();
-		for (ItemSell is : itemSelltemp) {
-			if (is.getIsEndDate().before(Date.valueOf(LocalDate.now()))) {
-				itemSell.add(is);
-			}
-		}
+		List<ItemSell> itemSell = itemSellRepository.findByisDealUserNoAndIsEndDateLessThan(0,Date.valueOf(LocalDate.now()));
 		return itemSell;
 	}
 
 	@Override
 	public void updateItembyAuction(ItemSell is) {
-		AuctionParticipant beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(is.getIsItemNo())
-				.get(0);
-		if (beforeAP == null) {
+		List<AuctionParticipant> beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(is.getIsItemNo());
+		if (beforeAP.size() == 0) {
 			is.setIsDealPrice(0);
 			is.setIsDealAddress(0);
-			is.setIsUserNo(is.getIsUserNo());
+			is.setIsDealUserNo(-1);
 			itemSellRepository.save(is);
 		} else {
-			is.setIsDealPrice(beforeAP.getApBid());
-			is.setIsDealAddress(beforeAP.getApAddress());
-			is.setIsDealUserNo(beforeAP.getApUserNo());
+			is.setIsDealPrice(beforeAP.get(0).getApBid());
+			is.setIsDealAddress(beforeAP.get(0).getApAddress());
+			is.setIsDealUserNo(beforeAP.get(0).getApUserNo());
 			itemSellRepository.save(is);
 			ItemDelivery itemDelivery = ItemDelivery.builder().idType("sell").idPrice(is.getIsDealPrice())
 					.idSendUserNo(is.getIsUserNo()).idReceiveUserNo(is.getIsDealUserNo()).idItemNo(is.getIsItemNo())
@@ -208,22 +201,23 @@ public class ItemSellServiceImpl implements ItemSellService {
 	public List<ItemSell> selectMyItemByuNo(int uNo) {
 		return itemSellRepository.findByisUserNo(uNo);
 	}
-	
+
 	/* 상품 상세 조회 */
 	@Override
 	public ItemSellSet selectItemOne(int isItemNo) throws Exception {
 		return itemSellMapper.selectItemOne(isItemNo);
 	}
+
 	@Override
 	public int selectItemCntAP(int isItemNo) throws Exception {
 		return itemSellMapper.selectItemCntAP(isItemNo);
 	}
-	
+
 	@Override
 	public List<ItemSell> selectItemListIndexing(int isUserNo, int page) throws Exception {
 		return itemSellMapper.selectItemListIndexing(isUserNo, page);
 	}
-	
+
 	@Override
 	public int selectCountItemSell(int isUserNo) throws Exception {
 		return itemSellMapper.selectCountItemSell(isUserNo);
@@ -237,5 +231,17 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Override
 	public int countIntemSell() {
 		return (int) itemSellRepository.count();
+	}
+
+	@Override
+	public List<ItemSell> selectOverEndDateAndDonation() {
+		return itemSellRepository.findByisEndDateLessThanAndIsEventAgreeAndIsDealUserNo(Date.valueOf(LocalDate.now()),
+				"true", -1);
+	}
+
+	@Override
+	public void updateItembyDonation(ItemSell is) {
+		is.setIsEventAgree("done");
+		itemSellRepository.save(is);
 	}
 }
