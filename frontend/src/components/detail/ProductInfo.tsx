@@ -164,6 +164,10 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
     buy ? userNo2 = item.isUserNo : userNo2 = item.ibUserNo;
     let itemNo;
     buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
+    if (userNo === userNo2){
+      alert('자기와 대화는 불가능합니다.');
+      return;
+    }
     const body = {
       crItemNo: itemNo,
       crUserNoOne: userNo,
@@ -232,6 +236,12 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
           <StyledButton onClick={async() => {
             let itemNo;
             buy ? itemNo = item.isItemNo : itemNo = item.ibItemNo;
+            let itemUserNo;
+            buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+            if (userNo === itemUserNo){
+              alert('자기 상품은 찜할 수 없습니다.');
+              return;
+            }
             if (userNo !== undefined && itemNo !== undefined) {
               if (isLike){
                 await callApiDeleteZzim(itemNo, userNo);
@@ -251,17 +261,34 @@ const ProductInfo = ({item, buy}: ProductInfoProps) => {
               isLike? 
               {color: "red", marginRight: "4px", paddingBottom: "2px"} : 
               {color: "white", marginRight: "4px", paddingBottom: "2px"}}
-            >♥</span> 
+            >♥</span>
             {isLike ? '찜완료' : '찜하기'}
           </StyledButton>
           <StyledButton style={{ backgroundColor: '#ffceae' }} onClick={
-            buy ? () => window.open(`../auction/buy/${item.isItemNo}`, '_blank') : 
-            () => window.open(`../auction/sell/${item.ibItemNo}`, '_blank')}
-            >
+            () => {
+              let itemUserNo;
+              buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+              if (userNo === itemUserNo){
+                alert('자기 상품은 구매 및 경매할 수 없습니다.');
+                return;
+              }
+              buy ? window.open(`../auction/buy/${item.isItemNo}`, '_blank') :
+              window.open(`../auction/sell/${item.ibItemNo}`, '_blank')
+              }
+            }>
             입찰하기
           </StyledButton>
           <StyledButton style={buy ? { backgroundColor: 'red' }:{ backgroundColor: 'orange'}} 
-            onClick={buy ? () => window.open(`../purchase/buy/${item.isItemNo}`, '_blank') : goChat}>
+            onClick={buy ? () => {
+              let itemUserNo;
+              buy ? itemUserNo = item.isUserNo : itemUserNo = item.ibUserNo;
+              if (userNo === itemUserNo){
+                alert('자기 상품은 찜할 수 없습니다.');
+                return;
+              }
+              window.open(`../purchase/buy/${item.isItemNo}`, '_blank');
+            }
+             : goChat}>
             {buy ? '바로구매' : '연락하기'}
           </StyledButton>
         </ButtonBox>
