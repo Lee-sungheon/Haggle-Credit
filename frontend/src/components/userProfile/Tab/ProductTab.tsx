@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
-import ProductList from './Product/ProductList';
+import ProductList from './product/ProductList';
 import axios from 'axios';
 
 const Body = styled.div`

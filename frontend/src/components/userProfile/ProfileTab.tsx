@@ -1,9 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import ProductTab from './Tab/ProductTab';
-import TransactionReviewTab from './Tab/TransactionReviewTab';
-import BasketTab from './Tab/BasketTab';
-import TenderListTab from './Tab/TenderListTab';
+import ProductTab from './tab/ProductTab';
+import TransactionReviewTab from './tab/TransactionReviewTab';
 import { Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { USERDATA } from 'styled-components';
@@ -55,11 +53,7 @@ const ProfileTab = ({ userData }: ProfileTabProps) => {
       pathname: url,
     });
   };
-  // useEffect(() => {
-  //   history.push({
-  //     pathname: `/userProfile/${userData.uNo}`,
-  //   });
-  // }, [userData]);
+
   useEffect(() => {
     console.log(window.location.pathname);
     console.log(`/userProfile/${userData.uNo}`);
@@ -101,50 +95,12 @@ const ProfileTab = ({ userData }: ProfileTabProps) => {
                 <p>거래 리뷰</p>
               </Tab>
             )}
-            {/* {window.location.pathname ===
-            `/userProfile/${userData.uNo}/basket` ? (
-              <ActTab
-                onClick={() =>
-                  clickHandler(`/userProfile/${userData.uNo}/basket`)
-                }
-              >
-                <p>찜</p>
-              </ActTab>
-            ) : (
-              <Tab
-                onClick={() =>
-                  clickHandler(`/userProfile/${userData.uNo}/basket`)
-                }
-              >
-                <p>찜</p>
-              </Tab>
-            )}
-            {window.location.pathname ===
-            `/userProfile/${userData.uNo}/basket/tenderlist` ? (
-              <ActTab
-                onClick={() =>
-                  clickHandler(`/userProfile/${userData.uNo}/basket/tenderlist`)
-                }
-              >
-                <p>입찰내역</p>
-              </ActTab>
-            ) : (
-              <Tab
-                onClick={() =>
-                  clickHandler(`/userProfile/${userData.uNo}/basket/tenderlist`)
-                }
-              >
-                <p>입찰내역</p>
-              </Tab>
-            )} */}
           </Body>
           <Route exact path="/userprofile/:id" component={ProductTab}></Route>
           <Route
             path="/userprofile/:id/transactionreview"
             component={TransactionReviewTab}
           ></Route>
-          <Route path="/userprofile/:id/basket" component={BasketTab}></Route>
-          <Route path="/userprofile/:id/tenderlist" component={TenderListTab} />
         </>
       )}
     </Container>

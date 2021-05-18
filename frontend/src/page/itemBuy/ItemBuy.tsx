@@ -46,7 +46,7 @@ const ItemBuy = () => {
     ibCoolPrice: 0,
     ibAuctionIngPrice: 0,
     ibAuctionInitPrice: 0,
-    ibDealAddress: '',
+    ibDealAddress: -1,
   });
   const [productPhoto, setProductPhoto] = useState([]);
   useEffect(() => {
@@ -97,7 +97,9 @@ const ItemBuy = () => {
 
   const onRegist = () => {
     console.log('regist');
-    const body = productData;
+    let body = productData;
+    console.log(body);
+
     if (
       productData.ibUserNo &&
       productData.ibName &&

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-
+import Destination from './Destination';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
 interface DealRegionProps {
   onIsRegionHandler: (name: any) => void;
 }
@@ -10,14 +12,12 @@ const Container = styled.div`
   padding: 25px 0;
   width: 100%;
 `;
-const DealRegion = ({ onIsRegionHandler }: DealRegionProps) => {
-  const [inputAddress, setInputAddress] = useState('');
-  const onInputAddressHandler = (e: any) => {
-    let name = e.target.value.slice(0, 20);
 
-    setInputAddress(name);
-    onIsRegionHandler(name);
-  };
+const DealRegion = ({ onIsRegionHandler }: DealRegionProps) => {
+  const userData = useSelector((state: RootState) => state.user.userData);
+
+  let isModal: boolean = false;
+
   return (
     <Container id="titleSection">
       <div
@@ -38,19 +38,11 @@ const DealRegion = ({ onIsRegionHandler }: DealRegionProps) => {
           textAlign: 'left',
         }}
       >
-        <input
-          style={{
-            height: '40px',
-            width: '80%',
-            maxWidth: '800px',
-            border: '1px solid #FF6600',
-            marginRight: '25px',
-          }}
-          value={inputAddress}
-          onChange={onInputAddressHandler}
-          placeholder="거래지역을 입력해주세요."
-        ></input>
-        <span>({inputAddress.length}/20)</span>
+        <Destination
+          isModal={isModal}
+          onIsRegionHandler={onIsRegionHandler}
+          userData={userData}
+        />
       </div>
     </Container>
   );

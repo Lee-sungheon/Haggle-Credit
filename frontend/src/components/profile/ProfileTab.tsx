@@ -1,10 +1,11 @@
 import { useHistory } from 'react-router-dom';
 
 import styled from 'styled-components';
-import ProductTab from './Tab/ProductTab';
-import TransactionReviewTab from './Tab/TransactionReviewTab';
-import BasketTab from './Tab/BasketTab';
-import TenderListTab from './Tab/TenderListTab';
+import ProductTab from './tab/ProductTab';
+import TransactionReviewTab from './tab/TransactionReviewTab';
+import TransactionListTab from './tab/TransactionListTab';
+import BasketTab from './tab/BasketTab';
+import TenderListTab from './tab/TenderListTab';
 import { Route } from 'react-router-dom';
 
 const Container = styled.div`
@@ -89,6 +90,15 @@ const ProfileTab2 = () => {
             <p>입찰내역</p>
           </Tab>
         )}
+        {window.location.pathname === '/profile/transactionlist' ? (
+          <ActTab onClick={() => clickHandler('/profile/transactionlist')}>
+            <p>거래내역</p>
+          </ActTab>
+        ) : (
+          <Tab onClick={() => clickHandler('/profile/transactionlist')}>
+            <p>거래내역</p>
+          </Tab>
+        )}
       </Body>
       <Route exact path="/profile" component={ProductTab}></Route>
       <Route
@@ -97,6 +107,7 @@ const ProfileTab2 = () => {
       ></Route>
       <Route path="/profile/basket" component={BasketTab}></Route>
       <Route path="/profile/tenderlist" component={TenderListTab} />
+      <Route path="/profile/transactionlist" component={TransactionListTab} />
     </Container>
   );
 };

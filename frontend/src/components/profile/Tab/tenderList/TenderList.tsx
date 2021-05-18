@@ -3,64 +3,79 @@ import { useState, useEffect, useCallback } from 'react';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { makeStyles } from '@material-ui/core/styles';
-import ProductItem from './ProductItem';
+import TendItem from './TendItem';
 import { ITEM } from 'styled-components';
 
-interface PruductListProps {
+interface TenderListProps {
   buy: boolean;
   products: Products[];
 }
 interface Products {
-  itemSell: PRODUCTS;
-  itemBuy: PRODUCTS;
-  itemPhotoes: ItemPhotoes[];
-  itemPhoto: string;
-  itemCnt: number;
+  apAddress: number;
+  apBid: number;
+  apDate: string;
+  apItemNo: number;
+  apNo: number;
+  apUserNo: number;
+  iCompleted: string;
+  iNo: number;
+  iType: string;
+  ipItemNo: number;
+  ipNo: number;
+  ipValue: string;
+  itemSellSet: ItemSellSet;
+  itemBuySet: ItemBuySet;
 }
 
-interface ItemPhotoes {
+interface ItemSellSet {
+  isNo: number;
+  isItemNo: number;
+  isUserNo: number;
+  isItemName: string;
+  isCategoryMain: string;
+  isCategorySub: string;
+  isContent: string;
+  isUsedStatus: string;
+  isCoolPrice: number;
+  isAuctionInitPrice: number;
+  isDealPrice: number;
+  isDealUserNo: number;
+  isDealAddress: number;
+  isStartDate: null;
+  isEndDate: string;
+  isEventAgree: string;
+  isAuctionIngPrice: number;
   ipNo: number;
   ipItemNo: number;
   ipValue: string;
+  apItemNo: number;
+  joinerCnt: number;
 }
-export interface PRODUCTS {
-  ipItemNo?: number;
-  ipValue?: string;
-  isAuctionInitPrice?: number;
-  isAuctionIngPrice?: number;
-  isCategoryMain?: string;
-  isCategorySub?: string;
-  isContent?: string;
-  isCoolPrice?: number;
-  isDealAddress?: number;
-  isDealPrice?: number;
-  isDealUserNo?: number;
-  isEndDate?: string;
-  isEventAgree?: string;
-  isItemName?: string;
-  isItemNo?: number;
-  isNo?: number;
-  isStartDate?: any;
-  isUsedStatus?: string;
-  isUserNo?: number;
-  joinerCnt?: number;
-  ibItemNo: number;
+interface ItemBuySet {
   ibNo: number;
+  ibItemNo: number;
   ibUserNo: number;
-  ibName: string;
+  ibItemName: string;
   ibCategoryMain: string;
   ibCategorySub: string;
   ibContent: string;
-  ibStartDate: string;
-  ibEndDate: string;
+  ibUsedStatus: string;
   ibCoolPrice: number;
   ibAuctionInitPrice: number;
-  ibAuctionIngPrice: number;
-  ibRegDate: string;
-  ibDealUserNo: number;
   ibDealPrice: number;
-  ibDealAddress: string;
+  ibDealUserNo: number;
+  ibDealAddress: number;
+  ibStartDate: null;
+  ibEndDate: string;
+  ibEventAgree: string;
+  ibAuctionIngPrice: number;
+  ipNo: number;
+  ipItemNo: number;
+  ipValue: string;
+  apItemNo: number;
+  joinerCnt: number;
 }
+
 const useStyles = makeStyles(() => ({
   gridList: {
     height: '100%',
@@ -85,7 +100,7 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
-const ProductList = ({ buy, products }: PruductListProps) => {
+const TenderList = ({ buy, products }: TenderListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
   const ConfirmWidth = useCallback(() => {
@@ -122,11 +137,7 @@ const ProductList = ({ buy, products }: PruductListProps) => {
         {products.length > 0 &&
           products.map((item, idx) => (
             <GridListTile key={idx}>
-              <ProductItem
-                item={item}
-                image={item.itemPhotoes}
-                buy={buy}
-              />
+              <TendItem item={item} buy={buy} />
             </GridListTile>
           ))}
       </GridList>
@@ -139,4 +150,4 @@ const ProductList = ({ buy, products }: PruductListProps) => {
   );
 };
 
-export default ProductList;
+export default TenderList;
