@@ -1,7 +1,7 @@
 import ProfileTab from '../../components/userProfile/ProfileTab';
 import styled from 'styled-components';
 import ProfileSection from '../../components/userProfile/ProfileSection';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
@@ -28,8 +28,7 @@ interface MatchParams {
   id: string;
 }
 
-const UserProfile = ({ match, location }: RouteComponentProps<MatchParams>) => {
-  const history = useHistory();
+const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
   const userData = useSelector((state: RootState) => state.user.joinUserData);
   const dispatch = useDispatch();
 

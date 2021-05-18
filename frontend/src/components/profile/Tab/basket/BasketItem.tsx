@@ -13,48 +13,108 @@ import { useEffect, useState } from 'react';
 interface BasketItemProps {
   item: BookMarkList;
   buy: boolean;
-  image: string;
   deleteBookMark: (item: any) => void;
 }
-interface BookMarkList {
-  b_item_no: number;
-  b_no: number;
-  b_user_no: number;
-  is_content: string;
-  is_deal_price: number;
-  is_category_main: string;
-  is_end_date: string;
-  is_user_no: number;
-  is_used_status: string;
-  is_no: number;
-  is_deal_user_no: number;
-  is_deal_address: number;
-  is_auction_ing_price: number;
-  is_cool_price: number;
-  is_item_name: string;
-  is_item_no: number;
-  is_category_sub: string;
-  is_event_agree: string;
-  is_auction_init_price: number;
-  ib_deal_price: number;
-  ib_start_date: string;
-  ib_item_no: number;
-  ib_name: string;
-  ib_reg_date: string;
-  ib_deal_user_no: number;
-  ib_auction_init_price: number;
-  ib_content: string;
-  ib_no: number;
-  ib_user_no: number;
-  ib_auction_ing_price: number;
-  ib_cool_price: number;
-  ib_category_sub: string;
-  ib_deal_address: string;
-  ib_end_date: string;
-  ib_category_main: string;
-  ip_value: string;
-}
 
+// interface BookMarkList {
+//   b_item_no: number;
+//   b_no: number;
+//   b_user_no: number;
+//   is_content: string;
+//   is_deal_price: number;
+//   is_category_main: string;
+//   is_end_date: string;
+//   is_user_no: number;
+//   is_used_status: string;
+//   is_no: number;
+//   is_deal_user_no: number;
+//   is_deal_address: number;
+//   is_auction_ing_price: number;
+//   is_cool_price: number;
+//   is_item_name: string;
+//   is_item_no: number;
+//   is_category_sub: string;
+//   is_event_agree: string;
+//   is_auction_init_price: number;
+//   ib_deal_price: number;
+//   ib_start_date: string;
+//   ib_item_no: number;
+//   ib_name: string;
+//   ib_reg_date: string;
+//   ib_deal_user_no: number;
+//   ib_auction_init_price: number;
+//   ib_content: string;
+//   ib_no: number;
+//   ib_user_no: number;
+//   ib_auction_ing_price: number;
+//   ib_cool_price: number;
+//   ib_category_sub: string;
+//   ib_deal_address: string;
+//   ib_end_date: string;
+//   ib_category_main: string;
+//   ip_value: string;
+// }
+interface BookMarkList {
+  auctionParticipant: AuctionParticipant[];
+  iCompleted: string;
+  iNo: number;
+  itemBuy: ItemBuy;
+  itemSell: ItemSell;
+  itemPhoto: ItemPhoto[];
+  reverseAuctionParticipant: ReverseAuctionParticipant[];
+}
+interface ItemBuy {
+  ibItemNo: number;
+  ibNo: number;
+  ibUserNo: number;
+  ibName: string;
+  ibCategoryMain: string;
+  ibCategorySub: string;
+  ibContent: string;
+  ibStartDate: string;
+  ibEndDate: string;
+  ibCoolPrice: number;
+  ibAuctionInitPrice: number;
+  ibAuctionIngPrice: number;
+  ibRegDate: string;
+  ibDealUserNo: number;
+  ibDealPrice: number;
+  ibDealAddress: string;
+}
+interface ItemSell {
+  isItemNo: number;
+  isNo: number;
+  isUserNo: number;
+  isName: string;
+  isCategoryMain: string;
+  isCategorySub: string;
+  isContent: string;
+  isStartDate: string;
+  isEndDate: string;
+  isCoolPrice: number;
+  isAuctionInitPrice: number;
+  isAuctionIngPrice: number;
+  isRegDate: string;
+  isDealUserNo: number;
+  isDealPrice: number;
+  isDealAddress: string;
+  isUsedStatus: string;
+  isItemName: string;
+  isEventAgree: string;
+}
+interface AuctionParticipant {
+  apAddress: number;
+  apBid: number;
+  apDate: string;
+  apNo: number;
+  apUserNo: number;
+}
+interface ItemPhoto {
+  ipItemNo: number;
+  ipNo: number;
+  ipValue: string;
+}
+interface ReverseAuctionParticipant {}
 const RemoveButton = styled.img`
   position: absolute;
   width: 2vw;
@@ -129,67 +189,76 @@ const ItemCategory = styled.span`
   margin-right: 4px;
 `;
 
-const BasketItem = ({ item, buy, image, deleteBookMark }: BasketItemProps) => {
-  const [img, setImg] = useState('../images/no_image/gif');
+const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
+  const [img, setImg] = useState('../images/no_image.gif');
   const [itemData, setItemData] = useState({} as ITEM);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
     dispatch(userActions.addRecently(itemData));
-    history.push({
-      pathname: `/detail/${item.b_item_no}`,
-      state: { item, buy },
-    });
+    if (item.itemBuy) {
+      history.push({
+        pathname: `/detail/${item.itemBuy.ibItemNo}`,
+        state: { item, buy },
+      });
+    } else if (item.itemSell) {
+      history.push({
+        pathname: `/detail/${item.itemSell.isItemNo}`,
+        state: { item, buy },
+      });
+    }
   };
   useEffect(() => {
-    if (image) {
-      setImg(image);
+    if (item.itemPhoto.length > 0) {
+      setImg(item.itemPhoto[0].ipValue);
+    } else {
+      setImg('../images/no_image.gif');
     }
-  }, [image]);
-  useEffect(() => {
-    if (item.ib_no) {
-      setItemData({
-        ...itemData,
-        ipItemNo: item.is_item_no,
-        isContent: item.is_content,
-        isDealPrice: item.is_deal_price,
-        isCategoryMain: item.is_category_main,
-        isUserNo: item.is_user_no,
-        isEndDate: item.is_end_date,
-        ipValue: item.ip_value,
-        isUsedStatus: item.is_used_status,
-        isNo: item.is_no,
-        isDealUserNo: item.is_deal_user_no,
-        isDealAddress: item.is_deal_address,
-        isAuctionIngPrice: item.is_auction_ing_price,
-        isCoolPrice: item.is_cool_price,
-        isItemName: item.is_item_name,
-        isItemNo: item.is_item_no,
-        isCategorySub: item.is_category_sub,
-        isEventAgree: item.is_event_agree,
-        isAuctionInitPrice: item.is_auction_init_price,
-      });
-    } else if (item.ib_no) {
-      setItemData({
-        ...itemData,
-        ipItemNo: item.ib_item_no,
-        isContent: item.ib_content,
-        isDealPrice: item.ib_deal_price,
-        isCategoryMain: item.ib_category_main,
-        isUserNo: item.ib_user_no,
-        isEndDate: item.ib_end_date,
-        ipValue: item.ip_value,
-        isNo: item.ib_no,
-        isDealUserNo: item.ib_deal_user_no,
-        isAuctionIngPrice: item.ib_auction_ing_price,
-        isCoolPrice: item.ib_cool_price,
-        isItemNo: item.ib_item_no,
-        isCategorySub: item.ib_category_sub,
-        isAuctionInitPrice: item.ib_auction_init_price,
-      });
-    }
-  }, []);
+  }, [item.itemPhoto]);
+  // useEffect(() => {
+  //   if (item.itemSell) {
+  //     setItemData({
+  //       ...itemData,
+  //       ipItemNo: item.itemSell.isItemNo,
+  //       isContent: item.itemSell.isContent,
+  //       isDealPrice: item.itemSell.isDealPrice,
+  //       isCategoryMain: item.itemSell.isCategoryMain,
+  //       isUserNo: item.itemSell.isUserNo,
+  //       isEndDate: item.itemSell.isEndDate,
+  //       ipValue: item.itemPhoto.ipValue,
+  //       isUsedStatus: item.itemSell.isUsedStatus,
+  //       isNo: item.itemSell.isNo,
+  //       isDealUserNo: item.itemSell.isDealUserNo,
+  //       isDealAddress: item.itemSell.isDealAddress,
+  //       isAuctionIngPrice: item.itemSell.isAuctionIngPrice,
+  //       isCoolPrice: item.itemSell.isCoolPrice,
+  //       isItemName: item.itemSell.isItemName,
+  //       isItemNo: item.itemSell.isItemNo,
+  //       isCategorySub: item.itemSell.isCategorySub,
+  //       isEventAgree: item.itemSell.isEventAgree,
+  //       isAuctionInitPrice: item.itemSell.isAuctionInitPrice,
+  //     });
+  //   } else if (item.itemBuy) {
+  //     setItemData({
+  //       ...itemData,
+  //       ipItemNo: item.ib_item_no,
+  //       isContent: item.ib_content,
+  //       isDealPrice: item.ib_deal_price,
+  //       isCategoryMain: item.ib_category_main,
+  //       isUserNo: item.ib_user_no,
+  //       isEndDate: item.ib_end_date,
+  //       ipValue: item.ip_value,
+  //       isNo: item.ib_no,
+  //       isDealUserNo: item.ib_deal_user_no,
+  //       isAuctionIngPrice: item.ib_auction_ing_price,
+  //       isCoolPrice: item.ib_cool_price,
+  //       isItemNo: item.ib_item_no,
+  //       isCategorySub: item.ib_category_sub,
+  //       isAuctionInitPrice: item.ib_auction_init_price,
+  //     });
+  //   }
+  // }, []);
   // const deleteBookMark = () => {
   //   axios
   //     .delete(
@@ -213,48 +282,66 @@ const BasketItem = ({ item, buy, image, deleteBookMark }: BasketItemProps) => {
               image={img}
             />
           </ImgBox>
-          <CardContent style={{ padding: 0 }}>
-            <ItemTitle>{itemData.isItemName}</ItemTitle>
-            <ItemPrice>
-              <ItemCategory>현재가</ItemCategory>
-              <span>
-                {itemData.isAuctionIngPrice !== undefined &&
-                  itemData.isAuctionIngPrice
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </span>
-              <ItemCategory>원</ItemCategory>
-            </ItemPrice>
-            <ItemPrice>
-              {buy ? (
-                <>
-                  <ItemCategory>즉구가</ItemCategory>
-                  <span>
-                    {itemData.isCoolPrice !== undefined &&
-                      itemData.isCoolPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <ItemCategory>시작가</ItemCategory>
-                  <span>
-                    {itemData.isAuctionInitPrice !== undefined &&
-                      itemData.isAuctionInitPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </span>
-                </>
-              )}
-              <ItemCategory>원</ItemCategory>
-            </ItemPrice>
-            <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {itemData.joinerCnt}
-              <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-              {itemData.isEndDate}
-            </ItemTime>
-          </CardContent>
+          {item.itemSell ? (
+            <CardContent style={{ padding: 0 }}>
+              <ItemTitle>{item.itemSell.isItemName}</ItemTitle>
+              <ItemPrice>
+                <ItemCategory>현재가</ItemCategory>
+                <span>
+                  {item.itemSell.isAuctionIngPrice !== undefined &&
+                    item.itemSell.isAuctionIngPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </span>
+                <ItemCategory>원</ItemCategory>
+              </ItemPrice>
+              <ItemPrice>
+                <ItemCategory>즉구가</ItemCategory>
+                <span>
+                  {item.itemSell.isCoolPrice !== undefined &&
+                    item.itemSell.isCoolPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </span>
+
+                <ItemCategory>원</ItemCategory>
+              </ItemPrice>
+              {/* <ItemTime>
+                <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
+                <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
+                {item.is_end_date}
+              </ItemTime> */}
+            </CardContent>
+          ) : (
+            <CardContent style={{ padding: 0 }}>
+              <ItemTitle>{item.itemBuy.ibName}</ItemTitle>
+              <ItemPrice>
+                <ItemCategory>현재가</ItemCategory>
+                <span>
+                  {item.itemBuy.ibAuctionIngPrice !== undefined &&
+                    item.itemBuy.ibAuctionIngPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </span>
+                <ItemCategory>원</ItemCategory>
+              </ItemPrice>
+              <ItemPrice>
+                <ItemCategory>시작가</ItemCategory>
+                <span>
+                  {item.itemBuy.ibAuctionInitPrice !== undefined &&
+                    item.itemBuy.ibAuctionInitPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </span>
+                <ItemCategory>원</ItemCategory>
+              </ItemPrice>
+              {/* <ItemTime>
+                <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
+                <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
+                {item.isEndDate}
+              </ItemTime> */}
+            </CardContent>
+          )}
         </CardActionArea>
         <RemoveButton
           src={'../images/removeButton.png'}

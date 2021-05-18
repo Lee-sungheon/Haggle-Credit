@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
-import TenderList from './tenderList/TenderList';
+import ProductList from '../../userProfile/tab/product/ProductList';
 import axios from 'axios';
 const Container = styled.div``;
 const Body = styled.div`
@@ -26,10 +26,11 @@ const ReviewTab2 = styled.div`
   }
 `;
 
-const TenderListTab = () => {
+const TransactionListTab = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const [reviewTab, setReviewTab] = useState(1);
-  const [tenderList, setTenderItemList] = useState([]);
+  const [sellTransactionList, setSellTransactionListTab] = useState([]);
+  const [buyTransactionList, setBuyTransactionListTab] = useState([]);
 
   const onReviewTab1 = () => {
     setReviewTab(1);
@@ -40,10 +41,21 @@ const TenderListTab = () => {
   useEffect(() => {
     axios
       .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/bid?uNo=${userData.uNo}`
+        `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/buy?uNo=${userData.uNo}`
       )
       .then((res) => {
-        setTenderItemList(res.data);
+        setBuyTransactionListTab(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get(
+        `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/sell?uNo=${userData.uNo}`
+      )
+      .then((res) => {
+        setSellTransactionListTab(res.data);
         console.log(res);
       })
       .catch((err) => {
@@ -56,23 +68,22 @@ const TenderListTab = () => {
         <>
           <Body>
             <ReviewTab1 style={{ marginRight: '10px' }} onClick={onReviewTab1}>
-              판매글 입찰
+              판매
             </ReviewTab1>
             <ReviewTab2 style={{ color: '#bdbdbd' }} onClick={onReviewTab2}>
-              구매글 입찰
+              구매
             </ReviewTab2>
           </Body>
-          {tenderList.length === 0 ? (
+          {sellTransactionList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
               }}
             >
-              등록된 판매글입찰이 없습니다.
+              판매상품이 없습니다.
             </div>
-          ) : (
-            <TenderList buy={true} products={tenderList} />
-          )}
+          ) : // <ProductList buy={true} products={TenderList} />
+          null}
         </>
       ) : (
         <>
@@ -81,19 +92,19 @@ const TenderListTab = () => {
               style={{ marginRight: '10px', color: '#bdbdbd' }}
               onClick={onReviewTab1}
             >
-              판매글 입찰
+              판매
             </ReviewTab1>
-            <ReviewTab2 onClick={onReviewTab2}>구매글 입찰</ReviewTab2>
+            <ReviewTab2 onClick={onReviewTab2}>구매</ReviewTab2>
           </Body>
-          {tenderList.length === 0 ? (
+          {buyTransactionList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
               }}
             >
-              등록된 구매글입찰이 없습니다.
+              구매상품이 없습니다.
             </div>
-          ) : // <TenderList buy={true} products={tenderList} />
+          ) : // <ProductList buy={true} products={TenderList} />
           null}
         </>
       )}
@@ -101,4 +112,4 @@ const TenderListTab = () => {
   );
 };
 
-export default TenderListTab;
+export default TransactionListTab;

@@ -105,8 +105,9 @@ const ProductTab = () => {
             >
               등록된 구매글이 없습니다.
             </div>
-          ) : // <ProductList buy={true} products={buyItemList} />
-          null}
+          ) : (
+            <ProductList buy={false} products={buyItemList} />
+          )}
         </>
       )}
     </>

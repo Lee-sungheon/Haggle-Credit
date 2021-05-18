@@ -13,57 +13,72 @@ import { useEffect, useState } from 'react';
 interface ProductItemProps {
   item: Products;
   buy: boolean;
-  image: ItemPhotoes[];
 }
+
 interface Products {
-  itemSell: PRODUCTS;
-  itemBuy: PRODUCTS;
-  itemPhotoes: ItemPhotoes[];
-  itemPhoto: string;
-  itemCnt: number;
+  apAddress: number;
+  apBid: number;
+  apDate: string;
+  apItemNo: number;
+  apNo: number;
+  apUserNo: number;
+  iCompleted: string;
+  iNo: number;
+  iType: string;
+  ipItemNo: number;
+  ipNo: number;
+  ipValue: string;
+  itemSellSet: ItemSellSet;
+  itemBuySet: ItemBuySet;
 }
-export interface PRODUCTS {
-  ipItemNo?: number;
-  ipValue?: string;
-  isAuctionInitPrice?: number;
-  isAuctionIngPrice?: number;
-  isCategoryMain?: string;
-  isCategorySub?: string;
-  isContent?: string;
-  isCoolPrice?: number;
-  isDealAddress?: number;
-  isDealPrice?: number;
-  isDealUserNo?: number;
-  isEndDate?: string;
-  isEventAgree?: string;
-  isItemName?: string;
-  isItemNo?: number;
-  isNo?: number;
-  isStartDate?: any;
-  isUsedStatus?: string;
-  isUserNo?: number;
-  joinerCnt?: number;
-  ibItemNo: number;
-  ibNo: number;
-  ibUserNo: number;
-  ibName: string;
-  ibCategoryMain: string;
-  ibCategorySub: string;
-  ibContent: string;
-  ibStartDate: string;
-  ibEndDate: string;
-  ibCoolPrice: number;
-  ibAuctionInitPrice: number;
-  ibAuctionIngPrice: number;
-  ibRegDate: string;
-  ibDealUserNo: number;
-  ibDealPrice: number;
-  ibDealAddress: string;
-}
-interface ItemPhotoes {
+
+interface ItemSellSet {
+  isNo: number;
+  isItemNo: number;
+  isUserNo: number;
+  isItemName: string;
+  isCategoryMain: string;
+  isCategorySub: string;
+  isContent: string;
+  isUsedStatus: string;
+  isCoolPrice: number;
+  isAuctionInitPrice: number;
+  isDealPrice: number;
+  isDealUserNo: number;
+  isDealAddress: number;
+  isStartDate: null;
+  isEndDate: string;
+  isEventAgree: string;
+  isAuctionIngPrice: number;
   ipNo: number;
   ipItemNo: number;
   ipValue: string;
+  apItemNo: number;
+  joinerCnt: number;
+}
+interface ItemBuySet {
+  ibNo: number;
+  ibItemNo: number;
+  ibUserNo: number;
+  ibItemName: string;
+  ibCategoryMain: string;
+  ibCategorySub: string;
+  ibContent: string;
+  ibUsedStatus: string;
+  ibCoolPrice: number;
+  ibAuctionInitPrice: number;
+  ibDealPrice: number;
+  ibDealUserNo: number;
+  ibDealAddress: number;
+  ibStartDate: null;
+  ibEndDate: string;
+  ibEventAgree: string;
+  ibAuctionIngPrice: number;
+  ipNo: number;
+  ipItemNo: number;
+  ipValue: string;
+  apItemNo: number;
+  joinerCnt: number;
 }
 const useStyles = makeStyles(() => ({
   root: {
@@ -119,24 +134,24 @@ const ItemCategory = styled.span`
   margin-right: 4px;
 `;
 
-const ProductList = ({ item, buy, image }: ProductItemProps) => {
+const TendItem = ({ item, buy }: ProductItemProps) => {
   const [img, setImg] = useState('../images/no_image/gif');
 
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    // dispatch(userActions.addRecently(item));
-    // history.push({
-    //   pathname: `/detail/${item.ipItemNo}`,
-    //   state: { item, buy },
-    // });
+    dispatch(userActions.addRecently(item));
+    history.push({
+      pathname: `/detail/${item.ipItemNo}`,
+      state: { item, buy },
+    });
   };
   useEffect(() => {
-    if (image.length > 0) {
-      setImg(image[0].ipValue);
+    if (item.ipValue) {
+      setImg(item.ipValue);
     }
-  }, [image]);
+  }, [item.ipValue]);
   return (
     <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>
@@ -147,14 +162,14 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
             image={img}
           />
         </ImgBox>
-        {item.itemSell ? (
+        {item.itemSellSet ? (
           <CardContent style={{ padding: 0 }}>
-            <ItemTitle>{item.itemSell.isItemName}</ItemTitle>
+            <ItemTitle>{item.itemSellSet.isItemName}</ItemTitle>
             <ItemPrice>
               <ItemCategory>현재가</ItemCategory>
               <span>
-                {item.itemSell.isAuctionIngPrice !== undefined &&
-                  item.itemSell.isAuctionIngPrice
+                {item.itemSellSet.isAuctionIngPrice !== undefined &&
+                  item.itemSellSet.isAuctionIngPrice
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </span>
@@ -163,27 +178,27 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
             <ItemPrice>
               <ItemCategory>즉구가</ItemCategory>
               <span>
-                {item.itemSell.isCoolPrice !== undefined &&
-                  item.itemSell.isCoolPrice
+                {item.itemSellSet.isCoolPrice !== undefined &&
+                  item.itemSellSet.isCoolPrice
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </span>
               <ItemCategory>원</ItemCategory>
             </ItemPrice>
             <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {item.itemSell.joinerCnt}
+              <ItemCategory>입찰자</ItemCategory> {item.itemSellSet.joinerCnt}
               <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-              {item.itemSell.isEndDate}
+              {item.itemSellSet.isEndDate}
             </ItemTime>
           </CardContent>
         ) : (
           <CardContent style={{ padding: 0 }}>
-            <ItemTitle>{item.itemBuy.ibName}</ItemTitle>
+            <ItemTitle>{item.itemBuySet.ibItemName}</ItemTitle>
             <ItemPrice>
               <ItemCategory>현재가</ItemCategory>
               <span>
-                {item.itemBuy.ibAuctionIngPrice !== undefined &&
-                  item.itemBuy.ibAuctionIngPrice
+                {item.itemBuySet.ibAuctionIngPrice !== undefined &&
+                  item.itemBuySet.ibAuctionIngPrice
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </span>
@@ -192,17 +207,17 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
             <ItemPrice>
               <ItemCategory>시작가</ItemCategory>
               <span>
-                {item.itemBuy.ibAuctionInitPrice !== undefined &&
-                  item.itemBuy.ibAuctionInitPrice
+                {item.itemBuySet.ibAuctionInitPrice !== undefined &&
+                  item.itemBuySet.ibAuctionInitPrice
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </span>
               <ItemCategory>원</ItemCategory>
             </ItemPrice>
             <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {item.itemBuy.joinerCnt}
+              <ItemCategory>입찰자</ItemCategory> {item.itemBuySet.joinerCnt}
               <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-              {item.itemBuy.isEndDate}
+              {item.itemBuySet.ibEndDate}
             </ItemTime>
           </CardContent>
         )}
@@ -211,4 +226,4 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
   );
 };
 
-export default ProductList;
+export default TendItem;
