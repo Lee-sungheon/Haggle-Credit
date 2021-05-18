@@ -42,6 +42,12 @@ public class User {
 	@JoinColumn(name = "ua_user_no")
 	private List<UserAddress> userAddress;
 	@OneToMany
+	@JoinColumn(name = "ap_user_no")
+	private List<AuctionParticipant> auctionParticipant;
+	@OneToMany
+	@JoinColumn(name = "rap_user_no")
+	private List<ReverseAuctionParticipant> reverseAuctionParticipant;
+	@OneToMany
 	@JoinColumn(name = "uc_user_no")
 	private List<UserCredit> userCredit;
 	
@@ -229,6 +235,22 @@ public class User {
 
 	public void setUserCredit(List<UserCredit> userCredit) {
 		this.userCredit = userCredit;
+	}
+
+	public List<AuctionParticipant> getAuctionParticipant() {
+		return auctionParticipant;
+	}
+
+	public void setAuctionParticipant(List<AuctionParticipant> auctionParticipant) {
+		this.auctionParticipant = auctionParticipant;
+	}
+
+	public List<ReverseAuctionParticipant> getReverseAuctionParticipant() {
+		return reverseAuctionParticipant;
+	}
+
+	public void setReverseAuctionParticipant(List<ReverseAuctionParticipant> reverseAuctionParticipant) {
+		this.reverseAuctionParticipant = reverseAuctionParticipant;
 	}
 
 }
