@@ -13,6 +13,9 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -56,9 +59,10 @@ public class ItemSell {
 	private String isEventAgree;
 	private int isAuctionIngPrice;
 
-//	@OneToOne
-//	@JoinColumn(name = "is_item_no")
-//	private Item item;
+	@OneToOne
+	@JoinColumn(name = "is_item_no")
+	@JsonBackReference
+	private Item item;
 
 	public void generateStartDate() {
 		this.isStartDate = LocalDateTime.now();
@@ -198,6 +202,14 @@ public class ItemSell {
 
 	public void setIsAuctionIngPrice(int isAuctionIngPrice) {
 		this.isAuctionIngPrice = isAuctionIngPrice;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 }

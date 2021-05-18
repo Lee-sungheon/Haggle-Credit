@@ -12,6 +12,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -44,8 +46,9 @@ public class Item {
 
 	@OneToOne(mappedBy = "item")
 	private ItemBuy itemBuy;
-//	@OneToOne(mappedBy = "item")
-//	private ItemSell itemSell;
+	@OneToOne(mappedBy = "item")
+	@JsonManagedReference
+	private ItemSell itemSell;
 
 	public int getiNo() {
 		return iNo;
@@ -103,12 +106,12 @@ public class Item {
 		this.itemBuy = itemBuy;
 	}
 
-//	public ItemSell getItemSell() {
-//		return itemSell;
-//	}
-//
-//	public void setItemSell(ItemSell itemSell) {
-//		this.itemSell = itemSell;
-//	}
+	public ItemSell getItemSell() {
+		return itemSell;
+	}
+
+	public void setItemSell(ItemSell itemSell) {
+		this.itemSell = itemSell;
+	}
 
 }
