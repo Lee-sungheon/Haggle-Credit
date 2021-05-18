@@ -44,9 +44,9 @@ public class ItemDonation {
 	@JoinColumn(name = "dp_item_no")
 	private List<DonationParticipant> donationParticipant;
 	
-	@OneToOne(mappedBy = "itemDonation")
-	@JsonManagedReference
-	private ItemSell itemSell;
+//	@OneToOne(mappedBy = "itemDonation")
+//	@JsonManagedReference
+//	private ItemSell itemSell;
 	
 	public int getIdNo() {
 		return idNo;
