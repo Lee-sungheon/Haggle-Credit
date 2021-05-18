@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,6 +25,7 @@ public class AuctionParticipant {
 	private int apNo;
     @Column(name="ap_item_no")
 	private int apItemNo;
+    @Column(name = "ap_user_no")
 	private int apUserNo;
 	private int apBid;
 	private LocalDateTime apDate;

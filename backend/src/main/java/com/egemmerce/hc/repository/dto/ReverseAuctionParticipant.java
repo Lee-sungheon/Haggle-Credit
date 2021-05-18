@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,6 +25,7 @@ public class ReverseAuctionParticipant {
 	private int rapNo;
     @Column(name = "rap_item_no")
 	private int rapItemNo;
+    @Column(name = "rap_user_no")
 	private int rapUserNo;
 	private int rapBid;
 	private LocalDateTime rapDate;
