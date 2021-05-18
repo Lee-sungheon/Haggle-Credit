@@ -14,6 +14,12 @@ public class BreakdownBid {
 	private int apAddress;
 	private int apItemNo;
 	private int apUserNo;
+	private int rapNo;
+	private int rapBid;
+	private String rapDate;
+	private int rapAddress;
+	private int rapItemNo;
+	private int rapUserNo;
 	private int iNo;
 	private String iType;
 	private String iCompleted;
