@@ -55,11 +55,11 @@ public class ImageUploadController {
 	@PostMapping("/itemPhotoUpload")
 	public ResponseEntity<String> InsertItemPhoto(@RequestParam MultipartFile file, @RequestParam int iNo)
 			throws Exception {
-		String ipValue = path + "/" + "mr-" + iNo + "-" + file.getOriginalFilename();
+		String ipValue = path + "/" + iNo + "-" + file.getOriginalFilename();
 		File dest = new File(ipValue);
 		file.transferTo(dest);
 
-		ipValue = "https://k4d107.p.ssafy.io/upload-images/" + "mr-" + iNo + "-" + file.getOriginalFilename();
+		ipValue = "https://k4d107.p.ssafy.io/upload-images/" + iNo + "-" + file.getOriginalFilename();
 
 		ItemPhoto ip = new ItemPhoto();
 		ip.setIpItemNo(iNo);
