@@ -59,8 +59,8 @@
     "webstomp-client": "^1.2.6"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "start": "NODE_PATH=public react-scripts start",
+    "build": "NODE_PATH=public GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write --config ./.prettierrc './src/**/*.{ts,tsx}'"
