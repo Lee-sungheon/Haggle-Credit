@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { DONATION } from 'styled-components';
 import { CountUp } from 'use-count-up';
+import { callApiDonationList, callApiDonationTotal } from '../../api/DonationApi';
 import DonationItem from './DonationItem';
 
 const Contianer = styled.div`
@@ -79,6 +80,30 @@ const DonationList = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isScroll, setIsScroll] = useState(false);
   const [height, setHeight] = useState(400);
+  const [donationList, setDonationList] = useState<DONATION[]>([]);
+  const [money, setMoney] = useState(0);
+  const [people, setPeople] = useState(0);
+  useEffect(()=>{                                      
+    const fetchData = async() => {
+      window.scrollTo(0, 0);
+      const data = await callApiDonationList();
+      setDonationList(data);
+      const totalData = await callApiDonationTotal();
+      if(totalData !== undefined) {
+        setMoney(totalData.donation);
+        setPeople(totalData.participant);
+      }
+    }
+    fetchData();
+    function listener(event: StorageEvent) {
+      if (event.storageArea !== localStorage) return;
+      fetchData();
+    }
+    window.addEventListener('storage', listener);
+    return () => {
+      window.removeEventListener('storage', listener);
+    }
+  }, [])
   useEffect(()=>{
     const myFunction = () => {
       if (null !== ref.current && !isScroll) {
@@ -103,7 +128,7 @@ const DonationList = () => {
       window.removeEventListener('scroll', myFunction);
       window.removeEventListener('resize', myFunction2);
     };
-  }, [isScroll])
+  }, [isScroll, donationList])
 
   return (
     <Contianer>
@@ -112,16 +137,14 @@ const DonationList = () => {
           <Total>Total</Total>
           <TotalTitle>Haggle과 <br /> 함께한 기부금</TotalTitle>
           <TotalContent>
-            <strong>{isScroll && <CountUp isCounting start={0} end={22478} duration={2} thousandsSeparator={','}/>} 명</strong>이 
-            <br /> <strong>{isScroll&&<CountUp isCounting start={0} end={68382910} duration={2} thousandsSeparator={','}/>} C</strong>를 <br /> 기부하였습니다.
+            <strong>{isScroll && <CountUp isCounting start={0} end={people} duration={2} thousandsSeparator={','}/>} 명</strong>이 
+            <br /> <strong>{isScroll&&<CountUp isCounting start={0} end={money} duration={2} thousandsSeparator={','}/>} C</strong>를 <br /> 기부하였습니다.
           </TotalContent>
         </TotalCard>
       </TotalCardArea>
       <div ref={ref} />
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item, idx)=>(
-        <>
-          <DonationItem key={item} isScroll={isScroll} idx={idx}/>
-        </>
+      {donationList.map((donation, idx)=>(
+        <DonationItem key={donation.idNo} isScroll={isScroll} idx={idx} donation={donation}/>
       ))}
     </Contianer>
   )

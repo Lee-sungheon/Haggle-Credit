@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ImageSlider from '../detail/ImageSlider';
-import { ITEM } from "styled-components";
+import { ITEM, DONATION } from "styled-components";
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 interface ProductInfoProps {
   item: ITEM;
+  donation: DONATION;
 }
 
 const StyledLinearProgress = withStyles({
@@ -117,25 +118,31 @@ const StyledButton = styled.div`
   align-items: center;
 `;
 
-const ProductInfo = ({item}: ProductInfoProps) => {
+const ProductInfo = ({item, donation}: ProductInfoProps) => {
   const [progress, setProgress] = useState(0);
-  // const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  const [percent, setPercent] = useState(0);
+
+  useEffect(()=>{
+    if (donation?.idIngPrice && donation?.idEndPrice){
+      setPercent(parseInt(String(donation.idIngPrice / donation.idEndPrice * 100)))
+    }
+  }, [donation.idEndPrice, donation.idIngPrice])
 
   useEffect(() => {
     setProgress(0);
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
-        if (oldProgress === 46) {
-          return 46;
+        if (oldProgress === percent) {
+          return percent;
         }
         const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 46);
+        return Math.min(oldProgress + diff, percent);
       });
     }, 100);
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [percent]);
 
   return (
     <Container>
@@ -151,26 +158,26 @@ const ProductInfo = ({item}: ProductInfoProps) => {
             <InfoPrice>
               <InfoText>현재기부액 : </InfoText>
               <span style={{ color: 'red' }}>
-                {item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                {String(donation?.idIngPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </span>
               <InfoText>원</InfoText>
             </InfoPrice>
             <InfoPrice>
               <InfoText>{'목표기부액 : '}</InfoText>
-              <span>{item.isCoolPrice !== undefined && item.isCoolPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              <span>{String(donation?.idEndPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               <InfoText>원</InfoText></span>
             </InfoPrice>
           </InfoTitlePrice>
         </InfoArea>
         <DetailBox style={{borderBottom: '1px solid rgb(238, 238, 238)'}}>
           <DetailItem>
-            <ItemTitle>· 기부 참여수</ItemTitle><ItemContent>{item.joinerCnt}회</ItemContent>
+            <ItemTitle>· 기부 참여수</ItemTitle><ItemContent>{String(donation.donationParticipant?.length).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}명</ItemContent>
           </DetailItem>
           <DetailItem>
             <ItemTitle>· 목표 달성률</ItemTitle>
             <ItemContent>
               <StyledLinearProgress variant="determinate" value={progress} style={{width: '150px'}} />
-              <span style={{color: '#f5a21a', paddingLeft: '7px', fontWeight: 700 }}>46%</span>
+              <span style={{color: '#f5a21a', paddingLeft: '7px', fontWeight: 700 }}>{percent}%</span>
             </ItemContent>
           </DetailItem>
         </DetailBox>
