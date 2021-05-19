@@ -53,25 +53,21 @@ public class ImageUploadController {
 //	}
 
 	@PostMapping("/itemPhotoUpload")
-	public ResponseEntity<?> InsertItemPhoto(@RequestParam List<MultipartFile> files, @RequestParam int iNo) throws Exception {
-		int size = files.size();
-		System.out.println(files.toString());
-		System.out.println("크기 : " + size);
-		for (int i = 0; i < size; i++) {
-			MultipartFile file = files.get(i);
-			String ipValue = path + "/" + "mr-" + iNo + "-" + file.getOriginalFilename();
-			File dest = new File(ipValue);
-			files.get(i).transferTo(dest);
+	public ResponseEntity<String> InsertItemPhoto(@RequestParam MultipartFile file, @RequestParam int iNo)
+			throws Exception {
+		String ipValue = path + "/" + "mr-" + iNo + "-" + file.getOriginalFilename();
+		File dest = new File(ipValue);
+		file.transferTo(dest);
 
-			ipValue = "https://k4d107.p.ssafy.io/upload-images/" + "mr-" + iNo + "-" + file.getOriginalFilename();
+		ipValue = "https://k4d107.p.ssafy.io/upload-images/" + "mr-" + iNo + "-" + file.getOriginalFilename();
 
-			ItemPhoto ip = new ItemPhoto();
-			ip.setIpItemNo(iNo);
-			ip.setIpValue(ipValue);
+		ItemPhoto ip = new ItemPhoto();
+		ip.setIpItemNo(iNo);
+		ip.setIpValue(ipValue);
 
-			imageUploadService.InsertItemPhoto(ip);
-		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		if (imageUploadService.InsertItemPhoto(ip) != null)
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping("/getItemPhotoList")
