@@ -117,6 +117,9 @@ const TenderList = ({ buy, products }: TenderListProps) => {
       setItemNum(1);
     }
   }, []);
+  useEffect(() => {
+    for (let i = 0; i < products.length; i++) {}
+  });
 
   useEffect(() => {
     ConfirmWidth();

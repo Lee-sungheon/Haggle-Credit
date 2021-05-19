@@ -107,9 +107,10 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
           <ItemPrice>
             <ItemCategory>현재가</ItemCategory>
             <span>
-              {item.isAuctionIngPrice !== undefined && item.isAuctionIngPrice
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              {item.isAuctionIngPrice !== undefined &&
+                item.isAuctionIngPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             </span>
             <ItemCategory>원</ItemCategory>
           </ItemPrice>
@@ -118,18 +119,20 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <>
                 <ItemCategory>즉구가</ItemCategory>
                 <span>
-                  {item.isCoolPrice !== undefined && item.isCoolPrice
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  {item.isCoolPrice !== undefined &&
+                    item.isCoolPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
               </>
             ) : (
               <>
                 <ItemCategory>시작가</ItemCategory>
                 <span>
-                  {item.isAuctionInitPrice !== undefined && item.isAuctionInitPrice
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  {item.isAuctionInitPrice !== undefined &&
+                    item.isAuctionInitPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
               </>
             )}

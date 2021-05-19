@@ -107,10 +107,11 @@ const Header = () => {
         navRef.current.style.boxShadow = '0 4px 8px 0 rgb(0 0 0 / 4%)';
       }
     }
-  }, [isIndex])
+  }, [isIndex]);
   const logOut = () => {
     dispatch(userActions.userLogout());
-    history.push('/home');
+    localStorage.removeItem('persist:root');
+    window.location.href = '/home';
   };
   useEffect(() => {
     if (isIndex) {
@@ -130,7 +131,10 @@ const Header = () => {
       style={!isIndex ? { backgroundColor: 'white' } : {}}
       isPurchase={isPurchase}
     >
-      <HeaderContainer isIndex={isIndex} style={!isIndex ? { backgroundColor: 'white' } : {}}>
+      <HeaderContainer
+        isIndex={isIndex}
+        style={!isIndex ? { backgroundColor: 'white' } : {}}
+      >
         <LogoBox>
           <Link to={'/home'}>
             <img

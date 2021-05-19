@@ -3,32 +3,36 @@ import { useState, useEffect, useCallback } from 'react';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { makeStyles } from '@material-ui/core/styles';
-import TendItem from './TransactionItem';
+import TransactionItem from './TransactionItem';
 import { ITEM } from 'styled-components';
 
-interface PruductListProps {
+interface TransactionListProps {
   buy: boolean;
   products: Products[];
 }
 interface Products {
-  apAddress: number;
-  apBid: number;
-  apDate: string;
+  isNo: number;
+  isItemNo: number;
+  isUserNo: number;
+  isItemName: string;
+  isCategoryMain: string;
+  isCategorySub: string;
+  isContent: string;
+  isUsedStatus: string;
+  isCoolPrice: number;
+  isAuctionInitPrice: number;
+  isDealPrice: number;
+  isDealUserNo: number;
+  isDealAddress: number;
+  isStartDate: null;
+  isEndDate: string;
+  isEventAgree: string;
+  isAuctionIngPrice: number;
+  ipNo: number;
+  ipItemNo: number;
+  ipValue: string;
   apItemNo: number;
-  apNo: number;
-  apUserNo: number;
-  iCompleted: string;
-  iNo: number;
-  iType: string;
-  ipItemNo: number;
-  ipNo: number;
-  ipValue: string;
-}
-
-interface ItemPhotoes {
-  ipNo: number;
-  ipItemNo: number;
-  ipValue: string;
+  joinerCnt: number;
 }
 
 const useStyles = makeStyles(() => ({
@@ -55,7 +59,7 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
-const TenderList = ({ buy, products }: PruductListProps) => {
+const TransactionList = ({ buy, products }: TransactionListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
   const ConfirmWidth = useCallback(() => {
@@ -92,7 +96,7 @@ const TenderList = ({ buy, products }: PruductListProps) => {
         {products.length > 0 &&
           products.map((item, idx) => (
             <GridListTile key={idx}>
-              {/* <TendItem item={item} image={item.ipValue} buy={buy} /> */}
+              <TransactionItem item={item} buy={buy} />
             </GridListTile>
           ))}
       </GridList>
@@ -105,4 +109,4 @@ const TenderList = ({ buy, products }: PruductListProps) => {
   );
 };
 
-export default TenderList;
+export default TransactionList;

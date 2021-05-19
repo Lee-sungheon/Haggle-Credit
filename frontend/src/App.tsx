@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Header from './components/navigation/Header';
 import NavBar from './components/navigation/NavBar';
@@ -30,6 +30,7 @@ import RecentlyBox from './components/navigation/RecentlyBox';
 
 const App = () => {
   const isIndex = useSelector((state: RootState) => state.common.isIndex);
+  const isLogin = useSelector((state: RootState) => state.user.isLogin);
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ThemeProvider theme={theme}>
@@ -45,11 +46,20 @@ const App = () => {
           <Route exact path="/" component={IndexPage} />
           <Route path="/home" component={Home} />
           <Route path="/category/:name" component={CategoryPage} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/profile" component={Profile} />
+          <PublicRoute
+            restricted
+            path="/signup"
+            component={Signup}
+            isLogin={isLogin}
+          ></PublicRoute>
+          <PrivateRoute path="/profile" component={Profile} isLogin={isLogin} />
           <Route path="/userprofile/:id" component={UserProfile} />
-          <Route path="/productregistraion" component={ProductRegistration} />
-          <Route path="/itemBuy" component={ItemBuy} />
+          <PrivateRoute
+            path="/productregistraion"
+            component={ProductRegistration}
+            isLogin={isLogin}
+          />
+          <PrivateRoute path="/itemBuy" component={ItemBuy} isLogin={isLogin} />
           <Route path="/search" component={SearchPage} />
           <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
@@ -69,3 +79,37 @@ const App = () => {
 };
 
 export default App;
+
+const PublicRoute = ({
+  component: Component,
+  restricted,
+  isLogin,
+  ...rest
+}: any) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        !!isLogin && restricted ? (
+          <Redirect to="/home" />
+        ) : (
+          <Component {...props} />
+        )
+      }
+    />
+  );
+};
+
+const PrivateRoute = ({ component: Component, isLogin, ...rest }: any) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) => (!!isLogin ? <Component {...props} /> : shotAlert())}
+    />
+  );
+};
+
+const shotAlert = () => {
+  alert('로그인 후 다시 시도해주세요');
+  return <Redirect to="/home" />;
+};

@@ -1,5 +1,5 @@
 import { createReducer } from '../../common/createReducer';
-import { ITEM } from "styled-components";
+import { ITEM } from 'styled-components';
 
 export const types = {
   USER_LOGIN: 'user/USER_LOGIN',
@@ -9,8 +9,8 @@ export const types = {
   CHANGE_PROFILE_IMAGE: 'user/CHANGE_PROFILE_IMAGE',
   CHANGE_INTRODUCE: 'user/CHANGE_INTRODUCE',
   JOIN_USER_DATA: 'user/JOIN_USER_DATA',
-  ADD_RECENTLY: "user/ADD_RECENTLY",
-  DELETE_RECENTLY: "user/DELETE_RECENTLY",
+  ADD_RECENTLY: 'user/ADD_RECENTLY',
+  DELETE_RECENTLY: 'user/DELETE_RECENTLY',
 };
 
 export const userActions = {
@@ -127,14 +127,14 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
   },
   [types.ADD_RECENTLY]: (state, action: AddRecently) => {
     let isExist: boolean = false;
-    for(let i = 0; i < state.recentlyItems.length; i++) {
-      if(state.recentlyItems[i].ipItemNo === action.data.ipItemNo)  {
+    for (let i = 0; i < state.recentlyItems.length; i++) {
+      if (state.recentlyItems[i].ipItemNo === action.data.ipItemNo) {
         isExist = true;
         break;
       }
     }
     if (!isExist) {
-      state.recentlyItems.push(action.data)
+      state.recentlyItems.push(action.data);
     }
     state.recentlyItems = [...state.recentlyItems];
     return {
@@ -142,8 +142,8 @@ const reducer = createReducer<userState>(INITIAL_STATE, {
     };
   },
   [types.DELETE_RECENTLY]: (state, action: DeleteRecently) => {
-    for(let i = 0; i < state.recentlyItems.length; i++) {
-      if(state.recentlyItems[i].ipItemNo === action.data.ipItemNo)  {
+    for (let i = 0; i < state.recentlyItems.length; i++) {
+      if (state.recentlyItems[i].ipItemNo === action.data.ipItemNo) {
         state.recentlyItems.splice(i, 1);
         break;
       }

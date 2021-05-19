@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
-import ProductList from '../../userProfile/tab/product/ProductList';
+import TransactionList from './transactionList/TransactionList';
 import axios from 'axios';
 const Container = styled.div``;
 const Body = styled.div`
@@ -74,7 +74,7 @@ const TransactionListTab = () => {
               구매
             </ReviewTab2>
           </Body>
-          {sellTransactionList.length === 0 ? (
+          {buyTransactionList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -82,7 +82,7 @@ const TransactionListTab = () => {
             >
               판매상품이 없습니다.
             </div>
-          ) : // <ProductList buy={true} products={TenderList} />
+          ) : // <ProductList buy={true} products={buyTransactionList} />
           null}
         </>
       ) : (
@@ -96,7 +96,7 @@ const TransactionListTab = () => {
             </ReviewTab1>
             <ReviewTab2 onClick={onReviewTab2}>구매</ReviewTab2>
           </Body>
-          {buyTransactionList.length === 0 ? (
+          {sellTransactionList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -104,8 +104,9 @@ const TransactionListTab = () => {
             >
               구매상품이 없습니다.
             </div>
-          ) : // <ProductList buy={true} products={TenderList} />
-          null}
+          ) : (
+            <TransactionList buy={true} products={sellTransactionList} />
+          )}
         </>
       )}
     </>

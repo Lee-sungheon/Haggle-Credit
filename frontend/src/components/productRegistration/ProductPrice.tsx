@@ -33,7 +33,9 @@ const ProductPrice = ({
   onIsEndDate,
 }: ProductPriceProps) => {
   const classes = useStyles();
-  const [endDate, setEndDate] = useState<any>('2021-05-14T01:00');
+  const [toDate, setToDate] = useState<any>('');
+  const [inputEndDate, setInputEndDate] = useState<any>('');
+  const [endDate, setEndDate] = useState<any>('');
   const [priceData, setPriceData] = useState({
     coolPrice: '0',
     AuctionPrice: '0',
@@ -51,10 +53,43 @@ const ProductPrice = ({
         (d.getMonth() + 1).toString().length + 1
       ) +
       '-' +
-      (d.getDate() + 1) +
-      'T01:00';
+      (d.getDate() + 2);
+    const to_date =
+      d.getFullYear() +
+      '-' +
+      ('0' + (d.getMonth() + 1)).slice(
+        (d.getMonth() + 1).toString().length - 1,
+        (d.getMonth() + 1).toString().length + 1
+      ) +
+      '-' +
+      d.getDate();
+    console.log(end_date);
+    setToDate(to_date);
     setEndDate(end_date);
+    setInputEndDate(end_date);
   }, []);
+  const onEndDate = (e: any) => {
+    console.log(e.target.value);
+    console.log(endDate);
+    const date1 = new Date(
+      endDate.slice(0, 4),
+      endDate.slice(6, 7) - 1,
+      endDate.slice(8, 10)
+    );
+    const date2 = new Date(
+      e.target.value.slice(0, 4),
+      e.target.value.slice(6, 7) - 1,
+      e.target.value.slice(8, 10)
+    );
+    const elapsedMSec = date2.getTime() - date1.getTime();
+    const elapsedDay = elapsedMSec / 1000 / 60 / 60 / 24;
+    if (elapsedDay >= 0) {
+      onIsEndDate(e.target.value);
+    } else {
+      alert('경매종료일을 작성일로부터 최소 2일후로 지정해주세요');
+      setInputEndDate(endDate);
+    }
+  };
   const onCoolPriceHandler = (e: any) => {
     let price = e.target.value;
     while (price[0] === '0') {
@@ -78,11 +113,6 @@ const ProductPrice = ({
     onIsAuctionPrice(price);
   };
 
-  const onEndDate = (e: any) => {
-    console.log(e.target.value);
-    setEndDate(e.target.value);
-    onIsEndDate(e.target.value);
-  };
   return (
     <>
       <Container id="address">
@@ -167,44 +197,46 @@ const ProductPrice = ({
           </div>
         </div>
       </Container>
-      <Container id="address">
-        <div
-          style={{
-            width: '20%',
-            fontSize: '17px',
-            fontWeight: 'bolder',
-            minWidth: '120px',
-          }}
-        >
-          경매종료시간<span style={{ color: 'red' }}>* </span>
-        </div>
-        <div
-          style={{
-            width: '80%',
-            paddingLeft: '20px',
-            minWidth: '650px',
-            textAlign: 'left',
-          }}
-        >
-          <div>
-            <div>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="datetime-local"
-                  type="datetime-local"
-                  defaultValue={endDate}
-                  onChange={onEndDate}
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </form>
-            </div>
+      {endDate && (
+        <Container id="address">
+          <div
+            style={{
+              width: '20%',
+              fontSize: '17px',
+              fontWeight: 'bolder',
+              minWidth: '120px',
+            }}
+          >
+            경매종료시간<span style={{ color: 'red' }}>* </span>
           </div>
-          <div></div>
-        </div>
-      </Container>
+          <div
+            style={{
+              width: '80%',
+              paddingLeft: '20px',
+              minWidth: '650px',
+              textAlign: 'left',
+            }}
+          >
+            <div>
+              <div>
+                <form className={classes.container} noValidate>
+                  <TextField
+                    id="date"
+                    type="date"
+                    defaultValue={inputEndDate}
+                    onChange={onEndDate}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </Container>
+      )}
     </>
   );
 };

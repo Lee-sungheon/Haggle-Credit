@@ -29,7 +29,8 @@ const ReviewTab2 = styled.div`
 const TenderListTab = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const [reviewTab, setReviewTab] = useState(1);
-  const [tenderList, setTenderItemList] = useState([]);
+  const [sellTenderList, setSellTenderItemList] = useState([]);
+  const [buyTenderList, setBuyTenderItemList] = useState([]);
 
   const onReviewTab1 = () => {
     setReviewTab(1);
@@ -43,7 +44,7 @@ const TenderListTab = () => {
         `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/bid?uNo=${userData.uNo}`
       )
       .then((res) => {
-        setTenderItemList(res.data);
+        setSellTenderItemList(res.data);
         console.log(res);
       })
       .catch((err) => {
@@ -62,7 +63,7 @@ const TenderListTab = () => {
               구매글 입찰
             </ReviewTab2>
           </Body>
-          {tenderList.length === 0 ? (
+          {sellTenderList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -71,7 +72,7 @@ const TenderListTab = () => {
               등록된 판매글입찰이 없습니다.
             </div>
           ) : (
-            <TenderList buy={true} products={tenderList} />
+            <TenderList buy={true} products={sellTenderList} />
           )}
         </>
       ) : (
@@ -85,7 +86,7 @@ const TenderListTab = () => {
             </ReviewTab1>
             <ReviewTab2 onClick={onReviewTab2}>구매글 입찰</ReviewTab2>
           </Body>
-          {tenderList.length === 0 ? (
+          {buyTenderList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -93,8 +94,9 @@ const TenderListTab = () => {
             >
               등록된 구매글입찰이 없습니다.
             </div>
-          ) : // <TenderList buy={true} products={tenderList} />
-          null}
+          ) : (
+            <TenderList buy={true} products={buyTenderList} />
+          )}
         </>
       )}
     </>
