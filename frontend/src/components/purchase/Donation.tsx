@@ -1,5 +1,4 @@
 import styled, { ITEM } from 'styled-components';
-import { theme } from '../../styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { callApiParticipantDonation } from '../../api/DonationApi';

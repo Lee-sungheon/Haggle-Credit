@@ -30,7 +30,6 @@ const DonationDetailPage = ({match, location}: RouteComponentProps<MatchParams, 
   const [donation, setDonation] = useState<DONATION>({});
   useEffect(()=>{
     window.scrollTo(0, 0);
-    setDonation(location.state.donation);
     const fetchData = async() => {
       const data: ITEM = await callApiItemDetail(parseInt(location.pathname.split('/')[2]));
       setItem(data);
@@ -48,7 +47,7 @@ const DonationDetailPage = ({match, location}: RouteComponentProps<MatchParams, 
     return () => {
       window.removeEventListener('storage', listener);
     }
-  }, [location.pathname, location.state.donation])
+  }, [location.pathname])
   return (
     <Container>
       <ProductInfo item={item} donation={donation}/>
