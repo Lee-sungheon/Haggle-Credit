@@ -5,7 +5,6 @@ import ProductImage from '../../components/itemBuy/ProductImage';
 import ProductName from '../../components/itemBuy/ProductName';
 import ProductCategory from '../../components/itemBuy/ProductCategory';
 import DealRegion from '../../components/itemBuy/DealRegion';
-// import ProductState from '../../components/itemBuy/ProductState';
 import ProductPrice from '../../components/itemBuy/ProductPrice';
 import ProductDescription from '../../components/productRegistration/ProductDescription';
 import { useSelector } from 'react-redux';
@@ -55,11 +54,8 @@ const ItemBuy = () => {
   useEffect(() => {
     if (userData.uNo) {
       setProductData({ ...productData, ibUserNo: userData.uNo });
-    } else {
-      window.location.href = '/home';
     }
-  }, []);
-
+  }, [userData]);
   const onIsNameHandler = (name: any) => {
     setProductData({ ...productData, ibName: name });
   };
@@ -97,7 +93,17 @@ const ItemBuy = () => {
 
   const onRegist = () => {
     console.log('regist');
-    let body = productData;
+    const body = {
+      ibUserNo: userData.uNo,
+      ibName: productData.ibName,
+      ibCategoryMain: productData.ibCategoryMain,
+      ibCategorySub: productData.ibCategorySub,
+      ibContent: productData.ibContent,
+      ibEndDate: productData.ibEndDate,
+      ibAuctionIngPrice: productData.ibAuctionIngPrice,
+      ibAuctionInitPrice: productData.ibAuctionInitPrice,
+      ibDealAddress: productData.ibDealAddress,
+    };
     console.log(body);
 
     if (
@@ -105,7 +111,6 @@ const ItemBuy = () => {
       productData.ibName &&
       productData.ibCategoryMain &&
       productData.ibEndDate &&
-      productData.ibCoolPrice &&
       productData.ibAuctionIngPrice &&
       productData.ibAuctionInitPrice &&
       productData.ibDealAddress
@@ -210,138 +215,6 @@ const ItemBuy = () => {
             onIsEndDate={onIsEndDate}
           />
           <ProductDescription onIsContent={onIsContent} />
-
-          {/* <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
-            marginBottom: '100px',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>
-              교환<span style={{ color: 'red' }}>* </span>
-            </p>
-          </div>
-          <div>
-            <div
-              style={{
-                display: 'flex',
-              }}
-            >
-              <div>
-                <Radio
-                  id="radio1"
-                  checked={changeSelectedValue === 'a'}
-                  onChange={handleChange}
-                  value="a"
-                  name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'A' }}
-                />
-                <span>교환가능</span>
-              </div>
-              <div>
-                <Radio
-                  id="radio1"
-                  checked={changeSelectedValue === 'b'}
-                  onChange={handleChange}
-                  value="b"
-                  name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'B' }}
-                />
-                <span>교환불가</span>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-          {/* <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            borderBottom: '1px solid gray',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>연관태그</p>
-          </div>
-          <div>
-            <input
-              style={{
-                height: '40px',
-                width: '800px',
-                marginRight: '25px',
-              }}
-              placeholder="연관태그를 입력해주세요.(최대 5개)"
-            ></input>
-            <div
-              style={{
-                fontSize: '13px',
-                marginTop: '5px',
-              }}
-            >
-              <span>
-                - 태그는 띄어쓰기로 구분되며 최대 9자까지 입력할 수 있습니다.
-              </span>
-              <br />
-              <span>
-                - 태그는 검색의 부가정보로 사용 되지만, 검색 결과 노출을
-                보장하지는 않습니다.
-              </span>
-              <br />
-              <span>- 검색 광고는 태그정보를 기준으로 노출됩니다.</span>
-              <br />
-              <span>
-                - 상품과 직접 관련이 없는 다른 상품명, 브랜드, 스팸성 키워드
-                등을 입력하면 노출이 중단되거나 상품이 삭제될 수 있습니다.
-              </span>
-            </div>
-          </div>
-        </div> */}
-          {/* <div
-          id="address"
-          style={{
-            display: 'flex',
-            padding: '25px 0',
-            marginBottom: '100px',
-          }}
-        >
-          <div
-            style={{
-              width: '180px',
-              fontSize: '17px',
-              fontWeight: 'bolder',
-            }}
-          >
-            <p>수량</p>
-          </div>
-          <div>
-            <input
-              value="1"
-              style={{
-                height: '20px',
-                padding: '10px',
-                marginTop: '5px',
-              }}
-            ></input>{' '}
-            개
-          </div>
-        </div> */}
         </div>
       </Container>
       <div

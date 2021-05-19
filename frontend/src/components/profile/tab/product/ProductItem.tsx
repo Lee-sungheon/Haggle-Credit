@@ -126,11 +126,28 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    // dispatch(userActions.addRecently(item));
-    // history.push({
-    //   pathname: `/detail/${item.ipItemNo}`,
-    //   state: { item, buy },
-    // });
+    if (item.itemBuy) {
+      const itemBuy = {
+        ...item.itemBuy,
+        ipValue: item.itemPhotoes[0].ipValue,
+      };
+
+      history.push({
+        pathname: `/detail/${itemBuy.ibItemNo}`,
+        state: { itemBuy, buy },
+      });
+    } else if (item.itemSell) {
+      const itemSell = {
+        ...item.itemSell,
+        ipValue: item.itemPhotoes[0].ipValue,
+      };
+      console.log(itemSell);
+      dispatch(userActions.addRecently(itemSell));
+      history.push({
+        pathname: `/detail/${itemSell.isItemNo}`,
+        state: { itemSell, buy },
+      });
+    }
   };
   useEffect(() => {
     if (image.length > 0) {

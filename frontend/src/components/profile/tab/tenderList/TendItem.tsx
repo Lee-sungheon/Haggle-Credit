@@ -103,6 +103,14 @@ const ImgBox = styled.div`
   padding: 45% 0;
   border-radius: 3px;
 `;
+const ImgBox2 = styled.div`
+  width: 100%;
+  height: 0;
+  position: relative;
+  padding: 45% 0;
+  border-radius: 3px;
+  opacity: 0.4;
+`;
 
 const ItemTitle = styled.div`
   height: 52px;
@@ -136,35 +144,86 @@ const ItemCategory = styled.span`
 
 const TendItem = ({ item, buy }: ProductItemProps) => {
   const [img, setImg] = useState('../images/no_image/gif');
-
+  const [checkAuction, setCheckAuction] = useState(true);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    dispatch(userActions.addRecently(item));
-    history.push({
-      pathname: `/detail/${item.ipItemNo}`,
-      state: { item, buy },
-    });
+    if (item.itemBuySet) {
+      const itemBuy = item.itemBuySet;
+      history.push({
+        pathname: `/detail/${itemBuy.ibItemNo}`,
+        state: { itemBuy, buy },
+      });
+    } else if (item.itemSellSet) {
+      console.log(item);
+      dispatch(userActions.addRecently(item));
+      const itemSell = item.itemSellSet;
+      history.push({
+        pathname: `/detail/${itemSell.isItemNo}`,
+        state: { itemSell, buy },
+      });
+    }
   };
   useEffect(() => {
     if (item.ipValue) {
       setImg(item.ipValue);
     }
   }, [item.ipValue]);
+  useEffect(() => {
+    if (item.itemSellSet) {
+      if (item.itemSellSet.isAuctionIngPrice !== item.apBid) {
+        setCheckAuction(false);
+      }
+    } else if (item.itemBuySet) {
+      if (item.itemBuySet.ibAuctionIngPrice !== item.apBid) {
+        setCheckAuction(false);
+      }
+    }
+  });
   return (
     <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>
-        <ImgBox>
-          <CardMedia
-            component="img"
-            className={classes.cardMedia}
-            image={img}
-          />
-        </ImgBox>
+        {checkAuction ? (
+          <ImgBox>
+            <CardMedia
+              component="img"
+              className={classes.cardMedia}
+              image={img}
+            />
+          </ImgBox>
+        ) : (
+          <>
+            <ImgBox2>
+              <CardMedia
+                component="img"
+                className={classes.cardMedia}
+                image={img}
+              />
+            </ImgBox2>
+            <div
+              style={{
+                position: 'absolute',
+                width: '100%',
+                top: '5vw',
+                fontSize: '2vw',
+              }}
+            >
+              <p>입찰 실패</p>
+            </div>
+          </>
+        )}
         {item.itemSellSet ? (
           <CardContent style={{ padding: 0 }}>
             <ItemTitle>{item.itemSellSet.isItemName}</ItemTitle>
+            <ItemPrice>
+              <ItemCategory>내 입찰가</ItemCategory>
+              <span>
+                {item.apBid !== undefined &&
+                  item.apBid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
             <ItemPrice>
               <ItemCategory>현재가</ItemCategory>
               <span>

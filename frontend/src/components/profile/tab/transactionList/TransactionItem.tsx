@@ -13,22 +13,30 @@ import { useEffect, useState } from 'react';
 interface ProductItemProps {
   item: Products;
   buy: boolean;
-  image: string;
 }
-
 interface Products {
-  apAddress: number;
-  apBid: number;
-  apDate: string;
-  apItemNo: number;
-  apNo: number;
-  apUserNo: number;
-  iCompleted: string;
-  iNo: number;
-  iType: string;
-  ipItemNo: number;
+  isNo: number;
+  isItemNo: number;
+  isUserNo: number;
+  isItemName: string;
+  isCategoryMain: string;
+  isCategorySub: string;
+  isContent: string;
+  isUsedStatus: string;
+  isCoolPrice: number;
+  isAuctionInitPrice: number;
+  isDealPrice: number;
+  isDealUserNo: number;
+  isDealAddress: number;
+  isStartDate: null;
+  isEndDate: string;
+  isEventAgree: string;
+  isAuctionIngPrice: number;
   ipNo: number;
+  ipItemNo: number;
   ipValue: string;
+  apItemNo: number;
+  joinerCnt: number;
 }
 const useStyles = makeStyles(() => ({
   root: {
@@ -84,7 +92,7 @@ const ItemCategory = styled.span`
   margin-right: 4px;
 `;
 
-const TendItem = ({ item, buy, image }: ProductItemProps) => {
+const TransactionItem = ({ item, buy }: ProductItemProps) => {
   const [img, setImg] = useState('../images/no_image/gif');
 
   const classes = useStyles();
@@ -92,19 +100,27 @@ const TendItem = ({ item, buy, image }: ProductItemProps) => {
   const history = useHistory();
   const goDetail = () => {
     dispatch(userActions.addRecently(item));
-    history.push({
-      pathname: `/detail/${item.ipItemNo}`,
-      state: { item, buy },
-    });
+    if (item.isNo) {
+      history.push({
+        pathname: `/detail/${item.ipItemNo}`,
+        state: { item, buy },
+      });
+    }
+    // else if (item.ibNo) {
+    //   history.push({
+    //     pathname: `/detail/${item.ipItemNo}`,
+    //     state: { item, buy },
+    //   });
+    // }
   };
   useEffect(() => {
-    if (image.length > 0) {
-      setImg(image);
+    if (item.ipValue) {
+      setImg(item.ipValue);
     }
-  }, [image]);
+  }, [item]);
   return (
     <Card className={classes.root} onClick={goDetail}>
-      {/* <CardActionArea>
+      <CardActionArea>
         <ImgBox>
           <CardMedia
             component="img"
@@ -112,51 +128,38 @@ const TendItem = ({ item, buy, image }: ProductItemProps) => {
             image={img}
           />
         </ImgBox>
-        <CardContent style={{ padding: 0 }}>
-          <ItemTitle>{item.isItemName}</ItemTitle>
-          <ItemPrice>
-            <ItemCategory>현재가</ItemCategory>
-            <span>
-              {item.isAuctionIngPrice !== undefined &&
-                item.isAuctionIngPrice
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </span>
-            <ItemCategory>원</ItemCategory>
-          </ItemPrice>
-          <ItemPrice>
-            {buy ? (
-              <>
-                <ItemCategory>즉구가</ItemCategory>
-                <span>
-                  {item.isCoolPrice !== undefined &&
-                    item.isCoolPrice
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </span>
-              </>
-            ) : (
-              <>
-                <ItemCategory>시작가</ItemCategory>
-                <span>
-                  {item.isAuctionInitPrice !== undefined &&
-                    item.isAuctionInitPrice
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </span>
-              </>
-            )}
-            <ItemCategory>원</ItemCategory>
-          </ItemPrice>
-          <ItemTime>
-            <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
-            <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-            {item.isEndDate}
-          </ItemTime>
-        </CardContent>
-      </CardActionArea> */}
+        {item.isNo ? (
+          <CardContent style={{ padding: 0 }}>
+            <ItemTitle>{item.isItemName}</ItemTitle>
+            <ItemPrice>
+              <ItemCategory>구매가</ItemCategory>
+              <span>
+                {item.isDealPrice !== undefined &&
+                  item.isDealPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
+          </CardContent>
+        ) : (
+          <CardContent style={{ padding: 0 }}>
+            <ItemTitle>{item.isItemName}</ItemTitle>
+            <ItemPrice>
+              <ItemCategory>판매가</ItemCategory>
+              <span>
+                {item.isDealPrice !== undefined &&
+                  item.isDealPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
+          </CardContent>
+        )}
+      </CardActionArea>
     </Card>
   );
 };
 
-export default TendItem;
+export default TransactionItem;

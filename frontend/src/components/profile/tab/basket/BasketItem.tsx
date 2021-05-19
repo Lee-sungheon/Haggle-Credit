@@ -97,7 +97,7 @@ interface ItemSell {
   isRegDate: string;
   isDealUserNo: number;
   isDealPrice: number;
-  isDealAddress: string;
+  isDealAddress: number;
   isUsedStatus: string;
   isItemName: string;
   isEventAgree: string;
@@ -196,13 +196,18 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    dispatch(userActions.addRecently(itemData));
     if (item.itemBuy) {
+      console.log(item.itemBuy);
       history.push({
         pathname: `/detail/${item.itemBuy.ibItemNo}`,
         state: { item, buy },
       });
     } else if (item.itemSell) {
+      console.log(item);
+      const itemSell = { ...item.itemSell, ipValue: item.itemPhoto[0].ipValue };
+      console.log(itemSell);
+      dispatch(userActions.addRecently(itemSell));
+
       history.push({
         pathname: `/detail/${item.itemSell.isItemNo}`,
         state: { item, buy },

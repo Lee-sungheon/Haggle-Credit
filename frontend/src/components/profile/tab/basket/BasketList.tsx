@@ -105,7 +105,7 @@ interface ItemSell {
   isRegDate: string;
   isDealUserNo: number;
   isDealPrice: number;
-  isDealAddress: string;
+  isDealAddress: number;
   isUsedStatus: string;
   isItemName: string;
   isEventAgree: string;
