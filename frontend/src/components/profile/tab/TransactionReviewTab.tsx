@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import TransactionReviewList from './TransactionReviewList';
-const Container = styled.div``;
+import { USERDATA } from 'styled-components';
 
-const TransactionReviewTab = () => {
+const Container = styled.div``;
+interface TransactionReviewTabProps {
+  userData: USERDATA;
+}
+const TransactionReviewTab = ({ userData }: TransactionReviewTabProps) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

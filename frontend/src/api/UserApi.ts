@@ -10,7 +10,8 @@ export function userLogin(body: any) {
 }
 
 export function userSignup(body: any) {
-  const url: string = 'https://k4d107.p.ssafy.io/haggle-credit/user/join';
+  const url: string =
+    'https://k4d107.p.ssafy.io/haggle-crchangeProfileImageAPIedit/user/join';
   return axios.post(url, body, {
     headers: {
       'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ export function changeIntroduceAPI(body: any) {
   });
 }
 
-export function changeProfileImageAPI(body: any) {
+export function changeProfileImageAPII(body: any) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/update`;
   return axios.put(url, body, {
     headers: {
@@ -59,9 +60,16 @@ export function changeProfileImageAPI(body: any) {
     },
   });
 }
-
+export function changeProfileImageAPI(body: any) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/image/profileUpload`;
+  return axios.put(url, body, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
 export function callApiGetAddress(uNo: number) {
-  const url:string = `https://k4d107.p.ssafy.io/haggle-credit/user/address?uNo=${uNo}`
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/address?uNo=${uNo}`;
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -73,7 +81,15 @@ export function callApiGetAddress(uNo: number) {
     });
 }
 
-export function callApiAddAddress(uaDefaultSetting: string, uaLnmAddress: string, uaName: string, uaRecvUserName: string, uaRecvUserPhone: string, uaReqeust: string, uaUserNo: number) {
+export function callApiAddAddress(
+  uaDefaultSetting: string,
+  uaLnmAddress: string,
+  uaName: string,
+  uaRecvUserName: string,
+  uaRecvUserPhone: string,
+  uaReqeust: string,
+  uaUserNo: number
+) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/address/add?uaDefaultSetting=${uaDefaultSetting}&uaLnmAddress=${uaLnmAddress}&uaName=${uaName}&uaRecvUserName=${uaRecvUserName}&uaRecvUserPhone=${uaRecvUserPhone}&uaRequest=${uaReqeust}&uaUserNo=${uaUserNo}`;
   return axios
     .post(url, {
@@ -86,7 +102,7 @@ export function callApiAddAddress(uaDefaultSetting: string, uaLnmAddress: string
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
 export function callApiChangeDefaultAddress(uNo: number, uaNo: number) {
@@ -102,7 +118,7 @@ export function callApiChangeDefaultAddress(uNo: number, uaNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
 export function callApiDeleteAddress(uaNo: number) {
@@ -114,5 +130,5 @@ export function callApiDeleteAddress(uaNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }

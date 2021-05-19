@@ -5,7 +5,7 @@ import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-import { changeProfileImageAPI } from '../../api/UserApi';
+import { changeProfileImageAPII } from '../../api/UserApi';
 
 const ImgSection = styled.div`
   width: 100%;
@@ -63,7 +63,6 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.user.userData);
   const [isWrap, setIsWrapm] = useState(false);
-
   const [images, setImages] = useState([]);
   const maxNumber = 8;
 
@@ -86,26 +85,30 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
       window.removeEventListener('resize', ConfirmWidth);
     };
   });
-  useEffect(() => {
-    updateProfile(images);
-  }, [images]);
-  const updateProfile = (imageList: ImageListType) => {
-    if (imageList.length <= 0) {
-      return;
-    }
-    let body = userData;
-    body.uImage = imageList[0].dataURL;
-    if (imageList[0].dataURL) {
-      changeProfileImageAPI(body)
-        .then((res) => {
-          console.log(res);
-          dispatch(userActions.changeProfileImage(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+  // useEffect(() => {
+  //   updateProfile(images);
+  // }, [images]);
+
+  // const updateProfile = (imageList: ImageListType) => {
+  //   if (imageList.length <= 0) {
+  //     return;
+  //   }
+  //   let formData = new FormData();
+  //   for (let i = 0; i< imageList.length;i++) {
+  //     if(imageList[i].file && )
+  //   }
+  //   body.uImage = imageList[0].dataURL;
+  //   if (imageList[0].dataURL) {
+  //     changeProfileImageAPII(body)
+  //       .then((res) => {
+  //         console.log(res);
+  //         dispatch(userActions.changeProfileImage(res.data));
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
   return (
     <>

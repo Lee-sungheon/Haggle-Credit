@@ -3,6 +3,7 @@ import UserName from './UserName';
 import Credit from './Credit';
 import Account from './Account';
 import Introduce from './Introduce';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   width: 70%;
@@ -14,16 +15,18 @@ const Section = styled.div`
   height: 3.5vw;
   display: flex;
 `;
-
-const ProfileSub = () => {
+interface ProfileSubProps {
+  userData: USERDATA;
+}
+const ProfileSub = ({ userData }: ProfileSubProps) => {
   return (
     <Container>
       <Section>
-        <UserName />
-        <Credit />
-        <Account />
+        <UserName userData={userData} />
+        <Credit userData={userData} />
+        <Account userData={userData} />
       </Section>
-      <Introduce />
+      <Introduce userData={userData} />
     </Container>
   );
 };

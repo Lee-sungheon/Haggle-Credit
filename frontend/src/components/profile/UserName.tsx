@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   width: 15%;
@@ -15,10 +16,10 @@ const TagP = styled.p`
   transform: translateY(-50%);
   font-size: 1.3vw;
 `;
-
-const UserName = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
-
+interface UserNameProps {
+  userData: USERDATA;
+}
+const UserName = ({ userData }: UserNameProps) => {
   return (
     <Container>
       <TagP>{userData.uName} 님</TagP>

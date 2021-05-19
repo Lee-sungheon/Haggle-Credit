@@ -7,6 +7,8 @@ import { RootState } from '../../common/store';
 import { changeCredit } from '../../api/UserApi';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
+import { USERDATA } from 'styled-components';
+
 const Container = styled.div`
   width: 45%;
   height: auto;
@@ -65,16 +67,17 @@ const CreditPaymentDiv = styled.div`
 // interface Window {
 //   IMP?: Iamport;
 // }
-
-const Credit = () => {
+interface CreditProps {
+  userData: USERDATA;
+}
+const Credit = ({ userData }: CreditProps) => {
   const [payment, setPayment] = useState(false);
   const [inputCredit, setInputCredit] = useState(0);
-  const userData = useSelector((state: RootState) => state.user.userData);
   const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const [credit, setCredit] = useState('0');
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("render")
+    console.log('render');
     if (userData.uCredit) {
       let set_credit = userData.uCredit.toString();
       if (userData.uCredit > 99999999) {

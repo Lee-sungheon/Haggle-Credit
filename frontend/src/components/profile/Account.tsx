@@ -5,6 +5,7 @@ import { RootState } from '../../common/store';
 import { updateBank } from '../../api/UserApi';
 import { userActions } from '../../state/user/index';
 import { useDispatch } from 'react-redux';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   width: 40%;
@@ -49,12 +50,13 @@ const AccountDiv = styled.div`
   // padding-lfex: 200px;
   text-align: right;
 `;
-
-const Account = () => {
+interface AccountProps {
+  userData: USERDATA;
+}
+const Account = ({ userData }: AccountProps) => {
   const dispatch = useDispatch();
 
   const [isChangeAccount, setIsChangeAccount] = useState(true);
-  const userData = useSelector((state: RootState) => state.user.userData);
   const [inputData, setInputData] = useState({
     bankName: '',
     bankNo: '',

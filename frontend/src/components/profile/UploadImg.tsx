@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { changeProfileImageAPI } from '../../api/UserApi';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   width: 30%;
@@ -59,10 +60,11 @@ const ImageList = styled.div`
     }
   }
 `;
-
-const UploadImg = () => {
+interface ProfileSectionProps {
+  userData: USERDATA;
+}
+const UploadImg = ({ userData }: ProfileSectionProps) => {
   const dispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.user.userData);
 
   const [images, setImages] = useState([]);
   const maxNumber = 69;
@@ -74,14 +76,20 @@ const UploadImg = () => {
   useEffect(() => {
     updateProfile(images);
   }, [images]);
+
   const updateProfile = (imageList: ImageListType) => {
     if (imageList.length <= 0) {
       return;
     }
-    let body = userData;
-    body.uImage = imageList[0].dataURL;
+    console.log(imageList);
+    let formData = new FormData();
+    if (imageList[0].file && userData.uEmail) {
+      formData.append('File', imageList[0].file);
+      formData.append('UserEmail', userData.uEmail);
+    }
+    console.log(formData);
     if (imageList[0].dataURL) {
-      changeProfileImageAPI(body)
+      changeProfileImageAPI(formData)
         .then((res) => {
           console.log(res);
           dispatch(userActions.changeProfileImage(res.data));
@@ -107,12 +115,7 @@ const UploadImg = () => {
   return (
     <>
       <ImageUploading value={images} onChange={onChange} maxNumber={maxNumber}>
-        {({
-          onImageUpload,
-          isDragging,
-          dragProps,
-        }) => (
-          // write your building UI
+        {({ onImageUpload, isDragging, dragProps }) => (
           <>
             {userData.uImage ? (
               <>

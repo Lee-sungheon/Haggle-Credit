@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { USERDATA } from 'styled-components';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
@@ -25,9 +26,10 @@ const ReviewTab2 = styled.div`
     cursor: pointer;
   }
 `;
-
-const TenderListTab = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+interface TenderListTabProps {
+  userData: USERDATA;
+}
+const TenderListTab = ({ userData }: TenderListTabProps) => {
   const [reviewTab, setReviewTab] = useState(1);
   const [sellTenderList, setSellTenderItemList] = useState([]);
   const [buyTenderList, setBuyTenderItemList] = useState([]);
@@ -45,6 +47,17 @@ const TenderListTab = () => {
       )
       .then((res) => {
         setSellTenderItemList(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get(
+        `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/bidbuy?uNo=${userData.uNo}`
+      )
+      .then((res) => {
+        setBuyTenderItemList(res.data);
         console.log(res);
       })
       .catch((err) => {
@@ -95,7 +108,7 @@ const TenderListTab = () => {
               등록된 구매글입찰이 없습니다.
             </div>
           ) : (
-            <TenderList buy={true} products={buyTenderList} />
+            <TenderList buy={false} products={buyTenderList} />
           )}
         </>
       )}

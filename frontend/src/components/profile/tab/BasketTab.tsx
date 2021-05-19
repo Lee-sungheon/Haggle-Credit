@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
 import BasketList from './basket/BasketList';
+import { USERDATA } from 'styled-components';
 
 const Body = styled.div`
   margin-top: 30px;
@@ -125,8 +126,10 @@ interface ItemSell {
   isItemName: string;
   isEventAgree: string;
 }
-const BasketTab = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+interface BasketTabProps {
+  userData: USERDATA;
+}
+const BasketTab = ({ userData }: BasketTabProps) => {
   const [reviewTab, setReviewTab] = useState(1);
 
   const [sellBookMarkList, setSellBookMarkList] = useState(

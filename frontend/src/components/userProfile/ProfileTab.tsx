@@ -96,11 +96,15 @@ const ProfileTab = ({ userData }: ProfileTabProps) => {
               </Tab>
             )}
           </Body>
-          <Route exact path="/userprofile/:id" component={ProductTab}></Route>
+          <Route
+            exact
+            path="/userprofile/:id"
+            render={() => <ProductTab userData={userData} />}
+          />{' '}
           <Route
             path="/userprofile/:id/transactionreview"
-            component={TransactionReviewTab}
-          ></Route>
+            render={() => <TransactionReviewTab userData={userData} />}
+          />
         </>
       )}
     </Container>

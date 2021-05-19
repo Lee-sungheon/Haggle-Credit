@@ -165,4 +165,6 @@ declare module 'styled-components' {
     uaRecvUserPhone?: string;
     uaRequest?: string;
   }
+  //동민
+  
 }

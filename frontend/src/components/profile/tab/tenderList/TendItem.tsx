@@ -30,6 +30,7 @@ interface Products {
   ipValue: string;
   itemSellSet: ItemSellSet;
   itemBuySet: ItemBuySet;
+  rapBid: number;
 }
 
 interface ItemSellSet {
@@ -60,7 +61,7 @@ interface ItemBuySet {
   ibNo: number;
   ibItemNo: number;
   ibUserNo: number;
-  ibItemName: string;
+  ibName: string;
   ibCategoryMain: string;
   ibCategorySub: string;
   ibContent: string;
@@ -151,6 +152,7 @@ const TendItem = ({ item, buy }: ProductItemProps) => {
   const goDetail = () => {
     if (item.itemBuySet) {
       const itemBuy = item.itemBuySet;
+      console.log(itemBuy);
       history.push({
         pathname: `/detail/${itemBuy.ibItemNo}`,
         state: { itemBuy, buy },
@@ -174,13 +176,17 @@ const TendItem = ({ item, buy }: ProductItemProps) => {
     if (item.itemSellSet) {
       if (item.itemSellSet.isAuctionIngPrice !== item.apBid) {
         setCheckAuction(false);
+      } else {
+        setCheckAuction(true);
       }
     } else if (item.itemBuySet) {
-      if (item.itemBuySet.ibAuctionIngPrice !== item.apBid) {
+      if (item.itemBuySet.ibAuctionIngPrice !== item.rapBid) {
         setCheckAuction(false);
+      } else {
+        setCheckAuction(true);
       }
     }
-  });
+  }, [item]);
   return (
     <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>
@@ -252,7 +258,13 @@ const TendItem = ({ item, buy }: ProductItemProps) => {
           </CardContent>
         ) : (
           <CardContent style={{ padding: 0 }}>
-            <ItemTitle>{item.itemBuySet.ibItemName}</ItemTitle>
+            <ItemTitle>{item.itemBuySet.ibName}</ItemTitle>
+            <ItemCategory>내 입찰가</ItemCategory>
+            <span>
+              {item.rapBid !== undefined &&
+                item.rapBid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </span>
+            <ItemCategory>원</ItemCategory>
             <ItemPrice>
               <ItemCategory>현재가</ItemCategory>
               <span>

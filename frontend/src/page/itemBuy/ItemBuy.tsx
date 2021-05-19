@@ -12,6 +12,7 @@ import { RootState } from '../../common/store';
 import axios from 'axios';
 import { ImageListType } from 'react-images-uploading';
 import { useHistory } from 'react-router-dom';
+import { changeProfileImageAPI } from '../../api/UserApi';
 
 const RegistButton = styled.button`
   height: 50px;
@@ -50,7 +51,9 @@ const ItemBuy = () => {
   const [productPhoto, setProductPhoto] = useState([]);
   useEffect(() => {
     window.scrollTo(0, 0);
+    return () => {};
   }, []);
+
   useEffect(() => {
     if (userData.uNo) {
       setProductData({ ...productData, ibUserNo: userData.uNo });
@@ -107,13 +110,13 @@ const ItemBuy = () => {
     console.log(body);
 
     if (
-      productData.ibUserNo &&
-      productData.ibName &&
-      productData.ibCategoryMain &&
-      productData.ibEndDate &&
-      productData.ibAuctionIngPrice &&
-      productData.ibAuctionInitPrice &&
-      productData.ibDealAddress
+      body.ibUserNo &&
+      body.ibName &&
+      body.ibCategoryMain &&
+      body.ibEndDate &&
+      body.ibAuctionIngPrice &&
+      body.ibAuctionInitPrice &&
+      body.ibDealAddress
     ) {
       console.log('data다있음');
       if (productPhoto.length > 0) {
@@ -130,6 +133,7 @@ const ItemBuy = () => {
           )
           .then((res) => {
             console.log(res);
+            alert('구매글을 등록하였습니다.');
             uploadImage(productPhoto, res);
           })
           .catch((err) => {
@@ -142,33 +146,61 @@ const ItemBuy = () => {
       return;
     }
   };
-  const uploadImage = (imageList: ImageListType, res: any) => {
-    const ibItemNo = res.data.ibItemNo;
-    console.log(ibItemNo);
-    for (let i = 0; i < imageList.length; i++) {
-      console.log(imageList[i]);
-      const body2 = {
-        ipItemNo: ibItemNo,
-        ipValue: imageList[i].dataURL,
-      };
+  const uploadImage = async (imageList: ImageListType, res: any) => {
+    if (imageList.length > 0) {
+      const ibItemNo = res.data.ibItemNo;
+      console.log(ibItemNo);
+      console.log(imageList);
+
+      imageList.forEach((item, idx) => {
+        if (item.file && ibItemNo) {
+          let formd = new FormData();
+          formd.append('file', item.file);
+          formd.append('iNo', ibItemNo);
+          formd.append('check', 'true');
+          axios
+            .post(
+              'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
+              formd,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
+
+      history.push('/home');
+    } else {
+      const ibItemNo = res.data.ibItemNo;
+
+      let formd = new FormData();
+      formd.append('file', 'null');
+      formd.append('iNo', ibItemNo);
+      formd.append('check', 'false');
+
       axios
         .post(
           'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
-          body2,
+          formd,
           {
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'multipart/form-data',
             },
           }
         )
         .then((res) => {
           console.log(res);
-          alert('구매글을 등록하였습니다.');
-          history.push('/home');
         })
         .catch((err) => {
           console.log(err);
-          alert('구매글 등록을 실패하였습니다.');
         });
     }
   };
@@ -222,10 +254,10 @@ const ItemBuy = () => {
           width: '100%',
           textAlign: 'center',
           padding: '10px 0',
-          // backgroundColor: 'rgb(250, 250, 253)',
           position: 'fixed',
           backgroundColor: 'white',
-          bottom: '10px',
+          paddingBottom: '20px',
+          bottom: '0px',
         }}
       >
         <RegistButton onClick={onRegist}>등록하기</RegistButton>

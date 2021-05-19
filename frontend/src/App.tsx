@@ -56,6 +56,7 @@ const App = () => {
           <Route path="/userprofile/:id" component={UserProfile} />
           <PrivateRoute
             path="/productregistraion"
+            npm
             component={ProductRegistration}
             isLogin={isLogin}
           />
@@ -110,6 +111,6 @@ const PrivateRoute = ({ component: Component, isLogin, ...rest }: any) => {
 };
 
 const shotAlert = () => {
-  alert('로그인 후 다시 시도해주세요');
+  alert('로그인 후 이용할 수 있는 페이지입니다.');
   return <Redirect to="/home" />;
 };

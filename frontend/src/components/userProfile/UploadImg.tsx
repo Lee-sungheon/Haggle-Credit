@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../common/store';
 import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
