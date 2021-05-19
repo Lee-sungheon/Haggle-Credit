@@ -91,7 +91,7 @@ public class ItemDonationController {
 			itemDeliveryService.insert(itemDelivery);
 			
 		}
-		return new ResponseEntity<ItemDonation>(itemDonation, HttpStatus.OK);
+		return new ResponseEntity<String>("성공", HttpStatus.OK);
 	}
 	
 }
