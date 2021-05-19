@@ -176,7 +176,7 @@ const DonationItem = ({ isScroll, idx, donation }: Props) => {
         />
       </ImgBox>
       <Card onClick={goDetail} >
-        <Title>{donation.item?.itemSell?.isItemName}</Title>
+        <Title>{item?.isItemName}</Title>
         <SubTitle>목표가 : {String(donation?.idEndPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</SubTitle>
         {isScroll && <StyledLinearProgress variant="determinate" value={progress} />}
         <ProgressArea>{percent}%</ProgressArea>

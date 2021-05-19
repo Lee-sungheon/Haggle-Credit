@@ -4,6 +4,21 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import AlarmItem from './AlarmItem';
+import { callApiAlarmList } from '../../api/UserApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../common/store';
+
+interface ALARM {
+  aNo: number;
+  aItemNo: number;
+  aItemImageValue: string;
+  aType: string;
+  aRecvUserNo: number;
+  aTitle: string;
+  aContent: string;
+  aTime: string;
+  aCause: string;
+}
 
 const DestinationTitle = styled.div`
   position: relative;
@@ -78,7 +93,19 @@ const useStyles = makeStyles((theme: Theme) =>
 const Alarm = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [alarmList, setAlarmList] = useState<ALARM[]>([]);
+  const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   
+  useEffect(()=>{
+    const fetchData = async() => {
+      if (userNo !== undefined) {
+        const data = await callApiAlarmList(userNo);
+        setAlarmList(data.reverse());
+      }
+    }
+    fetchData();
+  }, [userNo])
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -92,7 +119,7 @@ const Alarm = () => {
       <div
         onClick={handleOpen}
       >
-        알림
+        알림<span style={{color: 'red', fontWeight: 900, paddingLeft: '3px'}}>{alarmList?.length > 0 && alarmList?.length}</span>
       </div>
       <Modal
         className={classes.modal}
@@ -108,18 +135,18 @@ const Alarm = () => {
               <DestinationCloseButton onClick={handleClose}/>
             </DestinationTitle>
             <DestinationBox>
-              {/* <DestinationContent>
+              {alarmList?.length === 0 && <DestinationContent>
                 <div>
                   <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSI1NiIgdmlld0JveD0iMCAwIDU2IDU2Ij4KICAgIDxwYXRoIGZpbGw9IiNEQ0RCRTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTQ5LjU4IDEyLjAyYy41MjYuNTI1LjgyIDEuMjM3LjgyIDEuOTh2MzkuMmMwIDEuNTQ2LTEuMjU0IDIuOC0yLjggMi44SDguNGMtMS41NDYgMC0yLjgtMS4yNTQtMi44LTIuOFYyLjhDNS42IDEuMjU0IDYuODU0IDAgOC40IDBoMjhjLjc0MyAwIDEuNDU1LjI5NCAxLjk4LjgybDExLjIgMTEuMnpNNDQuOCA1MC40VjE1LjE2TDM1LjI0IDUuNkgxMS4ydjQ0LjhoMzMuNnptLTUuNi0xMS4yYzAgMS41NDYtMS4yNTQgMi44LTIuOCAyLjhIMTkuNmMtMS41NDYgMC0yLjgtMS4yNTQtMi44LTIuOCAwLTEuNTQ2IDEuMjU0LTIuOCAyLjgtMi44aDE2LjhjMS41NDYgMCAyLjggMS4yNTQgMi44IDIuOHptLTE5LjYtMTRoMTYuOGMxLjU0NiAwIDIuOCAxLjI1NCAyLjggMi44IDAgMS41NDYtMS4yNTQgMi44LTIuOCAyLjhIMTkuNmMtMS41NDYgMC0yLjgtMS4yNTQtMi44LTIuOCAwLTEuNTQ2IDEuMjU0LTIuOCAyLjgtMi44em04LjQtNS42aC04LjRjLTEuNTQ2IDAtMi44LTEuMjU0LTIuOC0yLjggMC0xLjU0NiAxLjI1NC0yLjggMi44LTIuOEgyOGMxLjU0NiAwIDIuOCAxLjI1NCAyLjggMi44IDAgMS41NDYtMS4yNTQgMi44LTIuOCAyLjh6Ii8+Cjwvc3ZnPgo=" alt=""/>
                   <div style={{ marginTop: '1.125rem', fontSize: '0.875rem', color: 'rgb(155, 153, 169)' }}>
                     알림이 없습니다.
                   </div>
                 </div>
-              </DestinationContent> */}
+              </DestinationContent>}
               <ChannelList>
-              {[1,2,3,4,5,6,7,8,9,10,11].map((item, idx)=>(
+              {alarmList.map((alarm, idx)=>(
                 <li key={idx}>
-                  <AlarmItem />
+                  <AlarmItem alarm={alarm} setOpen={setOpen} alarmList={alarmList} setAlarmList={setAlarmList}/>
                 </li>
               ))}
               </ChannelList>

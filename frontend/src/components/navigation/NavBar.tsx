@@ -186,7 +186,6 @@ const NavBar = () => {
   const isSearch = useSelector((state: RootState) => state.common.isSearch);
   const history = useHistory();
 
-
   useEffect(() => {
     if (!isSearch){
       setSearch("")
