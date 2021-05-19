@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.User;
+import com.egemmerce.hc.repository.mapper.ItemPhotoMapper;
 import com.egemmerce.hc.repository.mapper.ItemPhotoRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
@@ -29,6 +30,7 @@ public class ImageUploadServiceImpl implements ImageUploadService {
 
 	private final ItemPhotoRepository itemPhotoRepository;
 	private final UserRepository userRepository;
+	private final ItemPhotoMapper itemPhotoMapper;
 
 	@Override
 	public ItemPhoto InsertItemPhoto(ItemPhoto itemPhoto) throws Exception {
@@ -51,6 +53,16 @@ public class ImageUploadServiceImpl implements ImageUploadService {
 	public String selectUserImage(int uNo) throws Exception {
 		User check = userRepository.findByuNo(uNo);
 		return check.getuImage();
+	}
+
+	@Override
+	public List<ItemPhoto> selectAllItemPhoto() {
+		return itemPhotoRepository.findAll();
+	}
+
+	@Override
+	public void uploadSSG(ItemPhoto ip) {
+		itemPhotoMapper.SSGupload(ip);
 	}
 
 }

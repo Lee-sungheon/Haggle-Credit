@@ -1,6 +1,7 @@
 package com.egemmerce.hc.imageupload.controlloer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,9 @@ public class ImageUploadController {
 //	}
 
 	@PostMapping("/itemPhotoUpload")
-	public ResponseEntity<String> InsertItemPhoto(@RequestParam MultipartFile file, @RequestParam int iNo)
+	public ResponseEntity<String> InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam int iNo, @RequestParam String check)
 			throws Exception {
+		if(check.equals("true")) {
 		String ipValue = path + "/" + iNo + "-" + file.getOriginalFilename();
 		File dest = new File(ipValue);
 		file.transferTo(dest);
@@ -68,6 +70,15 @@ public class ImageUploadController {
 		if (imageUploadService.InsertItemPhoto(ip) != null)
 			return new ResponseEntity<>(HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			ItemPhoto ip = new ItemPhoto();
+			ip.setIpItemNo(iNo);
+			ip.setIpValue("../images/no_image.gif");
+			
+			if (imageUploadService.InsertItemPhoto(ip) != null)
+				return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
 	}
 
 	@GetMapping("/getItemPhotoList")
@@ -104,4 +115,16 @@ public class ImageUploadController {
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 
+	@PostMapping("/uploadSSG")
+	public ResponseEntity<ItemPhoto> updateSSG() throws Exception {
+		for(int i = 4; i <= 6002; i++) {
+			if(i == 5 || i == 7)
+				continue;
+			ItemPhoto ip = new ItemPhoto();
+			ip.setIpItemNo(i);
+			ip.setIpValue("https://k4d107.p.ssafy.io/upload-images/" + i + "item.jpg");
+			imageUploadService.uploadSSG(ip);
+		}
+		return new ResponseEntity<ItemPhoto>(HttpStatus.OK);
+	}
 }
