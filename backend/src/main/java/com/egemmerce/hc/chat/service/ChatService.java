@@ -30,4 +30,6 @@ public interface ChatService {
 	List<ChatRoom> selectChatRoomByuNo(int uNo);
 	
 	ChatRoom selectBycrNo(int crNo);
+
+	int deleteItemChat(int crNo);
 }

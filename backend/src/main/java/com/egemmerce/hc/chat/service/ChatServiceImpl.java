@@ -71,4 +71,9 @@ public class ChatServiceImpl implements ChatService {
 		return chatRoomRepository.findAllBycrNo(crNo);
 	}
 
+	@Override
+	public int deleteItemChat(int crNo) {
+		return chatRoomRepository.deleteBycrNo(crNo);
+	}
+
 }

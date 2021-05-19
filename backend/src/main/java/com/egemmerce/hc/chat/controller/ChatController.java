@@ -1,10 +1,12 @@
 package com.egemmerce.hc.chat.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,12 +79,11 @@ public class ChatController {
 		return chatservice.selectChatRoomByuNo(uNo);
 	}
 
-//	/* 해당 채팅방의 채팅 생성 */
-//	@PostMapping("/create")
-//	public ItemChatting createChat(@RequestBody ItemChatting itemChatting) throws Exception {
-//		itemChatting.generateicDate();
-//		return chatservice.createItemChat(itemChatting);
-//	}
+	/* 해당 채팅방 삭제 */
+	@DeleteMapping("/delete")
+	public ResponseEntity<Integer> createChat(@RequestBody int crNo) throws Exception {
+		return new ResponseEntity<Integer>(chatservice.deleteItemChat(crNo), HttpStatus.OK);
+	}
 
 	/* 채팅방 */
 	@PostMapping("/connect")
