@@ -1,5 +1,38 @@
 import styled from 'styled-components';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import { useHistory } from 'react-router';
+import { callApiDeleteAlarm } from '../../api/UserApi';
+
+interface Props {
+  alarm: ALARM;
+  setOpen: Function;
+  setAlarmList: Function;
+  alarmList: ALARM[];
+}
+
+interface ALARM {
+  aNo: number;
+  aItemNo: number;
+  aItemImageValue: string;
+  aType: string;
+  aRecvUserNo: number;
+  aTitle: string;
+  aContent: string;
+  aTime: string;
+  aCause: string;
+}
+
+interface ALARM {
+  aNo: number;
+  aItemNo: number;
+  aItemImageValue: string;
+  aType: string;
+  aRecvUserNo: number;
+  aTitle: string;
+  aContent: string;
+  aTime: string;
+  aCause: string;
+}
 
 const ChannelItem = styled.div`
 display: flex;
@@ -7,6 +40,8 @@ background: rgb(255, 255, 255);
 flex-direction: row;
 align-items: center;
 height: 80px;
+padding: 5px 0;
+border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 const ChannelAvatar = styled.div`
@@ -46,6 +81,7 @@ overflow: hidden;
 const StyledDate = styled.div`
 padding-top: 70px;
 padding-right: 10px;
+padding-left: 5px;
 height: 80%;
 font-size: 12px;
 display: flex;
@@ -65,22 +101,38 @@ cursor: pointer;
 outline: none;
 `;
 
-const AlarmItem = () => {
+const AlarmItem = ({alarm, setOpen, setAlarmList, alarmList}: Props) => {
+  const history = useHistory();
   return (
     <ChannelItem>
-      <ChannelAvatar>
-        <img src={"../images/no_image.gif"} alt="" width="54," height="54"/>
+      <ChannelAvatar 
+        onClick={() => {history.push(`/profile`); setOpen(false);}}>
+        <img src={alarm?.aItemImageValue} alt="" width="54," height="54"/>
       </ChannelAvatar>
-      <ItemContentBox>
-        <ItemTitle>{"이름"}</ItemTitle>
-        <ItemContent>{'등록한 물품이 유찰되었습니다. 물품이 기부로 넘어갑니다.'}</ItemContent>
+      <ItemContentBox onClick={() => {history.push(`/profile`); setOpen(false);}}>
+        <ItemTitle>{alarm.aTitle}</ItemTitle>
+        <ItemContent>{alarm.aContent}</ItemContent>
       </ItemContentBox>
       <StyledDate>
-        {"2021-05-18"}
+        {alarm.aTime.slice(0,10) + ' ' + alarm.aTime.slice(11,16)}
       </StyledDate>
       <MoreButtonArea>
         <MoreButton>
-          <DeleteForeverOutlinedIcon style={{fontSize: "18px", color: 'red'}}/>
+          <DeleteForeverOutlinedIcon 
+            style={{fontSize: "18px", color: 'red'}}
+            onClick={async() => {
+              const result: string = await callApiDeleteAlarm(alarm.aNo);
+              if (result === '알람 삭제 성공'){
+                for (let i=0 ; i < alarmList.length; i++){
+                  if (alarm.aNo === alarmList[i].aNo) {
+                    alarmList.splice(i, 1);
+                    setAlarmList([...alarmList]);
+                    break;
+                  }
+                }
+              }
+            }}
+          />
         </MoreButton>
       </MoreButtonArea>
     </ChannelItem>

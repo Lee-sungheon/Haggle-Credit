@@ -116,3 +116,29 @@ export function callApiDeleteAddress(uaNo: number) {
       console.log(Error);
   });
 }
+
+export function callApiAlarmList(uNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/alarm/read?uNo=${uNo}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}
+
+export function callApiDeleteAlarm(aNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/alarm/delete?aNo=${aNo}`;
+  return axios
+    .delete(url)
+    .then((Response) => {
+      return Response.data;
+    })
+    .catch((Error)=>{
+      console.log(Error);
+      return '오류';
+    })
+}

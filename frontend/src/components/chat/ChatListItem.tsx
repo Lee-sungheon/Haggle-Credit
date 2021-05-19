@@ -119,7 +119,7 @@ const ChatListItem = ({room, userNo, setRoomLists, roomLists}: Props) => {
         if (room.crNo === roomLists[i].crNo ) {
           roomLists.splice(i, 1);
           setRoomLists([...roomLists]);
-          break
+          break;
         }
       }
     }

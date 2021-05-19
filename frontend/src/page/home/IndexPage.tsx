@@ -492,7 +492,7 @@ const IndexPage = () => {
               }
               onClick={() => {setTabNo(2);}}
             >
-              이벤트 경매
+              기부하기
             </ListItem>
           </TabList>
           <SubText style={{ textAlign: 'center', lineHeight: '29px' }}>
@@ -543,6 +543,6 @@ const DESCRIPTION: string[] = [
   합리적인 가격으로 팔아보세요.<br />`,
   `원하는 물건을 사기 위해 더이상 발품 팔기는 No!<br />
   역경매를 통해 원하는 가격에 상품을 구매하세요.<br />`,
-  `이벤트 경매를 통해 말도<br />
-  안되는 가격에 물품을 GET 해보세요!<br />`,
+  `물품을 기부하고 기부자에 이름을 올리고,<br />
+  기부에 참여하여 원하는 물건을 얻어보세요!<br />`,
 ];
