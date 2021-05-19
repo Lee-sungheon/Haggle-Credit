@@ -79,6 +79,8 @@ public class ImageUploadController {
 	public ResponseEntity<?> UpdateProfile(@RequestParam("File") MultipartFile file,
 			@RequestParam("UserEmail") String userEmail) throws Exception {
 		String uImage = path + "/" + userEmail + "-" + file.getOriginalFilename();
+		System.out.println(file.getOriginalFilename());
+		System.out.println(uImage);
 
 		File dest = new File(uImage);
 		file.transferTo(dest);
