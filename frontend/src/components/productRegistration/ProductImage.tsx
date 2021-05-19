@@ -5,7 +5,7 @@ import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-import { changeProfileImageAPII } from '../../api/UserApi';
+import { changeProfileImageAPI } from '../../api/UserApi';
 
 const Container = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
     let body = userData;
     body.uImage = imageList[0].dataURL;
     if (imageList[0].dataURL) {
-      changeProfileImageAPII(body)
+      changeProfileImageAPI(body)
         .then((res) => {
           console.log(res);
           dispatch(userActions.changeProfileImage(res.data));

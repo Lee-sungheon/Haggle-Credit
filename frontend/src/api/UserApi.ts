@@ -130,10 +130,6 @@ export function callApiDeleteAddress(uaNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
-<<<<<<< HEAD
-    });
-}
-=======
   });
 }
 
@@ -162,4 +158,3 @@ export function callApiDeleteAlarm(aNo: number) {
       return '오류';
     })
 }
->>>>>>> 1e5b9f3e3fa9718a1976f5563e9b80247524a65b
