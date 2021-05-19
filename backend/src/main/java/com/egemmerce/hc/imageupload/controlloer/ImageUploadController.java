@@ -89,7 +89,7 @@ public class ImageUploadController {
 	}
 
 	@PutMapping("/profileUpload")
-	public ResponseEntity<?> UpdateProfile(@RequestParam("File") MultipartFile file,
+	public ResponseEntity<User> UpdateProfile(@RequestParam("File") MultipartFile file,
 			@RequestParam("UserEmail") String userEmail) throws Exception {
 		String uImage = path + "/" + userEmail + "-" + file.getOriginalFilename();
 		File dest = new File(uImage);
@@ -101,10 +101,11 @@ public class ImageUploadController {
 		user.setuImage(uImage);
 		user.setuEmail(userEmail);
 
-		if (imageUploadService.UpdateProfile(user) != null)
-			return new ResponseEntity<>(HttpStatus.OK);
+		User check = imageUploadService.UpdateProfile(user);
+		if (check != null)
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 
 }
