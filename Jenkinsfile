@@ -56,6 +56,7 @@ docker rmi $(docker images -f "dangling=true" -q)'
                     -p 80:80 \
                     -p 443:443 \
                     -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/haggle_credit/sslkey/ \
+                    -v /var/lib/haggle-credit-image:/haggle-credit-image \
                     --network haggle_creditnet \
                     latest_frontend:latest'
                 sh 'docker run -d --name latest_backend \
