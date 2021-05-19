@@ -1,6 +1,8 @@
 package com.egemmerce.hc.item.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,16 @@ public class ItemDonationController {
 	public ResponseEntity<?> selectItemoneByiNo(int iNo) throws Exception {
 		ItemDonation itemDonation=itemDonationService.selectItemoneByiNo(iNo);
 		return new ResponseEntity<ItemDonation>(itemDonation, HttpStatus.OK);
+	}
+	/* R :: 상품 전체 조회 */
+	@GetMapping("/selectalldonation")
+	public ResponseEntity<?> selectDonation() throws Exception {
+		int participant=donationParticipantService.countDonation();
+		int donation=itemDonationService.selectAllDonation();
+		Map<String, Integer> result=new HashMap<String, Integer>();
+		result.put("participant", participant);
+		result.put("donation", donation);
+		return new ResponseEntity<Map<String, Integer>>(result, HttpStatus.OK);
 	}
 	/* R :: 이벤트 경매 참여 */
 	@GetMapping("/participant")

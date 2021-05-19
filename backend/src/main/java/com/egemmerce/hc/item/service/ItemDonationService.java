@@ -17,6 +17,6 @@ public interface ItemDonationService {
 
 	void update(ItemDonation itemDonation);
 
-
+	int selectAllDonation();
 
 }

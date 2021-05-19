@@ -10,4 +10,6 @@ public interface DonationParticipantService {
 
 	List<DonationParticipant> selectByiNo(int iNo);
 
+	int countDonation();
+
 }

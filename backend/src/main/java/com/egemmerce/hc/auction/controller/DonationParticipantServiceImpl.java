@@ -25,6 +25,11 @@ public class DonationParticipantServiceImpl implements DonationParticipantServic
 		return donationParticipantRepository.findAllBydpItemNo(iNo);
 	}
 
+	@Override
+	public int countDonation() {
+		return (int) donationParticipantRepository.count();
+	}
+
 
 
 }
