@@ -307,13 +307,12 @@ const IndexPage = () => {
     window.onbeforeunload = () => {
       window.scrollTo(0, 0);
     };
-    window.onscroll = () => {
-      myFunction();
-    };
+    window.addEventListener('scroll', myFunction);
     const countdown = setInterval(() => {
       setTabNo((tabNo+1)%3);
     }, 4000);
     return () => {
+      window.removeEventListener('scroll', myFunction);
       dispatch(commonActions.setIsIndex(false));
       clearInterval(countdown);
     };

@@ -24,14 +24,17 @@ import lombok.NoArgsConstructor;
 public class DonationParticipant {
 	@Id
 	private int dpNo;
-	@Column(name = "dp_Item_donation_no")
-	private int dpItemDonationNo;
 	@Column(name = "dp_user_no")
 	private int dpUserNo;
+	@Column(name = "dp_item_no")
 	private int dpItemNo;
 	private LocalDateTime dpDate;
-	private int dpbid;
+	private int dpBid;
 	private int dpAddress;
+	
+	public void generatedpDate() {
+		this.dpDate=LocalDateTime.now();
+	}
 
 	public int getDpNo() {
 		return dpNo;
@@ -57,13 +60,6 @@ public class DonationParticipant {
 		this.dpDate = dpDate;
 	}
 
-	public int getDpbid() {
-		return dpbid;
-	}
-
-	public void setDpbid(int dpbid) {
-		this.dpbid = dpbid;
-	}
 
 	public int getDpAddress() {
 		return dpAddress;
@@ -79,6 +75,14 @@ public class DonationParticipant {
 
 	public void setDpItemNo(int dpItemNo) {
 		this.dpItemNo = dpItemNo;
+	}
+
+	public int getDpBid() {
+		return dpBid;
+	}
+
+	public void setDpBid(int dpBid) {
+		this.dpBid = dpBid;
 	}
 
 }

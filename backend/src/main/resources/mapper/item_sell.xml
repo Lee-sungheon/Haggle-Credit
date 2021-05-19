@@ -106,8 +106,8 @@ select *
 <select id="selectItemOne" parameterType="int" resultType="ItemSellSet">
 select itemsell.*, ip.ip_value
   from item_sell as itemsell join item_photo as ip
-    on itemsell.is_no = ip.ip_no
-   and itemsell.is_item_no = #{isItemNo}
+    on itemsell.is_item_no = ip.ip_item_no
+   and itemsell.is_item_no = #{isItemNo} limit 0, 1;
 </select>
 
 <!-- 판매상품의 입찰자 수 조회 -->

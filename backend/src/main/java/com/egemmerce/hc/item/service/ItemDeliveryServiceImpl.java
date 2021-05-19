@@ -78,4 +78,9 @@ public class ItemDeliveryServiceImpl implements ItemDeliveryService {
 		return itemDelivery;
 	}
 
+	@Override
+	public void insert(ItemDelivery itemDelivery) {
+		itemDeliveryRepository.save(itemDelivery);
+	}
+
 }

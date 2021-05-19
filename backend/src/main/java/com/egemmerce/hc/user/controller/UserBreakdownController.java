@@ -27,6 +27,22 @@ public class UserBreakdownController {
 	@GetMapping("bid")
 	public ResponseEntity<List<BreakdownBid>> ReadMyBid(int uNo) throws Exception {
 		List<BreakdownBid> result = service.selectBidBreakdown(uNo);
+		System.out.println("result size : " +result.size());
+		System.out.println("처리 : " + result.toString());
+		for(int i = 0; i < result.size(); i++) {
+			System.out.println(result.get(i));
+			if(result.get(i).getiType().equals("buy")) {
+				result.get(i).setItemBuySet(service.selectItemBuySet(result.get(i).getIpItemNo()));
+			} else {
+				result.get(i).setItemSellSet(service.selectItemSellSet(result.get(i).getIpItemNo()));
+			}
+		}
+		return new ResponseEntity<List<BreakdownBid>>(result, HttpStatus.OK);
+	}
+	@GetMapping("bidbuy")
+	public ResponseEntity<List<BreakdownBid>> ReadMyBidbuy(int uNo) throws Exception {
+		List<BreakdownBid> result = service.selectBidBreakdownBuy(uNo);
+		System.out.println("result size : " +result.size());
 		System.out.println("처리 : " + result.toString());
 		for(int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i));

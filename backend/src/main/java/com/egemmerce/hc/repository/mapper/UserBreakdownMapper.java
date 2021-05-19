@@ -15,4 +15,5 @@ public interface UserBreakdownMapper {
 	public List<ItemBuySet> selectBuyMine(int uNo) throws Exception;
 	public ItemSellSet selectItemSellSet(int iNo) throws Exception;
 	public ItemBuySet selectItemBuySet(int iNo) throws Exception;
+	public List<BreakdownBid> selectBidBreakdownBuy(int uNo);
 }

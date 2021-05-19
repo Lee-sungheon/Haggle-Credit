@@ -54,7 +54,7 @@ public class ItemBuyController {
 	@ApiOperation(value = "ib_auction_price,ib_category_main,ib_cool_price,ib_deal_address,ib_name,ib_start_date,ib_user_no,ib_end_date")
 	@PostMapping("/regist")
 	public ResponseEntity<?> createItem(@RequestBody ItemBuy itemBuy) throws Exception {
-		Item item = itemService.insert(Item.builder().iType("Buy").build());
+		Item item = itemService.insert(Item.builder().iType("buy").build());
 		System.out.println(item.getiNo());
 		itemBuy.setIbItemNo(item.getiNo());
 		ItemBuy check = itemBuyService.insertItemBuy(itemBuy);

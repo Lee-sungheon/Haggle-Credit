@@ -1,5 +1,7 @@
 package com.egemmerce.hc.item.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.ItemDonation;
@@ -19,5 +21,28 @@ public class ItemDonationServiceImpl implements ItemDonationService {
 		ItemDonation itemDonation=ItemDonation.builder().idEndPrice(is.getIsCoolPrice()).idItemNo(is.getIsNo()).idUserNo(is.getIsUserNo()).build();
 		itemDonationRepository.save(itemDonation);
 	}
+
+	@Override
+	public List<ItemDonation> selectItemAll() {
+		return itemDonationRepository.findAll();
+	}
+
+	@Override
+	public ItemDonation selectItemoneByiNo(int iNo) {
+		return itemDonationRepository.findByidItemNo(iNo);
+	}
+
+	@Override
+	public ItemDonation updateItemBid(int iNo, int bid) {
+		ItemDonation itemDonation=itemDonationRepository.findByidItemNo(iNo);
+		itemDonation.setIdIngPrice(itemDonation.getIdIngPrice()+bid);
+		return itemDonationRepository.save(itemDonation);
+	}
+
+	@Override
+	public void update(ItemDonation itemDonation) {
+		itemDonationRepository.save(itemDonation);
+	}
+	
 
 }

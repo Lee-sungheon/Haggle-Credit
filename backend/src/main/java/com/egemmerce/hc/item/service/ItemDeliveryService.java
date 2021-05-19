@@ -18,4 +18,6 @@ public interface ItemDeliveryService {
 
 	List<ItemDelivery> selectByidReceiveUserNo(int idReceiveUserNo);
 
+	void insert(ItemDelivery itemDelivery);
+
 }

@@ -50,7 +50,10 @@ public class User {
 	@OneToMany
 	@JoinColumn(name = "uc_user_no")
 	private List<UserCredit> userCredit;
-	
+	@OneToMany
+	@JoinColumn(name = "dp_user_no")
+	private List<DonationParticipant> donationParticipant;
+
 	@ColumnDefault("client")
 	private String uAuthority;
 
@@ -251,6 +254,14 @@ public class User {
 
 	public void setReverseAuctionParticipant(List<ReverseAuctionParticipant> reverseAuctionParticipant) {
 		this.reverseAuctionParticipant = reverseAuctionParticipant;
+	}
+
+	public List<DonationParticipant> getDonationParticipant() {
+		return donationParticipant;
+	}
+
+	public void setDonationParticipant(List<DonationParticipant> donationParticipant) {
+		this.donationParticipant = donationParticipant;
 	}
 
 }

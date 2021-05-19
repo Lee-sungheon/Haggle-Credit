@@ -39,4 +39,9 @@ public class UserBreakdownServiceImpl implements UserBreakdownService {
 	public ItemSellSet selectItemSellSet(int iNo) throws Exception {
 		return mapper.selectItemSellSet(iNo);
 	}
+
+	@Override
+	public List<BreakdownBid> selectBidBreakdownBuy(int uNo) {
+		return mapper.selectBidBreakdownBuy(uNo);
+	}
 }

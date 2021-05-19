@@ -132,10 +132,8 @@ const EventPage = () => {
             </ContentContainer>
           </DescriptionContainer>
         </IntroContainer>
-
-        <DonationList />
-        
       </ProductArea>
+      <DonationList />
     </Container>
   );
 }
