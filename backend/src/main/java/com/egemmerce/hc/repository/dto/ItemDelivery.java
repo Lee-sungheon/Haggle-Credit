@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,8 +22,8 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 @DynamicUpdate
 public class ItemDelivery {
-	@Id
 	private int idNo;
+	@Id
 	private int idItemNo;
 	private int idSendUserNo;
 	private int idReceiveUserNo;
@@ -31,6 +34,10 @@ public class ItemDelivery {
 	private String idReceive;
 	private String idType;
 	private int idPrice;
+	
+	@OneToOne(mappedBy = "itemDelivery")
+	@JsonManagedReference
+	private Item item;
 	
 	public void generateidSendDate() {
 		this.idSendDate=LocalDateTime.now();
@@ -106,6 +113,14 @@ public class ItemDelivery {
 
 	public void setIdPrice(int idPrice) {
 		this.idPrice = idPrice;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
 	}
 	
 	

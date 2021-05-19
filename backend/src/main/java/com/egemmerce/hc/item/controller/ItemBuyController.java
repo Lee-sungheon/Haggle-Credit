@@ -90,6 +90,23 @@ public class ItemBuyController {
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
 	}
 
+	/* U :: 상품 업데이트(경매 종료) */
+	@ApiOperation(value = "거래완료 변경(경매 기간 종료)")
+	@PutMapping("/endAuction")
+	public ResponseEntity<String> endAuction() throws Exception {
+
+		List<ItemBuy> endItemBuy = itemBuyService.selectOverEndDate();
+		if (endItemBuy.size() == 0) {
+			return new ResponseEntity<String>("종료된 경매가 없습니다.", HttpStatus.ACCEPTED);
+		} else {
+			for (ItemBuy ib : endItemBuy) {
+				itemService.updateItemDealCompleted(ib.getIbItemNo());
+				itemBuyService.updateItembyAuction(ib);
+
+			}
+			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
+		}
+	}
 	/* U :: 상품 업데이트 */
 	@PutMapping("/update")
 	public ResponseEntity<String> updateItemSell(@RequestBody ItemBuy itemBuy) throws Exception {

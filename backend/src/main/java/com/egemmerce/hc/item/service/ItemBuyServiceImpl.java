@@ -1,6 +1,7 @@
 package com.egemmerce.hc.item.service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,12 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
-import com.egemmerce.hc.repository.dto.ItemSell;
+import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.mapper.ItemBuyMapper;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
 import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
+import com.egemmerce.hc.repository.mapper.ReverseAuctionParticipantRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,8 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	private final ItemBuyRepository itemBuyRepository;
 	private final ItemDeliveryRepository itemDeliveryRepository;
 	private final UserRepository userRepository;
-	
+	private final ReverseAuctionParticipantRepository reverseAuctionParticipantRepository;
+
 	@Autowired
 	private ItemBuyMapper itemBuyMapper;
 
@@ -102,24 +105,24 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	public Integer countItemBuy() {
 		return (int) itemBuyRepository.count();
 	}
-	
+
 	/////////////////////////////// 아래는 mybatis 처리
 	@Override
 	public ItemBuySet BselectItemOne(int ibItemNo) throws Exception {
 		System.out.println(itemBuyMapper.BselectItemOne(ibItemNo));
 		return itemBuyMapper.BselectItemOne(ibItemNo);
 	}
-	
+
 	@Override
 	public int BselectItemCntAP(int ibItemNo) throws Exception {
 		return itemBuyMapper.BselectItemCntAP(ibItemNo);
 	}
-	
+
 	@Override
 	public List<ItemBuy> BselectItemListIndexing(int ibUserNo, int page) throws Exception {
 		return itemBuyMapper.BselectItemListIndexing(ibUserNo, page);
 	}
-	
+
 	///
 	@Override
 	public List<ItemBuySet> BselectItemNoSubRvsSort(SortProcess sortProcess) throws Exception {
@@ -163,7 +166,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 			return null;
 		return itemBuyMapper.BselectCountByCtgrSub(itemCtgrSearch);
 	}
-	
+
 	@Override
 	public int BselectCountItemBuy(int ibUserNo) throws Exception {
 		return itemBuyMapper.BselectCountItemBuy(ibUserNo);
@@ -177,10 +180,35 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 			return result;
 		return null;
 	}
-	
+
 	@Override
 	public List<ItemBuy> BselectMyItemByuNo(int uNo) {
 		return itemBuyRepository.findByibUserNo(uNo);
+	}
+
+	@Override
+	public List<ItemBuy> selectOverEndDate() {
+		List<ItemBuy> itemBuy = itemBuyRepository.findByibDealUserNoAndIbEndDateLessThan(0,
+				Date.valueOf(LocalDate.now()));
+		return itemBuy;
+	}
+
+	@Override
+	public void updateItembyAuction(ItemBuy ib) {
+		List<ReverseAuctionParticipant> beforeRAP = reverseAuctionParticipantRepository.findByrapItemNoOrderByRapDateDesc(ib.getIbItemNo());
+		if (beforeRAP.size() == 0) {
+			ib.setIbDealPrice(0);
+			ib.setIbDealUserNo(-1);
+			itemBuyRepository.save(ib);
+		} else {
+			ib.setIbDealPrice(beforeRAP.get(0).getRapBid());
+			ib.setIbDealUserNo(beforeRAP.get(0).getRapUserNo());
+			itemBuyRepository.save(ib);
+			ItemDelivery itemDelivery = ItemDelivery.builder().idType("buy").idPrice(ib.getIbDealPrice())
+					.idSendUserNo(ib.getIbDealUserNo()).idReceiveUserNo(ib.getIbUserNo()).idItemNo(ib.getIbItemNo())
+					.build();
+			itemDeliveryRepository.save(itemDelivery);
+			}
 	}
 	
 }

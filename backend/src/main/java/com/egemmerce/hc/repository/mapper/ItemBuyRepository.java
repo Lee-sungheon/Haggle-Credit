@@ -1,5 +1,6 @@
 package com.egemmerce.hc.repository.mapper;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -17,5 +18,7 @@ public interface ItemBuyRepository extends JpaRepository<ItemBuy, Long>{
 	ItemBuy findByibItemNo(int ibItemNo);
 
 	List<ItemBuy> findByibUserNo(int uNo);
+
+	List<ItemBuy> findByibDealUserNoAndIbEndDateLessThan(int i, Date valueOf);
 
 }

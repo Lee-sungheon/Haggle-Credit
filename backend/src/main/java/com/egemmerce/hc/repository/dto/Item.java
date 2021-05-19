@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -49,7 +50,14 @@ public class Item {
 	@OneToOne(mappedBy = "item")
 	@JsonManagedReference
 	private ItemSell itemSell;
-
+	@OneToOne
+	@JoinColumn(name = "i_no")
+	@JsonBackReference
+	private ItemDonation itemDonation;
+	@OneToOne
+	@JoinColumn(name = "i_no")
+	@JsonBackReference
+	private ItemDelivery itemDelivery;
 	public int getiNo() {
 		return iNo;
 	}

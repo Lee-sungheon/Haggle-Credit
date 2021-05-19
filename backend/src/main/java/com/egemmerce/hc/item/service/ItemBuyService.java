@@ -68,4 +68,8 @@ public interface ItemBuyService {
 	List<ItemBuy> BselectMyItemByuNo(int uNo);
 	Integer countItemBuy();
 
+	List<ItemBuy> selectOverEndDate();
+
+	void updateItembyAuction(ItemBuy ib);
+
 }
