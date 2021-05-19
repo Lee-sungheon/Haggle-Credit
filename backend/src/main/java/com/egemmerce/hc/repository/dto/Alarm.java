@@ -23,12 +23,18 @@ import lombok.NoArgsConstructor;
 public class Alarm {
 	@Id
 	private int aNo;
-	private int aSendUserNo;
+	private int aItemNo;
+	private String aItemImageValue;
+	private String aType;
 	private int aRecvUserNo;
 	private String aTitle;
 	private String aContent;
 	private LocalDateTime aTime;
-	private String aLink;
+	private String aCause;
+	
+	public void generateaTime() {
+		this.aTime=LocalDateTime.now();
+	}
 
 	public int getaNo() {
 		return aNo;
@@ -38,13 +44,7 @@ public class Alarm {
 		this.aNo = aNo;
 	}
 
-	public int getaSendUserNo() {
-		return aSendUserNo;
-	}
 
-	public void setaSendUserNo(int aSendUserNo) {
-		this.aSendUserNo = aSendUserNo;
-	}
 
 	public int getaRecvUserNo() {
 		return aRecvUserNo;
@@ -78,12 +78,37 @@ public class Alarm {
 		this.aTime = aTime;
 	}
 
-	public String getaLink() {
-		return aLink;
+	public int getaItemNo() {
+		return aItemNo;
 	}
 
-	public void setaLink(String aLink) {
-		this.aLink = aLink;
+	public void setaItemNo(int aItemNo) {
+		this.aItemNo = aItemNo;
 	}
+
+	public String getaType() {
+		return aType;
+	}
+
+	public void setaType(String aType) {
+		this.aType = aType;
+	}
+
+	public String getaCause() {
+		return aCause;
+	}
+
+	public void setaCause(String aCause) {
+		this.aCause = aCause;
+	}
+
+	public String getaItemImageValue() {
+		return aItemImageValue;
+	}
+
+	public void setaItemImageValue(String aItemImageValue) {
+		this.aItemImageValue = aItemImageValue;
+	}
+
 
 }

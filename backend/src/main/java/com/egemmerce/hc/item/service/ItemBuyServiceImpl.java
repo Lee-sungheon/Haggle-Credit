@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.egemmerce.hc.repository.dto.Alarm;
+import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.ItemBuySet;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
@@ -17,9 +19,11 @@ import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 import com.egemmerce.hc.repository.dto.SortProcess;
+import com.egemmerce.hc.repository.mapper.AlarmRepository;
 import com.egemmerce.hc.repository.mapper.ItemBuyMapper;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
 import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
+import com.egemmerce.hc.repository.mapper.ItemRepository;
 import com.egemmerce.hc.repository.mapper.ReverseAuctionParticipantRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
 
@@ -33,7 +37,8 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	private final ItemDeliveryRepository itemDeliveryRepository;
 	private final UserRepository userRepository;
 	private final ReverseAuctionParticipantRepository reverseAuctionParticipantRepository;
-
+	private final ItemRepository itemRepository;
+	private final AlarmRepository alarmRepository;
 	@Autowired
 	private ItemBuyMapper itemBuyMapper;
 
@@ -196,7 +201,18 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	@Override
 	public void updateItembyAuction(ItemBuy ib) {
 		List<ReverseAuctionParticipant> beforeRAP = reverseAuctionParticipantRepository.findByrapItemNoOrderByRapDateDesc(ib.getIbItemNo());
+		Item item=itemRepository.findByiNo(ib.getIbItemNo());
 		if (beforeRAP.size() == 0) {
+			Alarm alarm = Alarm.builder()
+					.aContent("등록한 물품이 유찰되었습니다. 물품을 사고자 한다면 다시 등록해주세요.")
+					.aType("buy")
+					.aCause("경매유찰")
+					.aItemNo(ib.getIbItemNo())
+					.aRecvUserNo(ib.getIbUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
 			ib.setIbDealPrice(0);
 			ib.setIbDealUserNo(-1);
 			itemBuyRepository.save(ib);
@@ -204,6 +220,26 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 			ib.setIbDealPrice(beforeRAP.get(0).getRapBid());
 			ib.setIbDealUserNo(beforeRAP.get(0).getRapUserNo());
 			itemBuyRepository.save(ib);
+			Alarm alarm = Alarm.builder()
+					.aContent("등록한 물품이 경매 낙찰 되었습니다. 마이페이지에서 확인해주세요.")
+					.aType("buy")
+					.aCause("경매낙찰")
+					.aItemNo(ib.getIbItemNo())
+					.aRecvUserNo(ib.getIbUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
+			alarm = Alarm.builder()
+					.aContent("입찰하신 물품이 최종 낙찰 됐습니다. 마이 페이지에서 확인해주세요.")
+					.aType("buy")
+					.aCause("경매낙찰")
+					.aItemNo(ib.getIbItemNo())
+					.aRecvUserNo(beforeRAP.get(0).getRapUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
 			ItemDelivery itemDelivery = ItemDelivery.builder().idType("buy").idPrice(ib.getIbDealPrice())
 					.idSendUserNo(ib.getIbDealUserNo()).idReceiveUserNo(ib.getIbUserNo()).idItemNo(ib.getIbItemNo())
 					.build();

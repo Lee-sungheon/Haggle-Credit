@@ -1,6 +1,5 @@
 package com.egemmerce.hc.item.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,18 +8,18 @@ import com.egemmerce.hc.repository.dto.ItemDonation;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.mapper.ItemDonationRepository;
 
-import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ItemDonationServiceImpl implements ItemDonationService {
-	
+
 	private final ItemDonationRepository itemDonationRepository;
 
 	@Override
 	public void add(ItemSell is) {
-		ItemDonation itemDonation=ItemDonation.builder().idEndPrice(is.getIsCoolPrice()).idItemNo(is.getIsNo()).idUserNo(is.getIsUserNo()).build();
+		ItemDonation itemDonation = ItemDonation.builder().idEndPrice(is.getIsCoolPrice()).idItemNo(is.getIsNo())
+				.idUserNo(is.getIsUserNo()).build();
 		itemDonationRepository.save(itemDonation);
 	}
 
@@ -36,8 +35,8 @@ public class ItemDonationServiceImpl implements ItemDonationService {
 
 	@Override
 	public ItemDonation updateItemBid(int iNo, int bid) {
-		ItemDonation itemDonation=itemDonationRepository.findByidItemNo(iNo);
-		itemDonation.setIdIngPrice(itemDonation.getIdIngPrice()+bid);
+		ItemDonation itemDonation = itemDonationRepository.findByidItemNo(iNo);
+		itemDonation.setIdIngPrice(itemDonation.getIdIngPrice() + bid);
 		return itemDonationRepository.save(itemDonation);
 	}
 
@@ -48,13 +47,12 @@ public class ItemDonationServiceImpl implements ItemDonationService {
 
 	@Override
 	public int selectAllDonation() {
-		List<ItemDonation> itemDonation=itemDonationRepository.findAll();
-		int sum=0;
+		List<ItemDonation> itemDonation = itemDonationRepository.findAll();
+		int sum = 0;
 		for (ItemDonation id : itemDonation) {
-			sum+=id.getIdIngPrice();
+			sum += id.getIdIngPrice();
 		}
 		return sum;
 	}
-	
 
 }

@@ -187,7 +187,7 @@ public class UserController {
 	/* U :: 비밀번호 수정 */
 	@ApiOperation(value = "비밀번호 수정을 위한 Restful API(uNo,uPassword)", response = User.class)
 	@PutMapping("/updatePass")
-	public ResponseEntity<?> temp(@RequestBody User user) throws Exception {
+	public ResponseEntity<?> updatePass(@RequestBody User user) throws Exception {
 		User check=userService.updatePass(user);
 		if (check!=null)
 			return new ResponseEntity<User>(check, HttpStatus.OK);

@@ -2,7 +2,6 @@ package com.egemmerce.hc.item.service;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.egemmerce.hc.repository.dto.Alarm;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
+import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemDelivery;
@@ -18,9 +19,10 @@ import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
-import com.egemmerce.hc.repository.dto.User;
+import com.egemmerce.hc.repository.mapper.AlarmRepository;
 import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
 import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
+import com.egemmerce.hc.repository.mapper.ItemRepository;
 import com.egemmerce.hc.repository.mapper.ItemSellMapper;
 import com.egemmerce.hc.repository.mapper.ItemSellRepository;
 import com.egemmerce.hc.repository.mapper.UserRepository;
@@ -36,7 +38,8 @@ public class ItemSellServiceImpl implements ItemSellService {
 	private final UserRepository userRepository;
 	private final AuctionParticipantRepository auctionParticipantRepository;
 	private final ItemDeliveryRepository itemDeliveryRepository;
-
+	private final ItemRepository itemRepository;
+	private final AlarmRepository alarmRepository;
 	@Autowired
 	private UserService userService;
 
@@ -163,13 +166,44 @@ public class ItemSellServiceImpl implements ItemSellService {
 
 	@Override
 	public void updateItembyAuction(ItemSell is) {
+		Item item=itemRepository.findByiNo(is.getIsItemNo());
 		List<AuctionParticipant> beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(is.getIsItemNo());
 		if (beforeAP.size() == 0) {
+			Alarm alarm = Alarm.builder()
+					.aContent("등록한 물품이 유찰되었습니다. 물품을 팔고자 한다면 다시 등록해주세요.")
+					.aType("sell")
+					.aCause("경매유찰")
+					.aItemNo(is.getIsItemNo())
+					.aRecvUserNo(beforeAP.get(0).getApUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
 			is.setIsDealPrice(0);
 			is.setIsDealAddress(0);
 			is.setIsDealUserNo(-1);
 			itemSellRepository.save(is);
 		} else {
+			Alarm alarm = Alarm.builder()
+					.aContent("입찰하신 물품이 최종 낙찰 됐습니다. 마이 페이지에서 확인해주세요.")
+					.aType("sell")
+					.aCause("경매낙찰")
+					.aItemNo(is.getIsItemNo())
+					.aRecvUserNo(beforeAP.get(0).getApUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
+			alarm = Alarm.builder()
+					.aContent("등록한 물품이 경매 낙찰 되었습니다. 마이페이지에서 확인해주세요.")
+					.aType("sell")
+					.aCause("경매낙찰")
+					.aItemNo(is.getIsItemNo())
+					.aRecvUserNo(is.getIsUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
 			is.setIsDealPrice(beforeAP.get(0).getApBid());
 			is.setIsDealAddress(beforeAP.get(0).getApAddress());
 			is.setIsDealUserNo(beforeAP.get(0).getApUserNo());
@@ -232,6 +266,17 @@ public class ItemSellServiceImpl implements ItemSellService {
 
 	@Override
 	public void updateItembyDonation(ItemSell is) {
+		Item item=itemRepository.findByiNo(is.getIsNo());
+		Alarm alarm = Alarm.builder()
+				.aContent("등록한 물품이 기부 경매에 등록되었습니다. 마이 페이지에서 확인해주세요.")
+				.aType("sell")
+				.aCause("기부경매등록")
+				.aItemNo(is.getIsItemNo())
+				.aRecvUserNo(is.getIsUserNo())
+				.aTitle(item.getItemSell().getIsItemName())
+				.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+		alarm.generateaTime();
+		alarmRepository.save(alarm);
 		is.setIsEventAgree("done");
 		itemSellRepository.save(is);
 	}

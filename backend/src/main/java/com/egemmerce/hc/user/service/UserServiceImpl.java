@@ -15,13 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.egemmerce.hc.repository.dto.Alarm;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.EmailMessage;
+import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAccount;
 import com.egemmerce.hc.repository.dto.UserCredit;
+import com.egemmerce.hc.repository.mapper.AlarmRepository;
 import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
+import com.egemmerce.hc.repository.mapper.ItemRepository;
 import com.egemmerce.hc.repository.mapper.UserCreditMapper;
 import com.egemmerce.hc.repository.mapper.UserCreditRepository;
 import com.egemmerce.hc.repository.mapper.UserMapper;
@@ -49,6 +53,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 	private final UserCreditRepository userCreditRepository;
 	private final AuctionParticipantRepository auctionParticipantRepository;
+	private final ItemRepository itemRepository;
+	private final AlarmRepository alarmRepository;
 	
 	@Autowired
 	private UserCreditMapper userCreditMapper;
@@ -304,6 +310,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		List<AuctionParticipant> beforelist=auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo);
 		User user=null;
 		UserCredit uc=null;
+		Item item=itemRepository.findByiNo(isItemNo);
 		if(beforelist.size()!=0) {
 			AuctionParticipant before=beforelist.get(0);
 			user=userRepository.findByuNo(before.getApUserNo());
@@ -312,6 +319,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			uc.generateucTime();
 			userCreditRepository.save(uc);
 			userRepository.save(user);
+			Alarm alarm = Alarm.builder()
+					.aContent("등록하신 경매가보다 더 높은 경매가가 나왔습니다. 상품을 입찰하시길 원하시면 재입찰 해주세요.")
+					.aType("sell")
+					.aCause("경매유찰")
+					.aItemNo(isItemNo)
+					.aRecvUserNo(before.getApUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmRepository.save(alarm);
 		}
 		
 		user=userRepository.findByuNo(isUserNo);
