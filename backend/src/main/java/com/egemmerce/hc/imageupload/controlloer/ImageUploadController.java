@@ -90,9 +90,9 @@ public class ImageUploadController {
 		user.setuEmail(userEmail);
 
 		if (imageUploadService.UpdateProfile(user) != null)
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 
-		return new ResponseEntity<User>(user, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }
