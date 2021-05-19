@@ -123,7 +123,7 @@ const Purchase = ({desc, uaNo}: Props) => {
       } else {
         alert('오류가 발생했습니다.');
       }
-      window.close();
+      // window.close();
     }
   }
   

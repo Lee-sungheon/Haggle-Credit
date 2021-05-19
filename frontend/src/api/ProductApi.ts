@@ -428,3 +428,35 @@ export function callApiSearchSellCount(word: string) {
       return [];
     });
 }
+
+export function callApiEndSell() {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/endAuction`;
+  return axios
+    .put(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(() => {
+      return;
+    })
+    .catch((Error) => {
+      console.log(Error);
+  });
+}
+
+export function callApiEndBuy() {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/endAuction`;
+  return axios
+    .put(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(() => {
+      return;
+    })
+    .catch((Error) => {
+      console.log(Error);
+  });
+}

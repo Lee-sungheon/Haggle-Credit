@@ -5,7 +5,7 @@ import ProductList from '../../components/home/PruductList';
 import { useDispatch, useSelector } from 'react-redux';
 import { homeActions } from "../../state/home";
 import { RootState } from '../../common/store';
-import { callApiItemSellCnt, callApiItemBuyCnt } from '../../api/ProductApi';
+import { callApiItemSellCnt, callApiItemBuyCnt, callApiEndSell, callApiEndBuy } from '../../api/ProductApi';
 import Pagination from '@material-ui/lab/Pagination';
 
 const Container = styled.div`
@@ -65,6 +65,8 @@ const Home = () => {
   const [buy, setBuy] = useState(true);
   const ConfirmWidth = useCallback(()=>{
     const windowInnerWidth = window.innerWidth;
+    callApiEndSell();
+    callApiEndBuy();
     if (windowInnerWidth > 1280) {
       setItemNum(5);
     } else if (windowInnerWidth > 1023) {

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
-import { useHistory } from 'react-router-dom';
+import Alarm from './Alarm';
 
 const Container = styled.div<{ isPurchase: boolean }>`
   width: 100%;
@@ -80,7 +80,6 @@ const Header = () => {
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleOpen = () => {
     setOpen(true);
@@ -156,6 +155,9 @@ const Header = () => {
             </>
           ) : (
             <>
+              <Menu isIndex={isIndex}>
+                <Alarm />
+              </Menu>
               <Menu isIndex={isIndex}>
                 <div
                   onClick={() =>

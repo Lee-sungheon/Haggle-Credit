@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import DonationList from '../../components/event/DonationList';
+import { callApiUpdateDonation } from '../../api/DonationApi';
 
 const Container = styled.div`
   padding: 95px 200px 0 200px;
@@ -101,6 +102,7 @@ const ProductArea = styled.div`
 const EventPage = () => {
   useEffect(()=>{
     window.scrollTo(0, 0);
+    callApiUpdateDonation();
   }, [])
   return (
     <Container>

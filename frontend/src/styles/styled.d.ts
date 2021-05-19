@@ -165,4 +165,53 @@ declare module 'styled-components' {
     uaRecvUserPhone?: string;
     uaRequest?: string;
   }
+  export interface PARTICIPANT {
+    dpNo: number;
+    dpUserNo: number;
+    dpItemNo: number;
+    dpDate: string;
+    dpBid: number;
+    dpAddress: number;
+  }
+  export interface DONATIONITEM {
+    iNo: number;
+    iType: string;
+    iCompleted: string;
+    auctionParticipant: [];
+    reverseAuctionParticipant: [];
+    itemPhoto: PHOTO[];
+    itemBuy?: null;
+    itemSell?: SELLITEM;
+  }
+  export interface SELLITEM {
+    isItemNo: number;
+    isNo: number;
+    isUserNo: number;
+    isItemName: string;
+    isCategoryMain: string;
+    isCategorySub: stirng;
+    isUsedStatus: string;
+    isContent: string;
+    isCoolPrice: number;
+    isAuctionInitPrice: number;
+    isDealAddress: number;
+    isDealPrice: number;
+    isDealUserNo: number;
+    isStartDate: null;
+    isEndDate: string;
+    isEventAgree: string;
+    isAuctionIngPrice: number;
+  }
+  export interface DONATION {
+    idNo?: number;
+    idItemNo?: number;
+    idUserNo?: number;
+    idEndPrice?: number;
+    idIngPrice?: number;
+    idEndUserNo?: number;
+    idEndUesrAddress?: number;
+    idEndUserAddress?: number;
+    donationParticipant?: PARTICIPANT[];
+    item?: DONATIONITEM;
+  }
 }
