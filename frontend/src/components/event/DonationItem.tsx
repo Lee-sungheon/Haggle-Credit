@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import styled, { DONATION } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useHistory } from "react-router";
@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 interface Props {
   isScroll: boolean;
   idx: number;
+  donation: DONATION;
 }
 
 const StyledLinearProgress = withStyles({
@@ -98,6 +99,9 @@ line-height: 46px;
 font-size: 18px;
 font-weight: 900;
 border: 1px solid rgba(0,0,0,.11);
+:hover{
+  background-color: #ffceae;
+}
 `;
 
 const ImgBox = styled.div`
@@ -108,37 +112,46 @@ const ImgBox = styled.div`
   border-radius: 3px;
 `;
 
-const DonationItem = ({ isScroll, idx }: Props) => {
-  const [progress, setProgress] = React.useState(0);
+const DonationItem = ({ isScroll, idx, donation }: Props) => {
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
   const history = useHistory();
-  const goDetail = () => {
-    history.push({
-      pathname: `/donation_detail/${'1'}`,
-      // state: {item}
-    });
-  };
-
-  React.useEffect(() => {
+  
+  useEffect(()=>{
+    if (donation?.idIngPrice && donation?.idEndPrice){
+      setPercent(parseInt(String(donation.idIngPrice / donation.idEndPrice * 100)))
+    }
+  }, [donation.idEndPrice, donation.idIngPrice])
+  
+  useEffect(() => {
     setProgress(0);
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
-        if (oldProgress === 46) {
-          return 46;
+        if (oldProgress === percent) {
+          return percent;
         }
         const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 46);
+        return Math.min(oldProgress + diff, percent);
       });
     }, 100);
     return () => {
       clearInterval(timer);
     };
-  }, [isScroll]);
+  }, [isScroll, percent]);
+  
+  const goDetail = () => {
+    const item = donation.item?.itemSell;
+    history.push({
+      pathname: `/donation_detail/${donation.item?.itemSell?.isItemNo}`,
+      state: {item, donation}
+    });
+  };
   
   return (
     <CardArea id={`card-${idx}`}>
       <ImgBox onClick={goDetail} >
         <img 
-          src="https://happybean-phinf.pstatic.net/20210503_170/1620031355174XqanD_PNG/noname01.png?type=a360" 
+          src={donation.item !== undefined && donation.item.itemPhoto.length > 0 ? donation.item?.itemPhoto?.[0].ipValue : '../images/no_image.gif'}
           alt="" 
           width="100%"
           style={{
@@ -153,14 +166,14 @@ const DonationItem = ({ isScroll, idx }: Props) => {
         />
       </ImgBox>
       <Card onClick={goDetail} >
-        <Title>행복한 미소, 아름다운 사진 장수사진관</Title>
-        <SubTitle>도봉서원종합사회복지관</SubTitle>
+        <Title>{donation.item?.itemSell?.isItemName}</Title>
+        <SubTitle>목표가 : {String(donation?.idEndPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</SubTitle>
         {isScroll && <StyledLinearProgress variant="determinate" value={progress} />}
-        <ProgressArea>46%</ProgressArea>
-        <ProgressMoney>{'140200'.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</ProgressMoney>
-        <SubTitle>기부 참여자 : {'1000'.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}명</SubTitle>
+        <ProgressArea>{percent}%</ProgressArea>
+        <ProgressMoney>{String(donation?.idIngPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</ProgressMoney>
+        <SubTitle>기부 참여자 : {String(donation.donationParticipant?.length).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}명</SubTitle>
       </Card>
-      <DonationButton onClick={()=>window.open(`../donation/${`6076`}`, '_blank')}>기부 참여 (100C)</DonationButton>
+      <DonationButton onClick={()=>window.open(`../donation/${donation.item?.itemSell?.isItemNo}`, '_blank')}>기부 참여 (100C)</DonationButton>
     </CardArea>
   )
 }

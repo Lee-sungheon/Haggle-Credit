@@ -70,6 +70,7 @@ const DonationPage = ({match, location}: RouteComponentProps<MatchParams, Histor
   location.state === undefined ? isModal = false : isModal = true;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchData = async() => {
       const data = await callApiItemDetail(itemNo);
       setDesc(data);

@@ -1,11 +1,10 @@
 import styled, { ITEM } from 'styled-components';
-// import { theme } from '../../styles/theme';
+import { theme } from '../../styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
-// import { callApiUpdateAuction, callApiDealCompleted } from '../../api/ProductApi';
-// import { useDispatch } from 'react-redux';
-// import { userActions } from "../../state/user";
-// import { totalActions } from "../../state/common/common";
+import { callApiParticipantDonation } from '../../api/DonationApi';
+import { useDispatch } from 'react-redux';
+import { totalActions } from "../../state/common/common";
 
 interface Props {
   desc: ITEM;
@@ -105,25 +104,20 @@ text-align: center;
 const Purchase = ({desc, uaNo}: Props) => {
   const credit = 100;
   const userData = useSelector((state: RootState) => state.user.userData);
-  // const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
-  // const dispatch = useDispatch();
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
+  const dispatch = useDispatch();
 
   const submitPurchase = async() => {
-    // if (desc.isCoolPrice !== undefined && desc.isItemNo !== undefined && userData.uNo !== undefined && uaNo !== -1){
-    //   const result = await callApiUpdateAuction(desc.isCoolPrice, desc.isItemNo, userData.uNo, uaNo);
-    //   if (result >= 0 ){
-    //     await callApiDealCompleted(desc.isItemNo, userData.uNo, uaNo);
-    //     alert('기부가 완료되었습니다.');
-    //     const data = Object.assign({}, userData);
-    //     data.uCredit = result;
-    //     dispatch(userActions.changeCredit(data));
-    //     dispatch(totalActions.setIsUpdate(!isUpdate));
-
-    //   } else {
-    //     alert('오류가 발생했습니다.');
-    //   }
-    //   window.close();
-    // }
+    if (desc.isItemNo !== undefined && userData.uNo !== undefined && uaNo !== -1){
+      const result = await callApiParticipantDonation(desc.isItemNo, userData.uNo, uaNo);
+      dispatch(totalActions.setIsUpdate(!isUpdate));
+      if (result === "성공"){
+        alert('기부가 완료되었습니다.');
+      } else {
+        alert('오류가 발생했습니다.');
+      }
+      window.close();
+    }
   }
   
   return (

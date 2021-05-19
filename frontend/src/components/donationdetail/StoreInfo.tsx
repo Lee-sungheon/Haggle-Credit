@@ -349,7 +349,7 @@ const StoreInfo = ({ item }: Props) => {
           <ButtonArea>
             <StyledButton
               style={{ background: 'rgb(255, 164, 37)', marginRight: '5px' }}
-              onClick={() => window.open(`../auction/buy/${item.isItemNo}`, '_blank')}
+              onClick={() => window.open(`../donation/${item.isItemNo}`, '_blank')}
             >
               기부 참여 (100C)
             </StyledButton>

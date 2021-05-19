@@ -60,7 +60,19 @@ export function callConnetChat(body: CONNECTBODY) {
       },
     })
     .then((Resoponse) => {
-      console.log(Resoponse.data);
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return -1;
+    });
+}
+
+export function callApiDeleteRoom(crNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/chat/delete?crNo=${crNo}`;
+  return axios
+    .delete(url)
+    .then((Resoponse) => {
       return Resoponse.data;
     })
     .catch((Error) => {
