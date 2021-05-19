@@ -156,8 +156,11 @@ public class ItemSellServiceImpl implements ItemSellService {
 		userService.updateUserCreditbyAP(user, itemSell.getIsCoolPrice(), isItemNo);
 
 		// UserCredit 수정
-		AuctionParticipant beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo).get(0);
-		userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
+		List<AuctionParticipant> beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo);
+		if(beforeAP.size()!=0) {
+			userService.updateUserCreditbyFail(beforeAP.get(0).getApUserNo(), beforeAP.get(0).getApBid(), isItemNo);
+			
+		}
 
 		ItemDelivery itemDelivery = ItemDelivery.builder().idSendUserNo(itemSell.getIsUserNo()).idReceiveUserNo(uNo)
 				.idType("sell").idPrice(itemSell.getIsDealPrice()).idItemNo(isItemNo).build();
