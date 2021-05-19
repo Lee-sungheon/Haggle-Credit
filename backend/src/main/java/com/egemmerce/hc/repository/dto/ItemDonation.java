@@ -39,7 +39,6 @@ public class ItemDonation {
 	private String idEndDonation;
 	private int idEndUserNo;
 	private int idEndUserAddress;
-
 	@OneToMany
 	@JoinColumn(name = "dp_item_no")
 	private List<DonationParticipant> donationParticipant;
