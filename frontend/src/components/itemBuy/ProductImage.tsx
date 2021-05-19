@@ -5,7 +5,6 @@ import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-import { changeProfileImageAPII } from '../../api/UserApi';
 
 const ImgSection = styled.div`
   width: 100%;
@@ -85,30 +84,6 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
       window.removeEventListener('resize', ConfirmWidth);
     };
   });
-  // useEffect(() => {
-  //   updateProfile(images);
-  // }, [images]);
-
-  // const updateProfile = (imageList: ImageListType) => {
-  //   if (imageList.length <= 0) {
-  //     return;
-  //   }
-  //   let formData = new FormData();
-  //   for (let i = 0; i< imageList.length;i++) {
-  //     if(imageList[i].file && )
-  //   }
-  //   body.uImage = imageList[0].dataURL;
-  //   if (imageList[0].dataURL) {
-  //     changeProfileImageAPII(body)
-  //       .then((res) => {
-  //         console.log(res);
-  //         dispatch(userActions.changeProfileImage(res.data));
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // };
 
   return (
     <>
