@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
 import Rating from '@material-ui/lab/Rating';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div``;
 
@@ -40,9 +41,10 @@ interface ReviewList {
   ur_score: number;
   ur_write_date: string;
 }
-const TransactionReviewList = () => {
-  const userData = useSelector((state: RootState) => state.user.joinUserData);
-
+interface TransactionReviewListProps {
+  userData: USERDATA;
+}
+const TransactionReviewList = ({ userData }: TransactionReviewListProps) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

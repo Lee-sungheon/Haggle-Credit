@@ -165,6 +165,11 @@ declare module 'styled-components' {
     uaRecvUserPhone?: string;
     uaRequest?: string;
   }
+<<<<<<< HEAD
+  //동민
+  
+}
+=======
   export interface PARTICIPANT {
     dpNo: number;
     dpUserNo: number;
@@ -215,3 +220,4 @@ declare module 'styled-components' {
     item?: DONATIONITEM;
   }
 }
+>>>>>>> 1e5b9f3e3fa9718a1976f5563e9b80247524a65b

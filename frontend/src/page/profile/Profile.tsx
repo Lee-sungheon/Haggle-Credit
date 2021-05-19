@@ -22,18 +22,13 @@ const Body = styled.div`
 `;
 const Profile = () => {
   const history = useHistory();
-
   const userData = useSelector((state: RootState) => state.user.userData);
-  useEffect(() => {
-    if (!userData.uNo) {
-      history.push('/home');
-    }
-  }, []);
+
   return (
     <Container>
       <Body>
-        <ProfileSection />
-        <ProfileTab />
+        <ProfileSection userData={userData} />
+        <ProfileTab userData={userData} />
       </Body>
     </Container>
   );

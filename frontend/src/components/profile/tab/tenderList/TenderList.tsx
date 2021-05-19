@@ -25,6 +25,7 @@ interface Products {
   ipValue: string;
   itemSellSet: ItemSellSet;
   itemBuySet: ItemBuySet;
+  rapBid: number;
 }
 
 interface ItemSellSet {
@@ -55,7 +56,7 @@ interface ItemBuySet {
   ibNo: number;
   ibItemNo: number;
   ibUserNo: number;
-  ibItemName: string;
+  ibName: string;
   ibCategoryMain: string;
   ibCategorySub: string;
   ibContent: string;

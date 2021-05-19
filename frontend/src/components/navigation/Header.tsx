@@ -18,12 +18,12 @@ const Container = styled.div<{ isPurchase: boolean }>`
   color: #3c4758;
   display: block;
   opacity: 1;
-  display: ${({ isPurchase }) => (isPurchase ? 'none' : 'block')}; 
+  display: ${({ isPurchase }) => (isPurchase ? 'none' : 'block')};
 `;
 
 const HeaderContainer = styled.div<{ isIndex: boolean }>`
   margin: 0 auto;
-  width: 100%;                                      
+  width: 100%;
   height: 100%;
   padding: ${({ isIndex }) => (isIndex ? '0 40px' : '0 200px')};
   position: relative;
@@ -109,6 +109,7 @@ const Header = () => {
   }, [isIndex]);
   const logOut = () => {
     dispatch(userActions.userLogout());
+    alert('로그아웃 되었습니다.');
     localStorage.removeItem('persist:root');
     window.location.href = '/home';
   };

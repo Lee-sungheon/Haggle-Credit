@@ -5,6 +5,7 @@ import { RootState } from '../../common/store';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import { changeIntroduceAPI } from '../../api/UserApi';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   height: 11.5vw;
@@ -64,13 +65,14 @@ const IntroduceTextArea = styled.textarea`
   padding: 8px;
   resize: none;
 `;
-
-const Introduce = () => {
+interface IntroduceProps {
+  userData: USERDATA;
+}
+const Introduce = ({ userData }: IntroduceProps) => {
   const dispatch = useDispatch();
 
   const [toggle, setToggle] = useState(true);
   const [introduce, setIntroduce] = useState('');
-  const userData = useSelector((state: RootState) => state.user.userData);
   useEffect(() => {
     if (userData.uContent) {
       setIntroduce(userData.uContent);

@@ -7,6 +7,7 @@ import TransactionListTab from './tab/TransactionListTab';
 import BasketTab from './tab/BasketTab';
 import TenderListTab from './tab/TenderListTab';
 import { Route } from 'react-router-dom';
+import { USERDATA } from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
@@ -45,8 +46,10 @@ const Tab = styled.div`
     font-weight: bolder;
   }
 `;
-
-const ProfileTab2 = () => {
+interface ProfileTabProps {
+  userData: USERDATA;
+}
+const ProfileTab = ({ userData }: ProfileTabProps) => {
   const history = useHistory();
   const clickHandler = (id: string) => {
     history.push(id);
@@ -100,16 +103,29 @@ const ProfileTab2 = () => {
           </Tab>
         )}
       </Body>
-      <Route exact path="/profile" component={ProductTab}></Route>
+      <Route
+        exact
+        path="/profile"
+        render={() => <ProductTab userData={userData} />}
+      />
       <Route
         path="/profile/transactionreview"
-        component={TransactionReviewTab}
-      ></Route>
-      <Route path="/profile/basket" component={BasketTab}></Route>
-      <Route path="/profile/tenderlist" component={TenderListTab} />
-      <Route path="/profile/transactionlist" component={TransactionListTab} />
+        render={() => <TransactionReviewTab userData={userData} />}
+      />
+      <Route
+        path="/profile/basket"
+        render={() => <BasketTab userData={userData} />}
+      />
+      <Route
+        path="/profile/tenderlist"
+        render={() => <TenderListTab userData={userData} />}
+      />
+      <Route
+        path="/profile/transactionlist"
+        render={() => <TransactionListTab userData={userData} />}
+      />
     </Container>
   );
 };
 
-export default ProfileTab2;
+export default ProfileTab;

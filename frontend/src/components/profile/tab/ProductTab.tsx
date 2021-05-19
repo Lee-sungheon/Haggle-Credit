@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
 import ProductList from './product/ProductList';
 import axios from 'axios';
+import { USERDATA } from 'styled-components';
 
 const Body = styled.div`
   margin-top: 30px;
@@ -25,8 +26,10 @@ const ReviewTab2 = styled.div`
     cursor: pointer;
   }
 `;
-const ProductTab = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+interface ProductTabProps {
+  userData: USERDATA;
+}
+const ProductTab = ({ userData }: ProductTabProps) => {
   const [reviewTab, setReviewTab] = useState(1);
 
   const [sellItemList, setSellItemList] = useState([]);

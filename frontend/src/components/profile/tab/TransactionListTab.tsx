@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { USERDATA } from 'styled-components';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../common/store';
@@ -25,9 +26,10 @@ const ReviewTab2 = styled.div`
     cursor: pointer;
   }
 `;
-
-const TransactionListTab = () => {
-  const userData = useSelector((state: RootState) => state.user.userData);
+interface TransactionListTabProps {
+  userData: USERDATA;
+}
+const TransactionListTab = ({ userData }: TransactionListTabProps) => {
   const [reviewTab, setReviewTab] = useState(1);
   const [sellTransactionList, setSellTransactionListTab] = useState([]);
   const [buyTransactionList, setBuyTransactionListTab] = useState([]);
@@ -41,21 +43,22 @@ const TransactionListTab = () => {
   useEffect(() => {
     axios
       .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/buy?uNo=${userData.uNo}`
+        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectSend?idSendUserNo=${userData.uNo}`
       )
       .then((res) => {
-        setBuyTransactionListTab(res.data);
+        setSellTransactionListTab(res.data);
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
+
     axios
       .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/sell?uNo=${userData.uNo}`
+        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectRecive?idReceiveUserNo=${userData.uNo}`
       )
       .then((res) => {
-        setSellTransactionListTab(res.data);
+        setBuyTransactionListTab(res.data);
         console.log(res);
       })
       .catch((err) => {
@@ -74,7 +77,7 @@ const TransactionListTab = () => {
               구매
             </ReviewTab2>
           </Body>
-          {buyTransactionList.length === 0 ? (
+          {sellTransactionList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -82,8 +85,9 @@ const TransactionListTab = () => {
             >
               판매상품이 없습니다.
             </div>
-          ) : // <ProductList buy={true} products={buyTransactionList} />
-          null}
+          ) : (
+            <TransactionList buy={false} products={sellTransactionList} />
+          )}
         </>
       ) : (
         <>
@@ -96,7 +100,7 @@ const TransactionListTab = () => {
             </ReviewTab1>
             <ReviewTab2 onClick={onReviewTab2}>구매</ReviewTab2>
           </Body>
-          {sellTransactionList.length === 0 ? (
+          {buyTransactionList.length === 0 ? (
             <div
               style={{
                 paddingTop: '30px',
@@ -105,7 +109,7 @@ const TransactionListTab = () => {
               구매상품이 없습니다.
             </div>
           ) : (
-            <TransactionList buy={true} products={sellTransactionList} />
+            <TransactionList buy={true} products={buyTransactionList} />
           )}
         </>
       )}

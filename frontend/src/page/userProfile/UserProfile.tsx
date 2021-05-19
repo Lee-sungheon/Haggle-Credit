@@ -2,10 +2,8 @@ import ProfileTab from '../../components/userProfile/ProfileTab';
 import styled from 'styled-components';
 import ProfileSection from '../../components/userProfile/ProfileSection';
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
-import { USERDATA } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import { useSelector } from 'react-redux';
@@ -40,12 +38,8 @@ const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
       )
       .then((res) => {
         dispatch(userActions.joinUserData(res.data));
-
-        console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
     return () => {
       dispatch(userActions.joinUserData({}));
     };

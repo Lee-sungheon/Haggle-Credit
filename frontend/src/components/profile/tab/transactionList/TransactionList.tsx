@@ -8,9 +8,37 @@ import { ITEM } from 'styled-components';
 
 interface TransactionListProps {
   buy: boolean;
-  products: Products[];
+  products: TT[];
+}
+
+interface TT {
+  idDeliveryNo: number;
+  idItemNo: number;
+  idNo: number;
+  idPrice: number;
+  idReceive: string;
+  idReceiveUserNo: number;
+  idSendDate: string;
+  idSendUserNo: number;
+  idType: string;
+  item: Products;
 }
 interface Products {
+  auctionParticipant: AuctionParticipant[];
+  iCompleted: string;
+  iNo: number;
+  iType: string;
+  itemBuy: ItemBuy;
+  itemPhoto: ItemPhoto[];
+  itemSell: ItemSell;
+  reverseAuctionParticipant: ReverseAuctionParticipant[];
+}
+interface ItemPhoto {
+  ipItemNo: number;
+  ipNo: number;
+  ipValue: string;
+}
+interface ItemSell {
   isNo: number;
   isItemNo: number;
   isUserNo: number;
@@ -24,7 +52,7 @@ interface Products {
   isDealPrice: number;
   isDealUserNo: number;
   isDealAddress: number;
-  isStartDate: null;
+  isStartDate: string;
   isEndDate: string;
   isEventAgree: string;
   isAuctionIngPrice: number;
@@ -34,7 +62,46 @@ interface Products {
   apItemNo: number;
   joinerCnt: number;
 }
-
+interface ItemBuy {
+  ibNo: number;
+  ibItemNo: number;
+  ibUserNo: number;
+  ibName: string;
+  ibCategoryMain: string;
+  ibCategorySub: string;
+  ibContent: string;
+  ibUsedStatus: string;
+  ibCoolPrice: number;
+  ibAuctionInitPrice: number;
+  ibDealPrice: number;
+  ibDealUserNo: number;
+  ibDealAddress: number;
+  ibStartDate: string;
+  ibEndDate: string;
+  ibEventAgree: string;
+  ibAuctionIngPrice: number;
+  ipNo: number;
+  ipItemNo: number;
+  ipValue: string;
+  apItemNo: number;
+  joinerCnt: number;
+}
+interface AuctionParticipant {
+  apAddress: number;
+  apBid: number;
+  apDate: string;
+  apItemNo: number;
+  apNo: number;
+  apUserNo: number;
+}
+interface ReverseAuctionParticipant {
+  rapAddress: number;
+  rapBid: number;
+  rapDate: string;
+  rapItemNo: number;
+  rapNo: number;
+  rapUserNo: number;
+}
 const useStyles = makeStyles(() => ({
   gridList: {
     height: '100%',

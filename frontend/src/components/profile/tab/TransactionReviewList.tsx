@@ -162,8 +162,10 @@ const TransactionReviewList = () => {
                         <div style={{ width: '20%', lineHeight: '32px' }}>
                           <Rating
                             name="half-rating-read"
-                            defaultValue={review.ur_score}
+                            defaultValue={0}
+                            value={review.ur_score}
                             precision={0.5}
+                            defaultChecked
                             readOnly
                             size="small"
                           />
@@ -261,10 +263,12 @@ const TransactionReviewList = () => {
                         <div style={{ width: '20%', lineHeight: '32px' }}>
                           <Rating
                             name="half-rating-read"
-                            defaultValue={review.ur_score}
+                            defaultValue={0}
                             precision={0.5}
                             readOnly
+                            defaultChecked
                             size="small"
+                            value={review.ur_score}
                           />
                         </div>
                         <div style={{ width: ' 41%', lineHeight: '32px' }}>
