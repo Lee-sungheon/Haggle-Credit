@@ -84,8 +84,9 @@ public class ItemSellController {
 
 	/* R :: 임시임.. 상품 전체 조회 */
 	@GetMapping("views")
-	public ResponseEntity<List<ItemSellSet>> selectItemCtgr(@RequestParam(defaultValue="1")int pageNo, String ctgrMain, String ctgrSub, @RequestParam(defaultValue="ib_item_no")String sortName,
-			@RequestParam(defaultValue="down")String UD) throws Exception {
+	public ResponseEntity<List<ItemSellSet>> selectItemCtgr(@RequestParam(defaultValue = "1") int pageNo,
+			String ctgrMain, String ctgrSub, @RequestParam(defaultValue = "ib_item_no") String sortName,
+			@RequestParam(defaultValue = "down") String UD) throws Exception {
 		List<ItemSellSet> itemSellSet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
@@ -205,11 +206,17 @@ public class ItemSellController {
 	@ApiOperation(value = "거래완료 변경(쿨거래)")
 	@PutMapping("/updateDealCompleted")
 	public ResponseEntity<String> updateItembyCool(int isItemNo, int uNo, int uaNo) throws Exception {
-		if (itemService.updateItemDealCompleted(isItemNo) != null) {
-			itemSellService.updateItembyCool(isItemNo, uNo, uaNo);
-			return new ResponseEntity<String>("거래완료 처리 성공", HttpStatus.OK);
-
+		itemService.updateItemDealCompleted(isItemNo);
+		itemSellService.updateItembyCool(isItemNo, uNo, uaNo);
+		// UserCredit 수정
+		AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
+		if (beforeAP != null) {
+			userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
 		}
+		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
+//		 User 수정
+		User user = userService.selectUserByuNo(uNo);
+		userService.updateUserCreditbyAP(user, itemSell.getIsCoolPrice(), isItemNo);
 		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
 	}
 
@@ -230,11 +237,12 @@ public class ItemSellController {
 			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
 		}
 	}
+
 	/* U :: 이벤트 기부 경매 등록 */
 	@ApiOperation(value = "이벤트 기부 경매 등록")
 	@PutMapping("/updatedonation")
 	public ResponseEntity<String> updateDonation() throws Exception {
-		
+
 		List<ItemSell> itemSellDonation = itemSellService.selectOverEndDateAndDonation();
 		if (itemSellDonation.size() == 0) {
 			return new ResponseEntity<String>("기부할 상품이 없습니다.", HttpStatus.ACCEPTED);
@@ -242,7 +250,7 @@ public class ItemSellController {
 			for (ItemSell is : itemSellDonation) {
 				itemDonationService.add(is);
 				itemSellService.updateItembyDonation(is);
-				
+
 			}
 			return new ResponseEntity<String>("기부 상품 변경 완료", HttpStatus.ACCEPTED);
 		}
@@ -353,7 +361,7 @@ public class ItemSellController {
 		result.setJoinerCnt(itemSellService.selectItemCntAP(isItemNo));
 		return new ResponseEntity<ItemSellSet>(result, HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "아이템 수 조회")
 	@GetMapping("/count")
 	public ResponseEntity<Integer> countItemSell() throws Exception {
