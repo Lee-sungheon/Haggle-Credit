@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,21 +43,31 @@ public class ImageUploadController {
 	@Autowired
 	private ImageUploadService imageUploadService;
 
+//	@PostMapping("/itemPhotoUpload")
+//	public String InsertItemPhoto(@RequestBody ItemPhoto itemPhoto) throws Exception {
+//		ItemPhoto ip = new ItemPhoto();
+//		ip.setIpItemNo(itemPhoto.getIpItemNo());
+//		ip.setIpValue(itemPhoto.getIpValue());
+//
+//		return imageUploadService.InsertItemPhoto(ip) != null ? "OK" : "FAIL";
+//	}
+
 	@PostMapping("/itemPhotoUpload")
-//	public String InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam("mrNo") int ipINo)
-	public String InsertItemPhoto(@RequestBody ItemPhoto itemPhoto) throws Exception {
-//		String ipValue = path + "/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
-//
-//		File dest = new File(ipValue);
-//		file.transferTo(dest);
-//
-//		ipValue = "https://k4d107.p.ssafy.io/images/" + "mr-" + ipINo + "-" + file.getOriginalFilename();
+	public ResponseEntity<String> InsertItemPhoto(@RequestParam MultipartFile file, @RequestParam int iNo)
+			throws Exception {
+		String ipValue = path + "/" + iNo + "-" + file.getOriginalFilename();
+		File dest = new File(ipValue);
+		file.transferTo(dest);
+
+		ipValue = "https://k4d107.p.ssafy.io/upload-images/" + iNo + "-" + file.getOriginalFilename();
 
 		ItemPhoto ip = new ItemPhoto();
-		ip.setIpItemNo(itemPhoto.getIpItemNo());
-		ip.setIpValue(itemPhoto.getIpValue());
+		ip.setIpItemNo(iNo);
+		ip.setIpValue(ipValue);
 
-		return imageUploadService.InsertItemPhoto(ip) != null ? "OK" : "FAIL";
+		if (imageUploadService.InsertItemPhoto(ip) != null)
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping("/getItemPhotoList")
@@ -76,23 +85,23 @@ public class ImageUploadController {
 	}
 
 	@PutMapping("/profileUpload")
-	public ResponseEntity<?> UpdateProfile(@RequestParam("File") MultipartFile file,
+	public ResponseEntity<User> UpdateProfile(@RequestParam("File") MultipartFile file,
 			@RequestParam("UserEmail") String userEmail) throws Exception {
 		String uImage = path + "/" + userEmail + "-" + file.getOriginalFilename();
-
 		File dest = new File(uImage);
 		file.transferTo(dest);
 
-		uImage = "https://k4d107.p.ssafy.io/images/" + userEmail + "-" + file.getOriginalFilename();
+		uImage = "https://k4d107.p.ssafy.io/upload-images/" + userEmail + "-" + file.getOriginalFilename();
 
 		User user = new User();
 		user.setuImage(uImage);
 		user.setuEmail(userEmail);
 
-		if (imageUploadService.UpdateProfile(user) != null)
-			return new ResponseEntity<>(HttpStatus.OK);
+		User check = imageUploadService.UpdateProfile(user);
+		if (check != null)
+			return new ResponseEntity<User>(check, HttpStatus.OK);
 
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 
 }

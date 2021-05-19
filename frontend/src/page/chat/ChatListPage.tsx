@@ -67,7 +67,7 @@ const ChatListPage = ({match, location}: RouteComponentProps<MatchParams, Histor
       <Header>
         <Title>크레딧톡</Title>
       </Header>
-      <ChatList roomLists={roomLists} userNo={userNo}/>
+      <ChatList roomLists={roomLists} userNo={userNo} setRoomLists={setRoomLists}/>
     </Container>
   )
 }

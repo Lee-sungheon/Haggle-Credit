@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.egemmerce.hc.repository.dto.Alarm;
+import com.egemmerce.hc.repository.mapper.AlarmMapper;
 import com.egemmerce.hc.repository.mapper.AlarmRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,14 @@ public class AlarmServiceImpl implements AlarmService {
 
 	private final AlarmRepository alarmRepository;
 
+	@Autowired
+	private AlarmMapper AlarmMapper;
+	
 	/* C :: 알람 1줄 생성 */
 	@Override
 	public Alarm createAlarm(Alarm alarm) throws Exception {
-		return alarmRepository.save(alarm);
+		AlarmMapper.insert(alarm);
+		return alarmRepository.findAll().get(0);
 	}
 
 	/* R :: 사용자의 알람 전체 조회 */

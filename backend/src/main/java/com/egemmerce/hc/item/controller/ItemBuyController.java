@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.egemmerce.hc.alarm.service.AlarmService;
 import com.egemmerce.hc.auction.service.ReverseAuctionParticipantService;
 import com.egemmerce.hc.imageupload.service.ImageUploadService;
 import com.egemmerce.hc.item.service.ItemBuyService;
 import com.egemmerce.hc.item.service.ItemService;
+import com.egemmerce.hc.repository.dto.Alarm;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.ItemBuySet;
@@ -50,6 +52,8 @@ public class ItemBuyController {
 	private ReverseAuctionParticipantService reverseAuctionParticipantService;
 	@Autowired
 	private ImageUploadService imageUploadService;
+	@Autowired
+	private AlarmService alarmService;
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "ib_auction_price,ib_category_main,ib_cool_price,ib_deal_address,ib_name,ib_start_date,ib_user_no,ib_end_date")
 	@PostMapping("/regist")
@@ -128,14 +132,28 @@ public class ItemBuyController {
 	public ResponseEntity<String> updateReverseAuction(int ibUserNo, int ibItemNo, int ibAuctionPrice)
 			throws Exception {
 		ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(ibItemNo);
+		Item item=itemService.selectItem(ibItemNo);
 		if (itemBuy.getIbAuctionIngPrice() < ibAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 큽니다.", HttpStatus.OK);
 		}
 		if (itemBuyService.updateReverseAuctionPrice(ibItemNo, ibAuctionPrice) != null) {
+			List<ReverseAuctionParticipant> raplist=reverseAuctionParticipantService.findByrapItemNoOrderByDate(ibItemNo);
+			Alarm alarm = Alarm.builder()
+					.aContent("등록하신 경매가보다 더 낮은 경매가가 나왔습니다. \r\n" + 
+							"상품을 입찰하시길 원하시면 재입찰 해주세요.")
+					.aType("buy")
+					.aCause("경매유찰")
+					.aItemNo(ibItemNo)
+					.aRecvUserNo(raplist.get(0).getRapUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmService.createAlarm(alarm);
 			ReverseAuctionParticipant reverseAuctionParticipant = ReverseAuctionParticipant.builder()
 					.rapItemNo(ibItemNo).rapBid(ibAuctionPrice).rapUserNo(ibUserNo).build();
 			reverseAuctionParticipant.generaterapDate();
 			reverseAuctionParticipantService.insert(reverseAuctionParticipant);
+			
 			return new ResponseEntity<String>("역경매가 업데이트 성공.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("역경매가 업데이트 실패.", HttpStatus.OK);

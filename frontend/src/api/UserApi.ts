@@ -130,5 +130,36 @@ export function callApiDeleteAddress(uaNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
+<<<<<<< HEAD
     });
 }
+=======
+  });
+}
+
+export function callApiAlarmList(uNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/alarm/read?uNo=${uNo}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}
+
+export function callApiDeleteAlarm(aNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/alarm/delete?aNo=${aNo}`;
+  return axios
+    .delete(url)
+    .then((Response) => {
+      return Response.data;
+    })
+    .catch((Error)=>{
+      console.log(Error);
+      return '오류';
+    })
+}
+>>>>>>> 1e5b9f3e3fa9718a1976f5563e9b80247524a65b

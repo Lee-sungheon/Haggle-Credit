@@ -65,13 +65,13 @@ const App = () => {
           <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
           <Route path="/donation_detail/:id" component={DonationDetailPage} />
-          <Route path="/auction/buy/:itemNo" component={AuctionPage} />
-          <Route path="/auction/sell/:itemNo" component={SellAuctionPage} />
-          <Route path="/donation/:itemNo" component={DonationPage} />
-          <Route path="/purchase/:itemNo" component={PurchasePage} />
-          <Route path="/add_destination" component={AddDestinationPage} />
-          <Route path="/chat/:id/:roomNo" component={ChatPage} />
-          <Route path="/chatlist/:id" component={ChatListPage} />
+          <PrivateRoute path="/auction/buy/:itemNo" component={AuctionPage} isLogin={isLogin}/>
+          <PrivateRoute path="/auction/sell/:itemNo" component={SellAuctionPage} isLogin={isLogin}/>
+          <PrivateRoute path="/donation/:itemNo" component={DonationPage} isLogin={isLogin}/>
+          <PrivateRoute path="/purchase/:itemNo" component={PurchasePage} isLogin={isLogin}/>
+          <PrivateRoute path="/add_destination" component={AddDestinationPage} isLogin={isLogin}/>
+          <PrivateRoute path="/chat/:id/:roomNo" component={ChatPage} isLogin={isLogin}/>
+          <PrivateRoute path="/chatlist/:id" component={ChatListPage} isLogin={isLogin}/>
         </Switch>
         <Footer />
       </ThemeProvider>

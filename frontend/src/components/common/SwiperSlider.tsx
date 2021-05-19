@@ -42,6 +42,8 @@ const ItemTitle = styled.p`
   font-size: 14px;
   margin: 0;
   padding: 5px;
+  height: 30px;
+  font-weight: 700;
 `;
 
 const ItemPrice = styled.p`

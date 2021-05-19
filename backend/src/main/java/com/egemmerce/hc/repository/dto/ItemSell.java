@@ -14,7 +14,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,10 +62,6 @@ public class ItemSell {
 	@JoinColumn(name = "is_item_no")
 	@JsonBackReference
 	private Item item;
-	@OneToOne
-	@JoinColumn(name = "is_item_no")
-	@JsonBackReference
-	private ItemDonation itemDonation;
 
 	public void generateStartDate() {
 		this.isStartDate = LocalDateTime.now();

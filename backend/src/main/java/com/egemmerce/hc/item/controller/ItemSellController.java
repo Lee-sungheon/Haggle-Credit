@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.egemmerce.hc.alarm.service.AlarmService;
 import com.egemmerce.hc.auction.service.AuctionParticipantService;
 import com.egemmerce.hc.imageupload.service.ImageUploadService;
 import com.egemmerce.hc.item.service.ItemDonationService;
 import com.egemmerce.hc.item.service.ItemSellService;
 import com.egemmerce.hc.item.service.ItemService;
+import com.egemmerce.hc.repository.dto.Alarm;
 import com.egemmerce.hc.repository.dto.AuctionParticipant;
 import com.egemmerce.hc.repository.dto.Item;
 import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
@@ -59,6 +61,8 @@ public class ItemSellController {
 	private ImageUploadService imageUploadService;
 	@Autowired
 	private ItemDonationService itemDonationService;
+	@Autowired
+	private AlarmService alarmService;
 
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "is_user_no,is_auction_price, is_category_main, is_cool_price, is_name, is_orgin_price, is_start_date, is_end_date")
@@ -208,16 +212,47 @@ public class ItemSellController {
 	public ResponseEntity<String> updateItembyCool(int isItemNo, int uNo, int uaNo) throws Exception {
 		itemService.updateItemDealCompleted(isItemNo);
 		itemSellService.updateItembyCool(isItemNo, uNo, uaNo);
+		Item item = itemService.selectItem(isItemNo);
+		Alarm alarm = Alarm.builder()
+				.aContent("물품이 최종 낙찰 됐습니다. 마이 페이지에서 확인해주세요.")
+				.aType("sell")
+				.aCause("경매낙찰")
+				.aItemNo(isItemNo)
+				.aRecvUserNo(uNo)
+				.aTitle(item.getItemSell().getIsItemName())
+				.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+		alarm.generateaTime();
+		alarmService.createAlarm(alarm);
+		alarm = Alarm.builder()
+				.aContent("등록한 물품이 경매 낙찰 되었습니다. 마이페이지에서 확인해주세요.")
+				.aType("sell")
+				.aCause("경매낙찰")
+				.aItemNo(isItemNo)
+				.aRecvUserNo(item.getItemSell().getIsUserNo())
+				.aTitle(item.getItemSell().getIsItemName())
+				.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+		alarm.generateaTime();
+		alarmService.createAlarm(alarm);
 		// UserCredit 수정
 		AuctionParticipant beforeAP = auctionParticipantService.selectBeforeAP(isItemNo);
 		if (beforeAP != null) {
+			alarm = Alarm.builder()
+					.aContent("입찰하신 물품이 쿨거래로 낙찰이 되어 입찰가가 반환됩니다.")
+					.aType("sell")
+					.aCause("경매유찰")
+					.aItemNo(isItemNo)
+					.aRecvUserNo(beforeAP.getApUserNo())
+					.aTitle(item.getItemSell().getIsItemName())
+					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+			alarm.generateaTime();
+			alarmService.createAlarm(alarm);
 			userService.updateUserCreditbyFail(beforeAP.getApUserNo(), beforeAP.getApBid(), isItemNo);
 		}
 		ItemSell itemSell = itemSellService.selectItemSellbyisItemNo(isItemNo);
 //		 User 수정
 		User user = userService.selectUserByuNo(uNo);
 		userService.updateUserCreditbyAP(user, itemSell.getIsCoolPrice(), isItemNo);
-		return new ResponseEntity<String>("거래완료 처리 실패", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>("쿨거래 완료", HttpStatus.OK);
 	}
 
 	/* U :: 상품 업데이트(경매 종료) */
@@ -230,6 +265,7 @@ public class ItemSellController {
 			return new ResponseEntity<String>("종료된 경매가 없습니다.", HttpStatus.ACCEPTED);
 		} else {
 			for (ItemSell is : endItemSell) {
+
 				itemService.updateItemDealCompleted(is.getIsItemNo());
 				itemSellService.updateItembyAuction(is);
 
