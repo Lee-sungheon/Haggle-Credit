@@ -277,7 +277,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setuCredit(user.getuCredit()+apBid);
 		UserCredit uCredit=UserCredit.builder().ucClass("plus").ucUserNo(apUserNo).ucCredit(user.getuCredit()).ucApNo(isItemNo).build();
 		uCredit.generateucTime();
-		userCreditRepository.save(uCredit);
+		userCreditMapper.insert(uCredit);
 		userRepository.save(user);
 	}
 	//입찰시 유저 크레딧 출금

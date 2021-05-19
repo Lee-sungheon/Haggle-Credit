@@ -150,21 +150,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 		itemSell.setIsDealAddress(uaNo);
 		itemSell.setIsEndDate(new Date(20210101));
 		itemSellRepository.save(itemSell);
-
-		// User 수정
-		User user = userRepository.findByuNo(uNo);
-		userService.updateUserCreditbyAP(user, itemSell.getIsCoolPrice(), isItemNo);
-
-		// UserCredit 수정
-		List<AuctionParticipant> beforeAP = auctionParticipantRepository.findByapItemNoOrderByApDateDesc(isItemNo);
-		if(beforeAP.size()!=0) {
-			userService.updateUserCreditbyFail(beforeAP.get(0).getApUserNo(), beforeAP.get(0).getApBid(), isItemNo);
-			
-		}
-
 		ItemDelivery itemDelivery = ItemDelivery.builder().idSendUserNo(itemSell.getIsUserNo()).idReceiveUserNo(uNo)
 				.idType("sell").idPrice(itemSell.getIsDealPrice()).idItemNo(isItemNo).build();
-		itemDeliveryRepository.save(itemDelivery);
+		System.out.println(itemDeliveryRepository.save(itemDelivery));
 	}
 
 	@Override
