@@ -93,6 +93,9 @@ const TitleArea = styled.h2`
   color: white;
   font-size: 25px;
   padding-bottom: 20px !important;
+  @media (max-width: 1024px) {
+    font-size: 15px;
+  }
 `;
 
 const ProductArea = styled.div`

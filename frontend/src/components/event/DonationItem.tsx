@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import styled, { DONATION } from 'styled-components';
+import styled, { DONATION, ITEM } from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useHistory } from "react-router";
+import { callApiItemDetail } from '../../api/ProductApi';
 
 interface Props {
   isScroll: boolean;
@@ -115,7 +116,18 @@ const ImgBox = styled.div`
 const DonationItem = ({ isScroll, idx, donation }: Props) => {
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
+  const [item, setItem] = useState<ITEM>({});
   const history = useHistory();
+  
+  useEffect(()=>{
+    const fetchData = async() => {
+      if (donation.idItemNo !== undefined) {
+        const data: ITEM = await callApiItemDetail(donation.idItemNo);
+        setItem(data);
+      }
+    }
+    fetchData();
+  }, [donation.idItemNo])
   
   useEffect(()=>{
     if (donation?.idIngPrice && donation?.idEndPrice){
@@ -140,10 +152,8 @@ const DonationItem = ({ isScroll, idx, donation }: Props) => {
   }, [isScroll, percent]);
   
   const goDetail = () => {
-    const item = donation.item?.itemSell;
     history.push({
-      pathname: `/donation_detail/${donation.item?.itemSell?.isItemNo}`,
-      state: {item, donation}
+      pathname: `/donation_detail/${donation?.idItemNo}`
     });
   };
   
@@ -151,7 +161,7 @@ const DonationItem = ({ isScroll, idx, donation }: Props) => {
     <CardArea id={`card-${idx}`}>
       <ImgBox onClick={goDetail} >
         <img 
-          src={donation.item !== undefined && donation.item.itemPhoto.length > 0 ? donation.item?.itemPhoto?.[0].ipValue : '../images/no_image.gif'}
+          src={item.ipValue !== undefined ? item.ipValue : '../images/no_image.gif'}
           alt="" 
           width="100%"
           style={{
@@ -173,7 +183,7 @@ const DonationItem = ({ isScroll, idx, donation }: Props) => {
         <ProgressMoney>{String(donation?.idIngPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</ProgressMoney>
         <SubTitle>기부 참여자 : {String(donation.donationParticipant?.length).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}명</SubTitle>
       </Card>
-      <DonationButton onClick={()=>window.open(`../donation/${donation.item?.itemSell?.isItemNo}`, '_blank')}>기부 참여 (100C)</DonationButton>
+      <DonationButton onClick={()=>window.open(`../donation/${donation.idItemNo}`, '_blank')}>기부 참여 (100C)</DonationButton>
     </CardArea>
   )
 }
