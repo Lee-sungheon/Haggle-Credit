@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egemmerce.hc.chat.service.ChatService;
@@ -81,7 +82,7 @@ public class ChatController {
 
 	/* 해당 채팅방 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<Integer> createChat(@RequestBody int crNo) throws Exception {
+	public ResponseEntity<Integer> createChat(@RequestParam int crNo) throws Exception {
 		return new ResponseEntity<Integer>(chatservice.deleteItemChat(crNo), HttpStatus.OK);
 	}
 
