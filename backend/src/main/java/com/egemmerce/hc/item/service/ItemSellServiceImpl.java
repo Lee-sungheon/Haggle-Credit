@@ -19,6 +19,7 @@ import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ItemSellSet;
 import com.egemmerce.hc.repository.dto.SortProcess;
+import com.egemmerce.hc.repository.mapper.AlarmMapper;
 import com.egemmerce.hc.repository.mapper.AlarmRepository;
 import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
 import com.egemmerce.hc.repository.mapper.ItemDeliveryRepository;
@@ -46,6 +47,8 @@ public class ItemSellServiceImpl implements ItemSellService {
 	@Autowired
 	private ItemSellMapper itemSellMapper;
 
+	@Autowired
+	private AlarmMapper alarmMapper;
 	/* C :: 상품 등록 */
 	@Override
 	public ItemSell insertItemSell(ItemSell itemSell) {
@@ -178,7 +181,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 					.aTitle(item.getItemSell().getIsItemName())
 					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 			alarm.generateaTime();
-			alarmRepository.save(alarm);
+			alarmMapper.insert(alarm);
 			is.setIsDealPrice(0);
 			is.setIsDealAddress(0);
 			is.setIsDealUserNo(-1);
@@ -203,7 +206,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 					.aTitle(item.getItemSell().getIsItemName())
 					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 			alarm.generateaTime();
-			alarmRepository.save(alarm);
+			alarmMapper.insert(alarm);
 			is.setIsDealPrice(beforeAP.get(0).getApBid());
 			is.setIsDealAddress(beforeAP.get(0).getApAddress());
 			is.setIsDealUserNo(beforeAP.get(0).getApUserNo());
@@ -276,7 +279,7 @@ public class ItemSellServiceImpl implements ItemSellService {
 				.aTitle(item.getItemSell().getIsItemName())
 				.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 		alarm.generateaTime();
-		alarmRepository.save(alarm);
+		alarmMapper.insert(alarm);
 		is.setIsEventAgree("done");
 		itemSellRepository.save(is);
 	}

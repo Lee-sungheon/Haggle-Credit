@@ -23,6 +23,7 @@ import com.egemmerce.hc.repository.dto.ItemBuy;
 import com.egemmerce.hc.repository.dto.User;
 import com.egemmerce.hc.repository.dto.UserAccount;
 import com.egemmerce.hc.repository.dto.UserCredit;
+import com.egemmerce.hc.repository.mapper.AlarmMapper;
 import com.egemmerce.hc.repository.mapper.AlarmRepository;
 import com.egemmerce.hc.repository.mapper.AuctionParticipantRepository;
 import com.egemmerce.hc.repository.mapper.ItemRepository;
@@ -61,6 +62,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private AlarmMapper alarmMapper;
 	
 	/* 일반 로그인 */
 	@Override
@@ -328,7 +332,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 					.aTitle(item.getItemSell().getIsItemName())
 					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 			alarm.generateaTime();
-			alarmRepository.save(alarm);
+			alarmMapper.insert(alarm);
 		}
 		
 		user=userRepository.findByuNo(isUserNo);

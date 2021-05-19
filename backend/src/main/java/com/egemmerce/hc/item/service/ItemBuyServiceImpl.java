@@ -19,6 +19,7 @@ import com.egemmerce.hc.repository.dto.ItemDelivery;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 import com.egemmerce.hc.repository.dto.SortProcess;
+import com.egemmerce.hc.repository.mapper.AlarmMapper;
 import com.egemmerce.hc.repository.mapper.AlarmRepository;
 import com.egemmerce.hc.repository.mapper.ItemBuyMapper;
 import com.egemmerce.hc.repository.mapper.ItemBuyRepository;
@@ -41,7 +42,8 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	private final AlarmRepository alarmRepository;
 	@Autowired
 	private ItemBuyMapper itemBuyMapper;
-
+	@Autowired
+	private AlarmMapper alarmMapper;
 	/* C :: 상품 등록 */
 	@Override
 	public ItemBuy insertItemBuy(ItemBuy itemBuy) {
@@ -212,7 +214,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 					.aTitle(item.getItemSell().getIsItemName())
 					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 			alarm.generateaTime();
-			alarmRepository.save(alarm);
+			alarmMapper.insert(alarm);
 			ib.setIbDealPrice(0);
 			ib.setIbDealUserNo(-1);
 			itemBuyRepository.save(ib);
@@ -229,7 +231,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 					.aTitle(item.getItemSell().getIsItemName())
 					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 			alarm.generateaTime();
-			alarmRepository.save(alarm);
+			alarmMapper.insert(alarm);
 			alarm = Alarm.builder()
 					.aContent("입찰하신 물품이 최종 낙찰 됐습니다. 마이 페이지에서 확인해주세요.")
 					.aType("buy")
@@ -239,7 +241,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 					.aTitle(item.getItemSell().getIsItemName())
 					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
 			alarm.generateaTime();
-			alarmRepository.save(alarm);
+			alarmMapper.insert(alarm);
 			ItemDelivery itemDelivery = ItemDelivery.builder().idType("buy").idPrice(ib.getIbDealPrice())
 					.idSendUserNo(ib.getIbDealUserNo()).idReceiveUserNo(ib.getIbUserNo()).idItemNo(ib.getIbItemNo())
 					.build();
