@@ -62,10 +62,6 @@ public class ItemSell {
 	@JoinColumn(name = "is_item_no")
 	@JsonBackReference
 	private Item item;
-	@OneToOne
-	@JoinColumn(name = "is_item_no")
-	@JsonBackReference
-	private ItemDonation itemDonation;
 
 	public void generateStartDate() {
 		this.isStartDate = LocalDateTime.now();

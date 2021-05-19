@@ -44,9 +44,9 @@ public class ItemDonation {
 	@JoinColumn(name = "dp_item_no")
 	private List<DonationParticipant> donationParticipant;
 
-	@OneToOne(mappedBy = "itemDonation")
-	@JsonManagedReference
-	private Item item;
+//	@OneToOne(mappedBy = "itemDonation")
+//	@JsonManagedReference
+//	private Item item;
 
 	public int getIdNo() {
 		return idNo;
@@ -118,14 +118,6 @@ public class ItemDonation {
 
 	public void setIdEndUserAddress(int idEndUserAddress) {
 		this.idEndUserAddress = idEndUserAddress;
-	}
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
 	}
 
 }

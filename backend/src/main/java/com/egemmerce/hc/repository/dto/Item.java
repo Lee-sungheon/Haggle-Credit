@@ -50,10 +50,10 @@ public class Item {
 	@OneToOne(mappedBy = "item")
 	@JsonManagedReference
 	private ItemSell itemSell;
-	@OneToOne
-	@JoinColumn(name = "i_no")
-	@JsonBackReference
-	private ItemDonation itemDonation;
+//	@OneToOne
+//	@JoinColumn(name = "i_no")
+//	@JsonBackReference
+//	private ItemDonation itemDonation;
 	@OneToOne
 	@JoinColumn(name = "i_no")
 	@JsonBackReference
