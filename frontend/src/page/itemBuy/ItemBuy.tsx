@@ -116,27 +116,20 @@ const ItemBuy = () => {
       body.ibAuctionInitPrice &&
       body.ibDealAddress
     ) {
-      if (productPhoto.length > 0) {
-        axios
-          .post(
-            'https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist',
-            body,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then((res) => {
-            alert('구매글을 등록하였습니다.');
-            uploadImage(productPhoto, res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        return;
-      }
+      axios
+        .post('https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist', body, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          alert('구매글을 등록하였습니다.');
+          uploadImage(productPhoto, res);
+          history.push('/home');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       return;
     }
@@ -167,8 +160,6 @@ const ItemBuy = () => {
             });
         }
       });
-
-      history.push('/home');
     } else {
       const ibItemNo = res.data.ibItemNo;
 

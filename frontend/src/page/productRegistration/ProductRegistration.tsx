@@ -102,6 +102,7 @@ const ProductRegistration = () => {
 
   const onRegist = () => {
     const body = productData;
+
     if (
       productData.isUserNo &&
       productData.isItemName &&

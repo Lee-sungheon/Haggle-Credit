@@ -25,8 +25,6 @@ const ReviewTab2 = styled.div`
   }
 `;
 
-
-
 interface BookMarkList {
   auctionParticipant: AuctionParticipant[];
   iCompleted: string;
