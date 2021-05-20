@@ -8,6 +8,7 @@ import { changeCredit } from '../../api/UserApi';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../state/user/index';
 import { USERDATA } from 'styled-components';
+import axios from 'axios';
 
 const Container = styled.div`
   width: 45%;
@@ -56,7 +57,6 @@ const CreditPaymentDiv = styled.div`
   line-height: 1.5vw;
 `;
 
-
 interface CreditProps {
   userData: USERDATA;
 }
@@ -66,7 +66,20 @@ const Credit = ({ userData }: CreditProps) => {
   const [inputCredit, setInputCredit] = useState(0);
   const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const [credit, setCredit] = useState('0');
+
   const dispatch = useDispatch();
+  useEffect(() => {
+    axios
+      .get(
+        `https://k4d107.p.ssafy.io/haggle-credit/user/mycredit?uNo=${userData.uNo}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setCredit(
+          res.data.toString().replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+        );
+      });
+  }, []);
   useEffect(() => {
     if (userData.uCredit) {
       let set_credit = userData.uCredit.toString();
