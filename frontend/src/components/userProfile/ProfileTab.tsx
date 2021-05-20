@@ -55,10 +55,6 @@ const ProfileTab = ({ userData }: ProfileTabProps) => {
     });
   };
 
-  useEffect(() => {
-    console.log(window.location.pathname);
-    console.log(`/userProfile/${userData.uNo}`);
-  }, [userData]);
   return (
     <Container>
       {userData.uNo && (

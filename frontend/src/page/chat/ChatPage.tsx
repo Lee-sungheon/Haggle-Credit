@@ -129,9 +129,7 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
         {},
         frame => {
           stompClient.connected = true;
-          console.log('소켓 연결 성공', frame);
           stompClient.subscribe("/send", res => {
-            console.log('구독으로 받은 메시지 입니다.', JSON.parse(res.body));
             if (String(JSON.parse(res.body).icCrNo) === crNo){
               let date = JSON.parse(res.body).icDate.slice(0,10) + ' ' + JSON.parse(res.body).icDate.slice(11,19);
               date = moment(date, "YYYY-MM-DD HH:mm:ss").add(9, 'h').format("YYYY-MM-DD HH:mm:ss");
@@ -153,7 +151,6 @@ const ChatPage = ({match, location}: RouteComponentProps<MatchParams, HistoryPar
       );
   
       return () => {
-        console.log("채팅창 종료!");
         if (stompClient) {
           stompClient.unsubscribe("/send");
           stompClient.disconnect();

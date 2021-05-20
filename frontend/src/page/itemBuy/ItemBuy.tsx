@@ -95,7 +95,6 @@ const ItemBuy = () => {
   };
 
   const onRegist = () => {
-    console.log('regist');
     const body = {
       ibUserNo: userData.uNo,
       ibName: productData.ibName,
@@ -107,7 +106,6 @@ const ItemBuy = () => {
       ibAuctionInitPrice: productData.ibAuctionInitPrice,
       ibDealAddress: productData.ibDealAddress,
     };
-    console.log(body);
 
     if (
       body.ibUserNo &&
@@ -118,30 +116,20 @@ const ItemBuy = () => {
       body.ibAuctionInitPrice &&
       body.ibDealAddress
     ) {
-      console.log('data다있음');
-      if (productPhoto.length > 0) {
-        console.log(body);
-        axios
-          .post(
-            'https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist',
-            body,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res);
-            alert('구매글을 등록하였습니다.');
-            uploadImage(productPhoto, res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        return;
-      }
+      axios
+        .post('https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist', body, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          alert('구매글을 등록하였습니다.');
+          uploadImage(productPhoto, res);
+          history.push('/home');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       return;
     }
@@ -149,13 +137,11 @@ const ItemBuy = () => {
   const uploadImage = async (imageList: ImageListType, res: any) => {
     if (imageList.length > 0) {
       const ibItemNo = res.data.ibItemNo;
-      console.log(ibItemNo);
-      console.log(imageList);
 
       imageList.forEach((item, idx) => {
         if (item.file && ibItemNo) {
           let formd = new FormData();
-          formd.append('file', item.file);
+          formd.append('File', item.file);
           formd.append('iNo', ibItemNo);
           formd.append('check', 'true');
           axios
@@ -168,16 +154,12 @@ const ItemBuy = () => {
                 },
               }
             )
-            .then((res) => {
-              console.log(res);
-            })
+            .then((res) => {})
             .catch((err) => {
               console.log(err);
             });
         }
       });
-
-      history.push('/home');
     } else {
       const ibItemNo = res.data.ibItemNo;
 
@@ -196,9 +178,7 @@ const ItemBuy = () => {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => {
           console.log(err);
         });

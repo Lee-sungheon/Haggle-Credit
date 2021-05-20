@@ -101,8 +101,8 @@ const ProductRegistration = () => {
   };
 
   const onRegist = () => {
-    console.log('regist');
     const body = productData;
+
     if (
       productData.isUserNo &&
       productData.isItemName &&
@@ -114,9 +114,7 @@ const ProductRegistration = () => {
       productData.isUsedStatus &&
       productData.isEventAgree
     ) {
-      console.log('data다있음');
       if (productPhoto.length > 0) {
-        console.log(body);
         axios
           .post(
             'https://k4d107.p.ssafy.io/haggle-credit/itemSell/regist',
@@ -128,7 +126,6 @@ const ProductRegistration = () => {
             }
           )
           .then((res) => {
-            console.log(res);
             uploadImage(productPhoto, res);
           })
           .catch((err) => {
@@ -145,13 +142,11 @@ const ProductRegistration = () => {
   const uploadImage = (imageList: ImageListType, res: any) => {
     if (imageList.length > 0) {
       const isItemNo = res.data.isItemNo;
-      console.log(isItemNo);
-      console.log(imageList);
 
       imageList.forEach((item, idx) => {
         if (item.file && isItemNo) {
           let formd = new FormData();
-          formd.append('file', item.file);
+          formd.append('File', item.file);
           formd.append('iNo', isItemNo);
           formd.append('check', 'true');
 
@@ -165,9 +160,7 @@ const ProductRegistration = () => {
                 },
               }
             )
-            .then((res) => {
-              console.log(res);
-            })
+            .then((res) => {})
             .catch((err) => {
               console.log(err);
             });
@@ -179,32 +172,6 @@ const ProductRegistration = () => {
     } else {
       alert('판매글 등록을 실패하였습니다.');
     }
-    // for (let i = 0; i < imageList.length; i++) {
-    //   console.log(imageList[i]);
-    //   const body2 = {
-    //     ipItemNo: isItemNo,
-    //     ipValue: imageList[i].dataURL,
-    //   };
-    //   axios
-    //     .post(
-    //       'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
-    //       body2,
-    //       {
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //       }
-    //     )
-    //     .then((res) => {
-    //       console.log(res);
-    //       alert('판매글을 등록하였습니다.');
-    //       history.push('/home');
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       alert('판매글을 등록을 실패하였습니다.');
-    //     });
-    // }
   };
   return (
     <>

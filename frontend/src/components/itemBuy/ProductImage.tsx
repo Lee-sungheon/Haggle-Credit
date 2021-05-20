@@ -100,7 +100,6 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
           isDragging,
           dragProps,
         }) => (
-          // write your building UI
           <>
             <Container id="imgSection">
               <div

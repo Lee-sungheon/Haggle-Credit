@@ -38,7 +38,6 @@ const ProductTab = ({ userData }: ProductTabProps) => {
       )
       .then((res) => {
         setSellItemList(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -49,7 +48,6 @@ const ProductTab = ({ userData }: ProductTabProps) => {
       )
       .then((res) => {
         setBuyItemList(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
