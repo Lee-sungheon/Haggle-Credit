@@ -186,7 +186,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <ItemCategory>원</ItemCategory>
             </ItemPrice>
             <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {item.itemSell.joinerCnt}
               <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
               {item.itemSell.isEndDate}
             </ItemTime>
@@ -215,9 +214,8 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <ItemCategory>원</ItemCategory>
             </ItemPrice>
             <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {item.itemBuy.joinerCnt}
               <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-              {item.itemBuy.isEndDate}
+              {item.itemBuy.ibEndDate}
             </ItemTime>
           </CardContent>
         )}

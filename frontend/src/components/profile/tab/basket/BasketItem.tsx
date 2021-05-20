@@ -215,11 +215,10 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
 
                 <ItemCategory>원</ItemCategory>
               </ItemPrice>
-              {/* <ItemTime>
-                <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
+              <ItemTime>
                 <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-                {item.is_end_date}
-              </ItemTime> */}
+                {item.itemSell.isEndDate}
+              </ItemTime>
             </CardContent>
           ) : (
             <CardContent style={{ padding: 0 }}>
@@ -244,11 +243,10 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
                 </span>
                 <ItemCategory>원</ItemCategory>
               </ItemPrice>
-              {/* <ItemTime>
-                <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
+              <ItemTime>
                 <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-                {item.isEndDate}
-              </ItemTime> */}
+                {item.itemBuy.ibEndDate}
+              </ItemTime>
             </CardContent>
           )}
         </CardActionArea>

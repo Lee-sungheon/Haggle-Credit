@@ -282,6 +282,9 @@ const TransactionItem = ({
                               item.idDeliveryNo}
                           </span>
                         </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
+                        </ItemPrice>
                       </>
                     ) : (
                       <>
@@ -344,9 +347,6 @@ const TransactionItem = ({
                     {item.idReceive === 'false' ? (
                       <>
                         <ItemPrice>
-                          <ItemCategory></ItemCategory>
-                        </ItemPrice>
-                        <ItemPrice>
                           <ItemCategory>배송중</ItemCategory>
                           <span>
                             {item.idSendDate !== undefined &&
@@ -359,6 +359,9 @@ const TransactionItem = ({
                             {item.idDeliveryNo !== undefined &&
                               item.idDeliveryNo}
                           </span>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
                         </ItemPrice>
                       </>
                     ) : (
