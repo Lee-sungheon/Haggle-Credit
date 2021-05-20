@@ -94,6 +94,13 @@ public class UserController {
 		}
 		return new ResponseEntity<String>("개인정보가 없음", HttpStatus.NO_CONTENT);
 	}
+	/* R :: 현재 크레딧 조회 */
+	@ApiOperation(value = "현재 크래딧 조회 Restful API", response = User.class)
+	@GetMapping("/mycredit")
+	public ResponseEntity<?> myCredit(int uNo) {
+		int credit=userService.selectMyCredit(uNo);
+		return new ResponseEntity<Integer>(credit, HttpStatus.OK);
+	}
 	/* R :: 개인 정보 전체 조회 [토큰으로 확인] */
 	@ApiOperation(value = "개인정보 조회를 위한 Restful API", response = User.class)
 	@GetMapping("/myinfo")

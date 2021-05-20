@@ -364,4 +364,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		userRepository.save(user);
 	}
 
+	@Override
+	public int selectMyCredit(int uNo) {
+		User user=userRepository.findByuNo(uNo);
+		return user.getuCredit();
+	}
+
 }
