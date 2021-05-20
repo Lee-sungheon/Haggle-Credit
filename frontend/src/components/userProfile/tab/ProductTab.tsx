@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import { RootState } from '../../common/store';
 import { useEffect, useState } from 'react';
 import { USERDATA } from 'styled-components';
 
@@ -109,8 +108,7 @@ const ProductTab = ({ userData }: ProductTabProps) => {
             >
               등록된 구매글이 없습니다.
             </div>
-          ) : // <ProductList buy={true} products={buyItemList} />
-          null}
+          ) : <ProductList buy={false} products={buyItemList} />}
         </>
       )}
     </>

@@ -7,19 +7,62 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../../../state/user';
 import { useHistory } from 'react-router';
-import { ITEM } from 'styled-components';
 import { useEffect, useState } from 'react';
 
 interface ProductItemProps {
-  item: ITEM;
+  item: Products;
   buy: boolean;
   image: ItemPhotoes[];
 }
-
+interface Products {
+  itemSell: PRODUCTS;
+  itemBuy: PRODUCTS;
+  itemPhotoes: ItemPhotoes[];
+  itemPhoto: string;
+  itemCnt: number;
+}
 interface ItemPhotoes {
   ipNo: number;
   ipItemNo: number;
   ipValue: string;
+}
+export interface PRODUCTS {
+  ipItemNo?: number;
+  ipValue?: string;
+  isAuctionInitPrice?: number;
+  isAuctionIngPrice?: number;
+  isCategoryMain?: string;
+  isCategorySub?: string;
+  isContent?: string;
+  isCoolPrice?: number;
+  isDealAddress?: number;
+  isDealPrice?: number;
+  isDealUserNo?: number;
+  isEndDate?: string;
+  isEventAgree?: string;
+  isItemName?: string;
+  isItemNo?: number;
+  isNo?: number;
+  isStartDate?: any;
+  isUsedStatus?: string;
+  isUserNo?: number;
+  joinerCnt?: number;
+  ibItemNo: number;
+  ibNo: number;
+  ibUserNo: number;
+  ibName: string;
+  ibCategoryMain: string;
+  ibCategorySub: string;
+  ibContent: string;
+  ibStartDate: string;
+  ibEndDate: string;
+  ibCoolPrice: number;
+  ibAuctionInitPrice: number;
+  ibAuctionIngPrice: number;
+  ibRegDate: string;
+  ibDealUserNo: number;
+  ibDealPrice: number;
+  ibDealAddress: string;
 }
 const useStyles = makeStyles(() => ({
   root: {
@@ -81,17 +124,35 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
-    dispatch(userActions.addRecently(item));
-    history.push({
-      pathname: `/detail/${item.ipItemNo}`,
-      state: { item, buy },
-    });
+    if (item.itemBuy) {
+      const itemBuy = {
+        ...item.itemBuy,
+        ipValue: item.itemPhotoes[0].ipValue,
+      };
+      console.log(itemBuy,buy);
+
+      history.push({
+        pathname: `/detail/${itemBuy.ibItemNo}`,
+        state: { itemBuy, buy },
+      });
+    } else if (item.itemSell) {
+      const itemSell = {
+        ...item.itemSell,
+        ipValue: item.itemPhotoes[0].ipValue,
+      };
+      console.log(itemSell,buy);
+      dispatch(userActions.addRecently(itemSell));
+      history.push({
+        pathname: `/detail/${itemSell.isItemNo}`,
+        state: { itemSell, buy },
+      });
+    }
   };
   useEffect(() => {
-    if (image) {
-      setImg(image[0].ipValue);
+    if (image.length > 0) {
+      setImg(image[0]?.ipValue);
     }
-  }, []);
+  }, [image]);
   return (
     <Card className={classes.root} onClick={goDetail}>
       <CardActionArea>
@@ -102,48 +163,65 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
             image={img}
           />
         </ImgBox>
-        <CardContent style={{ padding: 0 }}>
-          <ItemTitle>{item.isItemName}</ItemTitle>
-          <ItemPrice>
-            <ItemCategory>현재가</ItemCategory>
-            <span>
-              {item.isAuctionIngPrice !== undefined &&
-                item.isAuctionIngPrice
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </span>
-            <ItemCategory>원</ItemCategory>
-          </ItemPrice>
-          <ItemPrice>
-            {buy ? (
-              <>
-                <ItemCategory>즉구가</ItemCategory>
-                <span>
-                  {item.isCoolPrice !== undefined &&
-                    item.isCoolPrice
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </span>
-              </>
-            ) : (
-              <>
-                <ItemCategory>시작가</ItemCategory>
-                <span>
-                  {item.isAuctionInitPrice !== undefined &&
-                    item.isAuctionInitPrice
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </span>
-              </>
-            )}
-            <ItemCategory>원</ItemCategory>
-          </ItemPrice>
-          <ItemTime>
-            <ItemCategory>입찰자</ItemCategory> {item.joinerCnt}
-            <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-            {item.isEndDate}
-          </ItemTime>
-        </CardContent>
+        {item.itemSell ? (
+          <CardContent style={{ padding: 0 }}>
+            <ItemTitle>{item.itemSell.isItemName}</ItemTitle>
+            <ItemPrice>
+              <ItemCategory>현재가</ItemCategory>
+              <span>
+                {item.itemSell.isAuctionIngPrice !== undefined &&
+                  item.itemSell.isAuctionIngPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
+            <ItemPrice>
+              <ItemCategory>즉구가</ItemCategory>
+              <span>
+                {item.itemSell.isCoolPrice !== undefined &&
+                  item.itemSell.isCoolPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
+            <ItemTime>
+              <ItemCategory>입찰자</ItemCategory> {item.itemSell.joinerCnt}
+              <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
+              {item.itemSell.isEndDate}
+            </ItemTime>
+          </CardContent>
+        ) : (
+          <CardContent style={{ padding: 0 }}>
+            <ItemTitle>{item.itemBuy.ibName}</ItemTitle>
+            <ItemPrice>
+              <ItemCategory>현재가</ItemCategory>
+              <span>
+                {item.itemBuy.ibAuctionIngPrice !== undefined &&
+                  item.itemBuy.ibAuctionIngPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
+            <ItemPrice>
+              <ItemCategory>시작가</ItemCategory>
+              <span>
+                {item.itemBuy.ibAuctionInitPrice !== undefined &&
+                  item.itemBuy.ibAuctionInitPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </span>
+              <ItemCategory>원</ItemCategory>
+            </ItemPrice>
+            <ItemTime>
+              <ItemCategory>입찰자</ItemCategory> {item.itemBuy.joinerCnt}
+              <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
+              {item.itemBuy.isEndDate}
+            </ItemTime>
+          </CardContent>
+        )}
       </CardActionArea>
     </Card>
   );

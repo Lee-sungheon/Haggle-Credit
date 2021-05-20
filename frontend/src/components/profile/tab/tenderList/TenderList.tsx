@@ -4,7 +4,6 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { makeStyles } from '@material-ui/core/styles';
 import TendItem from './TendItem';
-import { ITEM } from 'styled-components';
 
 interface TenderListProps {
   buy: boolean;
@@ -101,9 +100,23 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
+const MoreButton = styled.div`
+  cursor: pointer;
+  width: 100% !important;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background-color: #ffceae;
+  border-radius: 4px;
+  margin: 3px;
+`;
+
 const TenderList = ({ buy, products }: TenderListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
+  const [idx, setIdx] = useState(0);
   const ConfirmWidth = useCallback(() => {
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -118,9 +131,6 @@ const TenderList = ({ buy, products }: TenderListProps) => {
       setItemNum(1);
     }
   }, []);
-  useEffect(() => {
-    for (let i = 0; i < products.length; i++) {}
-  });
 
   useEffect(() => {
     ConfirmWidth();
@@ -128,7 +138,15 @@ const TenderList = ({ buy, products }: TenderListProps) => {
     return () => {
       window.removeEventListener('resize', ConfirmWidth);
     };
-  });
+  }, [ConfirmWidth]);
+
+  const moreProduct = () => {
+    if (itemNum*2*(idx+1) <= products.length ){
+      setIdx(idx+1);
+    } else {
+      setIdx(1000);
+    }
+  }
 
   return (
     <>
@@ -139,11 +157,12 @@ const TenderList = ({ buy, products }: TenderListProps) => {
         spacing={7}
       >
         {products.length > 0 &&
-          products.map((item, idx) => (
+          products.slice(0, itemNum*2*(idx+1)).map((item, idx) => (
             <GridListTile key={idx}>
               <TendItem item={item} buy={buy} />
             </GridListTile>
           ))}
+          {idx !== 1000 && <MoreButton onClick={moreProduct}>입찰내역 더보기</MoreButton>}
       </GridList>
       {products.length === 0 && (
         <NoneContainer>

@@ -95,6 +95,7 @@ const Alarm = () => {
   const [open, setOpen] = useState(false);
   const [alarmList, setAlarmList] = useState<ALARM[]>([]);
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
   
   useEffect(()=>{
     const fetchData = async() => {
@@ -104,7 +105,15 @@ const Alarm = () => {
       }
     }
     fetchData();
-  }, [userNo])
+    function listener(event: StorageEvent) {
+      if (event.storageArea !== localStorage) return;
+      fetchData();
+    }
+    window.addEventListener('storage', listener);
+    return () => {
+      window.removeEventListener('storage', listener);
+    }
+  }, [userNo, isUpdate])
 
   const handleOpen = () => {
     setOpen(true);

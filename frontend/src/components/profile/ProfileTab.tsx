@@ -1,5 +1,4 @@
 import { useHistory } from 'react-router-dom';
-
 import styled from 'styled-components';
 import ProductTab from './tab/ProductTab';
 import TransactionReviewTab from './tab/TransactionReviewTab';
@@ -12,19 +11,21 @@ import { USERDATA } from 'styled-components';
 const Container = styled.div`
   text-align: center;
   margin-top: 10px;
+  width: 100%;
 `;
 
 const Body = styled.div`
+  width: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
-  display: inline-flex;
+  display: inline-flex
   text-align: center;
 `;
 
 const ActTab = styled.div`
   height: 3vw;
-  width: 13vw;
+  width: 19.5%;
   border: 1px solid black;
   border-bottom: none;
   :hover {
@@ -34,7 +35,7 @@ const ActTab = styled.div`
 
 const Tab = styled.div`
   height: 3vw;
-  width: 13vw;
+  width: 19.5%;
   border: 1px solid #e0e0e0;
   background-color: #f5f5f5;
   color: #bdbdbd;
