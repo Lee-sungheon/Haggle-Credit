@@ -25,45 +25,6 @@ const ReviewTab2 = styled.div`
   }
 `;
 
-// interface BookMarkList {
-//   b_item_no: number;
-//   b_no: number;
-//   b_user_no: number;
-//   is_content: string;
-//   is_deal_price: number;
-//   is_category_main: string;
-//   is_end_date: string;
-//   is_user_no: number;
-//   is_used_status: string;
-//   is_no: number;
-//   is_deal_user_no: number;
-//   is_deal_address: number;
-//   is_auction_ing_price: number;
-//   is_cool_price: number;
-//   is_item_name: string;
-//   is_item_no: number;
-//   is_category_sub: string;
-//   is_event_agree: string;
-//   is_auction_init_price: number;
-//   ib_deal_price: number;
-//   ib_start_date: string;
-//   ib_item_no: number;
-//   ib_name: string;
-//   ib_reg_date: string;
-//   ib_deal_user_no: number;
-//   ib_auction_init_price: number;
-//   ib_content: string;
-//   ib_no: number;
-//   ib_user_no: number;
-//   ib_auction_ing_price: number;
-//   ib_cool_price: number;
-//   ib_category_sub: string;
-//   ib_deal_address: string;
-//   ib_end_date: string;
-//   ib_category_main: string;
-//   ip_value: string;
-// }
-
 interface BookMarkList {
   auctionParticipant: AuctionParticipant[];
   iCompleted: string;
@@ -145,8 +106,8 @@ const BasketTab = ({ userData }: BasketTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=sell&uNo=${userData.uNo}`
       )
       .then((res) => {
-        setSellBookMarkList(res.data);
         console.log(res);
+        setSellBookMarkList(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -156,28 +117,26 @@ const BasketTab = ({ userData }: BasketTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=buy&uNo=${userData.uNo}`
       )
       .then((res) => {
-        setBuyBookMarkList(res.data);
         console.log(res);
+
+        setBuyBookMarkList(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
   const deleteBookMark = (item: any) => {
-    console.log(item);
     axios
       .delete(
         `https://k4d107.p.ssafy.io/haggle-credit/bookmark/delete?bItemNo=${item.b_item_no}&bUserNo=${item.b_user_no}`
       )
       .then((res) => {
-        console.log(res);
         axios
           .get(
             `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=sell&uNo=${userData.uNo}`
           )
           .then((res) => {
             setSellBookMarkList(res.data);
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
@@ -188,7 +147,6 @@ const BasketTab = ({ userData }: BasketTabProps) => {
           )
           .then((res) => {
             setBuyBookMarkList(res.data);
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
@@ -205,32 +163,6 @@ const BasketTab = ({ userData }: BasketTabProps) => {
     setReviewTab(2);
   };
   return (
-    // <Container>
-    //   <div
-    //     style={{
-    //       marginTop: '30px',
-    //       marginLeft: '30px',
-    //       textAlign: 'left',
-    //       height: '50px',
-    //       borderBottom: '1px solid #bdbdbd',
-    //     }}
-    //   >
-    //     찜
-    //   </div>
-    //   {sellBookMarkList ? (
-    //     <>
-    //       <div
-    //         style={{
-    //           paddingTop: '30px',
-    //         }}
-    //       >
-    //         등록된 찜목록이 없습니다.
-    //       </div>
-    //     </>
-    //   ) : (
-    //     <></>
-    //   )}
-    // </Container>
     <>
       {reviewTab === 1 ? (
         <>

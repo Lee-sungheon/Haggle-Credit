@@ -10,6 +10,11 @@ import { useHistory } from 'react-router';
 import { ITEM } from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../common/store';
 interface TransactionItemProps {
   item: TT;
   buy: boolean;
@@ -111,6 +116,7 @@ const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 345,
     border: '1px solid rgba(0, 0, 0, 0.2)',
+    cursor: 'default',
   },
   cardMedia: {
     objectFit: 'cover',
@@ -120,6 +126,10 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
     left: 0,
     right: 0,
+    cursor: 'pointer',
+  },
+  cardContent: {
+    cursor: 'default',
   },
 }));
 
@@ -167,12 +177,17 @@ const TransactionItem = ({
   onReceive,
   onDNumberChange,
 }: TransactionItemProps) => {
+  const userData = useSelector((state: RootState) => state.user.userData);
+
   const [img, setImg] = useState('../images/no_image/gif');
+  const [isReview, setIsReview] = useState(true);
   const [dNumber, setDNumber] = useState();
   const [receive, setReceive] = useState(true);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [value, setValue] = useState<number | null>(5);
+  const [inputreview, setInputReview] = useState();
   const goDetail = () => {
     if (item.item.itemBuy) {
       let buy = true;
@@ -180,7 +195,6 @@ const TransactionItem = ({
         buy = false;
       }
       const itemBuy = item.item.itemBuy;
-      console.log(itemBuy);
       history.push({
         pathname: `/detail/${itemBuy.ibItemNo}`,
         state: { itemBuy, buy },
@@ -191,15 +205,68 @@ const TransactionItem = ({
         buy = true;
       }
       const itemSell = item.item.itemSell;
-      console.log(itemSell);
-      dispatch(userActions.addRecently(itemSell));
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,
         state: { itemSell, buy },
       });
     }
   };
-
+  const submitReview = () => {
+    onToggleReview();
+    if (item.item.itemSell) {
+      const body = {
+        urContent: inputreview,
+        urItemNo: item.idItemNo,
+        urScore: value,
+        urUserNo: item.item.itemSell.isUserNo,
+        urWriteUserNo: userData.uNo,
+      };
+      if (value && inputreview) {
+        axios
+          .post(
+            'https://k4d107.p.ssafy.io/haggle-credit/review/writing',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+          .then((res) => {
+            onReceive(item.idItemNo);
+          });
+      }
+    } else {
+      const body = {
+        urContent: inputreview,
+        urItemNo: item.idItemNo,
+        urScore: value,
+        urUserNo: item.item.itemBuy.ibUserNo,
+        urWriteUserNo: userData.uNo,
+      };
+      if (value && inputreview) {
+        axios
+          .post(
+            'https://k4d107.p.ssafy.io/haggle-credit/review/writing',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+          .then((res) => {
+            onReceive(item.idItemNo);
+          });
+      }
+    }
+  };
+  const onInputReview = (e: any) => {
+    setInputReview(e.target.value);
+  };
+  const onToggleReview = () => {
+    setIsReview(!isReview);
+  };
   const onDNuber = (e: any) => {
     const dn = e.target.value.replace(/[^0-9.]/g, '');
     setDNumber(dn);
@@ -211,133 +278,218 @@ const TransactionItem = ({
   }, [item.item]);
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <ImgBox>
-          <CardMedia
-            component="img"
-            className={classes.cardMedia}
-            image={img}
-            onClick={goDetail}
-          />
-        </ImgBox>
-        {!buy ? (
-          <>
-            {item.item.itemBuy ? (
-              <CardContent style={{ padding: 0 }}>
-                <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
-                <ItemPrice>
-                  <ItemCategory>판매가</ItemCategory>
-                  <span>
-                    {item.item.itemBuy.ibDealPrice !== undefined &&
-                      item.item.itemBuy.ibDealPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </span>
-                  <ItemCategory>원</ItemCategory>
-                </ItemPrice>
-                {item.idDeliveryNo === 0 ? (
-                  <>
-                    <ItemCategory>운송장번호를 입력해주세요.</ItemCategory>
+      <>
+        {isReview ? (
+          <CardActionArea>
+            <ImgBox>
+              <CardMedia
+                component="img"
+                className={classes.cardMedia}
+                image={img}
+                onClick={goDetail}
+              />
+            </ImgBox>
+            {!buy ? (
+              // 구매아이템 내가판거
+              <>
+                {item.item.itemBuy ? (
+                  <CardContent
+                    style={{ padding: 0 }}
+                    className={classes.cardContent}
+                  >
+                    <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
                     <ItemPrice>
-                      <ItemCategory>
-                        <input
-                          placeholder="'-'없이 입력해주세요"
-                          value={dNumber}
-                          onChange={onDNuber}
-                        ></input>
-                      </ItemCategory>
+                      <ItemCategory>판매가</ItemCategory>
+                      <span>
+                        {item.item.itemBuy.ibDealPrice !== undefined &&
+                          item.item.itemBuy.ibDealPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      </span>
+                      <ItemCategory>원</ItemCategory>
                     </ItemPrice>
-                    <ItemPrice>
-                      <ItemCategory>
-                        <button
-                          onClick={() =>
-                            onDNumberChange(dNumber, item.item.iNo)
-                          }
-                        >
-                          확인
-                        </button>
-                      </ItemCategory>
-                    </ItemPrice>
-                  </>
-                ) : (
-                  <>
-                    {item.idReceive === 'false' ? (
+                    {item.idDeliveryNo === 0 ? (
                       <>
+                        <ItemCategory>운송장번호를 입력해주세요.</ItemCategory>
                         <ItemPrice>
-                          <ItemCategory>배송중</ItemCategory>
-                          <span>
-                            {item.idSendDate !== undefined &&
-                              item.idSendDate.slice(0, 10)}
-                          </span>
+                          <ItemCategory>
+                            <input
+                              placeholder="'-'없이 입력해주세요"
+                              value={dNumber}
+                              onChange={onDNuber}
+                            ></input>
+                          </ItemCategory>
                         </ItemPrice>
                         <ItemPrice>
-                          <ItemCategory>운송장 번호</ItemCategory>
-                          <span>
-                            {item.idDeliveryNo !== undefined &&
-                              item.idDeliveryNo}
-                          </span>
+                          <ItemCategory>
+                            <div
+                              onClick={() =>
+                                onDNumberChange(dNumber, item.item.iNo)
+                              }
+                              style={{
+                                margin: 'auto',
+                                cursor: 'pointer',
+                                border: '1px solid black',
+                                width: '20%',
+                                marginBottom: '-8px',
+                              }}
+                            >
+                              확인
+                            </div>
+                          </ItemCategory>
                         </ItemPrice>
                       </>
                     ) : (
                       <>
-                        <ItemPrice>
-                          <ItemCategory></ItemCategory>
-                        </ItemPrice>
-                        <ItemPrice>
-                          <ItemCategory>수령완료</ItemCategory>
-                        </ItemPrice>
-                        <ItemPrice>
-                          <ItemCategory></ItemCategory>
-                        </ItemPrice>
+                        {item.idReceive === 'false' ? (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory>배송중</ItemCategory>
+                              <span>
+                                {item.idSendDate !== undefined &&
+                                  item.idSendDate.slice(0, 10)}
+                              </span>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory>운송장 번호</ItemCategory>
+                              <span>
+                                {item.idDeliveryNo !== undefined &&
+                                  item.idDeliveryNo}
+                              </span>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory></ItemCategory>
+                            </ItemPrice>
+                          </>
+                        ) : (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory></ItemCategory>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory>수령완료</ItemCategory>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory></ItemCategory>
+                            </ItemPrice>
+                          </>
+                        )}
                       </>
                     )}
-                  </>
+                  </CardContent>
+                ) : (
+                  //판매아이템 내가판거
+                  <CardContent
+                    style={{ padding: 0 }}
+                    className={classes.cardContent}
+                  >
+                    <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
+                    <ItemPrice>
+                      <ItemCategory>판매가</ItemCategory>
+                      <span>
+                        {item.item.itemSell.isDealPrice !== undefined &&
+                          item.item.itemSell.isDealPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      </span>
+                      <ItemCategory>원</ItemCategory>
+                    </ItemPrice>
+                    {item.idDeliveryNo === 0 ? (
+                      <>
+                        <ItemCategory>운송장번호를 입력해주세요.</ItemCategory>
+                        <ItemPrice>
+                          <ItemCategory>
+                            <input
+                              placeholder="'-'없이 입력해주세요"
+                              value={dNumber}
+                              onChange={onDNuber}
+                            ></input>
+                          </ItemCategory>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>
+                            <div
+                              onClick={() =>
+                                onDNumberChange(dNumber, item.item.iNo)
+                              }
+                              style={{
+                                margin: 'auto',
+                                cursor: 'pointer',
+                                border: '1px solid black',
+                                width: '20%',
+                                marginBottom: '-8px',
+                              }}
+                            >
+                              확인
+                            </div>
+                          </ItemCategory>
+                        </ItemPrice>
+                      </>
+                    ) : (
+                      <>
+                        {item.idReceive === 'false' ? (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory>배송중</ItemCategory>
+                              <span>
+                                {item.idSendDate !== undefined &&
+                                  item.idSendDate.slice(0, 10)}
+                              </span>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory>운송장 번호</ItemCategory>
+                              <span>
+                                {item.idDeliveryNo !== undefined &&
+                                  item.idDeliveryNo}
+                              </span>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory></ItemCategory>
+                            </ItemPrice>
+                          </>
+                        ) : (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory></ItemCategory>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory>수령완료</ItemCategory>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory></ItemCategory>
+                            </ItemPrice>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </CardContent>
                 )}
-              </CardContent>
+              </>
             ) : (
-              <CardContent style={{ padding: 0 }}>
-                <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
-                <ItemPrice>
-                  <ItemCategory>판매가</ItemCategory>
-                  <span>
-                    {item.item.itemSell.isDealPrice !== undefined &&
-                      item.item.itemSell.isDealPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </span>
-                  <ItemCategory>원</ItemCategory>
-                </ItemPrice>
-                {item.idDeliveryNo === 0 ? (
-                  <>
-                    <ItemCategory>운송장번호를 입력해주세요.</ItemCategory>
+              //구매아이템 내가 구매
+              <>
+                {item.item.itemBuy ? (
+                  <CardContent
+                    style={{ padding: 0 }}
+                    className={classes.cardContent}
+                  >
+                    <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
                     <ItemPrice>
-                      <ItemCategory>
-                        <input
-                          placeholder="'-'없이 입력해주세요"
-                          value={dNumber}
-                          onChange={onDNuber}
-                        ></input>
-                      </ItemCategory>
+                      <ItemCategory>구매가</ItemCategory>
+                      <span>
+                        {item.item.itemBuy.ibDealPrice !== undefined &&
+                          item.item.itemBuy.ibDealPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      </span>
+                      <ItemCategory>원</ItemCategory>
                     </ItemPrice>
-                    <ItemPrice>
-                      <ItemCategory>
-                        <button
-                          onClick={() =>
-                            onDNumberChange(dNumber, item.item.iNo)
-                          }
-                        >
-                          확인
-                        </button>
-                      </ItemCategory>
-                    </ItemPrice>
-                  </>
-                ) : (
-                  <>
-                    {item.idReceive === 'false' ? (
+                    {item.idDeliveryNo === 0 ? (
+                      <ItemPrice>
+                        <ItemCategory>배송준비중</ItemCategory>
+                      </ItemPrice>
+                    ) : (
                       <>
-                        <ItemPrice>
-                          <ItemCategory></ItemCategory>
-                        </ItemPrice>
                         <ItemPrice>
                           <ItemCategory>배송중</ItemCategory>
                           <span>
@@ -352,144 +504,166 @@ const TransactionItem = ({
                               item.idDeliveryNo}
                           </span>
                         </ItemPrice>
+                        {item.idReceive === 'false' ? (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory>
+                                물건을 수령하신후 버튼을 눌러주세요
+                              </ItemCategory>
+                            </ItemPrice>
+                            <ItemPrice>
+                              <ItemCategory style={{ textAlign: 'center' }}>
+                                <div
+                                  onClick={onToggleReview}
+                                  style={{
+                                    margin: 'auto',
+                                    cursor: 'pointer',
+                                    border: '1px solid black',
+                                    width: '60%',
+                                    marginBottom: '-8px',
+                                  }}
+                                >
+                                  리뷰작성하기
+                                </div>
+                              </ItemCategory>
+                            </ItemPrice>{' '}
+                          </>
+                        ) : (
+                          <ItemPrice>
+                            <ItemCategory>수령완료</ItemCategory>
+                          </ItemPrice>
+                        )}
                       </>
-                    ) : (
+                    )}
+                  </CardContent>
+                ) : (
+                  // 판매아이템 내가구매
+                  <CardContent
+                    style={{ padding: 0 }}
+                    className={classes.cardContent}
+                  >
+                    <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
+                    <ItemPrice>
+                      <ItemCategory>구매가</ItemCategory>
+                      <span>
+                        {item.item.itemSell.isDealPrice !== undefined &&
+                          item.item.itemSell.isDealPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      </span>
+                      <ItemCategory>원</ItemCategory>
+                    </ItemPrice>
+                    {item.idDeliveryNo === 0 ? (
                       <>
                         <ItemPrice>
                           <ItemCategory></ItemCategory>
                         </ItemPrice>
+                        <ItemPrice></ItemPrice>
                         <ItemPrice>
-                          <ItemCategory>수령완료</ItemCategory>
+                          <ItemCategory>배송준비중</ItemCategory>
                         </ItemPrice>
                         <ItemPrice>
                           <ItemCategory></ItemCategory>
                         </ItemPrice>
                       </>
+                    ) : (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory>배송중</ItemCategory>
+                          <span>
+                            {item.idSendDate !== undefined &&
+                              item.idSendDate.slice(0, 10)}
+                          </span>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>운송장 번호</ItemCategory>
+                          <span>
+                            {item.idDeliveryNo !== undefined &&
+                              item.idDeliveryNo}
+                          </span>
+                        </ItemPrice>
+                        {item.idReceive === 'false' ? (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory style={{ textAlign: 'center' }}>
+                                <div
+                                  onClick={onToggleReview}
+                                  style={{
+                                    margin: 'auto',
+                                    cursor: 'pointer',
+                                    border: '1px solid black',
+                                    width: '60%',
+                                    marginBottom: '-8px',
+                                  }}
+                                >
+                                  리뷰작성하기
+                                </div>
+                              </ItemCategory>
+                            </ItemPrice>
+                          </>
+                        ) : (
+                          <>
+                            <ItemPrice>
+                              <ItemCategory>수령완료</ItemCategory>
+                            </ItemPrice>
+                          </>
+                        )}
+                      </>
                     )}
-                  </>
+                  </CardContent>
                 )}
-              </CardContent>
+              </>
             )}
-          </>
+          </CardActionArea>
         ) : (
           <>
-            {item.item.itemBuy ? (
-              <CardContent style={{ padding: 0 }}>
-                <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
-                <ItemPrice>
-                  <ItemCategory>구매가</ItemCategory>
-                  <span>
-                    {item.item.itemBuy.ibDealPrice !== undefined &&
-                      item.item.itemBuy.ibDealPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </span>
-                  <ItemCategory>원</ItemCategory>
-                </ItemPrice>
-                {item.idDeliveryNo === 0 ? (
-                  <ItemPrice>
-                    <ItemCategory>배송준비중</ItemCategory>
-                  </ItemPrice>
-                ) : (
-                  <>
-                    <ItemPrice>
-                      <ItemCategory>배송중</ItemCategory>
-                      <span>
-                        {item.idSendDate !== undefined &&
-                          item.idSendDate.slice(0, 10)}
-                      </span>
-                    </ItemPrice>
-                    <ItemPrice>
-                      <ItemCategory>운송장 번호</ItemCategory>
-                      <span>
-                        {item.idDeliveryNo !== undefined && item.idDeliveryNo}
-                      </span>
-                    </ItemPrice>
-                    {item.idReceive === 'false' ? (
-                      <>
-                        <ItemPrice>
-                          <ItemCategory>
-                            물건을 수령하신후 버튼을 눌러주세요
-                          </ItemCategory>
-                        </ItemPrice>
-                        <button onClick={() => onReceive(item.item.iNo)}>
-                          수령완료
-                        </button>
-                      </>
-                    ) : (
-                      <ItemPrice>
-                        <ItemCategory>수령완료</ItemCategory>
-                      </ItemPrice>
-                    )}
-                  </>
-                )}
-              </CardContent>
-            ) : (
-              <CardContent style={{ padding: 0 }}>
-                <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
-                <ItemPrice>
-                  <ItemCategory>구매가</ItemCategory>
-                  <span>
-                    {item.item.itemSell.isDealPrice !== undefined &&
-                      item.item.itemSell.isDealPrice
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </span>
-                  <ItemCategory>원</ItemCategory>
-                </ItemPrice>
-                {item.idDeliveryNo === 0 ? (
-                  <>
-                    <ItemPrice>
-                      <ItemCategory></ItemCategory>
-                    </ItemPrice>
-                    <ItemPrice></ItemPrice>
-                    <ItemPrice>
-                      <ItemCategory>배송준비중</ItemCategory>
-                    </ItemPrice>
-                    <ItemPrice>
-                      <ItemCategory></ItemCategory>
-                    </ItemPrice>
-                  </>
-                ) : (
-                  <>
-                    <ItemPrice>
-                      <ItemCategory>배송중</ItemCategory>
-                      <span>
-                        {item.idSendDate !== undefined &&
-                          item.idSendDate.slice(0, 10)}
-                      </span>
-                    </ItemPrice>
-                    <ItemPrice>
-                      <ItemCategory>운송장 번호</ItemCategory>
-                      <span>
-                        {item.idDeliveryNo !== undefined && item.idDeliveryNo}
-                      </span>
-                    </ItemPrice>
-                    {item.idReceive === 'false' ? (
-                      <>
-                        <ItemPrice>
-                          <ItemCategory>
-                            <button
-                              onClick={() => onReceive(item.item.iNo)}
-                              style={{ height: '100%' }}
-                            >
-                              수령완료
-                            </button>
-                          </ItemCategory>
-                        </ItemPrice>
-                      </>
-                    ) : (
-                      <ItemPrice>
-                        <ItemCategory>수령완료</ItemCategory>
-                      </ItemPrice>
-                    )}
-                  </>
-                )}
-              </CardContent>
-            )}
+            <div style={{ textAlign: 'center' }}>
+              <ImgBox>
+                <CardMedia
+                  component="img"
+                  className={classes.cardMedia}
+                  image={img}
+                  onClick={goDetail}
+                />
+              </ImgBox>
+              <div>리뷰쓰기</div>
+              <div style={{ height: '70px' }}>
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                  <Typography component="legend">별점</Typography>
+                  <Rating
+                    name="simple-controlled"
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                  />
+                </Box>
+              </div>
+              <div>거래후기</div>
+              <div>
+                <textarea
+                  value={inputreview}
+                  onChange={onInputReview}
+                  style={{ width: '80%', resize: 'none' }}
+                ></textarea>
+              </div>
+              <div
+                onClick={submitReview}
+                style={{
+                  margin: 'auto',
+                  height: '100%',
+                  width: '60%',
+                  cursor: 'pointer',
+                  border: '1px solid black',
+                  marginBottom: '8px',
+                }}
+              >
+                작성완료 및 수령완료
+              </div>
+            </div>
           </>
         )}
-      </CardActionArea>
+      </>
     </Card>
   );
 };

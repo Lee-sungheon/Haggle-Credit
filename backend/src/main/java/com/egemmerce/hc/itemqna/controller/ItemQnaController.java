@@ -33,7 +33,10 @@ public class ItemQnaController {
 	/* R :: 문의(댓글) 조회 */
 	@GetMapping("")
 	public ResponseEntity<List<ItemQnaResult>> ReadQna(int iqItemNo) throws Exception {
-		System.out.println(qnaService.SelectQna(iqItemNo).get(0).toString());
+		List<ItemQnaResult> result = null;
+		result = qnaService.SelectQna(iqItemNo);
+		if(result.isEmpty())
+			return new ResponseEntity<List<ItemQnaResult>>(result, HttpStatus.OK);
 		return new ResponseEntity<List<ItemQnaResult>>(qnaService.SelectQna(iqItemNo), HttpStatus.OK);
 	}
 	

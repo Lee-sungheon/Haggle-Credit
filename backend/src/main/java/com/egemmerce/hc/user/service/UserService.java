@@ -61,6 +61,8 @@ public interface UserService{
 	void updateUserCreditbyRegistBuy(User user, int ibAuctionInitPrice, int ibItemNo);
 
 	void updateUserCreditbyBuyCool(int ibUserNo, ItemBuy itemBuy);
+
+	int selectMyCredit(int uNo);
 	
 
 }

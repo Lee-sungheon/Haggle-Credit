@@ -11,7 +11,7 @@ export function userLogin(body: any) {
 
 export function userSignup(body: any) {
   const url: string =
-    'https://k4d107.p.ssafy.io/haggle-crchangeProfileImageAPIedit/user/join';
+    'https://k4d107.p.ssafy.io/haggle-credit/user/join';
   return axios.post(url, body, {
     headers: {
       'Content-Type': 'application/json',

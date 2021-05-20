@@ -116,7 +116,7 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 	/////////////////////////////// 아래는 mybatis 처리
 	@Override
 	public ItemBuySet BselectItemOne(int ibItemNo) throws Exception {
-		System.out.println(itemBuyMapper.BselectItemOne(ibItemNo));
+//		System.out.println(itemBuyMapper.BselectItemOne(ibItemNo));
 		return itemBuyMapper.BselectItemOne(ibItemNo);
 	}
 
@@ -247,6 +247,11 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 					.build();
 			itemDeliveryRepository.save(itemDelivery);
 			}
+	}
+
+	@Override
+	public List<ItemBuy> selectMyItemByuNoOnlyBuy(int uNo) {
+		return itemBuyRepository.findByibUserNoAndIbDealUserNo(uNo,0);
 	}
 	
 }

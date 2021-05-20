@@ -61,12 +61,15 @@ public class UserController {
 	}
 
 	@GetMapping("/key_alter")
-	public String key_alterConfirm(@RequestParam("email") String uEmail, @RequestParam("token") String uAuthKey)
+	public ResponseEntity<String> key_alterConfirm(@RequestParam("email") String uEmail, @RequestParam("token") String uAuthKey)
 			throws Exception {
 		System.out.println("email : " + uEmail);
 		System.out.println("token : " + uAuthKey);
-		userService.alter_userKey_service(uEmail, uAuthKey);
-		return "user/userRegSuccessPage";
+		if(userService.alter_userKey_service(uEmail, uAuthKey)) {
+			
+			return new ResponseEntity<String>("인증 완료", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("인증 실패", HttpStatus.OK);
 	}
 
 	/* R :: 가입 중 아이디 중복 확인 */
@@ -93,6 +96,13 @@ public class UserController {
 			return new ResponseEntity<User>(check, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("개인정보가 없음", HttpStatus.NO_CONTENT);
+	}
+	/* R :: 현재 크레딧 조회 */
+	@ApiOperation(value = "현재 크래딧 조회 Restful API", response = User.class)
+	@GetMapping("/mycredit")
+	public ResponseEntity<?> myCredit(int uNo) {
+		int credit=userService.selectMyCredit(uNo);
+		return new ResponseEntity<Integer>(credit, HttpStatus.OK);
 	}
 	/* R :: 개인 정보 전체 조회 [토큰으로 확인] */
 	@ApiOperation(value = "개인정보 조회를 위한 Restful API", response = User.class)

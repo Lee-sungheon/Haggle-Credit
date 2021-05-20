@@ -361,7 +361,7 @@ public class ItemSellController {
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
 	public ResponseEntity<?> selectMyItem(int uNo) throws Exception {
-		List<ItemSell> items = itemSellService.selectMyItemByuNo(uNo);
+		List<ItemSell> items = itemSellService.selectMyItemByuNoOnlySell(uNo);
 		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
 		for (ItemSell is : items) {
 

@@ -30,4 +30,6 @@ public interface ItemSellRepository extends JpaRepository<ItemSell, Long> {
 
 	List<ItemSell> findByisDealUserNoAndIsEndDateLessThan(int i, Date valueOf);
 
+	List<ItemSell> findByisUserNoAndIsDealUserNo(int uNo, int i);
+
 }

@@ -18,14 +18,12 @@ const TagP1 = styled.div`
   position: relative;
   padding-right: 5px;
   margin-top: 1vw;
-  // transform: translateY(60%);
 `;
 
 const TagP2 = styled.div`
   margin: 0;
   position: relative;
   padding-right: 20px;
-  // transform: translateY(65%);
   :hover {
     cursor: pointer;
   }
@@ -47,7 +45,6 @@ const EditButton = styled.button`
 `;
 
 const AccountDiv = styled.div`
-  // padding-lfex: 200px;
   text-align: right;
 `;
 interface AccountProps {
@@ -88,7 +85,6 @@ const Account = ({ userData }: AccountProps) => {
     };
     updateBank(body)
       .then((res) => {
-        console.log(res);
         dispatch(userActions.updateBank(res.data));
         onchangeAccountToggle();
       })

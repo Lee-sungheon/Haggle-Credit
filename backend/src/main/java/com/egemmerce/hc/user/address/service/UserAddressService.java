@@ -29,4 +29,6 @@ public interface UserAddressService {
 
 	boolean updateDefaultTrue(int uaNo);
 
+	UserAddress selectAddressbyaNo(int uaNo);
+
 }

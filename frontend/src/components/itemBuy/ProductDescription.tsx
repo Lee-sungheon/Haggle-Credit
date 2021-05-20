@@ -23,8 +23,9 @@ interface ProductDescriptionProps {
 const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
   const [introduce, setIntroduce] = useState('');
   const onIntroduceHandler = (e: any) => {
-    setIntroduce(e.target.value);
-    onIsContent(e.target.value);
+    const intro = e.target.value.slice(0, 2000);
+    setIntroduce(intro);
+    onIsContent(intro);
   };
   return (
     <Container id="address">
@@ -52,7 +53,9 @@ const ProductDescription = ({ onIsContent }: ProductDescriptionProps) => {
             placeholder="상품설명을 입력해주세요."
             spellCheck="false"
           ></IntroduceTextArea>
-          <p style={{ textAlign: 'right', marginTop: '-2px' }}>0/2000</p>
+          <p style={{ textAlign: 'right', marginTop: '-2px' }}>
+            {introduce.length}/2000
+          </p>
         </div>
       </div>
     </Container>

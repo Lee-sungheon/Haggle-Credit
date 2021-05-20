@@ -31,7 +31,6 @@ const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(match);
     axios
       .get(
         `https://k4d107.p.ssafy.io/haggle-credit/user/myinfo?uNo=${match.params.id}`

@@ -283,4 +283,9 @@ public class ItemSellServiceImpl implements ItemSellService {
 		is.setIsEventAgree("done");
 		itemSellRepository.save(is);
 	}
+
+	@Override
+	public List<ItemSell> selectMyItemByuNoOnlySell(int uNo) {
+		return itemSellRepository.findByisUserNoAndIsDealUserNo(uNo,0);
+	}
 }

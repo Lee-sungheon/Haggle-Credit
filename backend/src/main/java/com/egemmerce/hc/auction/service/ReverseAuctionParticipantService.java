@@ -12,4 +12,6 @@ public interface ReverseAuctionParticipantService {
 
 	List<ReverseAuctionParticipant> findByrapItemNoOrderByDate(int ibItemNo);
 
+	int countByitemNo(int ipItemNo);
+
 }
