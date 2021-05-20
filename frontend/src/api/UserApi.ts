@@ -151,3 +151,29 @@ export function callApiDeleteAlarm(aNo: number) {
       return '오류';
     })
 }
+
+export function callApiGetCredit(uNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/mycredit?uNo=${uNo}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return [];
+    });
+}
+
+export function callApiKeyAlter(email: string, token: string){
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/user/key_alter?email=${email}&token=${token}`;
+  return axios
+    .get(url)
+    .then((Resoponse) => {
+      return Resoponse.data;
+    })
+    .catch((Error) => {
+      console.log(Error);
+      return '인증 실패';
+    });
+}

@@ -168,6 +168,8 @@ const SellAuction = ({ desc }: Props) => {
       } else {
         alert('오류가 발생했습니다.');
       }
+    } else {
+      alert('배송지, 입찰 가격을 모두 입력해주세요!');
     }
   };
 
