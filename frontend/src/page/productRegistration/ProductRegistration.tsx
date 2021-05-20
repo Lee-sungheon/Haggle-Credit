@@ -139,12 +139,12 @@ const ProductRegistration = () => {
       setIsLoading(false);
       return;
     }
-    if (!body.isAuctionIngPrice && body.isAuctionIngPrice) {
+    if (!body.isAuctionIngPrice && body.isAuctionInitPrice) {
       alert('경매시작가격을 설정해주세요');
       setIsLoading(false);
       return;
     }
-    if (body.isAuctionIngPrice >= body.isAuctionIngPrice) {
+    if (body.isAuctionIngPrice >= body.isCoolPrice) {
       alert('경매시작가격은 즉시구매가격보다 낮아야합니다');
     }
     if (!body.isEndDate) {
