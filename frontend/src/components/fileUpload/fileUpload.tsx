@@ -12,22 +12,18 @@ export function App() {
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
-    // data for submit
-    // console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 
   const saveIP = (imageList: ImageListType) => {
     axios.post(`${spring_URL}/image/itemPhotoUpload`, imageList)
     .then(res => {
-        console.log(res);
     })
   };
 
   const updateProfile = (imageList: ImageListType) => {
     axios.post(`${spring_URL}/image/profileUpload`, imageList)
     .then(res => {
-        console.log(res);
     })
   };
 
@@ -47,7 +43,6 @@ export function App() {
           isDragging,
           dragProps
         }) => (
-          // write your building UI
           <div className="upload__image-wrapper">
             <button
               style={isDragging ? { color: "red" } : undefined}

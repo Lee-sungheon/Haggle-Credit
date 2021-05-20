@@ -91,7 +91,6 @@ const Introduce = ({ userData }: IntroduceProps) => {
     body.uContent = introduce;
     changeIntroduceAPI(body)
       .then((res) => {
-        console.log(res);
         dispatch(userActions.changeIntroduce(res.data));
 
         onToggleHandler();

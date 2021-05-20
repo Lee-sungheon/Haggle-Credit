@@ -180,7 +180,6 @@ const TransactionItem = ({
         buy = false;
       }
       const itemBuy = item.item.itemBuy;
-      console.log(itemBuy);
       history.push({
         pathname: `/detail/${itemBuy.ibItemNo}`,
         state: { itemBuy, buy },
@@ -191,7 +190,6 @@ const TransactionItem = ({
         buy = true;
       }
       const itemSell = item.item.itemSell;
-      console.log(itemSell);
       dispatch(userActions.addRecently(itemSell));
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,

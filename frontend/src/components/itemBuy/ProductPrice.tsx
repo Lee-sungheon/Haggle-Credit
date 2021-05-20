@@ -43,8 +43,6 @@ const ProductPrice = ({
 
   useEffect(() => {
     let d = new Date();
-    // 3 1~3
-    // 2 0~2
     const end_date =
       d.getFullYear() +
       '-' +
@@ -63,7 +61,6 @@ const ProductPrice = ({
       ) +
       '-' +
       d.getDate();
-    console.log(end_date);
     setToDate(to_date);
     setEndDate(end_date);
     setInputEndDate(end_date);
@@ -92,8 +89,6 @@ const ProductPrice = ({
   };
 
   const onEndDate = (e: any) => {
-    console.log(e.target.value);
-    console.log(endDate);
     const date1 = new Date(
       endDate.slice(0, 4),
       endDate.slice(6, 7) - 1,

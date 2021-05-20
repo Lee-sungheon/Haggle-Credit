@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 export function callApiHomeProductSellList(pageNo: number) {
-  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/viewHome?UD=up&pageNo=${pageNo}&sortName=is_no`;
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/viewHome?UD=down&pageNo=${pageNo}&sortName=is_no`;
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -14,7 +14,7 @@ export function callApiHomeProductSellList(pageNo: number) {
 }
 
 export function callApiHomeProductBuyList(pageNo: number) {
-  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/viewHome?UD=up&pageNo=${pageNo}&sortName=ib_no`;
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/viewHome?UD=down&pageNo=${pageNo}&sortName=ib_no`;
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -26,12 +26,18 @@ export function callApiHomeProductBuyList(pageNo: number) {
     });
 }
 
-export function callApiCategoryProductList(ud:string, main:string, sub:string, pageNo: string, sortName: string) {
-  let url: string = ''
-  if (sub === ""){
-    url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/views?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}`
+export function callApiCategoryProductList(
+  ud: string,
+  main: string,
+  sub: string,
+  pageNo: string,
+  sortName: string
+) {
+  let url: string = '';
+  if (sub === '') {
+    url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/views?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}`;
   } else {
-    url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/views?UD=${ud}&ctgrMain=${main}&ctgrSub=${sub}&pageNo=${pageNo}&sortName=${sortName}`
+    url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/views?UD=${ud}&ctgrMain=${main}&ctgrSub=${sub}&pageNo=${pageNo}&sortName=${sortName}`;
   }
   return axios
     .get(url)
@@ -44,12 +50,18 @@ export function callApiCategoryProductList(ud:string, main:string, sub:string, p
     });
 }
 
-export function callApiCategorSellProductList(ud:string, main:string, sub:string, pageNo: string, sortName: string) {
-  let url: string = ''
-  if (sub === ""){
-    url = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/views?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}`
+export function callApiCategorSellProductList(
+  ud: string,
+  main: string,
+  sub: string,
+  pageNo: string,
+  sortName: string
+) {
+  let url: string = '';
+  if (sub === '') {
+    url = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/views?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}`;
   } else {
-    url = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/views?UD=${ud}&ctgrMain=${main}&ctgrSub=${sub}&pageNo=${pageNo}&sortName=${sortName}`
+    url = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/views?UD=${ud}&ctgrMain=${main}&ctgrSub=${sub}&pageNo=${pageNo}&sortName=${sortName}`;
   }
   return axios
     .get(url)
@@ -62,9 +74,9 @@ export function callApiCategorSellProductList(ud:string, main:string, sub:string
     });
 }
 
-export function callApiCategoryCount(main:string, sub:string) {
-  let url: string = "";
-  if (sub === "") {
+export function callApiCategoryCount(main: string, sub: string) {
+  let url: string = '';
+  if (sub === '') {
     url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/categoryCount?ctgrMain=${main}`;
   } else {
     url = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/categoryCount?ctgrMain=${main}&ctgrSub=${sub}`;
@@ -80,9 +92,9 @@ export function callApiCategoryCount(main:string, sub:string) {
     });
 }
 
-export function callApiCategorySellCount(main:string, sub:string) {
-  let url: string = "";
-  if (sub === "") {
+export function callApiCategorySellCount(main: string, sub: string) {
+  let url: string = '';
+  if (sub === '') {
     url = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/categoryCount?ctgrMain=${main}`;
   } else {
     url = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/categoryCount?ctgrMain=${main}&ctgrSub=${sub}`;
@@ -99,7 +111,7 @@ export function callApiCategorySellCount(main:string, sub:string) {
 }
 
 export function callApiItemSellCnt() {
-  const url:string = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/count`;
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/count`;
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -112,7 +124,7 @@ export function callApiItemSellCnt() {
 }
 
 export function callApiItemBuyCnt() {
-  const url:string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/count`;
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/count`;
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -145,12 +157,11 @@ export function callApiQnaList(itemNo: number) {
       return Resoponse.data;
     })
     .catch((Error) => {
-      console.log(Error);
       return [];
     });
 }
 
-interface QNA{
+interface QNA {
   iqContent: string;
   iqItemNo: number;
   iqUserNo: number;
@@ -168,11 +179,11 @@ export function callApiWriteQna(body: QNA) {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
 export function callApiDeleteQna(QnaNo: number) {
-  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/item/qna/delete?iqNo=${QnaNo}`
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/item/qna/delete?iqNo=${QnaNo}`;
   return axios
     .delete(url)
     .then((Resoponse) => {
@@ -180,7 +191,7 @@ export function callApiDeleteQna(QnaNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
 export function callApiUserInfo(userNo: number) {
@@ -223,8 +234,8 @@ export function callApiCheckedStatus(itemNo: number, userNo: number) {
 }
 
 interface ZZiM {
-  bItemNo: number|undefined;
-  bUserNo: number|undefined;
+  bItemNo: number | undefined;
+  bUserNo: number | undefined;
 }
 export function callApiCreateZzim(body: ZZiM) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/create`;
@@ -239,11 +250,11 @@ export function callApiCreateZzim(body: ZZiM) {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
 export function callApiDeleteZzim(itemNo: number, userNo: number) {
-  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/delete?bItemNo=${itemNo}&bUserNo=${userNo}`
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/delete?bItemNo=${itemNo}&bUserNo=${userNo}`;
   return axios
     .delete(url)
     .then((Resoponse) => {
@@ -251,11 +262,11 @@ export function callApiDeleteZzim(itemNo: number, userNo: number) {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
-export function callApiGetZzim(userNo: number){
-  const url:string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/count?&uNo=${userNo}`;
+export function callApiGetZzim(userNo: number) {
+  const url: string = `https://k4d107.p.ssafy.io/haggle-credit/bookmark/count?&uNo=${userNo}`;
   return axios
     .get(url)
     .then((Resoponse) => {
@@ -319,7 +330,12 @@ export function callApiItemBuyDetail(itemNo: number) {
     });
 }
 
-export function callApiUpdateAuction(price: number, itemNo: number, userNo: number, uaNo: number) {
+export function callApiUpdateAuction(
+  price: number,
+  itemNo: number,
+  userNo: number,
+  uaNo: number
+) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/auction?isAuctionPrice=${price}&isItemNo=${itemNo}&isUserNo=${userNo}&uaNo=${uaNo}`;
   return axios
     .put(url, {
@@ -332,10 +348,14 @@ export function callApiUpdateAuction(price: number, itemNo: number, userNo: numb
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
-export function callApiUpdateSellAuction(price: number, itemNo: number, userNo: number) {
+export function callApiUpdateSellAuction(
+  price: number,
+  itemNo: number,
+  userNo: number
+) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/auction?ibAuctionPrice=${price}&ibItemNo=${itemNo}&ibUserNo=${userNo}`;
   return axios
     .put(url, {
@@ -348,10 +368,14 @@ export function callApiUpdateSellAuction(price: number, itemNo: number, userNo: 
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
-export function callApiDealCompleted(itemNo: number, uNo: number, uaNo: number){
+export function callApiDealCompleted(
+  itemNo: number,
+  uNo: number,
+  uaNo: number
+) {
   const url: string = `https://k4d107.p.ssafy.io/haggle-credit/itemSell/updateDealCompleted?isItemNo=${itemNo}&uNo=${uNo}&uaNo=${uaNo}`;
   return axios
     .put(url, {
@@ -364,12 +388,18 @@ export function callApiDealCompleted(itemNo: number, uNo: number, uaNo: number){
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
-export function callApiSearchProductList(ud:string, main:string, pageNo: string, sortName: string, word: string) {
-  let url: string = ''
-  if (main !=="") {
+export function callApiSearchProductList(
+  ud: string,
+  main: string,
+  pageNo: string,
+  sortName: string,
+  word: string
+) {
+  let url: string = '';
+  if (main !== '') {
     url = `https://k4d107.p.ssafy.io/haggle-credit/searching?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}&word=${word}`;
   } else {
     url = `https://k4d107.p.ssafy.io/haggle-credit/searching?UD=${ud}&pageNo=${pageNo}&sortName=${sortName}&word=${word}`;
@@ -398,9 +428,15 @@ export function callApiSearchCount(word: string) {
     });
 }
 
-export function callApiSearchSellProductList(ud:string, main:string, pageNo: string, sortName: string, word: string) {
-  let url: string = ''
-  if (main !=="") {
+export function callApiSearchSellProductList(
+  ud: string,
+  main: string,
+  pageNo: string,
+  sortName: string,
+  word: string
+) {
+  let url: string = '';
+  if (main !== '') {
     url = `https://k4d107.p.ssafy.io/haggle-credit/searching/buy?UD=${ud}&ctgrMain=${main}&pageNo=${pageNo}&sortName=${sortName}&word=${word}`;
   } else {
     url = `https://k4d107.p.ssafy.io/haggle-credit/searching/buy?UD=${ud}&pageNo=${pageNo}&sortName=${sortName}&word=${word}`;
@@ -442,7 +478,7 @@ export function callApiEndSell() {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }
 
 export function callApiEndBuy() {
@@ -458,5 +494,5 @@ export function callApiEndBuy() {
     })
     .catch((Error) => {
       console.log(Error);
-  });
+    });
 }

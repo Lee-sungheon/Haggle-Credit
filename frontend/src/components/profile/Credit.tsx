@@ -56,17 +56,7 @@ const CreditPaymentDiv = styled.div`
   line-height: 1.5vw;
 `;
 
-// interface Iamport {
-//   init: (accountID: string) => void;
-//   request_pay: (
-//     params: RequestPayParams,
-//     callback?: RequestPayResponseCallback
-//   ) => void;
-// }
 
-// interface Window {
-//   IMP?: Iamport;
-// }
 interface CreditProps {
   userData: USERDATA;
 }
@@ -78,7 +68,6 @@ const Credit = ({ userData }: CreditProps) => {
   const [credit, setCredit] = useState('0');
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('render');
     if (userData.uCredit) {
       let set_credit = userData.uCredit.toString();
       if (userData.uCredit > 99999999) {
@@ -100,27 +89,29 @@ const Credit = ({ userData }: CreditProps) => {
     setInputCredit(e.target.value);
   };
   const onRePaymentAccepted = () => {
-    if (inputCredit) {
-      const body = {
-        uNo: userData.uNo,
-        uCredit: -inputCredit,
-      };
-      changeCredit(body)
-        .then((res) => {
-          console.log(res);
-          dispatch(userActions.changeCredit(res.data));
-          togglePayment();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (userData.uCredit) {
+      if (inputCredit <= userData.uCredit) {
+        const body = {
+          uNo: userData.uNo,
+          uCredit: -inputCredit,
+        };
+        changeCredit(body)
+          .then((res) => {
+            dispatch(userActions.changeCredit(res.data));
+            togglePayment();
+            alert('환전된 금액은 3일후 계좌로 입금됩니다.');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        alert('환전하실 금액을 다시 설정해주세요');
+      }
     }
   };
   const creditPayment = () => {
-    console.log('creditPayment');
     const { IMP } = window;
     IMP?.init('imp43006657');
-    console.log(IMP);
     if (userData.uPhone) {
       const params: RequestPayParams = {
         pg: 'kakaopay',
@@ -140,8 +131,6 @@ const Credit = ({ userData }: CreditProps) => {
   };
   const onPaymentAccepted = (response: RequestPayResponse) => {
     const { imp_uid, merchant_uid } = response;
-    console.log(imp_uid, merchant_uid);
-    console.log(response);
     if (response.success === true) {
       const body = {
         uNo: userData.uNo,
@@ -149,7 +138,6 @@ const Credit = ({ userData }: CreditProps) => {
       };
       changeCredit(body)
         .then((res) => {
-          console.log(res);
           dispatch(userActions.changeCredit(res.data));
           togglePayment();
         })

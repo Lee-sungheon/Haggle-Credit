@@ -16,44 +16,6 @@ interface BasketItemProps {
   deleteBookMark: (item: any) => void;
 }
 
-// interface BookMarkList {
-//   b_item_no: number;
-//   b_no: number;
-//   b_user_no: number;
-//   is_content: string;
-//   is_deal_price: number;
-//   is_category_main: string;
-//   is_end_date: string;
-//   is_user_no: number;
-//   is_used_status: string;
-//   is_no: number;
-//   is_deal_user_no: number;
-//   is_deal_address: number;
-//   is_auction_ing_price: number;
-//   is_cool_price: number;
-//   is_item_name: string;
-//   is_item_no: number;
-//   is_category_sub: string;
-//   is_event_agree: string;
-//   is_auction_init_price: number;
-//   ib_deal_price: number;
-//   ib_start_date: string;
-//   ib_item_no: number;
-//   ib_name: string;
-//   ib_reg_date: string;
-//   ib_deal_user_no: number;
-//   ib_auction_init_price: number;
-//   ib_content: string;
-//   ib_no: number;
-//   ib_user_no: number;
-//   ib_auction_ing_price: number;
-//   ib_cool_price: number;
-//   ib_category_sub: string;
-//   ib_deal_address: string;
-//   ib_end_date: string;
-//   ib_category_main: string;
-//   ip_value: string;
-// }
 interface BookMarkList {
   auctionParticipant: AuctionParticipant[];
   iCompleted: string;
@@ -197,15 +159,12 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
   const history = useHistory();
   const goDetail = () => {
     if (item.itemBuy) {
-      console.log(item.itemBuy);
       history.push({
         pathname: `/detail/${item.itemBuy.ibItemNo}`,
         state: { item, buy },
       });
     } else if (item.itemSell) {
-      console.log(item);
       const itemSell = { ...item.itemSell, ipValue: item.itemPhoto[0].ipValue };
-      console.log(itemSell);
       dispatch(userActions.addRecently(itemSell));
 
       history.push({
@@ -221,61 +180,7 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
       setImg('../images/no_image.gif');
     }
   }, [item.itemPhoto]);
-  // useEffect(() => {
-  //   if (item.itemSell) {
-  //     setItemData({
-  //       ...itemData,
-  //       ipItemNo: item.itemSell.isItemNo,
-  //       isContent: item.itemSell.isContent,
-  //       isDealPrice: item.itemSell.isDealPrice,
-  //       isCategoryMain: item.itemSell.isCategoryMain,
-  //       isUserNo: item.itemSell.isUserNo,
-  //       isEndDate: item.itemSell.isEndDate,
-  //       ipValue: item.itemPhoto.ipValue,
-  //       isUsedStatus: item.itemSell.isUsedStatus,
-  //       isNo: item.itemSell.isNo,
-  //       isDealUserNo: item.itemSell.isDealUserNo,
-  //       isDealAddress: item.itemSell.isDealAddress,
-  //       isAuctionIngPrice: item.itemSell.isAuctionIngPrice,
-  //       isCoolPrice: item.itemSell.isCoolPrice,
-  //       isItemName: item.itemSell.isItemName,
-  //       isItemNo: item.itemSell.isItemNo,
-  //       isCategorySub: item.itemSell.isCategorySub,
-  //       isEventAgree: item.itemSell.isEventAgree,
-  //       isAuctionInitPrice: item.itemSell.isAuctionInitPrice,
-  //     });
-  //   } else if (item.itemBuy) {
-  //     setItemData({
-  //       ...itemData,
-  //       ipItemNo: item.ib_item_no,
-  //       isContent: item.ib_content,
-  //       isDealPrice: item.ib_deal_price,
-  //       isCategoryMain: item.ib_category_main,
-  //       isUserNo: item.ib_user_no,
-  //       isEndDate: item.ib_end_date,
-  //       ipValue: item.ip_value,
-  //       isNo: item.ib_no,
-  //       isDealUserNo: item.ib_deal_user_no,
-  //       isAuctionIngPrice: item.ib_auction_ing_price,
-  //       isCoolPrice: item.ib_cool_price,
-  //       isItemNo: item.ib_item_no,
-  //       isCategorySub: item.ib_category_sub,
-  //       isAuctionInitPrice: item.ib_auction_init_price,
-  //     });
-  //   }
-  // }, []);
-  // const deleteBookMark = () => {
-  //   axios
-  //     .delete(
-  //       `https://k4d107.p.ssafy.io/haggle-credit/bookmark/delete?bItemNo=${item.b_item_no}&bUserNo=${item.b_user_no}`
-  //     )
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  
   return (
     <Card className={classes.root} style={{ position: 'relative' }}>
       <CardBody>

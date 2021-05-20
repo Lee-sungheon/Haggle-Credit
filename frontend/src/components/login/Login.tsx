@@ -106,7 +106,6 @@ const Login: React.FunctionComponent<LoginProps> = ({ open, handleClose }) => {
     };
     userLogin(body)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           alert('로그인에 성공하셨습니다.');
           dispatch(userActions.userLogin(res.data));
