@@ -40,6 +40,7 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
   const onReviewTab2 = () => {
     setReviewTab(2);
   };
+ 
   useEffect(() => {
     axios
       .get(
@@ -85,7 +86,11 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
               등록된 판매글입찰이 없습니다.
             </div>
           ) : (
-            <TenderList buy={true} products={sellTenderList} />
+            <TenderList
+              buy={true}
+              products={sellTenderList}
+      
+            />
           )}
         </>
       ) : (
@@ -108,7 +113,11 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
               등록된 구매글입찰이 없습니다.
             </div>
           ) : (
-            <TenderList buy={false} products={buyTenderList} />
+            <TenderList
+              buy={false}
+              products={buyTenderList}
+
+            />
           )}
         </>
       )}

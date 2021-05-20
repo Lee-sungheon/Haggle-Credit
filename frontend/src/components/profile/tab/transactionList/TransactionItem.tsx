@@ -9,10 +9,12 @@ import { userActions } from '../../../../state/user';
 import { useHistory } from 'react-router';
 import { ITEM } from 'styled-components';
 import { useEffect, useState } from 'react';
-
+import axios from 'axios';
 interface TransactionItemProps {
   item: TT;
   buy: boolean;
+  onReceive: (iNo: any) => void;
+  onDNumberChange: (dNumber: any, iNo: any) => void;
 }
 interface TT {
   idDeliveryNo: number;
@@ -159,14 +161,24 @@ const ItemCategory = styled.span`
   margin-right: 4px;
 `;
 
-const TransactionItem = ({ item, buy }: TransactionItemProps) => {
+const TransactionItem = ({
+  item,
+  buy,
+  onReceive,
+  onDNumberChange,
+}: TransactionItemProps) => {
   const [img, setImg] = useState('../images/no_image/gif');
-
+  const [dNumber, setDNumber] = useState();
+  const [receive, setReceive] = useState(true);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const goDetail = () => {
     if (item.item.itemBuy) {
+      let buy = true;
+      if (item.idType === 'buy') {
+        buy = false;
+      }
       const itemBuy = item.item.itemBuy;
       console.log(itemBuy);
       history.push({
@@ -174,6 +186,10 @@ const TransactionItem = ({ item, buy }: TransactionItemProps) => {
         state: { itemBuy, buy },
       });
     } else if (item.item.itemSell) {
+      let buy = false;
+      if (item.idType === 'sell') {
+        buy = true;
+      }
       const itemSell = item.item.itemSell;
       console.log(itemSell);
       dispatch(userActions.addRecently(itemSell));
@@ -183,49 +199,295 @@ const TransactionItem = ({ item, buy }: TransactionItemProps) => {
       });
     }
   };
+
+  const onDNuber = (e: any) => {
+    const dn = e.target.value.replace(/[^0-9.]/g, '');
+    setDNumber(dn);
+  };
   useEffect(() => {
     if (item.item.itemPhoto) {
       setImg(item.item.itemPhoto[0].ipValue);
     }
   }, [item.item]);
   return (
-    <Card className={classes.root} onClick={goDetail}>
+    <Card className={classes.root}>
       <CardActionArea>
         <ImgBox>
           <CardMedia
             component="img"
             className={classes.cardMedia}
             image={img}
+            onClick={goDetail}
           />
         </ImgBox>
-        {item.idType === 'sell' ? (
-          <CardContent style={{ padding: 0 }}>
-            <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
-            <ItemPrice>
-              <ItemCategory>구매가</ItemCategory>
-              <span>
-                {item.item.itemSell.isDealPrice !== undefined &&
-                  item.item.itemSell.isDealPrice
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </span>
-              <ItemCategory>원</ItemCategory>
-            </ItemPrice>
-          </CardContent>
+        {!buy ? (
+          <>
+            {item.item.itemBuy ? (
+              <CardContent style={{ padding: 0 }}>
+                <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
+                <ItemPrice>
+                  <ItemCategory>판매가</ItemCategory>
+                  <span>
+                    {item.item.itemBuy.ibDealPrice !== undefined &&
+                      item.item.itemBuy.ibDealPrice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </span>
+                  <ItemCategory>원</ItemCategory>
+                </ItemPrice>
+                {item.idDeliveryNo === 0 ? (
+                  <>
+                    <ItemCategory>운송장번호를 입력해주세요.</ItemCategory>
+                    <ItemPrice>
+                      <ItemCategory>
+                        <input
+                          placeholder="'-'없이 입력해주세요"
+                          value={dNumber}
+                          onChange={onDNuber}
+                        ></input>
+                      </ItemCategory>
+                    </ItemPrice>
+                    <ItemPrice>
+                      <ItemCategory>
+                        <button
+                          onClick={() =>
+                            onDNumberChange(dNumber, item.item.iNo)
+                          }
+                        >
+                          확인
+                        </button>
+                      </ItemCategory>
+                    </ItemPrice>
+                  </>
+                ) : (
+                  <>
+                    {item.idReceive === 'false' ? (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory>배송중</ItemCategory>
+                          <span>
+                            {item.idSendDate !== undefined &&
+                              item.idSendDate.slice(0, 10)}
+                          </span>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>운송장 번호</ItemCategory>
+                          <span>
+                            {item.idDeliveryNo !== undefined &&
+                              item.idDeliveryNo}
+                          </span>
+                        </ItemPrice>
+                      </>
+                    ) : (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>수령완료</ItemCategory>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
+                        </ItemPrice>
+                      </>
+                    )}
+                  </>
+                )}
+              </CardContent>
+            ) : (
+              <CardContent style={{ padding: 0 }}>
+                <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
+                <ItemPrice>
+                  <ItemCategory>판매가</ItemCategory>
+                  <span>
+                    {item.item.itemSell.isDealPrice !== undefined &&
+                      item.item.itemSell.isDealPrice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </span>
+                  <ItemCategory>원</ItemCategory>
+                </ItemPrice>
+                {item.idDeliveryNo === 0 ? (
+                  <>
+                    <ItemCategory>운송장번호를 입력해주세요.</ItemCategory>
+                    <ItemPrice>
+                      <ItemCategory>
+                        <input
+                          placeholder="'-'없이 입력해주세요"
+                          value={dNumber}
+                          onChange={onDNuber}
+                        ></input>
+                      </ItemCategory>
+                    </ItemPrice>
+                    <ItemPrice>
+                      <ItemCategory>
+                        <button
+                          onClick={() =>
+                            onDNumberChange(dNumber, item.item.iNo)
+                          }
+                        >
+                          확인
+                        </button>
+                      </ItemCategory>
+                    </ItemPrice>
+                  </>
+                ) : (
+                  <>
+                    {item.idReceive === 'false' ? (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>배송중</ItemCategory>
+                          <span>
+                            {item.idSendDate !== undefined &&
+                              item.idSendDate.slice(0, 10)}
+                          </span>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>운송장 번호</ItemCategory>
+                          <span>
+                            {item.idDeliveryNo !== undefined &&
+                              item.idDeliveryNo}
+                          </span>
+                        </ItemPrice>
+                      </>
+                    ) : (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory>수령완료</ItemCategory>
+                        </ItemPrice>
+                        <ItemPrice>
+                          <ItemCategory></ItemCategory>
+                        </ItemPrice>
+                      </>
+                    )}
+                  </>
+                )}
+              </CardContent>
+            )}
+          </>
         ) : (
-          <CardContent style={{ padding: 0 }}>
-            <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
-            <ItemPrice>
-              <ItemCategory>판매가</ItemCategory>
-              <span>
-                {item.item.itemBuy.ibDealPrice !== undefined &&
-                  item.item.itemBuy.ibDealPrice
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </span>
-              <ItemCategory>원</ItemCategory>
-            </ItemPrice>
-          </CardContent>
+          <>
+            {item.item.itemBuy ? (
+              <CardContent style={{ padding: 0 }}>
+                <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
+                <ItemPrice>
+                  <ItemCategory>구매가</ItemCategory>
+                  <span>
+                    {item.item.itemBuy.ibDealPrice !== undefined &&
+                      item.item.itemBuy.ibDealPrice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </span>
+                  <ItemCategory>원</ItemCategory>
+                </ItemPrice>
+                {item.idDeliveryNo === 0 ? (
+                  <ItemPrice>
+                    <ItemCategory>배송준비중</ItemCategory>
+                  </ItemPrice>
+                ) : (
+                  <>
+                    <ItemPrice>
+                      <ItemCategory>배송중</ItemCategory>
+                      <span>
+                        {item.idSendDate !== undefined &&
+                          item.idSendDate.slice(0, 10)}
+                      </span>
+                    </ItemPrice>
+                    <ItemPrice>
+                      <ItemCategory>운송장 번호</ItemCategory>
+                      <span>
+                        {item.idDeliveryNo !== undefined && item.idDeliveryNo}
+                      </span>
+                    </ItemPrice>
+                    {item.idReceive === 'false' ? (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory>
+                            물건을 수령하신후 버튼을 눌러주세요
+                          </ItemCategory>
+                        </ItemPrice>
+                        <button onClick={() => onReceive(item.item.iNo)}>
+                          수령완료
+                        </button>
+                      </>
+                    ) : (
+                      <ItemPrice>
+                        <ItemCategory>수령완료</ItemCategory>
+                      </ItemPrice>
+                    )}
+                  </>
+                )}
+              </CardContent>
+            ) : (
+              <CardContent style={{ padding: 0 }}>
+                <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
+                <ItemPrice>
+                  <ItemCategory>구매가</ItemCategory>
+                  <span>
+                    {item.item.itemSell.isDealPrice !== undefined &&
+                      item.item.itemSell.isDealPrice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </span>
+                  <ItemCategory>원</ItemCategory>
+                </ItemPrice>
+                {item.idDeliveryNo === 0 ? (
+                  <>
+                    <ItemPrice>
+                      <ItemCategory></ItemCategory>
+                    </ItemPrice>
+                    <ItemPrice></ItemPrice>
+                    <ItemPrice>
+                      <ItemCategory>배송준비중</ItemCategory>
+                    </ItemPrice>
+                    <ItemPrice>
+                      <ItemCategory></ItemCategory>
+                    </ItemPrice>
+                  </>
+                ) : (
+                  <>
+                    <ItemPrice>
+                      <ItemCategory>배송중</ItemCategory>
+                      <span>
+                        {item.idSendDate !== undefined &&
+                          item.idSendDate.slice(0, 10)}
+                      </span>
+                    </ItemPrice>
+                    <ItemPrice>
+                      <ItemCategory>운송장 번호</ItemCategory>
+                      <span>
+                        {item.idDeliveryNo !== undefined && item.idDeliveryNo}
+                      </span>
+                    </ItemPrice>
+                    {item.idReceive === 'false' ? (
+                      <>
+                        <ItemPrice>
+                          <ItemCategory>
+                            <button
+                              onClick={() => onReceive(item.item.iNo)}
+                              style={{ height: '100%' }}
+                            >
+                              수령완료
+                            </button>
+                          </ItemCategory>
+                        </ItemPrice>
+                      </>
+                    ) : (
+                      <ItemPrice>
+                        <ItemCategory>수령완료</ItemCategory>
+                      </ItemPrice>
+                    )}
+                  </>
+                )}
+              </CardContent>
+            )}
+          </>
         )}
       </CardActionArea>
     </Card>
