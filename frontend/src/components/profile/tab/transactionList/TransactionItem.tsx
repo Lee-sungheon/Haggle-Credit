@@ -13,7 +13,8 @@ import axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../common/store';
 interface TransactionItemProps {
   item: TT;
   buy: boolean;
@@ -176,6 +177,8 @@ const TransactionItem = ({
   onReceive,
   onDNumberChange,
 }: TransactionItemProps) => {
+  const userData = useSelector((state: RootState) => state.user.userData);
+
   const [img, setImg] = useState('../images/no_image/gif');
   const [isReview, setIsReview] = useState(true);
   const [dNumber, setDNumber] = useState();
@@ -207,6 +210,59 @@ const TransactionItem = ({
         state: { itemSell, buy },
       });
     }
+  };
+  const submitReview = () => {
+    onToggleReview();
+    if (item.item.itemSell) {
+      const body = {
+        urContent: inputreview,
+        urItemNo: item.idItemNo,
+        urScore: value,
+        urUserNo: item.item.itemSell.isUserNo,
+        urWriteUserNo: userData.uNo,
+      };
+      if (value && inputreview) {
+        axios
+          .post(
+            'https://k4d107.p.ssafy.io/haggle-credit/review/writing',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+          .then((res) => {
+            onReceive(item.idItemNo);
+          });
+      }
+    } else {
+      const body = {
+        urContent: inputreview,
+        urItemNo: item.idItemNo,
+        urScore: value,
+        urUserNo: item.item.itemBuy.ibUserNo,
+        urWriteUserNo: userData.uNo,
+      };
+      if (value && inputreview) {
+        axios
+          .post(
+            'https://k4d107.p.ssafy.io/haggle-credit/review/writing',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+          .then((res) => {
+            onReceive(item.idItemNo);
+          });
+      }
+    }
+  };
+  const onInputReview = (e: any) => {
+    setInputReview(e.target.value);
   };
   const onToggleReview = () => {
     setIsReview(!isReview);
@@ -266,13 +322,13 @@ const TransactionItem = ({
                         </ItemPrice>
                         <ItemPrice>
                           <ItemCategory>
-                            <button
+                            <div
                               onClick={() =>
                                 onDNumberChange(dNumber, item.item.iNo)
                               }
                             >
                               확인
-                            </button>
+                            </div>
                           </ItemCategory>
                         </ItemPrice>
                       </>
@@ -345,13 +401,13 @@ const TransactionItem = ({
                         </ItemPrice>
                         <ItemPrice>
                           <ItemCategory>
-                            <button
+                            <div
                               onClick={() =>
                                 onDNumberChange(dNumber, item.item.iNo)
                               }
                             >
                               확인
-                            </button>
+                            </div>
                           </ItemCategory>
                         </ItemPrice>
                       </>
@@ -441,7 +497,22 @@ const TransactionItem = ({
                                 물건을 수령하신후 버튼을 눌러주세요
                               </ItemCategory>
                             </ItemPrice>
-                            <button onClick={onToggleReview}>수령하기</button>
+                            <ItemPrice>
+                              <ItemCategory style={{ textAlign: 'center' }}>
+                                <div
+                                  onClick={onToggleReview}
+                                  style={{
+                                    margin: 'auto',
+                                    cursor: 'pointer',
+                                    border: '1px solid black',
+                                    width: '60%',
+                                    marginBottom: '-8px',
+                                  }}
+                                >
+                                  리뷰작성하기
+                                </div>
+                              </ItemCategory>
+                            </ItemPrice>{' '}
                           </>
                         ) : (
                           <ItemPrice>
@@ -500,13 +571,19 @@ const TransactionItem = ({
                         {item.idReceive === 'false' ? (
                           <>
                             <ItemPrice>
-                              <ItemCategory>
-                                <button
+                              <ItemCategory style={{ textAlign: 'center' }}>
+                                <div
                                   onClick={onToggleReview}
-                                  style={{ height: '100%' }}
+                                  style={{
+                                    margin: 'auto',
+                                    cursor: 'pointer',
+                                    border: '1px solid black',
+                                    width: '60%',
+                                    marginBottom: '-8px',
+                                  }}
                                 >
-                                  수령하기
-                                </button>
+                                  리뷰작성하기
+                                </div>
                               </ItemCategory>
                             </ItemPrice>
                           </>
@@ -514,11 +591,6 @@ const TransactionItem = ({
                           <>
                             <ItemPrice>
                               <ItemCategory>수령완료</ItemCategory>
-                            </ItemPrice>
-                            <ItemPrice>
-                              <ItemCategory>
-                                <button>리뷰작성하기</button>
-                              </ItemCategory>
                             </ItemPrice>
                           </>
                         )}
@@ -531,24 +603,50 @@ const TransactionItem = ({
           </CardActionArea>
         ) : (
           <>
-            <div>리뷰쓰기</div>
-            <div>
-              <Box component="fieldset" mb={3} borderColor="transparent">
-                <Typography component="legend">별점</Typography>
-                <Rating
-                  name="simple-controlled"
-                  value={value}
-                  onChange={(event, newValue) => {
-                    setValue(newValue);
-                  }}
+            <div style={{ textAlign: 'center' }}>
+              <ImgBox>
+                <CardMedia
+                  component="img"
+                  className={classes.cardMedia}
+                  image={img}
+                  onClick={goDetail}
                 />
-              </Box>
+              </ImgBox>
+              <div>리뷰쓰기</div>
+              <div style={{ height: '70px' }}>
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                  <Typography component="legend">별점</Typography>
+                  <Rating
+                    name="simple-controlled"
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                  />
+                </Box>
+              </div>
+              <div>거래후기</div>
+              <div>
+                <textarea
+                  value={inputreview}
+                  onChange={onInputReview}
+                  style={{ width: '80%', resize: 'none' }}
+                ></textarea>
+              </div>
+              <div
+                onClick={submitReview}
+                style={{
+                  margin: 'auto',
+                  height: '100%',
+                  width: '60%',
+                  cursor: 'pointer',
+                  border: '1px solid black',
+                  marginBottom: '8px',
+                }}
+              >
+                작성완료 및 수령완료
+              </div>
             </div>
-            <div>
-              <label>거래후기</label>
-              <input></input>
-            </div>
-            <button>작성완료 및 수령완료</button>
           </>
         )}
       </>
