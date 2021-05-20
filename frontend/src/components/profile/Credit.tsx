@@ -44,7 +44,7 @@ const CreditName = styled.div`
 `;
 
 const CreditDiv = styled.div`
-  min-width: 5vw;
+  min-width: 6vw;
   height: 1.5vw;
   line-height: 1.5vw;
   margin-left: 1vw;
@@ -72,6 +72,7 @@ interface CreditProps {
 }
 const Credit = ({ userData }: CreditProps) => {
   const [payment, setPayment] = useState(false);
+  const [rePayment, setRepayMent] = useState(false);
   const [inputCredit, setInputCredit] = useState(0);
   const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const [credit, setCredit] = useState('0');
@@ -88,10 +89,32 @@ const Credit = ({ userData }: CreditProps) => {
   }, [userData, isUpdate]);
   const togglePayment = () => {
     setPayment(!payment);
+    setRepayMent(false);
+  };
+  const toggleRePayment = () => {
+    setPayment(!payment);
+    setRepayMent(!rePayment);
   };
 
   const onInputCredit = (e: any) => {
     setInputCredit(e.target.value);
+  };
+  const onRePaymentAccepted = () => {
+    if (inputCredit) {
+      const body = {
+        uNo: userData.uNo,
+        uCredit: -inputCredit,
+      };
+      changeCredit(body)
+        .then((res) => {
+          console.log(res);
+          dispatch(userActions.changeCredit(res.data));
+          togglePayment();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   const creditPayment = () => {
     console.log('creditPayment');
@@ -151,18 +174,34 @@ const Credit = ({ userData }: CreditProps) => {
             ></input>
             <br />
             <div style={{ textAlign: 'right' }}>
-              <TogglePaymentButton onClick={creditPayment}>
-                충전
-              </TogglePaymentButton>
-              <TogglePaymentButton onClick={togglePayment}>
-                취소
-              </TogglePaymentButton>
+              {!rePayment ? (
+                <>
+                  <TogglePaymentButton onClick={creditPayment}>
+                    충전
+                  </TogglePaymentButton>
+                  <TogglePaymentButton onClick={togglePayment}>
+                    취소
+                  </TogglePaymentButton>
+                </>
+              ) : (
+                <>
+                  <TogglePaymentButton onClick={onRePaymentAccepted}>
+                    환전
+                  </TogglePaymentButton>
+                  <TogglePaymentButton onClick={toggleRePayment}>
+                    취소
+                  </TogglePaymentButton>
+                </>
+              )}
             </div>
           </CreditPaymentDiv>
         ) : (
           <div>
             <TogglePaymentButton onClick={togglePayment}>
               충전하기
+            </TogglePaymentButton>
+            <TogglePaymentButton onClick={toggleRePayment}>
+              환전
             </TogglePaymentButton>
           </div>
         )}

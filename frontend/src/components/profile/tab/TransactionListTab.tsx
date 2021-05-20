@@ -40,10 +40,50 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
   const onReviewTab2 = () => {
     setReviewTab(2);
   };
+  const onDNumberChange = (dNumber: any, iNo: any) => {
+    if (dNumber) {
+      axios
+        .get(
+          `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/send?idDeliveryNo=${dNumber}&idItemNo=${iNo}`
+        )
+        .then(() => {
+          axios
+            .get(
+              `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectSendAll?idSendUserNo=${userData.uNo}`
+            )
+            .then((res) => {
+              setSellTransactionListTab(res.data);
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+    }
+  };
+  const onReceive = (iNo: any) => {
+    axios
+      .get(
+        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/receive?idItemNo=${iNo}`
+      )
+      .then(() => {
+        axios
+          .get(
+            `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectReceiveAll?idReceiveUserNo=${userData.uNo}`
+          )
+          .then((res) => {
+            setBuyTransactionListTab(res.data);
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+  };
   useEffect(() => {
     axios
       .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectSend?idSendUserNo=${userData.uNo}`
+        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectSendAll?idSendUserNo=${userData.uNo}`
       )
       .then((res) => {
         setSellTransactionListTab(res.data);
@@ -55,7 +95,7 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
 
     axios
       .get(
-        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectRecive?idReceiveUserNo=${userData.uNo}`
+        `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectReceiveAll?idReceiveUserNo=${userData.uNo}`
       )
       .then((res) => {
         setBuyTransactionListTab(res.data);
@@ -86,7 +126,12 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
               판매상품이 없습니다.
             </div>
           ) : (
-            <TransactionList buy={false} products={sellTransactionList} />
+            <TransactionList
+              buy={false}
+              products={sellTransactionList}
+              onReceive={onReceive}
+              onDNumberChange={onDNumberChange}
+            />
           )}
         </>
       ) : (
@@ -109,7 +154,12 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
               구매상품이 없습니다.
             </div>
           ) : (
-            <TransactionList buy={true} products={buyTransactionList} />
+            <TransactionList
+              buy={true}
+              products={buyTransactionList}
+              onReceive={onReceive}
+              onDNumberChange={onDNumberChange}
+            />
           )}
         </>
       )}

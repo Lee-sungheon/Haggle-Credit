@@ -9,6 +9,8 @@ import { ITEM } from 'styled-components';
 interface TransactionListProps {
   buy: boolean;
   products: TT[];
+  onReceive: (iNo: any) => void;
+  onDNumberChange: (dNumber: any, iNo: any) => void;
 }
 
 interface TT {
@@ -126,7 +128,12 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
-const TransactionList = ({ buy, products }: TransactionListProps) => {
+const TransactionList = ({
+  buy,
+  products,
+  onReceive,
+  onDNumberChange,
+}: TransactionListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
   const ConfirmWidth = useCallback(() => {
@@ -163,7 +170,12 @@ const TransactionList = ({ buy, products }: TransactionListProps) => {
         {products.length > 0 &&
           products.map((item, idx) => (
             <GridListTile key={idx}>
-              <TransactionItem item={item} buy={buy} />
+              <TransactionItem
+                item={item}
+                buy={buy}
+                onReceive={onReceive}
+                onDNumberChange={onDNumberChange}
+              />
             </GridListTile>
           ))}
       </GridList>
