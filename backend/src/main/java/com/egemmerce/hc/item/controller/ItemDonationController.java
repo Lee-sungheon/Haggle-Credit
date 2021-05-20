@@ -102,7 +102,7 @@ public class ItemDonationController {
 			itemDonation.setIdEndUserNo(donationParticipant.getDpUserNo());
 			itemDonation.setIdEndUserAddress(donationParticipant.getDpAddress());
 			itemDonationService.update(itemDonation);
-			ItemDelivery itemDelivery = ItemDelivery.builder().idItemNo(iNo).idPrice(itemDonation.getIdIngPrice())
+			ItemDelivery itemDelivery = ItemDelivery.builder().idItemNo(iNo).idPrice(0)
 					.idSendUserNo(itemDonation.getIdUserNo()).idReceiveUserNo(itemDonation.getIdEndUserNo()).build();
 			itemDeliveryService.insert(itemDelivery);
 			Alarm alarm = Alarm.builder().aContent("기부 물품에 당첨 되셨습니다. 마이 페이지에서 확인해주세요.").aType("sell").aCause("기부낙찰")
