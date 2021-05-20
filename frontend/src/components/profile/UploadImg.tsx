@@ -81,17 +81,14 @@ const UploadImg = ({ userData }: ProfileSectionProps) => {
     if (imageList.length <= 0) {
       return;
     }
-    console.log(imageList);
     let formData = new FormData();
     if (imageList[0].file && userData.uEmail) {
       formData.append('File', imageList[0].file);
       formData.append('UserEmail', userData.uEmail);
     }
-    console.log(formData);
     if (imageList[0].dataURL) {
       changeProfileImageAPI(formData)
         .then((res) => {
-          console.log(res);
           dispatch(userActions.changeProfileImage(res.data));
         })
         .catch((err) => {
@@ -105,7 +102,6 @@ const UploadImg = ({ userData }: ProfileSectionProps) => {
     body.uImage = `../images/profileImage_${num}.jpg`;
     changeProfileImageAPI(body)
       .then((res) => {
-        console.log(res);
         dispatch(userActions.changeProfileImage(res.data));
       })
       .catch((err) => {

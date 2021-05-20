@@ -44,6 +44,7 @@ public class ImageUploadController {
 	@Autowired
 	private ImageUploadService imageUploadService;
 
+//	/* base64로 인코딩해서 저장하는 방식 */
 //	@PostMapping("/itemPhotoUpload")
 //	public String InsertItemPhoto(@RequestBody ItemPhoto itemPhoto) throws Exception {
 //		ItemPhoto ip = new ItemPhoto();
@@ -53,6 +54,7 @@ public class ImageUploadController {
 //		return imageUploadService.InsertItemPhoto(ip) != null ? "OK" : "FAIL";
 //	}
 
+	/* 파일로 저장하는 방식 */
 	@PostMapping("/itemPhotoUpload")
 	public ResponseEntity<String> InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam int iNo, @RequestParam String check)
 			throws Exception {

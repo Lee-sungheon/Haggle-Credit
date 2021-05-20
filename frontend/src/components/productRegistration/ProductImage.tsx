@@ -87,26 +87,7 @@ const ProductImage = ({ onisProductPhoto }: ProductImageProps) => {
       window.removeEventListener('resize', ConfirmWidth);
     };
   });
-  useEffect(() => {
-    updateProfile(images);
-  }, [images]);
-  const updateProfile = (imageList: ImageListType) => {
-    if (imageList.length <= 0) {
-      return;
-    }
-    let body = userData;
-    body.uImage = imageList[0].dataURL;
-    if (imageList[0].dataURL) {
-      changeProfileImageAPI(body)
-        .then((res) => {
-          console.log(res);
-          dispatch(userActions.changeProfileImage(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+
 
   return (
     <>

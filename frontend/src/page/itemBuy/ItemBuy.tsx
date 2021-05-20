@@ -6,7 +6,7 @@ import ProductName from '../../components/itemBuy/ProductName';
 import ProductCategory from '../../components/itemBuy/ProductCategory';
 import DealRegion from '../../components/itemBuy/DealRegion';
 import ProductPrice from '../../components/itemBuy/ProductPrice';
-import ProductDescription from '../../components/productRegistration/ProductDescription';
+import ProductDescription from '../../components/itemBuy/ProductDescription';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import axios from 'axios';
@@ -35,6 +35,7 @@ const Container = styled.div`
 const ItemBuy = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [productData, setProductData] = useState({
     ibUserNo: 0,
@@ -95,7 +96,8 @@ const ItemBuy = () => {
   };
 
   const onRegist = () => {
-    console.log('regist');
+    setIsLoading(true);
+    // const body = productData;
     const body = {
       ibUserNo: userData.uNo,
       ibName: productData.ibName,
@@ -107,7 +109,35 @@ const ItemBuy = () => {
       ibAuctionInitPrice: productData.ibAuctionInitPrice,
       ibDealAddress: productData.ibDealAddress,
     };
-    console.log(body);
+
+    if (!body.ibUserNo) {
+      alert('다시 로그인해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!body.ibName) {
+      alert('상품 이름을 입력해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.ibCategoryMain) {
+      alert('메인카테고리를 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!body.ibAuctionIngPrice && body.ibAuctionIngPrice) {
+      alert('경매시작가격을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!body.ibEndDate) {
+      alert('경매종료시간을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
 
     if (
       body.ibUserNo &&
@@ -118,30 +148,20 @@ const ItemBuy = () => {
       body.ibAuctionInitPrice &&
       body.ibDealAddress
     ) {
-      console.log('data다있음');
-      if (productPhoto.length > 0) {
-        console.log(body);
-        axios
-          .post(
-            'https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist',
-            body,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res);
-            alert('구매글을 등록하였습니다.');
-            uploadImage(productPhoto, res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        return;
-      }
+      axios
+        .post('https://k4d107.p.ssafy.io/haggle-credit/itemBuy/regist', body, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          alert('구매글을 등록하였습니다.');
+          uploadImage(productPhoto, res);
+          history.push('/home');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       return;
     }
@@ -149,13 +169,11 @@ const ItemBuy = () => {
   const uploadImage = async (imageList: ImageListType, res: any) => {
     if (imageList.length > 0) {
       const ibItemNo = res.data.ibItemNo;
-      console.log(ibItemNo);
-      console.log(imageList);
 
       imageList.forEach((item, idx) => {
         if (item.file && ibItemNo) {
           let formd = new FormData();
-          formd.append('file', item.file);
+          formd.append('File', item.file);
           formd.append('iNo', ibItemNo);
           formd.append('check', 'true');
           axios
@@ -168,16 +186,12 @@ const ItemBuy = () => {
                 },
               }
             )
-            .then((res) => {
-              console.log(res);
-            })
+            .then((res) => {})
             .catch((err) => {
               console.log(err);
             });
         }
       });
-
-      history.push('/home');
     } else {
       const ibItemNo = res.data.ibItemNo;
 
@@ -196,9 +210,7 @@ const ItemBuy = () => {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => {
           console.log(err);
         });
@@ -260,7 +272,9 @@ const ItemBuy = () => {
           bottom: '0px',
         }}
       >
-        <RegistButton onClick={onRegist}>등록하기</RegistButton>
+        <RegistButton onClick={onRegist}>
+          {!isLoading ? <span>등록하기</span> : <span>Loading...</span>}
+        </RegistButton>
       </div>
     </>
   );

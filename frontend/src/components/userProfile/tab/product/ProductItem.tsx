@@ -129,7 +129,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
         ...item.itemBuy,
         ipValue: item.itemPhotoes[0].ipValue,
       };
-      console.log(itemBuy,buy);
 
       history.push({
         pathname: `/detail/${itemBuy.ibItemNo}`,
@@ -140,7 +139,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
         ...item.itemSell,
         ipValue: item.itemPhotoes[0].ipValue,
       };
-      console.log(itemSell,buy);
       dispatch(userActions.addRecently(itemSell));
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,

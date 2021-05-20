@@ -21,4 +21,6 @@ public interface ItemBuyRepository extends JpaRepository<ItemBuy, Long>{
 
 	List<ItemBuy> findByibDealUserNoAndIbEndDateLessThan(int i, Date valueOf);
 
+	List<ItemBuy> findByibUserNoAndIbDealUserNo(int uNo,int i);
+
 }

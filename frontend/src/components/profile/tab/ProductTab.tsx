@@ -37,8 +37,8 @@ const ProductTab = ({ userData }: ProductTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/itemSell/myitem?uNo=${userData.uNo}`
       )
       .then((res) => {
-        setSellItemList(res.data);
         console.log(res);
+        setSellItemList(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -48,8 +48,9 @@ const ProductTab = ({ userData }: ProductTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/itemBuy/myitem?uNo=${userData.uNo}`
       )
       .then((res) => {
-        setBuyItemList(res.data);
         console.log(res);
+
+        setBuyItemList(res.data);
       })
       .catch((err) => {
         console.log(err);

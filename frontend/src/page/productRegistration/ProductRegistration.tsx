@@ -35,6 +35,7 @@ const RegistButton = styled.button`
 const ProductRegistration = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [productData, setProductData] = useState({
     isUserNo: 0,
@@ -101,42 +102,72 @@ const ProductRegistration = () => {
   };
 
   const onRegist = () => {
-    console.log('regist');
+    setIsLoading(true);
     const body = productData;
-    if (
-      productData.isUserNo &&
-      productData.isItemName &&
-      productData.isCategoryMain &&
-      productData.isEndDate &&
-      productData.isCoolPrice &&
-      productData.isAuctionIngPrice &&
-      productData.isAuctionInitPrice &&
-      productData.isUsedStatus &&
-      productData.isEventAgree
-    ) {
-      console.log('data다있음');
-      if (productPhoto.length > 0) {
-        console.log(body);
-        axios
-          .post(
-            'https://k4d107.p.ssafy.io/haggle-credit/itemSell/regist',
-            body,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res);
-            uploadImage(productPhoto, res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        return;
-      }
+    if (!body.isUserNo) {
+      alert('다시 로그인해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (productPhoto.length === 0) {
+      alert('상품이미지를 등록해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.isItemName) {
+      alert('상품 이름을 입력해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.isCategoryMain) {
+      alert('메인카테고리를 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.isUsedStatus) {
+      alert('물품 상태를 체크해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.isEventAgree) {
+      alert('기부여부를 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.isCoolPrice) {
+      alert('즉시구매가격을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.isAuctionIngPrice && body.isAuctionInitPrice) {
+      alert('경매시작가격을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (body.isAuctionIngPrice >= body.isCoolPrice) {
+      alert('경매시작가격은 즉시구매가격보다 낮아야합니다');
+    }
+    if (!body.isEndDate) {
+      alert('경매종료시간을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (productPhoto.length > 0) {
+      axios
+        .post('https://k4d107.p.ssafy.io/haggle-credit/itemSell/regist', body, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => {
+          uploadImage(productPhoto, res);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+        });
     } else {
       return;
     }
@@ -145,13 +176,11 @@ const ProductRegistration = () => {
   const uploadImage = (imageList: ImageListType, res: any) => {
     if (imageList.length > 0) {
       const isItemNo = res.data.isItemNo;
-      console.log(isItemNo);
-      console.log(imageList);
 
       imageList.forEach((item, idx) => {
         if (item.file && isItemNo) {
           let formd = new FormData();
-          formd.append('file', item.file);
+          formd.append('File', item.file);
           formd.append('iNo', isItemNo);
           formd.append('check', 'true');
 
@@ -165,9 +194,7 @@ const ProductRegistration = () => {
                 },
               }
             )
-            .then((res) => {
-              console.log(res);
-            })
+            .then((res) => {})
             .catch((err) => {
               console.log(err);
             });
@@ -179,32 +206,6 @@ const ProductRegistration = () => {
     } else {
       alert('판매글 등록을 실패하였습니다.');
     }
-    // for (let i = 0; i < imageList.length; i++) {
-    //   console.log(imageList[i]);
-    //   const body2 = {
-    //     ipItemNo: isItemNo,
-    //     ipValue: imageList[i].dataURL,
-    //   };
-    //   axios
-    //     .post(
-    //       'https://k4d107.p.ssafy.io/haggle-credit/image/itemPhotoUpload',
-    //       body2,
-    //       {
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //       }
-    //     )
-    //     .then((res) => {
-    //       console.log(res);
-    //       alert('판매글을 등록하였습니다.');
-    //       history.push('/home');
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       alert('판매글을 등록을 실패하였습니다.');
-    //     });
-    // }
   };
   return (
     <>
@@ -263,7 +264,9 @@ const ProductRegistration = () => {
           bottom: '0px',
         }}
       >
-        <RegistButton onClick={onRegist}>등록하기</RegistButton>
+        <RegistButton onClick={onRegist}>
+          {!isLoading ? <span>등록하기</span> : <span>Loading...</span>}
+        </RegistButton>
       </div>
     </>
   );

@@ -29,4 +29,9 @@ public class ReverseAuctionParticipantServiceImpl implements ReverseAuctionParti
 		return reverseAuctionParticipantRepository.findByrapItemNoOrderByRapDate(rapItemNo);
 	}
 
+	@Override
+	public int countByitemNo(int ipItemNo) {
+		return reverseAuctionParticipantRepository.countByrapItemNo(ipItemNo);
+	}
+
 }

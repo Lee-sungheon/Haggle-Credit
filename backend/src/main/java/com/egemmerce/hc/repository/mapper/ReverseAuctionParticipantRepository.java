@@ -16,5 +16,7 @@ public interface ReverseAuctionParticipantRepository extends JpaRepository<Rever
 
 	List<ReverseAuctionParticipant> findByrapItemNoOrderByRapDate(int rapItemNo);
 
+	int countByrapItemNo(int ipItemNo);
+
 
 }

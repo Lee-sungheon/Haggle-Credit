@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { callApiUpdateSellAuction } from '../../api/ProductApi';
 import { useDispatch } from 'react-redux';
-import { totalActions } from "../../state/common/common";
+import { totalActions } from '../../state/common/common';
 
 interface Props {
   desc: ITEM;
@@ -23,7 +23,7 @@ const ItemContent = styled.div`
   font-size: 14px;
   position: relative;
   display: flex;
-`;  
+`;
 
 const AuctionArea = styled.div`
   padding: 20px 0;
@@ -44,7 +44,7 @@ const AuctionItem = styled.div`
   padding: 5px 0;
 `;
 
-const AuctionInputArea = styled.div` 
+const AuctionInputArea = styled.div`
   width: 100%;
   position: relative;
   display: flex;
@@ -55,7 +55,7 @@ const AuctionInputArea = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 100%; 
+  width: 100%;
   box-sizing: border-box;
   background: none;
   border: none;
@@ -97,7 +97,7 @@ const AuctionButton = styled.p`
   border-radius: 2px;
   width: 100%;
   padding: 1.125rem 0;
-  background: ${({theme}) => theme.color.main };
+  background: ${({ theme }) => theme.color.main};
   border: 0px;
   color: rgb(255, 255, 255);
   font-size: 1.125rem;
@@ -105,28 +105,30 @@ const AuctionButton = styled.p`
   text-align: center;
 `;
 
-const SellAuction = ({desc}: Props) => {
-  const [ credit, setCredit ] = useState("");
-  const [ time, setTime ] = useState('');
+const SellAuction = ({ desc }: Props) => {
+  const [credit, setCredit] = useState('');
+  const [time, setTime] = useState('');
   const userData = useSelector((state: RootState) => state.user.userData);
   const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const dispatch = useDispatch();
   const endDate = desc.ibEndDate;
-  const CalTime = useCallback(()=> {
+  const CalTime = useCallback(() => {
     let t1 = moment(endDate);
     let t2 = moment();
     const duTime = moment.duration(t1.diff(t2)).asSeconds();
     if (duTime < 0) {
       setTime('경매 끝!');
-      return
+      return;
     }
-    const day = parseInt(String(duTime / (60*60*24)));
-    const hour = parseInt(String((duTime - day*60*60*24) / (60*60)));
-    const minute = parseInt(String((duTime - day*60*60*24 - hour*3600) / 60));
-    const second = parseInt(String((duTime % 60)));
+    const day = parseInt(String(duTime / (60 * 60 * 24)));
+    const hour = parseInt(String((duTime - day * 60 * 60 * 24) / (60 * 60)));
+    const minute = parseInt(
+      String((duTime - day * 60 * 60 * 24 - hour * 3600) / 60)
+    );
+    const second = parseInt(String(duTime % 60));
     const text = day + '일 ' + hour + '시간 ' + minute + '분 ' + second + '초';
     setTime(text);
-  }, [endDate])
+  }, [endDate]);
 
   useEffect(() => {
     const countdown = setInterval(CalTime, 1000);
@@ -136,22 +138,30 @@ const SellAuction = ({desc}: Props) => {
   }, [CalTime]);
 
   const confirmValue = () => {
-    if (desc.ibAuctionIngPrice !== undefined){
-      if (credit !== "" ) {
-        if (parseInt(credit) % 100 !== 0){
+    if (desc.ibAuctionIngPrice !== undefined) {
+      if (credit !== '') {
+        if (parseInt(credit) % 100 !== 0) {
           alert('크레딧은 100 단위로 입력해주세요.');
-          setCredit("");
-        } else if (parseInt(credit) > desc.ibAuctionIngPrice - 100){
+          setCredit('');
+        } else if (parseInt(credit) > desc.ibAuctionIngPrice - 100) {
           alert('입찰금액은 현재가보다 100원 이상 아래여야 합니다.');
         }
       }
     }
-  }
+  };
 
-  const submitAuction = async() => {
-    if (credit !== "" && desc.ibItemNo !== undefined && userData.uNo !== undefined){
-      const result = await callApiUpdateSellAuction(parseInt(credit), desc.ibItemNo, userData.uNo);
-      if (result === '역경매가 업데이트 성공.'){
+  const submitAuction = async () => {
+    if (
+      credit !== '' &&
+      desc.ibItemNo !== undefined &&
+      userData.uNo !== undefined
+    ) {
+      const result = await callApiUpdateSellAuction(
+        parseInt(credit),
+        desc.ibItemNo,
+        userData.uNo
+      );
+      if (result === '역경매가 업데이트 성공.') {
         dispatch(totalActions.setIsUpdate(!isUpdate));
         alert('입찰이 완료되었습니다.');
         window.close();
@@ -159,7 +169,7 @@ const SellAuction = ({desc}: Props) => {
         alert('오류가 발생했습니다.');
       }
     }
-  }
+  };
 
   return (
     <>
@@ -167,52 +177,82 @@ const SellAuction = ({desc}: Props) => {
         <AuctionTitle>입찰하기</AuctionTitle>
         <AuctionItem>
           <ItemTitle>현재가</ItemTitle>
-          <ItemContent style={{fontSize: "18px"}}><span style={{color: theme.color.main, fontWeight: 'bold'}}>
-            {desc.ibAuctionIngPrice !== undefined && desc.ibAuctionIngPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
-          원</ItemContent>
+          <ItemContent style={{ fontSize: '18px' }}>
+            <span style={{ color: theme.color.main, fontWeight: 'bold' }}>
+              {desc.ibAuctionIngPrice !== undefined &&
+                desc.ibAuctionIngPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </span>
+            원
+          </ItemContent>
         </AuctionItem>
         <AuctionItem>
           <ItemTitle>시작가</ItemTitle>
-          <ItemContent style={{fontSize: "16px"}}>
-            {desc.ibAuctionInitPrice !== undefined && desc.ibAuctionInitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</ItemContent>
+          <ItemContent style={{ fontSize: '16px' }}>
+            {desc.ibAuctionInitPrice !== undefined &&
+              desc.ibAuctionInitPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            원
+          </ItemContent>
         </AuctionItem>
         <AuctionItem>
-          <ItemTitle>남은시간</ItemTitle><ItemContent style={{fontSize: "16px"}}>{time}</ItemContent>
+          <ItemTitle>남은시간</ItemTitle>
+          <ItemContent style={{ fontSize: '16px' }}>{time}</ItemContent>
         </AuctionItem>
-        <AuctionItem style={{flexDirection: 'column'}}>
+        <AuctionItem style={{ flexDirection: 'column' }}>
           <ItemTitle>입찰금액</ItemTitle>
-          <div style={{paddingLeft: "100px"}}>
-            <InputDescription style={{margin: 0, color: 'black', fontSize: '14px', paddingTop: '20px'}}>
-              현재 <span style={{color: theme.color.main, fontWeight: 'bold'}}>
-                {desc.ibAuctionIngPrice !== undefined && (desc.ibAuctionIngPrice-100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
-              </span> 아래로 입찰하실 수 있습니다.
+          <div style={{ paddingLeft: '100px' }}>
+            <InputDescription
+              style={{
+                margin: 0,
+                color: 'black',
+                fontSize: '14px',
+                paddingTop: '20px',
+              }}
+            >
+              현재{' '}
+              <span style={{ color: theme.color.main, fontWeight: 'bold' }}>
+                {desc.ibAuctionIngPrice !== undefined &&
+                  (desc.ibAuctionIngPrice - 100)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                원
+              </span>{' '}
+              아래로 입찰하실 수 있습니다.
             </InputDescription>
             <ItemContent>
               <AuctionInputArea>
-                <StyledInput 
-                  type="text" 
-                  placeholder="입찰금액 입력" 
-                  onChange={async(e) => {
-                    if (userData.uCredit !== undefined && parseInt(e.target.value.replace(/[^\d]+/g, '')) >= userData.uCredit) {
-                      setCredit(String(userData.uCredit));
-                    } else {
-                      setCredit(e.target.value.replace(/[^\d]+/g, ''))
-                    }
+                <StyledInput
+                  type="text"
+                  placeholder="입찰금액 입력"
+                  onChange={async (e) => {
+                    setCredit(e.target.value.replace(/[^\d]+/g, ''));
                   }}
-                  value={credit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  onBlur={confirmValue}/>
-                <ChargingButton 
-                  onClick={() => window.open(`../../profile/${userData.uNo}`, '_blank')}
-                >충전하기</ChargingButton>
+                  value={credit
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  onBlur={confirmValue}
+                />
+                <ChargingButton
+                  onClick={() =>
+                    window.open(`../../profile/${userData.uNo}`, '_blank')
+                  }
+                >
+                  충전하기
+                </ChargingButton>
               </AuctionInputArea>
             </ItemContent>
-            <InputDescription>상품이 낙찰된 후 거래를 파기할 시 블랙리스트로 등록될 수 있습니다.</InputDescription>
+            <InputDescription>
+              상품이 낙찰된 후 거래를 파기할 시 블랙리스트로 등록될 수 있습니다.
+            </InputDescription>
           </div>
         </AuctionItem>
       </AuctionArea>
       <AuctionButton onClick={submitAuction}>입찰하기</AuctionButton>
     </>
-  )
-}
+  );
+};
 
 export default SellAuction;

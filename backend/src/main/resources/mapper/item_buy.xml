@@ -21,10 +21,12 @@ select *
 
 <!-- 구매상품 상세 조회 -->
 <select id="BselectItemOne" parameterType="int" resultType="ItemBuySet">
-select itembuy.*, ip.*
-  from item_buy as itembuy left join item_photo as ip
-    on itembuy.ib_item_no = ip.ip_item_no
-where itembuy.ib_item_no = #{ibItemNo};
+select *
+from item_buy as ib 
+left join 
+(select ANY_VALUE(ip_no) as ip_no, ip_item_no, ANY_VALUE(ip_value) as ip_value from item_photo group by ip_item_no) as ip
+on ib.ib_item_no = ip.ip_item_no
+where ib_item_no = #{ibItemNo};
 </select>
 
 <!-- 구매상품의 입찰자 수 조회 -->
