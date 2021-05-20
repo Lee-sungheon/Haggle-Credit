@@ -33,7 +33,7 @@ const CategoryBox = styled.div`
 
 const DetailPage = ({match, location}: RouteComponentProps<MatchParams, HistoryParams, LocationParams>) => {
   let buy: boolean;
-  location.state !== undefined ? buy = location.state.buy : buy = true
+  location.state !== undefined ? buy = location.state.buy : buy = true;
   const [item, setItem] = useState<ITEM>({});
   useEffect(() => {
     const fetchData = async() => {

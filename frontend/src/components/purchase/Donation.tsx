@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react';
 import styled, { ITEM } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { callApiParticipantDonation } from '../../api/DonationApi';
+import { callApiGetCredit } from '../../api/UserApi';
 import { useDispatch } from 'react-redux';
 import { totalActions } from "../../state/common/common";
 
@@ -102,9 +104,20 @@ text-align: center;
 
 const Purchase = ({desc, uaNo}: Props) => {
   const credit = 100;
+  const [ userCredit, setUserCredit ] = useState(0);
   const userData = useSelector((state: RootState) => state.user.userData);
   const isUpdate = useSelector((state: RootState) => state.total.isUpdate );
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    const fetchData = async() => {
+      if (userData.uNo !== undefined){
+        const result = await callApiGetCredit(userData.uNo);
+        setUserCredit(result);
+      }
+    }
+    fetchData();
+  }, [userData.uNo])
 
   const submitPurchase = async() => {
     if (desc.isItemNo !== undefined && userData.uNo !== undefined && uaNo !== -1){
@@ -116,6 +129,8 @@ const Purchase = ({desc, uaNo}: Props) => {
         alert('오류가 발생했습니다.');
       }
       window.close();
+    } else {
+      alert('배송지를 입력해주세요!');
     }
   }
   
@@ -141,7 +156,7 @@ const Purchase = ({desc, uaNo}: Props) => {
               </PurchaseInputArea>
             </ItemContent>
             <AvailablePoint>사용 가능한 크레딧 <span style={{fontWeight: 'bold'}}>
-              {userData.uCredit !== undefined && userData.uCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</span>
+              {userCredit !== undefined && userCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C</span>
             </AvailablePoint>
           </div>
         </PurchaseItem>
