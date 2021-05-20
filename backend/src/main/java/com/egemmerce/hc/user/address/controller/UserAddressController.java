@@ -42,6 +42,10 @@ public class UserAddressController {
 	public ResponseEntity<List<UserAddress>> readUserAddress(int uNo) throws Exception {
 		return new ResponseEntity<List<UserAddress>>(userAddressService.selectAddressMine(uNo), HttpStatus.OK);
 	}
+	@GetMapping("selectano")
+	public ResponseEntity<?> selectano(int uaNo) throws Exception {
+		return new ResponseEntity<UserAddress>(userAddressService.selectAddressbyaNo(uaNo), HttpStatus.OK);
+	}
 
 	@ApiOperation(value = "기본 배송지 변경 (ua_no,ua_default_setting)")
 	@PutMapping("/change/defaultAddress")
