@@ -106,6 +106,7 @@ const BasketTab = ({ userData }: BasketTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=sell&uNo=${userData.uNo}`
       )
       .then((res) => {
+        console.log(res);
         setSellBookMarkList(res.data);
       })
       .catch((err) => {
@@ -116,6 +117,8 @@ const BasketTab = ({ userData }: BasketTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/bookmark/read?type=buy&uNo=${userData.uNo}`
       )
       .then((res) => {
+        console.log(res);
+
         setBuyBookMarkList(res.data);
       })
       .catch((err) => {
