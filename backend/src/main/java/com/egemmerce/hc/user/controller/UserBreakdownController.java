@@ -41,9 +41,14 @@ public class UserBreakdownController {
 			if (result.get(i).getiType().equals("buy")) {
 				System.out.println(service.selectItemBuySet(result.get(i).getIpItemNo()));
 				result.get(i).setItemBuySet(service.selectItemBuySet(result.get(i).getIpItemNo()));
+				result.get(i).getItemBuySet().setJoinerCnt(
+						reverseAuctionParticipantService.countByitemNo(result.get(i).getItemBuySet().getIbItemNo()));
 			} else {
 				System.out.println(service.selectItemSellSet(result.get(i).getIpItemNo()));
 				result.get(i).setItemSellSet(service.selectItemSellSet(result.get(i).getIpItemNo()));
+				result.get(i).getItemSellSet().setJoinerCnt(
+						auctionParticipantService.countByitemNo(result.get(i).getItemSellSet().getIsItemNo()));
+
 			}
 		}
 		return new ResponseEntity<List<BreakdownBid>>(result, HttpStatus.OK);
