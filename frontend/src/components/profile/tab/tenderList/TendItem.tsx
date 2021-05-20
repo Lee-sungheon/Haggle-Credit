@@ -157,7 +157,6 @@ const TendItem = ({ item, buy }: ProductItemProps) => {
         state: { itemBuy, buy },
       });
     } else if (item.itemSellSet) {
-      dispatch(userActions.addRecently(item));
       const itemSell = item.itemSellSet;
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,

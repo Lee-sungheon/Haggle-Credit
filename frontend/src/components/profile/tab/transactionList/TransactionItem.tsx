@@ -111,6 +111,7 @@ const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 345,
     border: '1px solid rgba(0, 0, 0, 0.2)',
+    cursor: 'default',
   },
   cardMedia: {
     objectFit: 'cover',
@@ -120,6 +121,10 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
     left: 0,
     right: 0,
+    cursor: 'pointer',
+  },
+  cardContent: {
+    cursor: 'default',
   },
 }));
 
@@ -190,7 +195,6 @@ const TransactionItem = ({
         buy = true;
       }
       const itemSell = item.item.itemSell;
-      dispatch(userActions.addRecently(itemSell));
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,
         state: { itemSell, buy },
@@ -221,7 +225,10 @@ const TransactionItem = ({
         {!buy ? (
           <>
             {item.item.itemBuy ? (
-              <CardContent style={{ padding: 0 }}>
+              <CardContent
+                style={{ padding: 0 }}
+                className={classes.cardContent}
+              >
                 <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
                 <ItemPrice>
                   <ItemCategory>판매가</ItemCategory>
@@ -293,7 +300,10 @@ const TransactionItem = ({
                 )}
               </CardContent>
             ) : (
-              <CardContent style={{ padding: 0 }}>
+              <CardContent
+                style={{ padding: 0 }}
+                className={classes.cardContent}
+              >
                 <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
                 <ItemPrice>
                   <ItemCategory>판매가</ItemCategory>
@@ -372,7 +382,10 @@ const TransactionItem = ({
         ) : (
           <>
             {item.item.itemBuy ? (
-              <CardContent style={{ padding: 0 }}>
+              <CardContent
+                style={{ padding: 0 }}
+                className={classes.cardContent}
+              >
                 <ItemTitle>{item.item.itemBuy.ibName}</ItemTitle>
                 <ItemPrice>
                   <ItemCategory>구매가</ItemCategory>
@@ -423,7 +436,10 @@ const TransactionItem = ({
                 )}
               </CardContent>
             ) : (
-              <CardContent style={{ padding: 0 }}>
+              <CardContent
+                style={{ padding: 0 }}
+                className={classes.cardContent}
+              >
                 <ItemTitle>{item.item.itemSell.isItemName}</ItemTitle>
                 <ItemPrice>
                   <ItemCategory>구매가</ItemCategory>
