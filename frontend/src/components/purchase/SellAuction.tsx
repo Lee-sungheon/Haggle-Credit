@@ -214,7 +214,7 @@ const SellAuction = ({ desc }: Props) => {
                 paddingTop: '20px',
               }}
             >
-              현재{' '}
+              현재
               <span style={{ color: theme.color.main, fontWeight: 'bold' }}>
                 {desc.ibAuctionIngPrice !== undefined &&
                   (desc.ibAuctionIngPrice - 100)
