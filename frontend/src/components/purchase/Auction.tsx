@@ -5,6 +5,7 @@ import { theme } from '../../styles/theme';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import { callApiUpdateAuction } from '../../api/ProductApi';
+import { callApiGetCredit } from '../../api/UserApi';
 import { useDispatch } from 'react-redux';
 import { userActions } from "../../state/user";
 import { totalActions } from "../../state/common/common";
@@ -117,6 +118,7 @@ const AuctionButton = styled.p`
 const Auction = ({desc, uaNo}: Props) => {
   const [ credit, setCredit ] = useState("");
   const [ time, setTime ] = useState('');
+  const [ userCredit, setUserCredit ] = useState(0);
   const userData = useSelector((state: RootState) => state.user.userData);
   const isUpdate = useSelector((state: RootState) => state.total.isUpdate);
   const dispatch = useDispatch();
@@ -139,6 +141,13 @@ const Auction = ({desc, uaNo}: Props) => {
 
   useEffect(() => {
     const countdown = setInterval(CalTime, 1000);
+    const fetchData = async() => {
+      if (userData.uNo !== undefined){
+        const result = await callApiGetCredit(userData.uNo);
+        setUserCredit(result);
+      }
+    }
+    fetchData();
     return () => {
       clearInterval(countdown);
     };
@@ -170,6 +179,8 @@ const Auction = ({desc, uaNo}: Props) => {
         alert('오류가 발생했습니다.');
       }
       window.close();
+    } else {
+      alert('배송지, 입찰 가격을 모두 입력해주세요!');
     }
   }
 
@@ -220,8 +231,8 @@ const Auction = ({desc, uaNo}: Props) => {
             <AvailablePoint>사용 가능한 크레딧 
               <span style={{fontWeight: 'bold', paddingLeft: '5px'}}>
                 {credit !== '' ?
-                (userData.uCredit !== undefined && userData.uCredit - parseInt(credit)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                : userData.uCredit !== undefined && userData.uCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C
+                (userCredit - parseInt(credit)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                : userCredit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} C
               </span>
               </AvailablePoint>
             <InputDescription>크레딧은 숫자로 콤마(",") 없이 100원 단위로 입력 가능합니다.</InputDescription>

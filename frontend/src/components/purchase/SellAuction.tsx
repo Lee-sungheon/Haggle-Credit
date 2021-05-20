@@ -158,6 +158,8 @@ const SellAuction = ({desc}: Props) => {
       } else {
         alert('오류가 발생했습니다.');
       }
+    } else {
+      alert('배송지, 입찰 가격을 모두 입력해주세요!');
     }
   }
 
@@ -192,13 +194,7 @@ const SellAuction = ({desc}: Props) => {
                 <StyledInput 
                   type="text" 
                   placeholder="입찰금액 입력" 
-                  onChange={async(e) => {
-                    if (userData.uCredit !== undefined && parseInt(e.target.value.replace(/[^\d]+/g, '')) >= userData.uCredit) {
-                      setCredit(String(userData.uCredit));
-                    } else {
-                      setCredit(e.target.value.replace(/[^\d]+/g, ''))
-                    }
-                  }}
+                  onChange={async(e) => setCredit(e.target.value.replace(/[^\d]+/g, ''))}
                   value={credit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   onBlur={confirmValue}/>
                 <ChargingButton 

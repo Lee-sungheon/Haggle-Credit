@@ -21,6 +21,7 @@ import AddDestinationPage from './page/purchase/AddDestinationPage';
 import Signup from './page/signup/Signup';
 import Profile from './page/profile/Profile';
 import UserProfile from './page/userProfile/UserProfile';
+import CertificationPage from './page/certification/CertificationPage';
 import ProductRegistration from './page/productRegistration/ProductRegistration';
 import ItemBuy from './page/itemBuy/ItemBuy';
 import { theme } from './styles/theme';
@@ -62,6 +63,7 @@ const App = () => {
           />
           <PrivateRoute path="/itemBuy" component={ItemBuy} isLogin={isLogin} />
           <Route path="/search" component={SearchPage} />
+          <Route path="/user/key_alter" component={CertificationPage} />
           <Route path="/event" component={EventPage} />
           <Route path="/detail/:id" component={DetailPage} />
           <Route path="/donation_detail/:id" component={DonationDetailPage} />
