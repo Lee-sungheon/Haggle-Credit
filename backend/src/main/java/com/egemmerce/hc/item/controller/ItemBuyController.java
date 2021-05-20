@@ -229,9 +229,15 @@ public class ItemBuyController {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
 		if (UD.equals("up")) {
-			ItemBuySet = itemBuyService.BselectItemAllHomeUp(sp);
+			ItemBuySet = itemBuyService.BselectItemAllHomeUp(sp);	
+			for(int i = 0; i < ItemBuySet.size(); i++) {
+				ItemBuySet.get(i).setJoinerCnt(itemBuyService.BselectItemCntAP(ItemBuySet.get(i).getIbItemNo()));
+			}
 		} else {
 			ItemBuySet = itemBuyService.BselectItemAllHomeDown(sp);
+			for(int i = 0; i < ItemBuySet.size(); i++) {
+				ItemBuySet.get(i).setJoinerCnt(itemBuyService.BselectItemCntAP(ItemBuySet.get(i).getIbItemNo()));
+			}
 		}
 		return new ResponseEntity<List<ItemBuySet>>(ItemBuySet, HttpStatus.OK);
 	}
