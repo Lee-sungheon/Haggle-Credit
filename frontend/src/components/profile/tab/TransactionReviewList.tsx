@@ -60,7 +60,6 @@ const TransactionReviewList = () => {
       )
       .then((res) => {
         setMyReviewList(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -71,7 +70,6 @@ const TransactionReviewList = () => {
       )
       .then((res) => {
         setMyWrittenList(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -114,7 +112,6 @@ const TransactionReviewList = () => {
               <div style={{ textAlign: 'center' }}>
                 <div
                   style={{
-                    // display: 'flex',
                     display: 'inline-flex',
                     textAlign: 'center',
                     marginBottom: '30px',
@@ -215,7 +212,6 @@ const TransactionReviewList = () => {
               <div style={{ textAlign: 'center' }}>
                 <div
                   style={{
-                    // display: 'flex',
                     display: 'inline-flex',
                     textAlign: 'center',
                     marginBottom: '30px',

@@ -48,7 +48,6 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
       )
       .then((res) => {
         setSellTenderItemList(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +58,6 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
       )
       .then((res) => {
         setBuyTenderItemList(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

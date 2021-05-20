@@ -140,9 +140,7 @@ const Signup = () => {
       }
       checkUserEmail(userEmail)
         .then((res) => {
-          console.log(res);
           if (res.data === '사용 가능한 아이디 입니다.') {
-            console.log('사용가능');
             setOverlappingCheck({ ...overlappingCheck, u_emailCheck: true });
           } else {
             setOverlappingCheck({ ...overlappingCheck, u_emailCheck: false });
@@ -233,10 +231,8 @@ const Signup = () => {
             overlappingCheck.u_phone
           ) {
             if (userData.u_birth && dataCheck.u_birth) {
-              console.log(body);
               userSignup(body)
                 .then((res: any) => {
-                  console.log(res);
                   alert('이메일 인증을 진행해 주세요.');
                   history.push('/home');
                 })

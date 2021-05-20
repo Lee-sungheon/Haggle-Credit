@@ -183,7 +183,6 @@ const Destination = ({
   const history = useHistory();
 
   useEffect(() => {
-    console.log(userData.uNo);
     const fetchData = async () => {
       if (userData.uNo !== undefined) {
         const data = await callApiGetAddress(userData.uNo);
@@ -197,7 +196,6 @@ const Destination = ({
   }, [userData.uNo]);
 
   useEffect(() => {
-    console.log(destination);
     if (Object.keys(destination).length > 0) {
       onIsRegionHandler(destination.uaNo);
       setOpen(false);

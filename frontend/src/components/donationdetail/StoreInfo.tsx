@@ -10,8 +10,6 @@ import {
   callApiGetStoreReviewCnt,
   callApiUserInfo,
 } from '../../api/ProductApi';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../../common/store';
 import { useHistory } from 'react-router-dom';
 
 interface Props {
@@ -174,7 +172,6 @@ const StoreInfo = ({ item }: Props) => {
   const [reviewList, setReviewList] = useState<STOREREVIEW[]>([]);
   const [reviewCnt, setReviewCnt] = useState(0);
   const [userInfo, setUserInfo] = useState<USERINFO>({});
-  // const userNo = useSelector((state: RootState) => state.user.userData.uNo);
   useEffect(() => {
     const fetchData = async () => {
       const itemUserNo = item.isUserNo;
