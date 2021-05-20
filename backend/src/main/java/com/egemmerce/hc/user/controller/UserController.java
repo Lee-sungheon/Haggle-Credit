@@ -61,12 +61,15 @@ public class UserController {
 	}
 
 	@GetMapping("/key_alter")
-	public String key_alterConfirm(@RequestParam("email") String uEmail, @RequestParam("token") String uAuthKey)
+	public ResponseEntity<String> key_alterConfirm(@RequestParam("email") String uEmail, @RequestParam("token") String uAuthKey)
 			throws Exception {
 		System.out.println("email : " + uEmail);
 		System.out.println("token : " + uAuthKey);
-		userService.alter_userKey_service(uEmail, uAuthKey);
-		return "user/userRegSuccessPage";
+		if(userService.alter_userKey_service(uEmail, uAuthKey)) {
+			
+			return new ResponseEntity<String>("인증 완료", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("인증 실패", HttpStatus.OK);
 	}
 
 	/* R :: 가입 중 아이디 중복 확인 */
