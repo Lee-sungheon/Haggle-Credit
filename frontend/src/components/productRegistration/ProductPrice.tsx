@@ -37,8 +37,8 @@ const ProductPrice = ({
   const [inputEndDate, setInputEndDate] = useState<any>('');
   const [endDate, setEndDate] = useState<any>('');
   const [priceData, setPriceData] = useState({
-    coolPrice: '0',
-    AuctionPrice: '0',
+    coolPrice: '',
+    AuctionPrice: '',
   });
 
   useEffect(() => {
@@ -85,28 +85,6 @@ const ProductPrice = ({
       setInputEndDate(endDate);
     }
   };
-  const onCoolPriceHandler = (e: any) => {
-    let price = e.target.value;
-    while (price[0] === '0') {
-      price = price.slice(1, price.length);
-    }
-    if (!price) {
-      price = '0';
-    }
-    setPriceData({ ...priceData, coolPrice: price });
-    onIsCoolPrice(price);
-  };
-  const onAuctionPriceHandler = (e: any) => {
-    let price = e.target.value;
-    while (price[0] === '0') {
-      price = price.slice(1, price.length);
-    }
-    if (!price) {
-      price = '0';
-    }
-    setPriceData({ ...priceData, AuctionPrice: price });
-    onIsAuctionPrice(price);
-  };
 
   return (
     <>
@@ -132,13 +110,24 @@ const ProductPrice = ({
           <div>
             <div>
               <input
+                type="text"
                 style={{
                   height: '20px',
                   width: '200px',
                   padding: '10px',
                 }}
-                value={priceData.coolPrice}
-                onChange={onCoolPriceHandler}
+                value={priceData.coolPrice.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ','
+                )}
+                onChange={async (e) => {
+                  console.log(e);
+                  setPriceData({
+                    ...priceData,
+                    coolPrice: e.target.value.replace(/[^\d]+/g, ''),
+                  });
+                  onIsCoolPrice(e.target.value.replace(/[^\d]+/g, ''));
+                }}
                 placeholder="숫자만 입력해주세요."
               ></input>
               원
@@ -178,8 +167,18 @@ const ProductPrice = ({
                   width: '200px',
                   padding: '10px',
                 }}
-                value={priceData.AuctionPrice}
-                onChange={onAuctionPriceHandler}
+                value={priceData.AuctionPrice.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ','
+                )}
+                onChange={async (e) => {
+                  console.log(e);
+                  setPriceData({
+                    ...priceData,
+                    AuctionPrice: e.target.value.replace(/[^\d]+/g, ''),
+                  });
+                  onIsAuctionPrice(e.target.value.replace(/[^\d]+/g, ''));
+                }}
                 placeholder="숫자만 입력해주세요."
               ></input>
               원

@@ -31,7 +31,7 @@ const ProductEventAgree = ({ onIsEventAgree }: ProductEventAgreeProps) => {
           minWidth: '120px',
         }}
       >
-        이벤트경매<span style={{ color: 'red' }}>* </span>
+        기부여부<span style={{ color: 'red' }}>* </span>
       </div>
       <div
         style={{
@@ -69,6 +69,10 @@ const ProductEventAgree = ({ onIsEventAgree }: ProductEventAgreeProps) => {
               />
               <StateLabel htmlFor="radio22">미동의</StateLabel>
             </div>
+          </div>
+          <div style={{ fontSize: '12px', color: 'red' }}>
+            *기부를 동의하시면 기간내에 물품이 판매되지 않을경우 <br/>자동으로 물품을 기부하며 기부를 통한 자선활동 참여로 기부자에 이름을
+            올려보세요.
           </div>
         </div>
       </div>

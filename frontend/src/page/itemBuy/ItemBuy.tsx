@@ -6,7 +6,7 @@ import ProductName from '../../components/itemBuy/ProductName';
 import ProductCategory from '../../components/itemBuy/ProductCategory';
 import DealRegion from '../../components/itemBuy/DealRegion';
 import ProductPrice from '../../components/itemBuy/ProductPrice';
-import ProductDescription from '../../components/productRegistration/ProductDescription';
+import ProductDescription from '../../components/itemBuy/ProductDescription';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
 import axios from 'axios';
@@ -35,6 +35,7 @@ const Container = styled.div`
 const ItemBuy = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [productData, setProductData] = useState({
     ibUserNo: 0,
@@ -95,6 +96,8 @@ const ItemBuy = () => {
   };
 
   const onRegist = () => {
+    setIsLoading(true);
+    // const body = productData;
     const body = {
       ibUserNo: userData.uNo,
       ibName: productData.ibName,
@@ -106,6 +109,35 @@ const ItemBuy = () => {
       ibAuctionInitPrice: productData.ibAuctionInitPrice,
       ibDealAddress: productData.ibDealAddress,
     };
+
+    if (!body.ibUserNo) {
+      alert('다시 로그인해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!body.ibName) {
+      alert('상품 이름을 입력해주세요');
+      setIsLoading(false);
+      return;
+    }
+    if (!body.ibCategoryMain) {
+      alert('메인카테고리를 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!body.ibAuctionIngPrice && body.ibAuctionIngPrice) {
+      alert('경매시작가격을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!body.ibEndDate) {
+      alert('경매종료시간을 설정해주세요');
+      setIsLoading(false);
+      return;
+    }
 
     if (
       body.ibUserNo &&
@@ -240,7 +272,9 @@ const ItemBuy = () => {
           bottom: '0px',
         }}
       >
-        <RegistButton onClick={onRegist}>등록하기</RegistButton>
+        <RegistButton onClick={onRegist}>
+          {!isLoading ? <span>등록하기</span> : <span>Loading...</span>}
+        </RegistButton>
       </div>
     </>
   );

@@ -141,7 +141,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
         ...item.itemSell,
         ipValue: item.itemPhotoes[0].ipValue,
       };
-      dispatch(userActions.addRecently(itemSell));
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,
         state: { itemSell, buy },

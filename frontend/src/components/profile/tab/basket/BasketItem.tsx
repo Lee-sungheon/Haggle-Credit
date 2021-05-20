@@ -165,7 +165,6 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
       });
     } else if (item.itemSell) {
       const itemSell = { ...item.itemSell, ipValue: item.itemPhoto[0].ipValue };
-      dispatch(userActions.addRecently(itemSell));
 
       history.push({
         pathname: `/detail/${item.itemSell.isItemNo}`,
@@ -180,7 +179,7 @@ const BasketItem = ({ item, buy, deleteBookMark }: BasketItemProps) => {
       setImg('../images/no_image.gif');
     }
   }, [item.itemPhoto]);
-  
+
   return (
     <Card className={classes.root} style={{ position: 'relative' }}>
       <CardBody>
