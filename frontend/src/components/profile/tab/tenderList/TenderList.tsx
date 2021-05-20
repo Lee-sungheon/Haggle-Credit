@@ -141,12 +141,12 @@ const TenderList = ({ buy, products }: TenderListProps) => {
   }, [ConfirmWidth]);
 
   const moreProduct = () => {
-    if (itemNum*2*(idx+1) <= products.length ){
-      setIdx(idx+1);
+    if (itemNum * 2 * (idx + 1) <= products.length) {
+      setIdx(idx + 1);
     } else {
       setIdx(1000);
     }
-  }
+  };
 
   return (
     <>
@@ -157,12 +157,14 @@ const TenderList = ({ buy, products }: TenderListProps) => {
         spacing={7}
       >
         {products.length > 0 &&
-          products.slice(0, itemNum*2*(idx+1)).map((item, idx) => (
+          products.slice(0, itemNum * 2 * (idx + 1)).map((item, idx) => (
             <GridListTile key={idx}>
               <TendItem item={item} buy={buy} />
             </GridListTile>
           ))}
-          {idx !== 1000 && <MoreButton onClick={moreProduct}>입찰내역 더보기</MoreButton>}
+        {idx !== 1000 && (
+          <MoreButton onClick={moreProduct}>입찰내역 더보기</MoreButton>
+        )}
       </GridList>
       {products.length === 0 && (
         <NoneContainer>

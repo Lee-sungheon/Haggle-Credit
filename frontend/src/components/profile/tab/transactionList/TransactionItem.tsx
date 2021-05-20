@@ -326,6 +326,13 @@ const TransactionItem = ({
                               onClick={() =>
                                 onDNumberChange(dNumber, item.item.iNo)
                               }
+                              style={{
+                                margin: 'auto',
+                                cursor: 'pointer',
+                                border: '1px solid black',
+                                width: '20%',
+                                marginBottom: '-8px',
+                              }}
                             >
                               확인
                             </div>
@@ -405,6 +412,13 @@ const TransactionItem = ({
                               onClick={() =>
                                 onDNumberChange(dNumber, item.item.iNo)
                               }
+                              style={{
+                                margin: 'auto',
+                                cursor: 'pointer',
+                                border: '1px solid black',
+                                width: '20%',
+                                marginBottom: '-8px',
+                              }}
                             >
                               확인
                             </div>
