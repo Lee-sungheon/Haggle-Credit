@@ -664,7 +664,7 @@ const TransactionItem = ({
                   )}
                 </>
               )}
-              {item.idDeliveryNo !== 0 && (
+              {deliveryData && (
                 <div
                   style={{
                     cursor: 'pointer',
