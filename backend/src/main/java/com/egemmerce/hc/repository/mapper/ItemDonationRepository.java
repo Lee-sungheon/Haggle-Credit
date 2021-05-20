@@ -14,4 +14,6 @@ public interface ItemDonationRepository extends JpaRepository<ItemDonation, Long
 
 	List<ItemDonation> findAllByidEndDonation(String string);
 
+	List<ItemDonation> findAllByidEndDonationOrderByIdIngPriceDesc(String string);
+
 }
