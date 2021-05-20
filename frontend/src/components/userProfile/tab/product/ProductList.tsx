@@ -4,21 +4,62 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { makeStyles } from '@material-ui/core/styles';
 import ProductItem from './ProductItem';
-import { ITEM } from 'styled-components';
 
 interface PruductListProps {
   buy: boolean;
   products: Products[];
 }
+
 interface Products {
-  itemSell: ITEM;
+  itemSell: PRODUCTS;
+  itemBuy: PRODUCTS;
   itemPhotoes: ItemPhotoes[];
+  itemPhoto: string;
+  itemCnt: number;
 }
 
 interface ItemPhotoes {
   ipNo: number;
   ipItemNo: number;
   ipValue: string;
+}
+export interface PRODUCTS {
+  ipItemNo?: number;
+  ipValue?: string;
+  isAuctionInitPrice?: number;
+  isAuctionIngPrice?: number;
+  isCategoryMain?: string;
+  isCategorySub?: string;
+  isContent?: string;
+  isCoolPrice?: number;
+  isDealAddress?: number;
+  isDealPrice?: number;
+  isDealUserNo?: number;
+  isEndDate?: string;
+  isEventAgree?: string;
+  isItemName?: string;
+  isItemNo?: number;
+  isNo?: number;
+  isStartDate?: any;
+  isUsedStatus?: string;
+  isUserNo?: number;
+  joinerCnt?: number;
+  ibItemNo: number;
+  ibNo: number;
+  ibUserNo: number;
+  ibName: string;
+  ibCategoryMain: string;
+  ibCategorySub: string;
+  ibContent: string;
+  ibStartDate: string;
+  ibEndDate: string;
+  ibCoolPrice: number;
+  ibAuctionInitPrice: number;
+  ibAuctionIngPrice: number;
+  ibRegDate: string;
+  ibDealUserNo: number;
+  ibDealPrice: number;
+  ibDealAddress: string;
 }
 
 const useStyles = makeStyles(() => ({
@@ -45,9 +86,23 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
+const MoreButton = styled.div`
+  cursor: pointer;
+  width: 100% !important;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background-color: #ffceae;
+  border-radius: 4px;
+  margin: 3px;
+`;
+
 const ProductList = ({ buy, products }: PruductListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
+  const [idx, setIdx] = useState(0);
   const ConfirmWidth = useCallback(() => {
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -69,7 +124,15 @@ const ProductList = ({ buy, products }: PruductListProps) => {
     return () => {
       window.removeEventListener('resize', ConfirmWidth);
     };
-  });
+  }, [ConfirmWidth]);
+
+  const moreProduct = () => {
+    if (itemNum*2*(idx+1) <= products.length ){
+      setIdx(idx+1);
+    } else {
+      setIdx(1000);
+    }
+  }
 
   return (
     <>
@@ -80,15 +143,16 @@ const ProductList = ({ buy, products }: PruductListProps) => {
         spacing={7}
       >
         {products.length > 0 &&
-          products.map((item, idx) => (
+          products.slice(0, itemNum*2*(idx+1)).map((item, idx) => (
             <GridListTile key={idx}>
               <ProductItem
-                item={item.itemSell}
+                item={item}
                 image={item.itemPhotoes}
                 buy={buy}
               />
             </GridListTile>
           ))}
+          {idx !== 1000 && <MoreButton onClick={moreProduct}>상품 더보기</MoreButton>}
       </GridList>
       {products.length === 0 && (
         <NoneContainer>

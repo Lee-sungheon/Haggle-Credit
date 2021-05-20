@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../common/store';
 import ProductList from './product/ProductList';
 import axios from 'axios';
 import { USERDATA } from 'styled-components';

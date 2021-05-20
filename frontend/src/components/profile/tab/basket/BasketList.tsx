@@ -10,45 +10,6 @@ interface BasketListProps {
   deleteBookMark: (item: any) => void;
 }
 
-// interface BookMarkList {
-//   b_item_no: number;
-//   b_no: number;
-//   b_user_no: number;
-//   is_content: string;
-//   is_deal_price: number;
-//   is_category_main: string;
-//   is_end_date: string;
-//   is_user_no: number;
-//   is_used_status: string;
-//   is_no: number;
-//   is_deal_user_no: number;
-//   is_deal_address: number;
-//   is_auction_ing_price: number;
-//   is_cool_price: number;
-//   is_item_name: string;
-//   is_item_no: number;
-//   is_category_sub: string;
-//   is_event_agree: string;
-//   is_auction_init_price: number;
-//   ib_deal_price: number;
-//   ib_start_date: string;
-//   ib_item_no: number;
-//   ib_name: string;
-//   ib_reg_date: string;
-//   ib_deal_user_no: number;
-//   ib_auction_init_price: number;
-//   ib_content: string;
-//   ib_no: number;
-//   ib_user_no: number;
-//   ib_auction_ing_price: number;
-//   ib_cool_price: number;
-//   ib_category_sub: string;
-//   ib_deal_address: string;
-//   ib_end_date: string;
-//   ib_category_main: string;
-//   ip_value: string;
-// }
-
 interface BookMarkList {
   auctionParticipant: AuctionParticipant[];
   iCompleted: string;
@@ -135,9 +96,23 @@ const NoneBox = styled.div`
   padding-bottom: 35px;
 `;
 
+const MoreButton = styled.div`
+  cursor: pointer;
+  width: 100% !important;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  background-color: #ffceae;
+  border-radius: 4px;
+  margin: 3px;
+`;
+
 const BasketList = ({ buy, products, deleteBookMark }: BasketListProps) => {
   const classes = useStyles();
   const [itemNum, setItemNum] = useState(5);
+  const [idx, setIdx] = useState(0);
   const ConfirmWidth = useCallback(() => {
     const windowInnerWidth = window.innerWidth;
     if (windowInnerWidth > 1280) {
@@ -159,7 +134,15 @@ const BasketList = ({ buy, products, deleteBookMark }: BasketListProps) => {
     return () => {
       window.removeEventListener('resize', ConfirmWidth);
     };
-  });
+  }, [ConfirmWidth]);
+
+  const moreProduct = () => {
+    if (itemNum*2*(idx+1) <= products.length ){
+      setIdx(idx+1);
+    } else {
+      setIdx(1000);
+    }
+  }
 
   return (
     <>
@@ -170,7 +153,7 @@ const BasketList = ({ buy, products, deleteBookMark }: BasketListProps) => {
         spacing={7}
       >
         {products.length > 0 &&
-          products.map((item, idx) => (
+          products.slice(0, itemNum*2*(idx+1)).map((item, idx) => (
             <GridListTile key={idx}>
               <BasketItem
                 item={item}
@@ -179,6 +162,7 @@ const BasketList = ({ buy, products, deleteBookMark }: BasketListProps) => {
               />
             </GridListTile>
           ))}
+          {idx !== 1000 && <MoreButton onClick={moreProduct}>찜 더보기</MoreButton>}
       </GridList>
       {products.length === 0 && (
         <NoneContainer>

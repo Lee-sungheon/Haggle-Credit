@@ -12,6 +12,7 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
+  width: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -21,7 +22,7 @@ const Body = styled.div`
 
 const ActTab = styled.div`
   height: 3vw;
-  width: 13vw;
+  width: 50%;
   border: 1px solid black;
   border-bottom: none;
   :hover {
@@ -31,7 +32,7 @@ const ActTab = styled.div`
 
 const Tab = styled.div`
   height: 3vw;
-  width: 13vw;
+  width: 50%;
   border: 1px solid #e0e0e0;
   background-color: #f5f5f5;
   color: #bdbdbd;

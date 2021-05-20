@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { callApiGetZzim } from '../../api/ProductApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../common/store';
+import { useHistory } from 'react-router';
 
 const Container = styled.div`
+  cursor: pointer;
   position: fixed;
   width: 68px;
   height: 31px;
@@ -40,6 +42,7 @@ const LikeBox = () => {
   const [zzim, setZzim] = useState(0);
   const isLike = useSelector((state: RootState) => state.common.isLike);
   const userNo = useSelector((state: RootState) => state.user.userData.uNo);
+  const history = useHistory();
 
   useEffect(()=>{
     const fetchData = async() => {
@@ -52,7 +55,7 @@ const LikeBox = () => {
   }, [isLike, userNo])
   
   return (
-    <Container>
+    <Container onClick={() => history.push('../profile/basket')}>
       <Title>찜한 상품</Title>
       <LikeArea>♥ {zzim}</LikeArea>
     </Container>
