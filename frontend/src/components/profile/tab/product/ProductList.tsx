@@ -115,7 +115,7 @@ const ProductList = ({ buy, products }: PruductListProps) => {
       setItemNum(1);
     }
   }, []);
-  
+
   useEffect(() => {
     ConfirmWidth();
     window.addEventListener('resize', ConfirmWidth);
@@ -124,19 +124,13 @@ const ProductList = ({ buy, products }: PruductListProps) => {
     };
   }, [ConfirmWidth]);
 
-  useEffect(() => {
-    if (itemNum*2*(idx+1) > products.length ){
-      setIdx(1000);
-    }
-  }, [idx, itemNum, products.length])
-
   const moreProduct = () => {
-    if (itemNum*2*(idx+1) <= products.length ){
-      setIdx(idx+1);
+    if (itemNum * 2 * (idx + 1) <= products.length) {
+      setIdx(idx + 1);
     } else {
       setIdx(1000);
     }
-  }
+  };
 
   return (
     <>
@@ -147,16 +141,14 @@ const ProductList = ({ buy, products }: PruductListProps) => {
         spacing={7}
       >
         {products.length > 0 &&
-          products.map((item, idx) => (
+          products.slice(0, itemNum * 2 * (idx + 1)).map((item, idx) => (
             <GridListTile key={idx}>
-              <ProductItem
-                item={item}
-                image={item.itemPhotoes}
-                buy={buy}
-              />
+              <ProductItem item={item} image={item.itemPhotoes} buy={buy} />
             </GridListTile>
           ))}
-          {idx !== 1000 && <MoreButton onClick={moreProduct}>상품 더보기</MoreButton>}
+        {idx !== 1000 && (
+          <MoreButton onClick={moreProduct}>상품 더보기</MoreButton>
+        )}
       </GridList>
       {products.length === 0 && (
         <NoneContainer>
