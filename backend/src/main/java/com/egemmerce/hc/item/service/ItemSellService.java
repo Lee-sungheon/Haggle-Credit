@@ -78,4 +78,6 @@ public interface ItemSellService {
 
 	void updateItembyDonation(ItemSell is);
 
+	List<ItemSell> selectMyItemByuNoOnlySell(int uNo);
+
 }

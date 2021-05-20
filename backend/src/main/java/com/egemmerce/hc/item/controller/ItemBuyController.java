@@ -163,7 +163,7 @@ public class ItemBuyController {
 	@ApiOperation(value = "내가 올린 상품 Restful API")
 	@GetMapping("/myitem")
 	public ResponseEntity<?> selectMyItem(int uNo) throws Exception {
-		List<ItemBuy> items = itemBuyService.BselectMyItemByuNo(uNo);
+		List<ItemBuy> items = itemBuyService.selectMyItemByuNoOnlyBuy(uNo);
 		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
 		for (ItemBuy ib : items) {
 

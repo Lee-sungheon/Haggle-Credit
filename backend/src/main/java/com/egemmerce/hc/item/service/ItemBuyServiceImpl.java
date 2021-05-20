@@ -248,5 +248,10 @@ public class ItemBuyServiceImpl implements ItemBuyService {
 			itemDeliveryRepository.save(itemDelivery);
 			}
 	}
+
+	@Override
+	public List<ItemBuy> selectMyItemByuNoOnlyBuy(int uNo) {
+		return itemBuyRepository.findByibUserNoAndIbDealUserNo(uNo,0);
+	}
 	
 }

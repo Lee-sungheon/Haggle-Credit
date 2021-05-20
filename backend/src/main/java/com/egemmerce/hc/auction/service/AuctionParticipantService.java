@@ -12,4 +12,6 @@ public interface AuctionParticipantService {
 
 	AuctionParticipant selectBeforeAP(int isItemNo);
 
+	int countByitemNo(int ipItemNo);
+
 }

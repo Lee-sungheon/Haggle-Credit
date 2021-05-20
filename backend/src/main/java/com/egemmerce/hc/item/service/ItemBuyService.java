@@ -72,4 +72,6 @@ public interface ItemBuyService {
 
 	void updateItembyAuction(ItemBuy ib);
 
+	List<ItemBuy> selectMyItemByuNoOnlyBuy(int uNo);
+
 }

@@ -36,4 +36,9 @@ public class AuctionParticipantServiceImpl implements AuctionParticipantService 
 		return ap.get(0);
 	}
 
+	@Override
+	public int countByitemNo(int ipItemNo) {
+		return auctionParticipantRepository.countByApItemNo(ipItemNo);
+	}
+
 }
