@@ -152,14 +152,11 @@ const TendItem = ({ item, buy }: ProductItemProps) => {
   const goDetail = () => {
     if (item.itemBuySet) {
       const itemBuy = item.itemBuySet;
-      console.log(itemBuy);
       history.push({
         pathname: `/detail/${itemBuy.ibItemNo}`,
         state: { itemBuy, buy },
       });
     } else if (item.itemSellSet) {
-      console.log(item);
-      dispatch(userActions.addRecently(item));
       const itemSell = item.itemSellSet;
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,

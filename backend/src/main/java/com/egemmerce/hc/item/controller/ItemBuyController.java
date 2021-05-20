@@ -30,7 +30,6 @@ import com.egemmerce.hc.repository.dto.ItemCtgrCnt;
 import com.egemmerce.hc.repository.dto.ItemCtgrSearch;
 import com.egemmerce.hc.repository.dto.ItemPhoto;
 import com.egemmerce.hc.repository.dto.ItemPhotoSet;
-import com.egemmerce.hc.repository.dto.ItemSell;
 import com.egemmerce.hc.repository.dto.ReverseAuctionParticipant;
 import com.egemmerce.hc.repository.dto.SortProcess;
 import com.egemmerce.hc.repository.dto.User;
@@ -54,6 +53,7 @@ public class ItemBuyController {
 	private ImageUploadService imageUploadService;
 	@Autowired
 	private AlarmService alarmService;
+
 	/* C :: 상품 등록 */
 	@ApiOperation(value = "ib_auction_price,ib_category_main,ib_cool_price,ib_deal_address,ib_name,ib_start_date,ib_user_no,ib_end_date")
 	@PostMapping("/regist")
@@ -111,6 +111,7 @@ public class ItemBuyController {
 			return new ResponseEntity<String>("종료된 경매 변경 완료", HttpStatus.ACCEPTED);
 		}
 	}
+
 	/* U :: 상품 업데이트 */
 	@PutMapping("/update")
 	public ResponseEntity<String> updateItemSell(@RequestBody ItemBuy itemBuy) throws Exception {
@@ -132,28 +133,30 @@ public class ItemBuyController {
 	public ResponseEntity<String> updateReverseAuction(int ibUserNo, int ibItemNo, int ibAuctionPrice)
 			throws Exception {
 		ItemBuy itemBuy = itemBuyService.selectItemBuybyibItemNo(ibItemNo);
-		Item item=itemService.selectItem(ibItemNo);
+		Item item = itemService.selectItem(ibItemNo);
 		if (itemBuy.getIbAuctionIngPrice() < ibAuctionPrice) {
 			return new ResponseEntity<String>("기존 경매가보다 큽니다.", HttpStatus.OK);
 		}
+		ReverseAuctionParticipant rp = ReverseAuctionParticipant.builder().rapBid(ibAuctionPrice).rapItemNo(ibItemNo)
+				.rapUserNo(ibUserNo).build();
+		rp.generaterapDate();
 		if (itemBuyService.updateReverseAuctionPrice(ibItemNo, ibAuctionPrice) != null) {
-			List<ReverseAuctionParticipant> raplist=reverseAuctionParticipantService.findByrapItemNoOrderByDate(ibItemNo);
-			Alarm alarm = Alarm.builder()
-					.aContent("등록하신 경매가보다 더 낮은 경매가가 나왔습니다. \r\n" + 
-							"상품을 입찰하시길 원하시면 재입찰 해주세요.")
-					.aType("buy")
-					.aCause("경매유찰")
-					.aItemNo(ibItemNo)
-					.aRecvUserNo(raplist.get(0).getRapUserNo())
-					.aTitle(item.getItemSell().getIsItemName())
-					.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
-			alarm.generateaTime();
-			alarmService.createAlarm(alarm);
+			List<ReverseAuctionParticipant> raplist = reverseAuctionParticipantService
+					.findByrapItemNoOrderByDate(ibItemNo);
+			if (raplist.size() != 0) {
+
+				Alarm alarm = Alarm.builder().aContent("등록하신 경매가보다 더 낮은 경매가가 나왔습니다. \r\n" + "상품을 입찰하시길 원하시면 재입찰 해주세요.")
+						.aType("buy").aCause("경매유찰").aItemNo(ibItemNo).aRecvUserNo(raplist.get(0).getRapUserNo())
+						.aTitle(item.getItemBuy().getIbName())
+						.aItemImageValue(item.getItemPhoto().get(0).getIpValue()).build();
+				alarm.generateaTime();
+				alarmService.createAlarm(alarm);
+			}
 			ReverseAuctionParticipant reverseAuctionParticipant = ReverseAuctionParticipant.builder()
 					.rapItemNo(ibItemNo).rapBid(ibAuctionPrice).rapUserNo(ibUserNo).build();
 			reverseAuctionParticipant.generaterapDate();
 			reverseAuctionParticipantService.insert(reverseAuctionParticipant);
-			
+
 			return new ResponseEntity<String>("역경매가 업데이트 성공.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("역경매가 업데이트 실패.", HttpStatus.OK);
@@ -181,13 +184,14 @@ public class ItemBuyController {
 	public ResponseEntity<Integer> countItemBuy() {
 		return new ResponseEntity<Integer>(itemBuyService.countItemBuy(), HttpStatus.OK);
 	}
-	
+
 	/////////////////////////
 	/* R :: 임시임.. 상품 전체 조회 */
-	@ApiOperation(value="지현 : 상품전체조회")
+	@ApiOperation(value = "지현 : 상품전체조회")
 	@GetMapping("views")
-	public ResponseEntity<List<ItemBuySet>> selectItemCtgr(@RequestParam(defaultValue="1")int pageNo, String ctgrMain, String ctgrSub, @RequestParam(defaultValue="ib_item_no")String sortName,
-			@RequestParam(defaultValue="down")String UD) throws Exception {
+	public ResponseEntity<List<ItemBuySet>> selectItemCtgr(@RequestParam(defaultValue = "1") int pageNo,
+			String ctgrMain, String ctgrSub, @RequestParam(defaultValue = "ib_item_no") String sortName,
+			@RequestParam(defaultValue = "down") String UD) throws Exception {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((int) (pageNo - 1) * 100, ctgrMain, ctgrSub, sortName);
 
@@ -222,10 +226,11 @@ public class ItemBuyController {
 		return new ResponseEntity<List<ItemBuySet>>(ItemBuySet, HttpStatus.OK);
 	}
 
-	@ApiOperation(value="지현 : viewHome 상품전체조회")
+	@ApiOperation(value = "지현 : viewHome 상품전체조회")
 	@GetMapping("viewHome")
 	public ResponseEntity<List<ItemBuySet>> selectItemAllHome(@RequestParam(defaultValue = "1") int pageNo,
-			@RequestParam(defaultValue="ib_item_no")String sortName, @RequestParam(defaultValue="down")String UD) throws Exception {
+			@RequestParam(defaultValue = "ib_item_no") String sortName, @RequestParam(defaultValue = "down") String UD)
+			throws Exception {
 		List<ItemBuySet> ItemBuySet = null;
 		SortProcess sp = new SortProcess((pageNo - 1) * 100, "", "", sortName);
 		if (UD.equals("up")) {
@@ -241,8 +246,8 @@ public class ItemBuyController {
 		}
 		return new ResponseEntity<List<ItemBuySet>>(ItemBuySet, HttpStatus.OK);
 	}
-	
-	@ApiOperation(value="지현 : 카테고리별개수")
+
+	@ApiOperation(value = "지현 : 카테고리별개수")
 	@GetMapping("categoryCount")
 	public ResponseEntity<Integer> selectCategoryCount(String ctgrMain, String ctgrSub) throws Exception {
 		List<ItemCtgrCnt> result = null;
@@ -272,14 +277,14 @@ public class ItemBuyController {
 			return new ResponseEntity<Integer>(result.get(0).getCntSub(), HttpStatus.OK);
 		}
 	}
-	
+
 	/* R :: 상세 조회(이미지 따로 부르기) */
-	@ApiOperation(value="지현 : 이미지 상세조회")
+	@ApiOperation(value = "지현 : 이미지 상세조회")
 	@GetMapping("detail/images")
 	public ResponseEntity<List<ItemPhoto>> selectItemImages(int ipItemNo) throws Exception {
 		return new ResponseEntity<List<ItemPhoto>>(itemBuyService.BselectItemImages(ipItemNo), HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "지현 : 더보기 활용한 인덱싱 처리(내구매상품)")
 	@GetMapping("/myItemIndexing")
 	public ResponseEntity<?> selectItemListIndexing(int ibUserNo, @RequestParam(defaultValue = "1") int page)
@@ -287,7 +292,7 @@ public class ItemBuyController {
 		List<ItemBuy> items = itemBuyService.BselectItemListIndexing(ibUserNo, (page - 1) * 100);
 		List<ItemPhotoSet> itemsphoto = new ArrayList<>();
 		int itemValue = itemBuyService.BselectCountItemBuy(ibUserNo);
-		
+
 		for (ItemBuy ib : items) {
 			itemsphoto.add(new ItemPhotoSet(ib, imageUploadService.selectItemPhotoList(ib.getIbItemNo()), itemValue));
 		}

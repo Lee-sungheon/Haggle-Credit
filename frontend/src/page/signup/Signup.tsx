@@ -57,7 +57,7 @@ const Button = styled.button`
 
 const Signup = () => {
   const history = useHistory();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState({
     u_email: '',
     u_password: '',
@@ -140,9 +140,7 @@ const Signup = () => {
       }
       checkUserEmail(userEmail)
         .then((res) => {
-          console.log(res);
           if (res.data === '사용 가능한 아이디 입니다.') {
-            console.log('사용가능');
             setOverlappingCheck({ ...overlappingCheck, u_emailCheck: true });
           } else {
             setOverlappingCheck({ ...overlappingCheck, u_emailCheck: false });
@@ -202,6 +200,7 @@ const Signup = () => {
     setUserData({ ...userData, uImage: `../images/profileImage_${num}.jpg` });
   }, []);
   const SignupHandler = () => {
+    setIsLoading(true);
     const body = {
       uEmail: userData.u_email,
       uPassword: userData.u_password,
@@ -220,47 +219,53 @@ const Signup = () => {
       dataCheck.u_emailCheck &&
       overlappingCheck.u_emailCheck
     ) {
-      if (
-        userData.u_password &&
-        userData.confirmPassword &&
-        dataCheck.u_password &&
-        overlappingCheck.u_confirmPassword
-      ) {
-        if (userData.u_name && dataCheck.u_name) {
-          if (
-            userData.u_phone &&
-            dataCheck.u_phone &&
-            overlappingCheck.u_phone
-          ) {
-            if (userData.u_birth && dataCheck.u_birth) {
-              console.log(body);
-              userSignup(body)
-                .then((res: any) => {
-                  console.log(res);
-                  alert('이메일 인증을 진행해 주세요.');
-                  history.push('/home');
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            } else {
-              alert('생년월일을 다시 작성해 주세요.');
-              return;
-            }
-          } else {
-            alert('전화번호를 다시 작성해 주세요.');
-            return;
-          }
-        } else {
-          alert('이름을 다시 작성해 주세요.');
-          return;
-        }
-      } else {
-        alert('비밀번호를 다시 작성해 주세요.');
-        return;
-      }
     } else {
       alert('이메일을 다시 작성해 주세요.');
+      setIsLoading(false);
+
+      return;
+    }
+    if (
+      userData.u_password &&
+      userData.confirmPassword &&
+      dataCheck.u_password &&
+      overlappingCheck.u_confirmPassword
+    ) {
+    } else {
+      alert('비밀번호를 다시 작성해 주세요.');
+      setIsLoading(false);
+
+      return;
+    }
+    if (userData.u_name && dataCheck.u_name) {
+    } else {
+      alert('이름을 다시 작성해 주세요.');
+      setIsLoading(false);
+
+      return;
+    }
+    if (userData.u_phone && dataCheck.u_phone && overlappingCheck.u_phone) {
+    } else {
+      alert('전화번호를 다시 작성해 주세요.');
+      setIsLoading(false);
+
+      return;
+    }
+    if (userData.u_birth && dataCheck.u_birth) {
+      userSignup(body)
+        .then((res: any) => {
+          alert('이메일 인증을 진행해 주세요.');
+          setIsLoading(false);
+
+          history.push('/home');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert('생년월일을 다시 작성해 주세요.');
+      setIsLoading(false);
+
       return;
     }
   };
@@ -450,7 +455,9 @@ const Signup = () => {
             onChange={userBirthHandler}
           ></SectionInput>
         </Section>
-        <Button onClick={SignupHandler}>회원가입</Button>
+        <Button onClick={SignupHandler}>
+          {!isLoading ? <span>회원가입</span> : <span>Loading...</span>}
+        </Button>
       </Form>
     </SignupContainer>
   );

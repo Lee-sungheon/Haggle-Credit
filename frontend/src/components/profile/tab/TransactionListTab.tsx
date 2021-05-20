@@ -53,7 +53,6 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
             )
             .then((res) => {
               setSellTransactionListTab(res.data);
-              console.log(res);
             })
             .catch((err) => {
               console.log(err);
@@ -73,7 +72,6 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
           )
           .then((res) => {
             setBuyTransactionListTab(res.data);
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
@@ -87,7 +85,6 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
       )
       .then((res) => {
         setSellTransactionListTab(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -99,7 +96,6 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
       )
       .then((res) => {
         setBuyTransactionListTab(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

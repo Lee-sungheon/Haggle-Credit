@@ -37,14 +37,12 @@ const ProductPrice = ({
   const [endDate, setEndDate] = useState<any>('');
   const [inputEndDate, setInputEndDate] = useState<any>('');
   const [priceData, setPriceData] = useState({
-    coolPrice: '0',
-    AuctionPrice: '0',
+    coolPrice: '',
+    AuctionPrice: '',
   });
 
   useEffect(() => {
     let d = new Date();
-    // 3 1~3
-    // 2 0~2
     const end_date =
       d.getFullYear() +
       '-' +
@@ -63,37 +61,12 @@ const ProductPrice = ({
       ) +
       '-' +
       d.getDate();
-    console.log(end_date);
     setToDate(to_date);
     setEndDate(end_date);
     setInputEndDate(end_date);
   }, []);
-  const onCoolPriceHandler = (e: any) => {
-    let price = e.target.value;
-    while (price[0] === '0') {
-      price = price.slice(1, price.length);
-    }
-    if (!price) {
-      price = '0';
-    }
-    setPriceData({ ...priceData, coolPrice: price });
-    onIsCoolPrice(price);
-  };
-  const onAuctionPriceHandler = (e: any) => {
-    let price = e.target.value;
-    while (price[0] === '0') {
-      price = price.slice(1, price.length);
-    }
-    if (!price) {
-      price = '0';
-    }
-    setPriceData({ ...priceData, AuctionPrice: price });
-    onIsAuctionPrice(price);
-  };
 
   const onEndDate = (e: any) => {
-    console.log(e.target.value);
-    console.log(endDate);
     const date1 = new Date(
       endDate.slice(0, 4),
       endDate.slice(6, 7) - 1,
@@ -115,47 +88,6 @@ const ProductPrice = ({
   };
   return (
     <>
-      {/* <Container id="address">
-        <div
-          style={{
-            width: '20%',
-            fontSize: '17px',
-            fontWeight: 'bolder',
-            minWidth: '130px',
-          }}
-        >
-          즉시구매가격<span style={{ color: 'red' }}>* </span>
-        </div>
-        <div
-          style={{
-            width: '80%',
-            paddingLeft: '20px',
-            minWidth: '650px',
-            textAlign: 'left',
-          }}
-        >
-          <div>
-            <div>
-              <input
-                style={{
-                  height: '20px',
-                  width: '200px',
-                  padding: '10px',
-                }}
-                value={priceData.coolPrice}
-                onChange={onCoolPriceHandler}
-                placeholder="숫자만 입력해주세요."
-              ></input>
-              원
-            </div>
-          </div>
-          <div style={{ fontSize: '12px', color: 'red' }}>
-            *판매글 등록시 100원아래의 금액은 0으로 대체됩니다.
-            <br />
-            ex{')'}123123원 -{'>'} 123100원
-          </div>
-        </div>
-      </Container> */}
       <Container id="address">
         <div
           style={{
@@ -183,8 +115,18 @@ const ProductPrice = ({
                   width: '200px',
                   padding: '10px',
                 }}
-                value={priceData.AuctionPrice}
-                onChange={onAuctionPriceHandler}
+                value={priceData.AuctionPrice.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ','
+                )}
+                onChange={async (e) => {
+                  console.log(e);
+                  setPriceData({
+                    ...priceData,
+                    AuctionPrice: e.target.value.replace(/[^\d]+/g, ''),
+                  });
+                  onIsAuctionPrice(e.target.value.replace(/[^\d]+/g, ''));
+                }}
                 placeholder="숫자만 입력해주세요."
               ></input>
               원

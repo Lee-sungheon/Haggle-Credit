@@ -25,7 +25,7 @@ public class ItemDonationServiceImpl implements ItemDonationService {
 
 	@Override
 	public List<ItemDonation> selectItemAll() {
-		return itemDonationRepository.findAllByidEndDonation("false");
+		return itemDonationRepository.findAllByidEndDonationOrderByIdIngPriceDesc("false");
 	}
 
 	@Override

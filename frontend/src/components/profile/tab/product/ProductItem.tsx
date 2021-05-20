@@ -131,7 +131,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
         ...item.itemBuy,
         ipValue: item.itemPhotoes[0].ipValue,
       };
-      console.log(itemBuy,buy);
 
       history.push({
         pathname: `/detail/${itemBuy.ibItemNo}`,
@@ -142,8 +141,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
         ...item.itemSell,
         ipValue: item.itemPhotoes[0].ipValue,
       };
-      console.log(itemSell,buy);
-      dispatch(userActions.addRecently(itemSell));
       history.push({
         pathname: `/detail/${itemSell.isItemNo}`,
         state: { itemSell, buy },
@@ -189,7 +186,6 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <ItemCategory>원</ItemCategory>
             </ItemPrice>
             <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {item.itemSell.joinerCnt}
               <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
               {item.itemSell.isEndDate}
             </ItemTime>
@@ -218,9 +214,8 @@ const ProductList = ({ item, buy, image }: ProductItemProps) => {
               <ItemCategory>원</ItemCategory>
             </ItemPrice>
             <ItemTime>
-              <ItemCategory>입찰자</ItemCategory> {item.itemBuy.joinerCnt}
               <span style={{ marginLeft: '6px', marginRight: '3px' }}>⏱</span>
-              {item.itemBuy.isEndDate}
+              {item.itemBuy.ibEndDate}
             </ItemTime>
           </CardContent>
         )}
