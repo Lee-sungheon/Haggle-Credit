@@ -98,7 +98,7 @@ const SwiperSlider: React.FC = () => {
   SwiperCore.use([Navigation, Pagination, Autoplay]);
   return ( 
     <Swiper 
-      style={{height:'100%'}} 
+      style={{height:'100%', overflow:'hidden'}} 
       spaceBetween={20} 
       slidesPerView={itemNum} 
       autoplay={true}
