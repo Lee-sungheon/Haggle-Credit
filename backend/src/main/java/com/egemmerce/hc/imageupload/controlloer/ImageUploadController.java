@@ -62,6 +62,8 @@ public class ImageUploadController {
 			File dest = new File(ipValue);
 			file.transferTo(dest);
 
+			/* 로컬에서 테스트시 아래 주석으로 코드 수정 바랍니다. */
+//			ipValue = "C:/" + iNo + "-" + file.getOriginalFilename();
 			ipValue = "https://k4d107.p.ssafy.io/upload-images/" + iNo + "-" + file.getOriginalFilename();
 
 			ItemPhoto ip = new ItemPhoto();
@@ -103,6 +105,8 @@ public class ImageUploadController {
 		File dest = new File(uImage);
 		file.transferTo(dest);
 
+		/* 로컬에서 테스트시 아래 주석으로 코드 수정 바랍니다. */
+//		uImage = "C:/" + userEmail + "-" + file.getOriginalFilename();
 		uImage = "https://k4d107.p.ssafy.io/upload-images/" + userEmail + "-" + file.getOriginalFilename();
 
 		User user = new User();

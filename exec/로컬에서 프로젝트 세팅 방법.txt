@@ -1,0 +1,16 @@
+*db업로드
+haggle_credit db dump파일 실행 후 application.properties 14번째줄 spring.datasource.url을 수정바랍니다. ex) spring.datasource.url=jdbc:mysql://localhost:3306/haggle_credit?serverTimezone=Asia%2FSeoul&useUniCode=yes&characterEncoding=UTF-8
+
+*로컬에서 파일 업로드 테스트시
+파일 저장 경로가 다르기 때문에 수정이 필요합니다.
+1. config.properties의 2번줄을 주석처리하고, 5번줄 주석을 풀어주어야합니다.
+2. com.egemmerce.hc.imageupload.controlloer의 ImageUploadController.java 65, 108번 주석을 참고해주십시오.
+
+*backend의 impl들 內 Repository 빨간줄 뜰 때 해결법
+1. sts 이용시 프로젝트 우클릭 → Maven → Update Project → sts 재시작.
+2. 사라지지 않는다면 cmd창을 킨 후 → cd C:\Users\{본인user}\.m2\repository\org\projectlombok\lombok\1.18.16 → java -jar lombok-1.18.16.jar → Specify location 클릭 → sts경로 찾아서 STS.exe 선택 → Install / Update 클릭 → Quit Installer
+
+*frontend 배포 하는법
+1. cd frontend
+2. npm install
+3. npm run
