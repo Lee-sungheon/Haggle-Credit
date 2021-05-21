@@ -74,7 +74,6 @@ const Credit = ({ userData }: CreditProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/user/mycredit?uNo=${userData.uNo}`
       )
       .then((res) => {
-        console.log(res.data);
         setCredit(
           res.data.toString().replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
         );

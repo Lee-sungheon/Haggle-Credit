@@ -211,7 +211,6 @@ const TransactionItem = ({
           `https://k4d107.p.ssafy.io/haggle-credit/user/address/selectano?uaNo=${uaNo}`
         )
         .then((res) => {
-          console.log(res);
           setDeleveryData(res.data);
         });
     } else if (item.item.itemSell) {
@@ -221,7 +220,6 @@ const TransactionItem = ({
           `https://k4d107.p.ssafy.io/haggle-credit/user/address/selectano?uaNo=${uaNo}`
         )
         .then((res) => {
-          console.log(res);
           setDeleveryData(res.data);
         });
     }
@@ -376,13 +374,16 @@ const TransactionItem = ({
                                   border: '1px solid black',
                                   width: '20%',
                                   marginBottom: '-8px',
+
+                                  color: 'rgb(136, 136, 136)',
+                                  fontWeight: 'bold',
+                                  borderRadius: '4px',
                                 }}
                               >
                                 확인
                               </div>
                             </ItemCategory>
                           </ItemPrice>
-                          <ItemPrice></ItemPrice>
                           <ItemPrice></ItemPrice>
                         </>
                       ) : (
@@ -466,13 +467,16 @@ const TransactionItem = ({
                                   border: '1px solid black',
                                   width: '20%',
                                   marginBottom: '-8px',
+
+                                  color: 'rgb(136, 136, 136)',
+                                  fontWeight: 'bold',
+                                  borderRadius: '4px',
                                 }}
                               >
                                 확인
                               </div>
                             </ItemCategory>
                           </ItemPrice>
-                          <ItemPrice></ItemPrice>
                           <ItemPrice></ItemPrice>
                         </>
                       ) : (
@@ -672,6 +676,9 @@ const TransactionItem = ({
                     width: '120px',
                     margin: 'auto',
                     marginBottom: '10px',
+                    color: 'rgb(136, 136, 136)',
+                    fontWeight: 'bold',
+                    borderRadius: '4px',
                   }}
                   onClick={onToggleMoreData}
                 >
@@ -787,6 +794,10 @@ const TransactionItem = ({
                 cursor: 'pointer',
                 border: '1px solid black',
                 margin: 'auto',
+
+                color: 'rgb(136, 136, 136)',
+                fontWeight: 'bold',
+                borderRadius: '4px',
               }}
               onClick={onToggleMoreData}
             >

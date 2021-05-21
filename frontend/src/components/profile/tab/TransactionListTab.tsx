@@ -84,7 +84,6 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectSendAll?idSendUserNo=${userData.uNo}`
       )
       .then((res) => {
-        console.log(res);
 
         setSellTransactionListTab(res.data);
       })
@@ -97,7 +96,6 @@ const TransactionListTab = ({ userData }: TransactionListTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/itemDelivery/selectReceiveAll?idReceiveUserNo=${userData.uNo}`
       )
       .then((res) => {
-        console.log(res);
 
         setBuyTransactionListTab(res.data);
       })
