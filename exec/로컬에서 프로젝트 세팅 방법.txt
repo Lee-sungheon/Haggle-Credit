@@ -10,7 +10,7 @@ haggle_credit db dump파일 실행 후 application.properties 14번째줄 spring
 1. sts 이용시 프로젝트 우클릭 → Maven → Update Project → sts 재시작.
 2. 사라지지 않는다면 cmd창을 킨 후 → cd C:\Users\{본인user}\.m2\repository\org\projectlombok\lombok\1.18.16 → java -jar lombok-1.18.16.jar → Specify location 클릭 → sts경로 찾아서 STS.exe 선택 → Install / Update 클릭 → Quit Installer
 
-*frontend 배포 하는법
+*frontend 배포 하는법 (visual studio 기준)
 1. cd frontend
 2. npm install
 3. npm run
