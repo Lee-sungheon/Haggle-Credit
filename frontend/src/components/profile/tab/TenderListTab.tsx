@@ -47,7 +47,6 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/bid?uNo=${userData.uNo}`
       )
       .then((res) => {
-        console.log(res);
 
         setSellTenderItemList(res.data);
       })
@@ -59,7 +58,6 @@ const TenderListTab = ({ userData }: TenderListTabProps) => {
         `https://k4d107.p.ssafy.io/haggle-credit/profile/breakdown/bidbuy?uNo=${userData.uNo}`
       )
       .then((res) => {
-        console.log(res);
 
         setBuyTenderItemList(res.data);
       })
