@@ -1,7 +1,6 @@
 package com.egemmerce.hc.imageupload.controlloer;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,27 +55,27 @@ public class ImageUploadController {
 
 	/* 파일로 저장하는 방식 */
 	@PostMapping("/itemPhotoUpload")
-	public ResponseEntity<String> InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam int iNo, @RequestParam String check)
-			throws Exception {
-		if(check.equals("true")) {
-		String ipValue = path + "/" + iNo + "-" + file.getOriginalFilename();
-		File dest = new File(ipValue);
-		file.transferTo(dest);
+	public ResponseEntity<String> InsertItemPhoto(@RequestParam("File") MultipartFile file, @RequestParam int iNo,
+			@RequestParam String check) throws Exception {
+		if (check.equals("true")) {
+			String ipValue = path + "/" + iNo + "-" + file.getOriginalFilename();
+			File dest = new File(ipValue);
+			file.transferTo(dest);
 
-		ipValue = "https://k4d107.p.ssafy.io/upload-images/" + iNo + "-" + file.getOriginalFilename();
+			ipValue = "https://k4d107.p.ssafy.io/upload-images/" + iNo + "-" + file.getOriginalFilename();
 
-		ItemPhoto ip = new ItemPhoto();
-		ip.setIpItemNo(iNo);
-		ip.setIpValue(ipValue);
+			ItemPhoto ip = new ItemPhoto();
+			ip.setIpItemNo(iNo);
+			ip.setIpValue(ipValue);
 
-		if (imageUploadService.InsertItemPhoto(ip) != null)
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			if (imageUploadService.InsertItemPhoto(ip) != null)
+				return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
 			ItemPhoto ip = new ItemPhoto();
 			ip.setIpItemNo(iNo);
 			ip.setIpValue("../images/no_image.gif");
-			
+
 			if (imageUploadService.InsertItemPhoto(ip) != null)
 				return new ResponseEntity<>(HttpStatus.OK);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -119,8 +118,8 @@ public class ImageUploadController {
 
 	@PostMapping("/uploadSSG")
 	public ResponseEntity<ItemPhoto> updateSSG() throws Exception {
-		for(int i = 4; i <= 6002; i++) {
-			if(i == 5 || i == 7)
+		for (int i = 4; i <= 6002; i++) {
+			if (i == 5 || i == 7)
 				continue;
 			ItemPhoto ip = new ItemPhoto();
 			ip.setIpItemNo(i);
