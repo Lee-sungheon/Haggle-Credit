@@ -2,7 +2,6 @@
 
 ![Haggle-Credit-ICON](https://lab.ssafy.com/s04-final/s04p31d107/uploads/34f9332f3b9d8518065843e773018810/Haggle-Credit-ICON.PNG)
 
-[🛒**`Haggle Credit 바로가기`** ](https://hagglecredit.com/)
 
 ## 🌐 Haggle-Credit ?
 
@@ -459,7 +458,7 @@ Docker와 Jenkins를 이용해 CI/CD 구축하였습니다 :)
 
 
 ## 💬 Documents
-
+- <a href="https://www.hagglecredit.com" _blank="new"><strong>Haggle Credit</strong></a> 바로가기
 - <a href="https://www.notion.so/oct14jh/Haggle-Credit-5504f21c3ea14758be4bc81b1c369264" _blank="new"><strong>Notion</strong></a> 바로가기
 - <a href="https://drive.google.com/file/d/1fGGDVcdQsfXFqQi3PVNhsJVgMEI6tBpW/view" _blank="new"><strong>최종발표PPT</strong></a> 바로가기
 - <a href="https://youtu.be/5QDVILeJgYY" _blank="new"><strong>최종영상</strong></a> 바로가기
