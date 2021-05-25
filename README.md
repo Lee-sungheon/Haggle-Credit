@@ -8,8 +8,9 @@
 
 - `Haggle-Credit` : '흥정하다'를 의미하는 'Haggle' 그리고 '신용,거래'를 의미하는 'Credit'의 합성어
 - `E-gemmerce` : '이게 진정한 이커머스다'의 뜻을 담고자, E-Commerce(이커머스)를 변형한 단어
+- [🛒**`Haggle Credit 바로가기`** ](https://hagglecredit.com/)
 
-####    [🛒**`Haggle Credit 바로가기`** ](https://hagglecredit.com/)
+
 
 
 
@@ -26,6 +27,8 @@
 	<li>✔️경매를 통한 팔리지 않는 물품 판매 처리</li>
 	<li>✔️최적의 가격에 물품을 구매할 수 있는 기회 제공</li>
 </ul>
+
+
 
 
 > <h3><font color="blue">프로젝트 서비스 요약</font></h3>
@@ -98,11 +101,6 @@
    | styled-components     | `styled-components` allows you to write actual CSS code to style components |
    | typescript            | TypeScript is a language for application-scale JavaScript.   |
    | use-count-up          | React/React Native component and hook to animate<br/>counting up or down to a number |
-
-
- 2. **Back-end**
-
-    
 
 
 
@@ -181,7 +179,26 @@ npm install
 
 **Back-end**
 
+- [Backend] (Option) Spring boot를 build(jar 파일 생성)
 
+```
+# backend 폴더로 이동해서
+cd backend/
+mvn -B -DskipTests -f backend
+```
+
+- 백엔드 실행
+  - 생성한 jar 파일 실행
+
+    ```
+    java -jar [filename].jar
+    ```
+
+  - 혹은 war 파일 생성하지 않고 demon으로 로컬에서 실행하고 싶다면 STS와 같은 IDEA에서 Spring boot Run을 실행하거나 아래 명령어를 통해 실행
+
+    ```
+    mvn spring-boot:run
+    ```
 
 **Front-end**
 
