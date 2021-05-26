@@ -445,10 +445,18 @@ Docker와 Jenkins를 이용해 CI/CD 구축하였습니다 :)
 #### 이성헌
 
 - 개발 파트 : **Frontend**
-- 담당 개발 : 경매 / 역경매, 기부, 채팅, 알림
+- 담당 개발 : 환경구축, 경매 / 역경매, 기부, 채팅, 알림
 - 팀내 역할 : 부팀장
 - 개발 후기 : 새로운 기술인 TypeScript를 React에 적용해보면서 실력이 한층 더 성장한 것을 느꼈고, 앞으로 꾸준히 공부해 더욱 성장할 수 있는 개발자가 되어야겠다고 생각했습니다.
 
+
+## 💡 개인 업무 성과
+- React useMemo, useCallback, useRef 등 Hook들을 활용함으로 불필요한 렌더링을 줄이고, 성능을 최적화
+- React-Redux를 사용한 단방향 데이터 설계
+- React에 TypeScript를 적용 및 정적 타입을 사용함으로서 개발 시 발생할 수 있는 오류를 최소화
+- api 및 design componets 사용을 최소화 : 채팅 컴포넌트 직접 및 Input component 등 직접 구현
+- Interactive Design을 적용한 인덱스 페이지
+- Styled Components를 적용하여 Typescript 코드 내에서 CSS를 사용
 
 
 ## 📝 Non-Dev Contents
