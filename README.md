@@ -460,9 +460,10 @@ Docker와 Jenkins를 이용해 CI/CD 구축하였습니다 :)
 
 
 ## 📝 Non-Dev Contents
-
+<h3><font color="red">JIRA</font></h3>
 ## ![readme_jira](README.assets/readme_jira.gif)
-
+<h3><font color="blue">Notion</font></h3>
+<p align="center"><a href="https://www.notion.so/oct14jh/Haggle-Credit-5504f21c3ea14758be4bc81b1c369264" target="_blank">👉'Haggle-Credit' Notion 구경하러 가기👈 </a></p> 
 
 
 ## 💬 Documents
